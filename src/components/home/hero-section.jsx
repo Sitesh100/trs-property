@@ -26,7 +26,7 @@ function AnimatedCounter({ target }) {
         };
     }, [count, target, rounded]);
 
-    return <span className="flex items-center font-bold">{displayValue}<Plus className="w-5 h-5 md:w-6 md:h-6" /></span>;
+    return <span className="flex items-center font-bold">{displayValue}<Plus className="w-5 h-5 md:w-6 md:h-6 text-white" /></span>;
 }
 
 // Staggered text animation component
