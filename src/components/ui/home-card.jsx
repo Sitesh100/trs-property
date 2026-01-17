@@ -1,5 +1,4 @@
 "use client";
-import { basedUrl } from "@/libs/based-url";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, IndianRupee, ArrowUpRight, Heart } from "lucide-react";
@@ -8,7 +7,20 @@ import { useState } from "react";
 function HomeCard({ property, index = 0 }) {
     const [isHovered, setIsHovered] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
-    const mainImage = property?.images?.length > 0 ? basedUrl + property?.images[0] : "/assets/images/detail/image4.jpg";
+    
+    // Handle both full URLs and relative paths
+    const getImageUrl = () => {
+        if (!property?.images?.length) return "/assets/images/detail/image4.jpg";
+        const img = property.images[0];
+        // If it's already a full URL, use it directly
+        if (img.startsWith('http://') || img.startsWith('https://')) {
+            return img;
+        }
+        // Otherwise, it's a relative path - use fallback
+        return "/assets/images/detail/image4.jpg";
+    };
+    
+    const mainImage = getImageUrl();
 
     const formatPrice = (price) => {
         if (!price) return "0";

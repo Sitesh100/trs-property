@@ -198,7 +198,12 @@ function HeroSection() {
                 >
 
                     {/* Animated Title */}
-                    <motion.div key={activeFilter} variants={fadeInUp}>
+                    <motion.div 
+                        key={activeFilter} 
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    >
                         <AnimatedText 
                             text={getHeadingText()}
                             className="hero-title text-3xl md:text-5xl lg:text-6xl font-semibold mb-6 leading-tight tracking-tight"
