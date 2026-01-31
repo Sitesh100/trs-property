@@ -135,11 +135,11 @@ function PropertySearchBar({ onSearch }) {
     const hasActiveFilters = searchQuery || propertyType !== "Any" || (activeTab !== "" && activeTab !== "reset");
 
     return (
-        <div className="relative md:mx-28 md:bottom-[40px] md:py-0 py-5 px-4 sm:px-6">
+        <div className="relative md:mx-28 md:bottom-[40px] md:py-0 py-5 px-4 sm:px-6 mt-[-3px]">
             <div className="h-full flex flex-col">
-                <div className="max-w-7xl">
+                <div className="max-w-7xl w-full">
                     {/* Tabs */}
-                    <div className="flex flex-wrap md:justify-start">
+                    <div className="flex w-full md:justify-start justify-between md:flex-nowrap flex-nowrap">
                         {tabs.map((tab, index) => {
                             const isActive = tab.value === "reset" ? false : activeTab === tab.value;
                             const isReset = tab.value === "reset";
@@ -151,9 +151,9 @@ function PropertySearchBar({ onSearch }) {
                                     onClick={() => handleTabClick(tab.value)}
                                     className={`
                                         group relative z-20 flex items-center justify-center gap-2
-                                        px-4 py-3 sm:px-6 
-                                        w-20 md:w-28 
-                                        text-xs sm:text-sm font-bold 
+                                        px-2 py-2 md:px-6 md:py-3
+                                        flex-1 md:flex-none md:w-28 
+                                        text-[9px] md:text-sm font-bold 
                                         transition-all duration-300 cursor-pointer
                                         overflow-hidden
                                         ${index === 0 ? "rounded-tl-2xl" : ""}
@@ -169,8 +169,11 @@ function PropertySearchBar({ onSearch }) {
                                     {/* Gradient Hover Overlay */}
                                     <div className={`absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isActive ? "hidden" : ""}`}></div>
                                     
-                                    <Icon className={`w-4 h-4 relative z-10 transition-transform duration-300 ${isReset ? "group-hover:rotate-[-45deg]" : ""} ${!isActive ? "group-hover:text-gray-900" : ""}`} />
-                                    <span className={`hidden sm:inline relative z-10 ${!isActive ? "group-hover:text-gray-900" : ""}`}>{tab.label}</span>
+                                    {/* Icon - Desktop only */}
+                                    <Icon className={`hidden md:block w-4 h-4 relative z-10 transition-transform duration-300 ${isReset ? "group-hover:rotate-[-45deg]" : ""} ${!isActive ? "group-hover:text-gray-900" : ""}`} />
+                                    
+                                    {/* Text - Always visible */}
+                                    <span className={`relative z-10 whitespace-nowrap ${!isActive ? "group-hover:text-gray-900" : ""}`}>{tab.label}</span>
                                 </button>
                             );
                         })}
