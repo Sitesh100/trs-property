@@ -12,6 +12,12 @@ const nextConfig = {
                 hostname: 'images.unsplash.com',
                 pathname: '/**',
             },
+            // ← ADD THIS ONE LINE BELOW
+            {
+                protocol: 'https',
+                hostname: 'rx100realty.in',
+                pathname: '/**',
+            },
         ],
     },
 };

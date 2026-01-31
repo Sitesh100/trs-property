@@ -20,11 +20,29 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // Golden/Amber themed button like "Post Property Free"
+        golden:
+          "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 font-semibold border border-amber-300/50 shadow-md hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] hover:text-white transition-all duration-300",
+        // Filter button styled like Post Property Free
+        filter:
+          "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 font-semibold border border-amber-300/50 shadow-md hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] hover:text-white transition-all duration-300",
+        // Filter outline style
+        filterOutline:
+          "border-2 border-amber-400 text-amber-400 bg-transparent font-semibold hover:bg-amber-400/10 hover:text-white transition-all duration-300",
+        // Filter ghost style
+        filterGhost:
+          "text-white/70 font-medium hover:text-white hover:bg-white/10 transition-all duration-300",
+        // Purple/Violet themed buttons
+        purple:
+          "bg-[#492974] text-white font-semibold shadow-lg hover:bg-[#5a3490] hover:shadow-[0_4px_20px_rgba(73,41,116,0.5)] transition-all duration-300",
+        purpleOutline:
+          "border-2 border-[#492974] text-[#492974] bg-transparent font-semibold hover:bg-[#492974] hover:text-white transition-all duration-300",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        xl: "h-12 rounded-lg px-8 text-base has-[>svg]:px-6",
         icon: "size-9",
       },
     },
@@ -48,7 +66,8 @@ function Button({
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
-      {...props} />
+      {...props}
+    />
   );
 }
 

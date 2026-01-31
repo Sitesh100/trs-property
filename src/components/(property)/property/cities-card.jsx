@@ -22,9 +22,6 @@ const CitiesCard = ({ cities }) => {
                             fill
                             className="object-cover transition-all hover:scale-125 duration-300 cursor-pointer"
                         />
-                        <div className="absolute top-10 left-0 w-full bg-opacity-50 text-black text-center text-xl">
-                            {card.title}
-                        </div>
                     </div>
                 ))}
             </div>
@@ -33,3 +30,4 @@ const CitiesCard = ({ cities }) => {
 };
 
 export default CitiesCard;
+
