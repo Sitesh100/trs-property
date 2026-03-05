@@ -20,7 +20,7 @@ function PropertyDetailHeader({ property }) {
                         <span className="text-sm font-semibold">Back</span>
                     </button>
                     <h1 className="text-2xl md:text-4xl font-bold">{property?.title}</h1>
-                    <p className="text-xl font-medium mt-2">{property?.location || property?.city}</p>
+                    <p className="text-xl font-medium mt-2">{property?.map_location || property?.location || property?.city}</p>
                 </div>
                 <div className="flex items-center mt-2 md:mt-0 space-x-4">
                     <button

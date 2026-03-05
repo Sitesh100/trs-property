@@ -8,10 +8,13 @@ import { Navigation, Pagination } from "swiper/modules"
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import { getImageUrl } from "@/utils/getImageUrl"
+import { getImageUrl, getImageUrls } from "@/utils/getImageUrl"
 
 function PropertyDetailImages({ property }) {
     const [showAllPhotos, setShowAllPhotos] = useState(false)
+    
+    // Support both old API (images/image_ids array) and new API (image string with comma-separated URLs)
+    const imagesList = getImageUrls(property?.image ?? property?.image_ids ?? property?.images);
 
     return (
         <>
@@ -25,7 +28,7 @@ function PropertyDetailImages({ property }) {
                         className="md:col-span-2 relative rounded-lg overflow-hidden"
                     >
                         <Image
-                            src={getImageUrl(property?.images?.[0])}
+                            src={imagesList?.[0] || "/assets/images/detail/image4.jpg"}
                             alt="Property Main Image"
                             width={800}
                             height={500}
@@ -41,7 +44,7 @@ function PropertyDetailImages({ property }) {
                             className="relative rounded-lg overflow-hidden"
                         >
                             <Image
-                                src={getImageUrl(property?.images?.[1])}
+                                src={imagesList?.[1] || imagesList?.[0] || "/assets/images/detail/image4.jpg"}
                                 alt="Property Image 2"
                                 width={400}
                                 height={200}
@@ -56,7 +59,7 @@ function PropertyDetailImages({ property }) {
                             className="relative rounded-lg overflow-hidden"
                         >
                             <Image
-                                src={getImageUrl(property?.images?.[2])}
+                                src={imagesList?.[2] || imagesList?.[0] || "/assets/images/detail/image4.jpg"}
                                 alt="Property Image 3"
                                 width={400}
                                 height={200}
@@ -101,10 +104,10 @@ function PropertyDetailImages({ property }) {
                                 pagination={{ clickable: true }}
                                 className="rounded-lg overflow-hidden"
                             >
-                                {property?.images?.map((img, index) => (
+                                {imagesList?.map((img, index) => (
                                     <SwiperSlide key={index}>
                                         <Image
-                                            src={getImageUrl(img)}
+                                            src={img}
                                             alt={`Slide ${index + 1}`}
                                             width={1200}
                                             height={700}

@@ -94,7 +94,7 @@ function PropertyPropertyDetail({
                   <div className="flex items-center justify-center">
                     <Square className="h-5 w-5 mr-1 text-black" />
                     <span className="font-bold text-black">
-                      {property?.super_area} sq ft
+                      {property?.size ?? property?.super_area} sq ft
                     </span>
                   </div>
                 </div>
@@ -218,7 +218,7 @@ function PropertyPropertyDetail({
               <div className="mb-6">
                 <p className="text-gray-500 text-sm mb-1">SALE PRICE</p>
                 <h3 className="text-2xl font-bold text-black">
-                  ₹ {property?.expected_price}
+                  ₹ {property?.price ?? property?.expected_price}
                 </h3>
               </div>
 

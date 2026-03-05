@@ -25,6 +25,7 @@ function PropertyDetailMainSection() {
                 (property) =>
                     property?.title?.toLowerCase().includes(searchText?.toLowerCase()) ||
                     property?.city?.toLowerCase().includes(searchText?.toLowerCase()) ||
+                    property?.map_location?.toLowerCase().includes(searchText?.toLowerCase()) ||
                     property?.project_name?.toLowerCase().includes(searchText?.toLowerCase()) ||
                     property?.builder_name?.toLowerCase().includes(searchText?.toLowerCase())
             );
@@ -32,7 +33,8 @@ function PropertyDetailMainSection() {
 
         if (filters.city && filters.city.trim() !== "") {
             result = result.filter((property) =>
-                property?.city?.toLowerCase().includes(filters.city.toLowerCase())
+                property?.city?.toLowerCase().includes(filters.city.toLowerCase()) ||
+                property?.map_location?.toLowerCase().includes(filters.city.toLowerCase())
             );
         }
 
@@ -45,7 +47,7 @@ function PropertyDetailMainSection() {
             const maxPrice = (filters.priceRange[1] / 100) * 10;
 
             result = result.filter((property) => {
-                const price = Number.parseFloat(property?.expected_price || "0");
+                const price = Number.parseFloat(property?.price ?? property?.expected_price ?? "0");
                 return price >= minPrice && price <= maxPrice;
             });
         }

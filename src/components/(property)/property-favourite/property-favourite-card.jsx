@@ -26,6 +26,7 @@ const PropertyFavouriteCard = () => {
             result = result?.filter((property) =>
                 property?.title?.toLowerCase().includes(lowerQuery) ||
                 property?.city?.toLowerCase().includes(lowerQuery) ||
+                property?.map_location?.toLowerCase().includes(lowerQuery) ||
                 property?.project_name?.toLowerCase().includes(lowerQuery) ||
                 property?.builder_name?.toLowerCase().includes(lowerQuery)
             );

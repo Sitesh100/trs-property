@@ -5,14 +5,14 @@ import React from 'react';
 import { motion } from "framer-motion";
 import { getImageUrl } from '@/utils/getImageUrl';
 import Link from 'next/link';
-import { useDeletePropertyMutation } from '@/service/propertyApi';
 import toast from 'react-hot-toast';
 import { useSendNotificationMutation } from '@/service/notificationApi';
 import { useToogleFavoritesMutation } from '@/service/favoriteApi';
 
 function DetailSearchCard({ property, action = false }) {
-    const mainImage = getImageUrl(property?.images?.[0]);
-    const [deleteProperty] = useDeletePropertyMutation();
+    // Support both old API (images/image_ids array) and new API (image string with comma-separated URLs)
+    const firstImage = property?.image || property?.image_ids?.[0] || property?.images?.[0];
+    const mainImage = getImageUrl(firstImage);
     const [sendNotification, { isLoading }] = useSendNotificationMutation();
     const [toogleFavorites] = useToogleFavoritesMutation();
 
@@ -30,12 +30,9 @@ function DetailSearchCard({ property, action = false }) {
     const handleDelete = async (e, id) => {
         e.preventDefault();
         e.stopPropagation();
-        try {
-            await deleteProperty(id).unwrap();
-            toast.success("Property deleted successfully");
-        } catch (err) {
-            console.log("Delete failed:", err);
-        }
+        // TODO: Delete endpoint not available in new API yet
+        // Implement when backend adds DELETE /properties/{id}
+        toast.error("Delete functionality will be available soon");
     };
 
     const handleSendNotification = async (e, id, name) => {
@@ -102,7 +99,7 @@ function DetailSearchCard({ property, action = false }) {
                     <div className="flex items-center text-gray-600 text-sm mb-3">
                         <MapPin className="h-4 w-4 mr-1 text-amber-500" />
                         <span className="line-clamp-1">
-                            {property?.city?.split(' ')?.slice(0, 4)?.join(' ')}
+                            {(property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')}
                         </span>
                     </div>
                     {!action ? (
@@ -164,7 +161,7 @@ function DetailSearchCard({ property, action = false }) {
                             <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
                                 <Square className="h-3.5 w-3.5 text-amber-600" />
                             </div>
-                            <span className="text-gray-700 font-medium">{(property?.superArea ?? property?.super_area) || "—"} sqft</span>
+                            <span className="text-gray-700 font-medium">{(property?.size ?? property?.superArea ?? property?.super_area) || "—"} sqft</span>
                         </div>
                     </div>
                 </div>

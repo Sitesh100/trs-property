@@ -9,11 +9,12 @@ function HomeCard({ property, index = 0 }) {
     const [isHovered, setIsHovered] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     
-
-
+    // Support both old API (images/image_ids array) and new API (image string with comma-separated URLs)
+    const firstImage = property?.image || property?.image_ids?.[0] || property?.images?.[0];
+    
     // ✅ Main property image
     const mainImage =
-        getImageUrl(property?.images?.[0]) ||
+        getImageUrl(firstImage) ||
         "/assets/images/detail/image4.jpg";
 
     const formatPrice = (price) => {
@@ -74,7 +75,7 @@ function HomeCard({ property, index = 0 }) {
                     <div className="flex items-center gap-1 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full">
                         <IndianRupee className="w-4 h-4 text-[#171137]" />
                         <span className="text-[#171137] font-bold text-sm">
-                            {formatPrice(property?.expected_price)}
+                            {formatPrice(property?.price ?? property?.expected_price)}
                         </span>
                     </div>
                 </div>
@@ -97,7 +98,7 @@ function HomeCard({ property, index = 0 }) {
                     <div className="flex items-center gap-1.5 text-white/60">
                         <MapPin className="w-4 h-4" />
                         <span className="text-sm">
-                            {property?.city || "Location"}
+                            {property?.map_location || property?.city || "Location"}
                         </span>
                     </div>
                 </div>

@@ -26,6 +26,7 @@ function Header() {
   const { token, user } = useSelector((state) => state.auth);
   const [menuOpen, setMenuOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const [initialTab, setInitialTab] = useState("sendOtp");
   const pathname = usePathname();
 
   useEffect(() => {
@@ -103,15 +104,18 @@ function Header() {
             {token ? (
               <ProfileDrawer onLogout={handlerLogout} user={user} />
             ) : (
-              <button
-                onClick={() => router.push("/post-property")}
-                className="golden-button group relative overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 whitespace-nowrap"
-              >
-                <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-                  Post Property
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </button>
+              <>
+                <button
+                  onClick={() => router.push("/post-property")}
+                  className="golden-button group relative overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 whitespace-nowrap"
+                >
+                  <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                    Post Property
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </button>
+               
+              </>
             )}
           </nav>
           {/* Mobile */}
@@ -139,7 +143,7 @@ function Header() {
         </div>
       </header>
 
-      <AuthModal isOpen={open} onClose={() => setOpen(false)} />
+      <AuthModal isOpen={open} onClose={() => setOpen(false)} initialTab={initialTab} />
     </>
   );
 }

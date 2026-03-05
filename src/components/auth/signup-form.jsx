@@ -1,36 +1,112 @@
+"use client";
 import { useDirectSignupMutation } from "@/service/authApi";
 import { setToken, setUser } from "@/redux/authSlice";
 import { useFormik } from "formik";
-import { Loader, X } from "lucide-react";
+import { Loader, X, User, Briefcase, Building2 } from "lucide-react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
+import { useState, useMemo } from "react";
 
 function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
   const dispatch = useDispatch();
   const [directSignup, { isLoading }] = useDirectSignupMutation();
+  const [selectedRole, setSelectedRole] = useState("customer");
 
-  const formik = useFormik({
-    initialValues: {
-      fullName: "",
-      phone: sendOtpInfo?.phone || "",
-      role: sendOtpInfo?.role || "customer",
-    },
-    enableReinitialize: true,
-    validationSchema: Yup.object({
-      fullName: Yup.string().required("Full Name is required"),
+  // Dynamic validation schema based on role
+  const validationSchema = useMemo(() => {
+    const baseSchema = {
       phone: Yup.string()
         .matches(/^\d{10}$/, "Mobile number must be exactly 10 digits")
         .required("Mobile Number is required"),
-      role: Yup.string().oneOf(["customer", "agent", "builder"], "Select a valid role").required("Role is required"),
-    }),
+      email: Yup.string()
+        .email("Enter a valid email")
+        .required("Email is required"),
+      password: Yup.string()
+        .min(6, "Password must be at least 6 characters")
+        .required("Password is required"),
+      city: Yup.string().required("City is required"),
+      role: Yup.string()
+        .oneOf(["customer", "agent", "builder"], "Select a valid role")
+        .required("Role is required"),
+    };
+
+    if (selectedRole === "customer") {
+      return Yup.object({
+        ...baseSchema,
+        fullName: Yup.string().required("Full Name is required"),
+      });
+    } else if (selectedRole === "agent") {
+      return Yup.object({
+        ...baseSchema,
+        fullName: Yup.string().required("Full Name is required"),
+        agencyName: Yup.string().required("Agency Name is required"),
+        reraNumber: Yup.string(),
+        officeAddress: Yup.string().required("Office Address is required"),
+      });
+    } else if (selectedRole === "builder") {
+      return Yup.object({
+        ...baseSchema,
+        companyName: Yup.string().required("Company Name is required"),
+        contactPersonName: Yup.string().required("Contact Person Name is required"),
+        companyAddress: Yup.string().required("Company Address is required"),
+        reraRegistrationNumber: Yup.string().required("RERA Registration Number is required"),
+      });
+    }
+
+    return Yup.object(baseSchema);
+  }, [selectedRole]);
+
+  const formik = useFormik({
+    initialValues: {
+      // Common fields
+      phone: sendOtpInfo?.phone || "",
+      email: "",
+      password: "",
+      city: "",
+      role: "customer",
+      
+      // Customer fields
+      fullName: "",
+      
+      // Agent fields
+      agencyName: "",
+      reraNumber: "",
+      officeAddress: "",
+      
+      // Builder fields
+      companyName: "",
+      contactPersonName: "",
+      companyAddress: "",
+      reraRegistrationNumber: "",
+    },
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        const response = await directSignup({
-          fullName: values.fullName,
+        // Prepare payload based on role
+        let payload = {
           phone: values.phone,
+          email: values.email,
+          password: values.password,
+          city: values.city,
           role: values.role,
-        }).unwrap();
+        };
+
+        if (values.role === "customer") {
+          payload.fullName = values.fullName;
+        } else if (values.role === "agent") {
+          payload.fullName = values.fullName;
+          payload.agencyName = values.agencyName;
+          payload.reraNumber = values.reraNumber;
+          payload.officeAddress = values.officeAddress;
+        } else if (values.role === "builder") {
+          payload.companyName = values.companyName;
+          payload.contactPersonName = values.contactPersonName;
+          payload.companyAddress = values.companyAddress;
+          payload.reraRegistrationNumber = values.reraRegistrationNumber;
+        }
+
+        const response = await directSignup(payload).unwrap();
         
         // Handle successful signup
         const token = response?.token || response?.data?.token;
@@ -39,7 +115,7 @@ function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
         if (token && user) {
           dispatch(setToken(token));
           dispatch(setUser(user));
-          toast.success(response?.message || "Signup successful");
+          toast.success(response?.message || "Registration successful! You can now post properties.");
           window.dispatchEvent(new Event("resume-form-submit"));
           onClose();
         }
@@ -65,78 +141,345 @@ function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-white">Welcome to TRS - Sign Up</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold text-white">
+          Welcome to TRS - Create Account
+        </h2>
         <button onClick={onClose} className="text-gray-400 hover:text-white cursor-pointer">
           <X className="h-5 w-5" />
         </button>
       </div>
+      
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-4">
+          {/* Role Selection */}
           <div>
-            <label htmlFor="fullName" className="block text-sm font-medium text-gray-300 mb-1">
-              Full Name
+            <label className="block text-sm font-medium text-gray-300 mb-3">
+              Select Your Role *
             </label>
-            <input
-              type="text"
-              id="fullName"
-              className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none"
-              placeholder="Enter your full name"
-              {...formik.getFieldProps("fullName")}
-            />
-            {formik.touched.fullName && formik.errors.fullName && (
-              <div className="text-red-500 text-sm">{formik.errors.fullName}</div>
-            )}
-          </div>
+            <div className="grid grid-cols-3 gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedRole("customer");
+                  formik.setFieldValue("role", "customer");
+                }}
+                className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all duration-300 ${
+                  selectedRole === "customer"
+                    ? "border-amber-500 bg-amber-500/10"
+                    : "border-[#3a2a5a] bg-[#2a1f45] hover:border-amber-500/50"
+                }`}
+              >
+                <User className={`h-6 w-6 mb-2 ${selectedRole === "customer" ? "text-amber-500" : "text-gray-400"}`} />
+                <span className={`text-xs font-medium ${selectedRole === "customer" ? "text-amber-500" : "text-gray-300"}`}>
+                  Customer
+                </span>
+              </button>
 
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-1">
-              Phone Number
-            </label>
-            <input
-              type="text"
-              id="phone"
-              maxLength={10}
-              className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none"
-              placeholder="Enter 10-digit phone number"
-              {...formik.getFieldProps("phone")}
-            />
-            {formik.touched.phone && formik.errors.phone && (
-              <div className="text-red-500 text-sm">{formik.errors.phone}</div>
-            )}
-          </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedRole("agent");
+                  formik.setFieldValue("role", "agent");
+                }}
+                className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all duration-300 ${
+                  selectedRole === "agent"
+                    ? "border-amber-500 bg-amber-500/10"
+                    : "border-[#3a2a5a] bg-[#2a1f45] hover:border-amber-500/50"
+                }`}
+              >
+                <Briefcase className={`h-6 w-6 mb-2 ${selectedRole === "agent" ? "text-amber-500" : "text-gray-400"}`} />
+                <span className={`text-xs font-medium ${selectedRole === "agent" ? "text-amber-500" : "text-gray-300"}`}>
+                  Agent
+                </span>
+              </button>
 
-          <div>
-            <label htmlFor="role" className="block text-sm font-medium text-gray-300 mb-1">
-              Role
-            </label>
-            <select
-              id="role"
-              className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white"
-              {...formik.getFieldProps("role")}
-            >
-              <option value="customer">Customer</option>
-              <option value="agent">Agent</option>
-              <option value="builder">Builder</option>
-            </select>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedRole("builder");
+                  formik.setFieldValue("role", "builder");
+                }}
+                className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all duration-300 ${
+                  selectedRole === "builder"
+                    ? "border-amber-500 bg-amber-500/10"
+                    : "border-[#3a2a5a] bg-[#2a1f45] hover:border-amber-500/50"
+                }`}
+              >
+                <Building2 className={`h-6 w-6 mb-2 ${selectedRole === "builder" ? "text-amber-500" : "text-gray-400"}`} />
+                <span className={`text-xs font-medium ${selectedRole === "builder" ? "text-amber-500" : "text-gray-300"}`}>
+                  Builder
+                </span>
+              </button>
+            </div>
             {formik.touched.role && formik.errors.role && (
-              <div className="text-red-500 text-sm">{formik.errors.role}</div>
+              <div className="text-red-400 text-sm mt-2">{formik.errors.role}</div>
             )}
+          </div>
+
+          {/* Customer Fields */}
+          {selectedRole === "customer" && (
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-300 mb-1">
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                  placeholder="Enter your full name"
+                  {...formik.getFieldProps("fullName")}
+                />
+                {formik.touched.fullName && formik.errors.fullName && (
+                  <div className="text-red-400 text-sm mt-1">{formik.errors.fullName}</div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Agent Fields */}
+          {selectedRole === "agent" && (
+            <>
+              <label className="block text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wide">
+                Agency Information
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-300 mb-1">
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                  placeholder="Enter your full name"
+                  {...formik.getFieldProps("fullName")}
+                />
+                {formik.touched.fullName && formik.errors.fullName && (
+                  <div className="text-red-400 text-sm mt-1">{formik.errors.fullName}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="agencyName" className="block text-sm font-medium text-gray-300 mb-1">
+                  Agency Name *
+                </label>
+                <input
+                  type="text"
+                  id="agencyName"
+                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                  placeholder="Enter agency name"
+                  {...formik.getFieldProps("agencyName")}
+                />
+                {formik.touched.agencyName && formik.errors.agencyName && (
+                  <div className="text-red-400 text-sm mt-1">{formik.errors.agencyName}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="reraNumber" className="block text-sm font-medium text-gray-300 mb-1">
+                  RERA Number (Optional)
+                </label>
+                <input
+                  type="text"
+                  id="reraNumber"
+                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                  placeholder="Enter RERA registration number"
+                  {...formik.getFieldProps("reraNumber")}
+                />
+                {formik.touched.reraNumber && formik.errors.reraNumber && (
+                  <div className="text-red-400 text-sm mt-1">{formik.errors.reraNumber}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="officeAddress" className="block text-sm font-medium text-gray-300 mb-1">
+                  Office Address *
+                </label>
+                <textarea
+                  id="officeAddress"
+                  rows={2}
+                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                  placeholder="Enter office address"
+                  {...formik.getFieldProps("officeAddress")}
+                />
+                {formik.touched.officeAddress && formik.errors.officeAddress && (
+                  <div className="text-red-400 text-sm mt-1">{formik.errors.officeAddress}</div>
+                )}
+              </div>
+            </div>
+            </>
+          )}
+
+          {/* Builder Fields */}
+          {selectedRole === "builder" && (
+            <>
+              <label className="block text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wide">
+                Company Information
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="companyName" className="block text-sm font-medium text-gray-300 mb-1">
+                  Company Name *
+                </label>
+                <input
+                  type="text"
+                  id="companyName"
+                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                  placeholder="Enter company name"
+                  {...formik.getFieldProps("companyName")}
+                />
+                {formik.touched.companyName && formik.errors.companyName && (
+                  <div className="text-red-400 text-sm mt-1">{formik.errors.companyName}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="contactPersonName" className="block text-sm font-medium text-gray-300 mb-1">
+                  Contact Person Name *
+                </label>
+                <input
+                  type="text"
+                  id="contactPersonName"
+                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                  placeholder="Enter contact person name"
+                  {...formik.getFieldProps("contactPersonName")}
+                />
+                {formik.touched.contactPersonName && formik.errors.contactPersonName && (
+                  <div className="text-red-400 text-sm mt-1">{formik.errors.contactPersonName}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="reraRegistrationNumber" className="block text-sm font-medium text-gray-300 mb-1">
+                  RERA Registration Number *
+                </label>
+                <input
+                  type="text"
+                  id="reraRegistrationNumber"
+                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                  placeholder="Enter RERA registration number"
+                  {...formik.getFieldProps("reraRegistrationNumber")}
+                />
+                {formik.touched.reraRegistrationNumber && formik.errors.reraRegistrationNumber && (
+                  <div className="text-red-400 text-sm mt-1">{formik.errors.reraRegistrationNumber}</div>
+                )}
+              </div>
+
+              <div className="md:col-span-2">
+                <label htmlFor="companyAddress" className="block text-sm font-medium text-gray-300 mb-1">
+                  Company Address *
+                </label>
+                <textarea
+                  id="companyAddress"
+                  rows={2}
+                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                  placeholder="Enter company address"
+                  {...formik.getFieldProps("companyAddress")}
+                />
+                {formik.touched.companyAddress && formik.errors.companyAddress && (
+                  <div className="text-red-400 text-sm mt-1">{formik.errors.companyAddress}</div>
+                )}
+              </div>
+            </div>
+            </>
+          )}
+
+          {/* Divider */}
+          {selectedRole !== "customer" && (
+            <div className="pt-2">
+              <div className="border-t border-[#3a2a5a] mb-3"></div>
+              <label className="block text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wide">
+                Contact & Login Details
+              </label>
+            </div>
+          )}
+
+          {/* Common Fields for All Roles */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-1">
+                Mobile Number *
+              </label>
+              <input
+                type="text"
+                id="phone"
+                maxLength={10}
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                placeholder="Enter 10-digit mobile number"
+                {...formik.getFieldProps("phone")}
+              />
+              {formik.touched.phone && formik.errors.phone && (
+                <div className="text-red-400 text-sm mt-1">{formik.errors.phone}</div>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
+                Email *
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                placeholder="Enter your email"
+                {...formik.getFieldProps("email")}
+              />
+              {formik.touched.email && formik.errors.email && (
+                <div className="text-red-400 text-sm mt-1">{formik.errors.email}</div>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="city" className="block text-sm font-medium text-gray-300 mb-1">
+                City *
+              </label>
+              <input
+                type="text"
+                id="city"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                placeholder="Enter your city"
+                {...formik.getFieldProps("city")}
+              />
+              {formik.touched.city && formik.errors.city && (
+                <div className="text-red-400 text-sm mt-1">{formik.errors.city}</div>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
+                Password *
+              </label>
+              <input
+                type="password"
+                id="password"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:border-amber-500"
+                placeholder="Enter password (min 6 characters)"
+                {...formik.getFieldProps("password")}
+              />
+              {formik.touched.password && formik.errors.password && (
+                <div className="text-red-400 text-sm mt-1">{formik.errors.password}</div>
+              )}
+            </div>
           </div>
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full mt-6 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
+          className="golden-button group relative overflow-hidden w-full mt-6 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 font-semibold py-2 rounded transition-all duration-300 h-10 flex items-center justify-center cursor-pointer hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 disabled:opacity-50"
         >
-          {isLoading ? (
-            <div className="animate-spin">
-              <Loader />
-            </div>
-          ) : (
-            "Sign Up"
-          )}
+          <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+            {isLoading ? (
+              <div className="animate-spin">
+                <Loader />
+              </div>
+            ) : (
+              "Create Account"
+            )}
+          </span>
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded"></div>
         </button>
 
         <div className="mt-4 text-center">

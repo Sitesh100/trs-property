@@ -1,20 +1,23 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import DetailSearchCard from '../../ui/detail-search-card'
-import { useGetMyPropertiesQuery } from '@/service/propertyApi';
+import { useGetAllPropertiesQuery } from '@/service/propertyApi';
 import PropertySearchBar from '../../ui/property-search-bar';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 
 const MyPropertyCard = () => {
-    const { token } = useSelector((state) => state.auth);
-    const { data, isLoading } = useGetMyPropertiesQuery({ limit: 1000 }, {
+    const { token, user } = useSelector((state) => state.auth);
+    const { data, isLoading } = useGetAllPropertiesQuery({}, {
         skip: !token,
     });
     const [filteredProperties, setFilteredProperties] = useState([]);
 
     useEffect(() => {
         if (data?.data?.properties) {
+            // Note: Since the API doesn't have a "my properties" endpoint,
+            // we're showing all properties. The backend should be updated to 
+            // either add a filter parameter or create a separate endpoint.
             setFilteredProperties(data.data.properties);
         }
     }, [data]);
@@ -28,6 +31,7 @@ const MyPropertyCard = () => {
             result = result?.filter((property) =>
                 property?.title?.toLowerCase().includes(lowerQuery) ||
                 property?.city?.toLowerCase().includes(lowerQuery) ||
+                property?.map_location?.toLowerCase().includes(lowerQuery) ||
                 property?.project_name?.toLowerCase().includes(lowerQuery) ||
                 property?.builder_name?.toLowerCase().includes(lowerQuery)
             );

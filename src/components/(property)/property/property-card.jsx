@@ -53,6 +53,7 @@ const PropertyCard = ({ cards }) => {
             result = result.filter((property) =>
                 property?.title?.toLowerCase().includes(lowerQuery) ||
                 property?.city?.toLowerCase().includes(lowerQuery) ||
+                property?.map_location?.toLowerCase().includes(lowerQuery) ||
                 property?.project_name?.toLowerCase().includes(lowerQuery) ||
                 property?.builder_name?.toLowerCase().includes(lowerQuery)
             );
@@ -104,7 +105,7 @@ const PropertyCard = ({ cards }) => {
             const minPrice = (sidebarFilters.priceRange[0] / 100) * 10;
             const maxPrice = (sidebarFilters.priceRange[1] / 100) * 10;
             result = result.filter((property) => {
-                const price = parseFloat(property?.expected_price) || 0;
+                const price = parseFloat(property?.price ?? property?.expected_price) || 0;
                 return price >= minPrice && price <= maxPrice;
             });
             console.log("After price filter:", result.length);

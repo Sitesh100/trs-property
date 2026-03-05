@@ -32,6 +32,11 @@ const nextConfig = {
                 hostname: 'images.pexels.com',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'amzn-s3-bucket-trsmallproperties.s3.amazonaws.com',
+                pathname: '/**',
+            },
         ],
     },
 };

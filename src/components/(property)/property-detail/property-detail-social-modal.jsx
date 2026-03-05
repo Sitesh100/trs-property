@@ -18,7 +18,7 @@ import {
 const PropertyDetailSocialModal = ({ property, showShareModal  , setShowShareModal}) => {
 
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
-    const title = `${property?.title} - ${property?.city}`;
+    const title = `${property?.title} - ${property?.map_location ?? property?.city}`;
 
     return (
         <>

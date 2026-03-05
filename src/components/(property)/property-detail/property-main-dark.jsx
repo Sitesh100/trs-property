@@ -22,13 +22,14 @@ function PropertyMainDark({ id }) {
             project_name: apiProperty?.projectName ?? apiProperty?.project_name,
             possession_status: apiProperty?.possessionStatus ?? apiProperty?.possession_status,
             booking_amount: apiProperty?.bookingAmount ?? apiProperty?.booking_amount,
-            super_area: apiProperty?.superArea ?? apiProperty?.super_area,
+            super_area: apiProperty?.size ?? apiProperty?.superArea ?? apiProperty?.super_area,
             carpet_area: apiProperty?.carpetArea ?? apiProperty?.carpet_area,
             rera_id: apiProperty?.reraId ?? apiProperty?.rera_id,
             builder_name: apiProperty?.builderName ?? apiProperty?.builder_name,
             nearby_landmarks: apiProperty?.landmarks ?? apiProperty?.nearby_landmarks,
-            location: apiProperty?.location ?? apiProperty?.city,
-            city: apiProperty?.city ?? apiProperty?.location,
+            location: apiProperty?.map_location ?? apiProperty?.location ?? apiProperty?.city,
+            city: apiProperty?.map_location ?? apiProperty?.city ?? apiProperty?.location,
+            images: apiProperty?.image ?? apiProperty?.images ?? apiProperty?.image_ids,
         }
         : undefined;
     const propertyId = normalizedProperty?.id || id;

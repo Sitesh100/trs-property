@@ -4,15 +4,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Upload, X, Plus, Loader } from "lucide-react";
 import {
+  useUploadPropertyImagesMutation,
   useCreatePropertyMutation,
-  useGetSinglePropertyQuery,
-  useAddAndEditBothPropertyMutation,
-  useUploadPropertyImageMutation,
-  useUploadPropertyDocumentMutation,
 } from "@/service/propertyApi";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getImageUrl } from "@/utils/getImageUrl";
 import { useSelector } from "react-redux";
 
 const validationSchema = Yup.object({
@@ -23,31 +19,52 @@ const validationSchema = Yup.object({
     .required("Expected price is required")
     .positive("Price must be positive"),
   booking_amount: Yup.number().positive("Amount must be positive"),
-  priceNegotiable: Yup.boolean(),
+  is_price_negotiable: Yup.boolean(),
   carpet_area: Yup.number()
     .required("Carpet area is required")
     .positive("Area must be positive"),
   super_area: Yup.number().positive("Area must be positive"),
-  bedrooms: Yup.string().required("Number of bedrooms is required"),
-  bathrooms: Yup.string().required("Number of bathrooms is required"),
-  balconies: Yup.string().required("Number of balconies is required"),
+  bedrooms: Yup.number()
+    .required("Number of bedrooms is required")
+    .positive("Must be positive")
+    .integer("Must be a whole number"),
+  bathrooms: Yup.number()
+    .required("Number of bathrooms is required")
+    .positive("Must be positive")
+    .integer("Must be a whole number"),
+  balconies: Yup.number()
+    .required("Number of balconies is required")
+    .min(0, "Cannot be negative")
+    .integer("Must be a whole number"),
   possession_status: Yup.string().required("Possession status is required"),
   property_post_status: Yup.string().required(
     "Property Post status is required",
   ),
-  availableFromMonth: Yup.string().when("possession_status", {
-    is: "Under Construction",
-    then: () => Yup.string().required("Month is required"),
-    otherwise: () => Yup.string(),
-  }),
-  availableFromYear: Yup.string().when("possession_status", {
-    is: "Under Construction",
-    then: () => Yup.string().required("Year is required"),
-    otherwise: () => Yup.string(),
-  }),
   rera_id: Yup.string(),
   nearby_landmarks: Yup.string(),
   builder_name: Yup.string(),
+  builder_logo: Yup.string().url("Must be a valid URL"),
+  floor_number: Yup.number()
+    .min(0, "Cannot be negative")
+    .integer("Must be a whole number"),
+  total_floors: Yup.number()
+    .positive("Must be positive")
+    .integer("Must be a whole number"),
+  facing: Yup.string(),
+  furnished_status: Yup.string(),
+  parking_spaces: Yup.number()
+    .min(0, "Cannot be negative")
+    .integer("Must be a whole number"),
+  property_age: Yup.number()
+    .min(0, "Cannot be negative")
+    .integer("Must be a whole number"),
+  latitude: Yup.number()
+    .min(-90, "Invalid latitude")
+    .max(90, "Invalid latitude"),
+  longitude: Yup.number()
+    .min(-180, "Invalid longitude")
+    .max(180, "Invalid longitude"),
+  map_address: Yup.string(),
 });
 
 export default function ResidentialForm({ property_type }) {
@@ -55,59 +72,48 @@ export default function ResidentialForm({ property_type }) {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   
-  // New API for creating properties
+  // New API for uploading images and creating properties
+  const [uploadPropertyImages, { isLoading: isUploadingImages }] = useUploadPropertyImagesMutation();
   const [createProperty, { isLoading: isCreating }] = useCreatePropertyMutation();
   
-  // Old API for editing properties (since new API doesn't have update yet)
-  const [addAndEditBothProperty, { isLoading: isLoadingOld }] = useAddAndEditBothPropertyMutation();
-  const [uploadPropertyImage, { isLoading: isLoadingUploadImage }] = useUploadPropertyImageMutation();
-  const [uploadPropertyDocument, { isLoading: isLoadingUploadDocument }] = useUploadPropertyDocumentMutation();
-  
-  const { data } = useGetSinglePropertyQuery(id, { skip: !id });
-  const property = data?.data?.[0] || {};
   const [images, setImages] = useState([]);
-  const [documents, setDocuments] = useState([]);
+  const [propertyFeatures, setPropertyFeatures] = useState([]);
+  const [facilities, setFacilities] = useState([]);
+  const [newFeature, setNewFeature] = useState("");
+  const [newFacility, setNewFacility] = useState("");
   const { token } = useSelector((state) => state.auth);
   
-  const isLoading = isCreating || isLoadingOld;
-
-  useEffect(() => {
-    if (property?.id) {
-      const formattedImages = (property?.images || [])?.map((img) => ({
-        url: getImageUrl(img),
-        fromApi: true,
-      }));
-      const formattedDocuments = (property?.documents || [])?.map((doc) => ({
-        url: getImageUrl(doc),
-        name: doc.split("/").pop(),
-        fromApi: true,
-      }));
-      setImages(formattedImages);
-      setDocuments(formattedDocuments);
-    }
-  }, [property]);
+  const isLoading = isUploadingImages || isCreating;
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: property?.title || "",
-      city: property?.city || "",
-      project_name: property?.project_name || "",
-      expected_price: property?.expected_price || "",
-      booking_amount: property?.booking_amount || "",
-      priceNegotiable: property?.is_price_negotiable || false,
-      carpet_area: property?.carpet_area || "",
-      super_area: property?.super_area || "",
-      bedrooms: property?.bedrooms || "",
-      bathrooms: property?.bathrooms || "",
-      balconies: String(property?.balconies) || "",
-      possession_status: property?.possession_status || "",
-      property_post_status: property?.property_post_status || "",
-      availableFromMonth: "",
-      availableFromYear: "",
-      rera_id: property?.rera_id || "",
-      nearby_landmarks: property?.nearby_landmarks || "",
-      builder_name: property?.builder_name || "",
+      title: "",
+      city: "",
+      project_name: "",
+      expected_price: "",
+      booking_amount: "",
+      is_price_negotiable: false,
+      carpet_area: "",
+      super_area: "",
+      bedrooms: "",
+      bathrooms: "",
+      balconies: "",
+      possession_status: "",
+      property_post_status: "ACTIVE",
+      rera_id: "",
+      nearby_landmarks: "",
+      builder_name: "",
+      builder_logo: "",
+      floor_number: "",
+      total_floors: "",
+      facing: "",
+      furnished_status: "",
+      parking_spaces: "",
+      property_age: "",
+      latitude: "",
+      longitude: "",
+      map_address: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -118,95 +124,64 @@ export default function ResidentialForm({ property_type }) {
       }
 
       try {
-        // EDIT MODE - Use old API
-        if (id) {
-          if (images?.length > 0 && documents?.length > 0) {
-            const response = await addAndEditBothProperty({
-              ...values,
-              property_type,
-              id,
-            }).unwrap();
-            const propertyId = response?.data?.id;
-            
-            // Upload new images
-            if (images?.length > 0) {
-              for (const img of images) {
-                if (img?.file) {
-                  const imageForm = new FormData();
-                  imageForm.append("property", propertyId);
-                  imageForm.append("image", img?.file);
-                  await uploadPropertyImage({ imageForm });
-                }
-              }
-            }
-            
-            // Upload new documents
-            if (documents?.length > 0) {
-              for (const doc of documents) {
-                if (doc?.file) {
-                  const docForm = new FormData();
-                  docForm.append("property", propertyId);
-                  docForm.append("document", doc?.file);
-                  await uploadPropertyDocument({ docForm });
-                }
-              }
-            }
-            
-            toast.success(response?.message);
-            router.push("/my-property");
-          } else {
-            toast.error("Please upload at least one image and one document.");
-          }
-        } 
-        // CREATE MODE - Use new API
-        else {
-          if (images?.length === 0) {
-            toast.error("Please upload at least one image.");
-            return;
-          }
-
-          // Create FormData for new API
-          const formData = new FormData();
-          
-          // Map to new API field names
-          formData.append('title', values.title);
-          formData.append('propertyType', property_type);
-          formData.append('category', 'residential');
-          formData.append('city', values.city);
-          formData.append('price', values.expected_price);
-          
-          // Optional fields
-          if (values.project_name) formData.append('projectName', values.project_name);
-          if (values.possession_status) formData.append('possessionStatus', values.possession_status);
-          if (values.booking_amount) formData.append('bookingAmount', values.booking_amount);
-          formData.append('isNegotiable', values.priceNegotiable);
-          if (values.carpet_area) formData.append('carpetArea', values.carpet_area);
-          if (values.super_area) formData.append('superArea', values.super_area);
-          if (values.bedrooms) formData.append('bedrooms', values.bedrooms);
-          if (values.bathrooms) formData.append('bathrooms', values.bathrooms);
-          if (values.balconies) formData.append('balconies', values.balconies);
-          if (values.rera_id) formData.append('reraId', values.rera_id);
-          if (values.builder_name) formData.append('builderName', values.builder_name);
-          if (values.nearby_landmarks) formData.append('landmarks', values.nearby_landmarks);
-          
-          // Add images
-          for (const img of images) {
-            if (img.file) {
-              formData.append('images', img.file);
-            }
-          }
-          
-          // Add documents
-          for (const doc of documents) {
-            if (doc.file) {
-              formData.append('documents', doc.file);
-            }
-          }
-
-          const response = await createProperty(formData).unwrap();
-          toast.success(response?.message || "Property created successfully. Waiting for admin approval.");
-          router.push("/my-property");
+        if (images?.length === 0) {
+          toast.error("Please upload at least one image.");
+          return;
         }
+
+        // Step 1: Upload images first
+        const imageFormData = new FormData();
+        for (const img of images) {
+          if (img.file) {
+            imageFormData.append('files', img.file);
+          }
+        }
+        
+        const imageResponse = await uploadPropertyImages(imageFormData).unwrap();
+        const imageIds = imageResponse?.image_ids || [];
+        
+        if (imageIds.length === 0) {
+          toast.error("Failed to upload images. Please try again.");
+          return;
+        }
+
+        // Step 2: Create property with image_ids
+        const propertyPayload = {
+          title: values.title,
+          property_type: property_type,
+          city: values.city,
+          project_name: values.project_name,
+          possession_status: values.possession_status,
+          property_post_status: values.property_post_status,
+          expected_price: parseFloat(values.expected_price),
+          booking_amount: values.booking_amount ? parseFloat(values.booking_amount) : 0,
+          is_price_negotiable: values.is_price_negotiable,
+          carpet_area: parseFloat(values.carpet_area),
+          super_area: values.super_area ? parseFloat(values.super_area) : null,
+          bedrooms: parseInt(values.bedrooms),
+          bathrooms: parseInt(values.bathrooms),
+          balconies: parseInt(values.balconies),
+          rera_id: values.rera_id || "",
+          builder_name: values.builder_name || "",
+          builder_logo: values.builder_logo || null,
+          nearby_landmarks: values.nearby_landmarks || "",
+          latitude: values.latitude ? parseFloat(values.latitude) : null,
+          longitude: values.longitude ? parseFloat(values.longitude) : null,
+          map_address: values.map_address || "",
+          property_features: propertyFeatures,
+          facilities: facilities,
+          property_age: values.property_age ? parseInt(values.property_age) : null,
+          floor_number: values.floor_number ? parseInt(values.floor_number) : null,
+          total_floors: values.total_floors ? parseInt(values.total_floors) : null,
+          facing: values.facing || null,
+          furnished_status: values.furnished_status || null,
+          parking_spaces: values.parking_spaces ? parseInt(values.parking_spaces) : null,
+          image_ids: imageIds,
+        };
+
+        const response = await createProperty(propertyPayload).unwrap();
+        toast.success(response?.message || "Property created successfully!");
+        router.push("/my-property");
       } catch (err) {
         console.error(err);
         toast.error(err?.data?.message || "Something went wrong");
@@ -220,21 +195,8 @@ export default function ResidentialForm({ property_type }) {
       const uploadedImages = newFiles?.map((file) => ({
         file,
         url: URL.createObjectURL(file),
-        fromApi: false,
       }));
       setImages((prev) => [...prev, ...uploadedImages]);
-    }
-  };
-
-  const handleDocumentUpload = (e) => {
-    if (e.target.files) {
-      const newDocs = Array.from(e.target.files).map((file) => ({
-        file,
-        url: URL.createObjectURL(file),
-        name: file.name,
-        fromApi: false,
-      }));
-      setDocuments((prev) => [...prev, ...newDocs]);
     }
   };
 
@@ -242,8 +204,26 @@ export default function ResidentialForm({ property_type }) {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const removeDocument = (index) => {
-    setDocuments((prev) => prev.filter((_, i) => i !== index));
+  const addPropertyFeature = () => {
+    if (newFeature.trim()) {
+      setPropertyFeatures((prev) => [...prev, newFeature.trim()]);
+      setNewFeature("");
+    }
+  };
+
+  const removePropertyFeature = (index) => {
+    setPropertyFeatures((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const addFacility = () => {
+    if (newFacility.trim()) {
+      setFacilities((prev) => [...prev, newFacility.trim()]);
+      setNewFacility("");
+    }
+  };
+
+  const removeFacility = (index) => {
+    setFacilities((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -373,8 +353,8 @@ export default function ResidentialForm({ property_type }) {
                 {...formik.getFieldProps("possession_status")}
               >
                 <option value="">Select Status</option>
-                <option value="ready-to-move">Ready to Move</option>
-                <option value="under_construction">Under Construction</option>
+                <option value="READY_TO_MOVE">Ready to Move</option>
+                <option value="UNDER_CONSTRUCTION">Under Construction</option>
               </select>
               {formik.touched.possession_status &&
                 formik.errors.possession_status && (
@@ -402,10 +382,9 @@ export default function ResidentialForm({ property_type }) {
                 } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
                 {...formik.getFieldProps("property_post_status")}
               >
-                <option value="">Select Status</option>
-                <option value="buy">Buy</option>
-                <option value="rent">Rent</option>
-                <option value="project">Project</option>
+                <option value="ACTIVE">Active</option>
+                <option value="INACTIVE">Inactive</option>
+                <option value="SOLD">Sold</option>
               </select>
               {formik.touched.property_post_status &&
                 formik.errors.property_post_status && (
@@ -414,64 +393,6 @@ export default function ResidentialForm({ property_type }) {
                   </div>
                 )}
             </div>
-
-            {formik.values.possession_status === "Under Construction" && (
-              <>
-                <div className="md:col-span-3">
-                  <label
-                    htmlFor="availableFromMonth"
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    Available From - Month*
-                  </label>
-                  <select
-                    id="availableFromMonth"
-                    name="availableFromMonth"
-                    className={`w-full px-3 py-2 bg-[#2a1f45] border ${
-                      formik.touched.availableFromMonth &&
-                      formik.errors.availableFromMonth
-                        ? "border-red-500"
-                        : "border-[#3a2a5a]"
-                    } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
-                    {...formik.getFieldProps("availableFromMonth")}
-                  >
-                    <option value="">Select Month</option>
-                    <option value="January">January</option>
-                    <option value="February">February</option>
-                  </select>
-                </div>
-
-                <div className="md:col-span-3">
-                  <label
-                    htmlFor="availableFromYear"
-                    className="block text-sm font-medium text-gray-300 mb-1"
-                  >
-                    Available From - Year*
-                  </label>
-                  <select
-                    id="availableFromYear"
-                    name="availableFromYear"
-                    className={`w-full px-3 py-2 bg-[#2a1f45] border ${
-                      formik.touched.availableFromYear &&
-                      formik.errors.availableFromYear
-                        ? "border-red-500"
-                        : "border-[#3a2a5a]"
-                    } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
-                    {...formik.getFieldProps("availableFromYear")}
-                  >
-                    <option value="">Select Year</option>
-                    {Array.from(
-                      { length: 10 },
-                      (_, i) => new Date().getFullYear() + i,
-                    ).map((year) => (
-                      <option key={year} value={year.toString()}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </>
-            )}
 
             <div className="md:col-span-12">
               <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
@@ -524,18 +445,18 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-4 flex items-end">
               <div className="flex items-center w-full h-10">
                 <label
-                  htmlFor="priceNegotiable"
+                  htmlFor="is_price_negotiable"
                   className="flex items-center cursor-pointer"
                 >
                   <input
                     type="checkbox"
-                    id="priceNegotiable"
-                    name="priceNegotiable"
+                    id="is_price_negotiable"
+                    name="is_price_negotiable"
                     className="sr-only"
-                    {...formik.getFieldProps("priceNegotiable")}
+                    {...formik.getFieldProps("is_price_negotiable")}
                   />
                   <div className="w-5 h-5 rounded-md border-2 border-[#2a1f45] flex items-center justify-center transition-all duration-200 bg-white">
-                    {formik.values.priceNegotiable && (
+                    {formik.values.is_price_negotiable && (
                       <svg
                         className="w-3 h-3 text-[#2a1f45]"
                         fill="none"
@@ -619,23 +540,24 @@ export default function ResidentialForm({ property_type }) {
               >
                 Bedrooms*
               </label>
-              <select
+              <input
+                type="number"
                 id="bedrooms"
                 name="bedrooms"
+                min="0"
                 className={`w-full px-3 py-2 bg-[#2a1f45] border ${
                   formik.touched.bedrooms && formik.errors.bedrooms
                     ? "border-red-500"
                     : "border-[#3a2a5a]"
                 } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                placeholder="Enter number of bedrooms"
                 {...formik.getFieldProps("bedrooms")}
-              >
-                <option value="">Select Bedrooms</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
+              />
+              {formik.touched.bedrooms && formik.errors.bedrooms && (
+                <div className="text-red-500 text-xs mt-1">
+                  {formik.errors.bedrooms}
+                </div>
+              )}
             </div>
 
             <div className="md:col-span-4">
@@ -645,21 +567,24 @@ export default function ResidentialForm({ property_type }) {
               >
                 Bathrooms*
               </label>
-              <select
+              <input
+                type="number"
                 id="bathrooms"
                 name="bathrooms"
+                min="0"
                 className={`w-full px-3 py-2 bg-[#2a1f45] border ${
                   formik.touched.bathrooms && formik.errors.bathrooms
                     ? "border-red-500"
                     : "border-[#3a2a5a]"
                 } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                placeholder="Enter number of bathrooms"
                 {...formik.getFieldProps("bathrooms")}
-              >
-                <option value="">Select Bathrooms</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
+              />
+              {formik.touched.bathrooms && formik.errors.bathrooms && (
+                <div className="text-red-500 text-xs mt-1">
+                  {formik.errors.bathrooms}
+                </div>
+              )}
             </div>
 
             <div className="md:col-span-4">
@@ -669,22 +594,24 @@ export default function ResidentialForm({ property_type }) {
               >
                 Balconies*
               </label>
-              <select
+              <input
+                type="number"
                 id="balconies"
                 name="balconies"
+                min="0"
                 className={`w-full px-3 py-2 bg-[#2a1f45] border ${
                   formik.touched.balconies && formik.errors.balconies
                     ? "border-red-500"
                     : "border-[#3a2a5a]"
                 } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                placeholder="Enter number of balconies"
                 {...formik.getFieldProps("balconies")}
-              >
-                <option value="">Select Balconies</option>
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
+              />
+              {formik.touched.balconies && formik.errors.balconies && (
+                <div className="text-red-500 text-xs mt-1">
+                  {formik.errors.balconies}
+                </div>
+              )}
             </div>
 
             <div className="md:col-span-12">
@@ -729,6 +656,206 @@ export default function ResidentialForm({ property_type }) {
 
             <div className="md:col-span-12">
               <label
+                htmlFor="builder_logo"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Builder Logo URL
+              </label>
+              <input
+                type="text"
+                id="builder_logo"
+                name="builder_logo"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Enter builder logo URL"
+                {...formik.getFieldProps("builder_logo")}
+              />
+              {formik.touched.builder_logo && formik.errors.builder_logo && (
+                <div className="text-red-500 text-xs mt-1">
+                  {formik.errors.builder_logo}
+                </div>
+              )}
+            </div>
+
+            <div className="md:col-span-12">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+                Floor Details
+              </h2>
+            </div>
+
+            <div className="md:col-span-4">
+              <label
+                htmlFor="floor_number"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Floor Number
+              </label>
+              <input
+                type="number"
+                id="floor_number"
+                name="floor_number"
+                min="0"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Enter floor number"
+                {...formik.getFieldProps("floor_number")}
+              />
+            </div>
+
+            <div className="md:col-span-4">
+              <label
+                htmlFor="total_floors"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Total Floors
+              </label>
+              <input
+                type="number"
+                id="total_floors"
+                name="total_floors"
+                min="1"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Enter total floors"
+                {...formik.getFieldProps("total_floors")}
+              />
+            </div>
+
+            <div className="md:col-span-4">
+              <label
+                htmlFor="property_age"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Property Age (Years)
+              </label>
+              <input
+                type="number"
+                id="property_age"
+                name="property_age"
+                min="0"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Enter property age"
+                {...formik.getFieldProps("property_age")}
+              />
+            </div>
+
+            <div className="md:col-span-6">
+              <label
+                htmlFor="facing"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Facing Direction
+              </label>
+              <select
+                id="facing"
+                name="facing"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                {...formik.getFieldProps("facing")}
+              >
+                <option value="">Select Facing</option>
+                <option value="NORTH">North</option>
+                <option value="SOUTH">South</option>
+                <option value="EAST">East</option>
+                <option value="WEST">West</option>
+              </select>
+            </div>
+
+            <div className="md:col-span-6">
+              <label
+                htmlFor="furnished_status"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Furnished Status
+              </label>
+              <select
+                id="furnished_status"
+                name="furnished_status"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                {...formik.getFieldProps("furnished_status")}
+              >
+                <option value="">Select Status</option>
+                <option value="UNFURNISHED">Unfurnished</option>
+                <option value="SEMI_FURNISHED">Semi-Furnished</option>
+                <option value="FURNISHED">Furnished</option>
+              </select>
+            </div>
+
+            <div className="md:col-span-6">
+              <label
+                htmlFor="parking_spaces"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Parking Spaces
+              </label>
+              <input
+                type="number"
+                id="parking_spaces"
+                name="parking_spaces"
+                min="0"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Enter number of parking spaces"
+                {...formik.getFieldProps("parking_spaces")}
+              />
+            </div>
+
+            <div className="md:col-span-12">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+                Location Details
+              </h2>
+            </div>
+
+            <div className="md:col-span-12">
+              <label
+                htmlFor="map_address"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Map Address
+              </label>
+              <input
+                type="text"
+                id="map_address"
+                name="map_address"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Enter full address"
+                {...formik.getFieldProps("map_address")}
+              />
+            </div>
+
+            <div className="md:col-span-6">
+              <label
+                htmlFor="latitude"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Latitude
+              </label>
+              <input
+                type="number"
+                step="any"
+                id="latitude"
+                name="latitude"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Enter latitude"
+                {...formik.getFieldProps("latitude")}
+              />
+            </div>
+
+            <div className="md:col-span-6">
+              <label
+                htmlFor="longitude"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Longitude
+              </label>
+              <input
+                type="number"
+                step="any"
+                id="longitude"
+                name="longitude"
+                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                placeholder="Enter longitude"
+                {...formik.getFieldProps("longitude")}
+              />
+            </div>
+
+            <div className="md:col-span-12">
+              <label
                 htmlFor="nearby_landmarks"
                 className="block text-sm font-medium text-gray-300 mb-1"
               >
@@ -742,6 +869,92 @@ export default function ResidentialForm({ property_type }) {
                 placeholder="Enter nearby landmarks"
                 {...formik.getFieldProps("nearby_landmarks")}
               ></textarea>
+            </div>
+
+            <div className="md:col-span-12">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+                Property Features
+              </h2>
+              <p className="text-gray-400 text-sm mb-4">
+                Add property features like Modular Kitchen, Wooden Flooring, etc.
+              </p>
+              <div className="flex gap-2 mb-4">
+                <input
+                  type="text"
+                  value={newFeature}
+                  onChange={(e) => setNewFeature(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addPropertyFeature())}
+                  className="flex-1 px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  placeholder="Enter a feature"
+                />
+                <button
+                  type="button"
+                  onClick={addPropertyFeature}
+                  className="px-4 py-2 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white rounded transition-colors"
+                >
+                  <Plus className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {propertyFeatures.map((feature, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 bg-[#2a1f45] px-3 py-1 rounded-full text-sm"
+                  >
+                    <span>{feature}</span>
+                    <button
+                      type="button"
+                      onClick={() => removePropertyFeature(index)}
+                      className="text-red-400 hover:text-red-300"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="md:col-span-12">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+                Facilities
+              </h2>
+              <p className="text-gray-400 text-sm mb-4">
+                Add facilities like Swimming Pool, Gym, 24x7 Security, etc.
+              </p>
+              <div className="flex gap-2 mb-4">
+                <input
+                  type="text"
+                  value={newFacility}
+                  onChange={(e) => setNewFacility(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFacility())}
+                  className="flex-1 px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  placeholder="Enter a facility"
+                />
+                <button
+                  type="button"
+                  onClick={addFacility}
+                  className="px-4 py-2 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white rounded transition-colors"
+                >
+                  <Plus className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {facilities.map((facility, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 bg-[#2a1f45] px-3 py-1 rounded-full text-sm"
+                  >
+                    <span>{facility}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeFacility(index)}
+                      className="text-red-400 hover:text-red-300"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="md:col-span-12">
@@ -787,57 +1000,13 @@ export default function ResidentialForm({ property_type }) {
               </div>
             </div>
 
-            <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45]">
-                Property Documents
-              </h2>
-              <p className="text-gray-400 text-sm mb-4">
-                Upload floor plan, master plan, location map
-              </p>
-              <div className="flex flex-wrap gap-4 mb-4">
-                {documents?.map((doc, index) => (
-                  <div
-                    key={index}
-                    className="relative w-24 h-24 bg-[#2a1f45] rounded-lg overflow-hidden border border-[#3a2a5a] flex flex-col items-center justify-center p-2"
-                  >
-                    <Upload className="h-6 w-6 mb-1 text-white" />
-                    <span className="text-xs text-center truncate w-full text-white">
-                      {doc.name}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => removeDocument(index)}
-                      className="absolute top-1 right-1 bg-black/70 rounded-full p-1 cursor-pointer"
-                    >
-                      <X className="h-3 w-3 text-white" />
-                    </button>
-                  </div>
-                ))}
-
-                <label className="w-24 h-24 flex flex-col items-center justify-center bg-[#2a1f45] rounded-lg border border-dashed border-[#3a2a5a] cursor-pointer hover:bg-[#3a2a5a]">
-                  <Plus className="h-6 w-6 mb-1 text-white" />
-                  <span className="text-xs text-white">Add Document</span>
-                  <input
-                    type="file"
-                    className="hidden"
-                    multiple
-                    onChange={handleDocumentUpload}
-                  />
-                </label>
-              </div>
-            </div>
-
             <div className="md:col-span-12 mt-6">
               <button
-                disabled={
-                  isLoading || isLoadingUploadImage || isLoadingUploadDocument
-                }
+                disabled={isLoading}
                 type="submit"
-                className="w-full bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
+                className="w-full bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ||
-                isLoadingUploadImage ||
-                isLoadingUploadDocument ? (
+                {isLoading ? (
                   <div className="animate-spin">
                     <Loader />
                   </div>
