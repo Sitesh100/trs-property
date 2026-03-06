@@ -2,8 +2,13 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Upload, X, Plus } from "lucide-react";
-import { useSelector } from "react-redux";
+import { Upload, X, Plus, Loader } from "lucide-react";
+import {
+  useUploadPropertyImagesMutation,
+  useCreatePropertyMutation,
+} from "@/service/propertyApi";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const validationSchema = Yup.object({
   propertyTitle: Yup.string().required("Property title is required"),
@@ -40,10 +45,14 @@ const validationSchema = Yup.object({
   reraId: Yup.string(),
 });
 
-export default function CommercialForm() {
+export default function CommercialForm({ property_type = "commercial" }) {
+  const router = useRouter();
   const [images, setImages] = useState([]);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [documents, setDocuments] = useState([]);
-  const { token } = useSelector((state) => state.auth);
+  const [uploadPropertyImages, { isLoading: isUploadingImages }] = useUploadPropertyImagesMutation();
+  const [createProperty, { isLoading: isCreating }] = useCreatePropertyMutation();
+  const isLoading = isUploadingImages || isCreating;
 
   const formik = useFormik({
     initialValues: {
@@ -69,28 +78,82 @@ export default function CommercialForm() {
       reraId: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-    if (!token) {
-    // login ke baad auto-submit ke liye flag
-    localStorage.setItem("pendingFormSubmit", "true");
+    onSubmit: async (values) => {
+      try {
+        if (uploadedImageUrls.length === 0) {
+          toast.error("Please upload at least one image.");
+          return;
+        }
 
-    // auth modal open karo
-    window.dispatchEvent(new Event("open-auth-modal"));
+        const propertyPayload = {
+          title: values.propertyTitle,
+          property_type,
+          map_location: values.locality,
+          city: values.city,
+          price: values.expectedPrice ? parseFloat(values.expectedPrice) : 0,
+          expected_price: values.expectedPrice ? parseFloat(values.expectedPrice) : 0,
+          booking_amount: values.bookingAmount ? parseFloat(values.bookingAmount) : 0,
+          is_price_negotiable: values.priceNegotiable,
+          carpet_area: values.carpetArea ? parseFloat(values.carpetArea) : null,
+          super_area: values.superArea ? parseFloat(values.superArea) : null,
+          size: values.superArea ? parseFloat(values.superArea) : parseFloat(values.carpetArea),
+          possession_status: values.possessionStatus || null,
+          furnished_status: values.furnishedStatus || null,
+          rera_id: values.reraId || "",
+          status: "Sell",
+          image: uploadedImageUrls.join(","),
+        };
 
-    return; // ⛔ yahin ruk jao, aage mat badho
-  }
-      console.log("Form values:", values);
-      console.log("Images:", images);
-      console.log("Documents:", documents);
-      // Submit logic here
-      alert("Property submitted successfully!");
+        const response = await createProperty(propertyPayload).unwrap();
+        toast.success(response?.message || "Property created successfully!");
+        router.push("/my-property");
+      } catch (error) {
+        console.error(error);
+        toast.error(error?.data?.message || "Something went wrong");
+      }
     },
   });
 
-  const handleImageUpload = (e) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files);
-      setImages((prev) => [...prev, ...newFiles]);
+  const handleImageUpload = async (e) => {
+    if (!e.target.files) return;
+
+    const newFiles = Array.from(e.target.files);
+    if (newFiles.length === 0) return;
+
+    try {
+      const uploadedImages = [];
+      const uploadedUrls = [];
+
+      for (const image of newFiles) {
+        const imageFormData = new FormData();
+        imageFormData.append("image", image);
+
+        const imageResponse = await uploadPropertyImages(imageFormData).unwrap();
+        const uploadedUrl = imageResponse?.image_url || imageResponse?.data?.image_url;
+
+        if (!uploadedUrl) {
+          continue;
+        }
+
+        uploadedImages.push({
+          uploadedUrl,
+          url: URL.createObjectURL(image),
+          name: image.name,
+        });
+        uploadedUrls.push(uploadedUrl);
+      }
+
+      if (!uploadedUrls.length) {
+        toast.error("Image upload failed. Please try again.");
+        return;
+      }
+
+      setImages((prev) => [...prev, ...uploadedImages]);
+      setUploadedImageUrls((prev) => [...prev, ...uploadedUrls]);
+      toast.success("Image uploaded successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.data?.message || "Failed to upload image");
     }
   };
 
@@ -102,7 +165,13 @@ export default function CommercialForm() {
   };
 
   const removeImage = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setImages((prev) => {
+      const removed = prev[index];
+      if (removed?.uploadedUrl) {
+        setUploadedImageUrls((urls) => urls.filter((url) => url !== removed.uploadedUrl));
+      }
+      return prev.filter((_, i) => i !== index);
+    });
   };
 
   const removeDocument = (index) => {
@@ -664,7 +733,7 @@ export default function CommercialForm() {
                     className="relative w-24 h-24 bg-[#2a1f45] rounded-lg overflow-hidden border border-[#3a2a5a]"
                   >
                     <img
-                      src={URL.createObjectURL(file) || "/placeholder.svg"}
+                      src={file?.url || "/placeholder.svg"}
                       alt={`Property image ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
@@ -732,10 +801,17 @@ export default function CommercialForm() {
 
             <div className="md:col-span-12 mt-6">
               <button
+                disabled={isLoading}
                 type="submit"
-                className="w-full bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
+                className="w-full bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Submit Property
+                {isLoading ? (
+                  <div className="animate-spin">
+                    <Loader />
+                  </div>
+                ) : (
+                  "Submit Property"
+                )}
               </button>
             </div>
           </div>

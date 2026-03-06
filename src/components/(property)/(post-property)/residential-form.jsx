@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Upload, X, Plus, Loader } from "lucide-react";
@@ -9,7 +9,6 @@ import {
 } from "@/service/propertyApi";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSelector } from "react-redux";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Property title is required"),
@@ -77,11 +76,11 @@ export default function ResidentialForm({ property_type }) {
   const [createProperty, { isLoading: isCreating }] = useCreatePropertyMutation();
   
   const [images, setImages] = useState([]);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [propertyFeatures, setPropertyFeatures] = useState([]);
   const [facilities, setFacilities] = useState([]);
   const [newFeature, setNewFeature] = useState("");
   const [newFacility, setNewFacility] = useState("");
-  const { token } = useSelector((state) => state.auth);
   
   const isLoading = isUploadingImages || isCreating;
 
@@ -117,35 +116,13 @@ export default function ResidentialForm({ property_type }) {
     },
     validationSchema,
     onSubmit: async (values) => {
-      if (!token) {
-        localStorage.setItem("pendingFormSubmit", "true");
-        window.dispatchEvent(new Event("open-auth-modal"));
-        return;
-      }
-
       try {
-        if (images?.length === 0) {
+        if (uploadedImageUrls?.length === 0) {
           toast.error("Please upload at least one image.");
           return;
         }
 
-        // Step 1: Upload images first
-        const imageFormData = new FormData();
-        for (const img of images) {
-          if (img.file) {
-            imageFormData.append('files', img.file);
-          }
-        }
-        
-        const imageResponse = await uploadPropertyImages(imageFormData).unwrap();
-        const imageIds = imageResponse?.image_ids || [];
-        
-        if (imageIds.length === 0) {
-          toast.error("Failed to upload images. Please try again.");
-          return;
-        }
-
-        // Step 2: Create property with image_ids
+        // Step 2: Create property with already uploaded image URLs
         const propertyPayload = {
           title: values.title,
           property_type: property_type,
@@ -176,7 +153,7 @@ export default function ResidentialForm({ property_type }) {
           facing: values.facing || null,
           furnished_status: values.furnished_status || null,
           parking_spaces: values.parking_spaces ? parseInt(values.parking_spaces) : null,
-          image_ids: imageIds,
+          image: uploadedImageUrls.join(","),
         };
 
         const response = await createProperty(propertyPayload).unwrap();
@@ -189,19 +166,56 @@ export default function ResidentialForm({ property_type }) {
     },
   });
 
-  const handleImageUpload = (e) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files);
-      const uploadedImages = newFiles?.map((file) => ({
-        file,
-        url: URL.createObjectURL(file),
-      }));
+  const handleImageUpload = async (e) => {
+    if (!e.target.files) return;
+
+    const newFiles = Array.from(e.target.files);
+    if (newFiles.length === 0) return;
+
+    try {
+      const uploadedImages = [];
+      const uploadedUrls = [];
+
+      for (const image of newFiles) {
+        const imageFormData = new FormData();
+        imageFormData.append("image", image);
+
+        const imageResponse = await uploadPropertyImages(imageFormData).unwrap();
+        const uploadedUrl = imageResponse?.image_url || imageResponse?.data?.image_url;
+
+        if (!uploadedUrl) {
+          continue;
+        }
+
+        uploadedImages.push({
+          uploadedUrl,
+          url: URL.createObjectURL(image),
+        });
+        uploadedUrls.push(uploadedUrl);
+      }
+
+      if (!uploadedUrls.length) {
+        toast.error("Image upload failed. Please try again.");
+        return;
+      }
+
       setImages((prev) => [...prev, ...uploadedImages]);
+      setUploadedImageUrls((prev) => [...prev, ...uploadedUrls]);
+      toast.success("Image uploaded successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.data?.message || "Failed to upload image");
     }
   };
 
   const removeImage = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setImages((prev) => {
+      const removed = prev[index];
+      if (removed?.uploadedUrl) {
+        setUploadedImageUrls((urls) => urls.filter((url) => url !== removed.uploadedUrl));
+      }
+      return prev.filter((_, i) => i !== index);
+    });
   };
 
   const addPropertyFeature = () => {
