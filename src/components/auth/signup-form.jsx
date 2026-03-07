@@ -133,24 +133,29 @@ function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
 
         console.log("✅ Registration successful:", response);
         
-        // Handle successful registration
-        const message = response?.message || "Registration successful!";
-        toast.success(message);
+        // Check if response indicates success
+        if (response?.success === false || response?.error) {
+          // API returned an error in the response body
+          const errorMessage = response?.detail || response?.message || response?.error || 'Registration failed';
+          throw { data: { detail: errorMessage } };
+        }
         
-        // If token and user data are returned, store them
+        // If token and user data are returned, store them and close modal
         const token = response?.token || response?.data?.token;
         const user = response?.user || response?.data?.user;
         
         if (token && user) {
+          toast.success("Registration successful!");
           dispatch(setToken(token));
           dispatch(setUser(user));
           window.dispatchEvent(new Event("resume-form-submit"));
           onClose();
         } else {
-          // If no token, redirect to login
-          toast.info("Please login to continue");
+          // If no token, show success message and redirect to login tab
+          toast.success("Registration successful! Please login to continue.");
           setSendOtpInfo({
             phone: values.phone,
+            email: values.email,
             role: values.role,
           });
           setActiveTab("sendOtp");

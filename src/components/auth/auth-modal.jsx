@@ -55,6 +55,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = "sendOtp" }) {
             <SendOtpForm
               onClose={handleClose}
               setSendOtpInfo={setSendOtpInfo}
+              sendOtpInfo={sendOtpInfo}
               setActiveTab={setActiveTab}
             />
           )}

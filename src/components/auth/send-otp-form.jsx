@@ -8,14 +8,14 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
-function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab }) {
+function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
     const dispatch = useDispatch();
     const [login, { isLoading }] = useLoginMutation();
     const [showPassword, setShowPassword] = useState(false);
 
     const formik = useFormik({
         initialValues: {
-            username: "", // email address
+            username: sendOtpInfo?.email || "", // email address pre-filled from registration
             password: "",
         },
         validationSchema: Yup.object({
