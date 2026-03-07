@@ -15,6 +15,12 @@ function DetailSearchCard({ property, action = false }) {
     const mainImage = getImageUrl(firstImage);
     const [sendNotification, { isLoading }] = useSendNotificationMutation();
     const [toogleFavorites] = useToogleFavoritesMutation();
+    const [imgSrc, setImgSrc] = React.useState(mainImage);
+
+    // Reset image source when property changes
+    React.useEffect(() => {
+        setImgSrc(mainImage);
+    }, [mainImage]);
 
     const handleToggleFavorite = async (e) => {
         e.preventDefault();
@@ -58,10 +64,11 @@ function DetailSearchCard({ property, action = false }) {
             <div className="relative">
                 <div className="relative w-full h-[200px] rounded-2xl overflow-hidden">
                     <Image
-                        src={mainImage}
+                        src={imgSrc}
                         alt={property?.title || "Property"}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        onError={() => setImgSrc("/assets/images/detail/image4.jpg")}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />
                 </div>
@@ -85,23 +92,27 @@ function DetailSearchCard({ property, action = false }) {
                 </button>
             </div>
 
-            <Link href={`/property-detail-dark/${property?._id || property?.id}`} className="p-4 block">
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="md:text-lg font-bold text-gray-900 line-clamp-1 group-hover:text-amber-600 transition-colors">
-                        {property?.title?.split(' ')?.slice(0, 4)?.join(' ')}
-                    </h3>
-                    <p className="md:text-lg font-bold text-gray-900 text-nowrap">
-                        ₹ {property?.price ?? property?.expected_price} <span className="text-sm text-gray-500"></span>
-                    </p>
-                </div>
+            <div className="p-4">
+                <Link href={`/property-detail-dark/${property?._id || property?.id}`} className="block">
+                    <div className="flex justify-between items-start mb-2">
+                        <h3 className="md:text-lg font-bold text-gray-900 line-clamp-1 group-hover:text-amber-600 transition-colors">
+                            {property?.title?.split(' ')?.slice(0, 4)?.join(' ')}
+                        </h3>
+                        <p className="md:text-lg font-bold text-gray-900 text-nowrap">
+                            ₹ {property?.price ?? property?.expected_price} <span className="text-sm text-gray-500"></span>
+                        </p>
+                    </div>
 
-                <div className="flex justify-between items-start mb-2">
                     <div className="flex items-center text-gray-600 text-sm mb-3">
                         <MapPin className="h-4 w-4 mr-1 text-amber-500" />
                         <span className="line-clamp-1">
                             {(property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')}
                         </span>
                     </div>
+                </Link>
+
+                <div className="flex justify-between items-start mb-2">
+                    <div className="flex-1"></div>
                     {!action ? (
                         <button
                             onClick={(e) => handleSendNotification(e, property?.id, property?.title)}
@@ -165,7 +176,7 @@ function DetailSearchCard({ property, action = false }) {
                         </div>
                     </div>
                 </div>
-            </Link>
+            </div>
         </motion.div>
     );
 }

@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 const PropertyFavouriteCard = () => {
     const { data, isLoading } = useGetAllPropertiesQuery({ limit: 1000 });
     const { favorites } = useSelector((state) => state.favorite);
-    const filtered = data?.data?.properties?.filter((property) => favorites?.includes(property._id));
+    const filtered = data?.data?.properties?.filter((property) => favorites?.includes(property._id)) || [];
     const [filteredProperties, setFilteredProperties] = useState([]);
 
     useEffect(() => {
@@ -19,11 +19,17 @@ const PropertyFavouriteCard = () => {
 
 
     function handleSearchAndFilter(query = "", propertyType = null, activeTab = "") {
+        // Safety check: ensure filtered exists before spreading
+        if (!filtered || filtered.length === 0) {
+            setFilteredProperties([]);
+            return;
+        }
+
         let result = [...filtered];
 
         if (query?.trim()) {
             const lowerQuery = query.toLowerCase();
-            result = result?.filter((property) =>
+            result = result.filter((property) =>
                 property?.title?.toLowerCase().includes(lowerQuery) ||
                 property?.city?.toLowerCase().includes(lowerQuery) ||
                 property?.map_location?.toLowerCase().includes(lowerQuery) ||

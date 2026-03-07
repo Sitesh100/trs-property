@@ -1,22 +1,28 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import DetailSearchCard from '../../ui/detail-search-card'
-import { useGetAllPropertiesQuery } from '@/service/propertyApi';
+import { useGetAllPropertiesQuery, useLazySearchPropertiesQuery } from '@/service/propertyApi';
 import PropertySearchBar from '../../ui/property-search-bar';
 import PropertySearchFilterSidebar from '../property-search/property-search-filter-sidebar'
 import SquareCard from './square-card';
 import { Home, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PropertyCard = ({ cards }) => {
-    const { data, isLoading } = useGetAllPropertiesQuery({ limit: 1000 });
+    // Get all properties initially (no filters)
+    const { data: allPropertiesData, isLoading: isLoadingAll } = useGetAllPropertiesQuery({ limit: 1000 });
+    
+    // Search API for when filters are applied
+    const [triggerSearch, { data: searchData, isLoading: isSearching }] = useLazySearchPropertiesQuery();
+    
     const [filteredProperties, setFilteredProperties] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [hasActiveFilters, setHasActiveFilters] = useState(false);
     const itemsPerPage = 15; // 3 columns x 5 rows
 
     const [searchFilters, setSearchFilters] = useState({
         query: "",
         propertyType: "Any",
-        activeTab: "" // Changed from "buy" to "" (empty = show all)
+        activeTab: ""
     });
     const [sidebarFilters, setSidebarFilters] = useState({
         property_type: "Any",
@@ -27,27 +33,138 @@ const PropertyCard = ({ cards }) => {
         is_price_negotiable: "Any",
     });
 
-    // Debug: Log total properties from API
+    // Determine which data to use based on whether filters are active
+    const currentData = hasActiveFilters ? searchData : allPropertiesData;
+    const isLoading = hasActiveFilters ? isSearching : isLoadingAll;
+
+    // Apply filters when data arrives or filters change
     useEffect(() => {
-        if (data?.data?.properties) {
-            console.log("Total properties from API:", data.data.properties.length);
-            applyAllFilters();
+        if (currentData?.data?.properties) {
+            console.log("📦 Properties received:", currentData.data.properties.length, "| Has filters:", hasActiveFilters);
+            applyClientSideFilters();
         }
-    }, [data, searchFilters, sidebarFilters]);
+    }, [currentData, searchFilters, sidebarFilters, hasActiveFilters]);
 
     // Reset to page 1 when filters change
     useEffect(() => {
         setCurrentPage(1);
     }, [searchFilters, sidebarFilters]);
 
-    // Apply all filters
-    const applyAllFilters = () => {
-        if (!data?.data?.properties) return;
-        
-        let result = [...data.data.properties];
-        console.log("Before filters:", result.length);
+    // Check if filters should trigger API call
+    useEffect(() => {
+        checkAndApplyFilters();
+    }, [searchFilters, sidebarFilters]);
 
-        // Search query filter
+    // Check if we have any filters that require API call
+    const checkAndApplyFilters = () => {
+        const apiFilters = {
+            skip: 0,
+            limit: 1000
+        };
+
+        let hasAPIFilters = false;
+
+        // City filter from search query
+        if (searchFilters.query?.trim()) {
+            apiFilters.city = searchFilters.query.trim();
+            hasAPIFilters = true;
+        }
+
+        // Property type - prioritize sidebar filter over search bar filter
+        const propertyType = sidebarFilters.property_type !== "Any" 
+            ? sidebarFilters.property_type 
+            : searchFilters.propertyType !== "Any" 
+            ? searchFilters.propertyType 
+            : null;
+
+        if (propertyType) {
+            apiFilters.property_type = propertyType;
+            hasAPIFilters = true;
+        }
+
+        // Price range filter - Convert from slider (0-100) to Crores, then to Rupees
+        if (sidebarFilters.priceRange[0] > 0 || sidebarFilters.priceRange[1] < 100) {
+            const minPriceCr = (sidebarFilters.priceRange[0] / 100) * 10; // Convert to Crores
+            const maxPriceCr = (sidebarFilters.priceRange[1] / 100) * 10; // Convert to Crores
+            
+            // Convert Crores to Rupees (1 Cr = 10,000,000)
+            apiFilters.min_price = minPriceCr * 10000000;
+            apiFilters.max_price = maxPriceCr * 10000000;
+            hasAPIFilters = true;
+        }
+
+        // Bedrooms filter
+        if (sidebarFilters.bedrooms && sidebarFilters.bedrooms !== "Any") {
+            const bedroomValue = sidebarFilters.bedrooms === "5+" ? 5 : parseInt(sidebarFilters.bedrooms);
+            apiFilters.bedrooms = bedroomValue;
+            hasAPIFilters = true;
+        }
+
+        // Bathrooms filter
+        if (sidebarFilters.bathrooms && sidebarFilters.bathrooms !== "Any") {
+            const bathroomValue = sidebarFilters.bathrooms === "5+" ? 5 : parseInt(sidebarFilters.bathrooms);
+            apiFilters.bathrooms = bathroomValue;
+            hasAPIFilters = true;
+        }
+
+        // Update state and trigger API if needed
+        setHasActiveFilters(hasAPIFilters);
+
+        if (hasAPIFilters) {
+            console.log("🚀 API Filters Active - Calling /properties/search with:", apiFilters);
+            
+            triggerSearch(apiFilters)
+                .unwrap()
+                .then((result) => {
+                    console.log("✅ Search API Response:", result?.data?.properties?.length, "properties");
+                })
+                .catch((error) => {
+                    console.error("❌ Search API Error:", error);
+                });
+        } else {
+            console.log("📋 No API filters - Using /current-properties data");
+        }
+    };
+
+    // Apply client-side filters (for filters not supported by API)
+    const applyClientSideFilters = () => {
+        if (!currentData?.data?.properties) return;
+        
+        let result = [...currentData.data.properties];
+        console.log("📊 Starting with:", result.length, "properties");
+
+        // Active tab (buy/rent/project) - client-side only
+        if (searchFilters.activeTab && searchFilters.activeTab !== "" && searchFilters.activeTab !== "reset") {
+            result = result.filter((property) => property?.property_post_status === searchFilters.activeTab);
+            console.log("After activeTab filter:", result.length, "| Tab:", searchFilters.activeTab);
+        }
+
+        // Apply 5+ filter logic for bedrooms (API gives >=5, we need to show all)
+        if (sidebarFilters.bedrooms === "5+") {
+            result = result.filter((property) => property?.bedrooms >= 5);
+            console.log("After 5+ bedrooms filter:", result.length);
+        }
+
+        // Apply 5+ filter logic for bathrooms
+        if (sidebarFilters.bathrooms === "5+") {
+            result = result.filter((property) => property?.bathrooms >= 5);
+            console.log("After 5+ bathrooms filter:", result.length);
+        }
+
+        // Possession status filter - client-side only
+        if (sidebarFilters.possession_status && sidebarFilters.possession_status !== "Any") {
+            result = result.filter((property) => property?.possession_status === sidebarFilters.possession_status);
+            console.log("After possession status filter:", result.length);
+        }
+
+        // Price negotiable filter - client-side only
+        if (sidebarFilters.is_price_negotiable && sidebarFilters.is_price_negotiable !== "Any") {
+            const isNegotiable = sidebarFilters.is_price_negotiable === "Yes";
+            result = result.filter((property) => property?.is_price_negotiable === isNegotiable);
+            console.log("After negotiable filter:", result.length);
+        }
+
+        // Additional search query matching (title, project, builder) - since API only searches city
         if (searchFilters.query?.trim()) {
             const lowerQuery = searchFilters.query.toLowerCase();
             result = result.filter((property) =>
@@ -57,74 +174,10 @@ const PropertyCard = ({ cards }) => {
                 property?.project_name?.toLowerCase().includes(lowerQuery) ||
                 property?.builder_name?.toLowerCase().includes(lowerQuery)
             );
-            console.log("After search query filter:", result.length);
+            console.log("After additional search filter:", result.length);
         }
 
-        // Property type from search bar
-        if (searchFilters.propertyType && searchFilters.propertyType !== "Any") {
-            result = result.filter((property) => property?.property_type === searchFilters.propertyType);
-            console.log("After property type filter:", result.length);
-        }
-
-        // Active tab (buy/rent/project) - ONLY FILTER IF NOT EMPTY AND NOT "reset"
-        if (searchFilters.activeTab && searchFilters.activeTab !== "" && searchFilters.activeTab !== "reset") {
-            result = result.filter((property) => property?.property_post_status === searchFilters.activeTab);
-            console.log("After activeTab filter:", result.length, "| Tab:", searchFilters.activeTab);
-        }
-
-        // Sidebar Filters
-        if (sidebarFilters.property_type && sidebarFilters.property_type !== "Any") {
-            result = result.filter((property) => property?.property_type === sidebarFilters.property_type);
-            console.log("After sidebar property type filter:", result.length);
-        }
-
-        // Bedrooms filter
-        if (sidebarFilters.bedrooms && sidebarFilters.bedrooms !== "Any") {
-            const bedroomValue = sidebarFilters.bedrooms === "5+" ? 5 : parseInt(sidebarFilters.bedrooms);
-            if (sidebarFilters.bedrooms === "5+") {
-                result = result.filter((property) => property?.bedrooms >= bedroomValue);
-            } else {
-                result = result.filter((property) => property?.bedrooms === bedroomValue);
-            }
-            console.log("After bedrooms filter:", result.length);
-        }
-
-        // Bathrooms filter
-        if (sidebarFilters.bathrooms && sidebarFilters.bathrooms !== "Any") {
-            const bathroomValue = sidebarFilters.bathrooms === "5+" ? 5 : parseInt(sidebarFilters.bathrooms);
-            if (sidebarFilters.bathrooms === "5+") {
-                result = result.filter((property) => property?.bathrooms >= bathroomValue);
-            } else {
-                result = result.filter((property) => property?.bathrooms === bathroomValue);
-            }
-            console.log("After bathrooms filter:", result.length);
-        }
-
-        // Price range filter
-        if (sidebarFilters.priceRange[0] > 0 || sidebarFilters.priceRange[1] < 100) {
-            const minPrice = (sidebarFilters.priceRange[0] / 100) * 10;
-            const maxPrice = (sidebarFilters.priceRange[1] / 100) * 10;
-            result = result.filter((property) => {
-                const price = parseFloat(property?.price ?? property?.expected_price) || 0;
-                return price >= minPrice && price <= maxPrice;
-            });
-            console.log("After price filter:", result.length);
-        }
-
-        // Possession status filter
-        if (sidebarFilters.possession_status && sidebarFilters.possession_status !== "Any") {
-            result = result.filter((property) => property?.possession_status === sidebarFilters.possession_status);
-            console.log("After possession status filter:", result.length);
-        }
-
-        // Price negotiable filter
-        if (sidebarFilters.is_price_negotiable && sidebarFilters.is_price_negotiable !== "Any") {
-            const isNegotiable = sidebarFilters.is_price_negotiable === "Yes";
-            result = result.filter((property) => property?.is_price_negotiable === isNegotiable);
-            console.log("After negotiable filter:", result.length);
-        }
-
-        console.log("Final filtered count:", result.length);
+        console.log("✨ Final filtered count:", result.length);
         setFilteredProperties(result);
     };
 

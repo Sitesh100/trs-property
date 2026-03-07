@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Upload, X, Plus, Loader } from "lucide-react";
@@ -9,6 +9,8 @@ import {
 } from "@/service/propertyApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import AuthModal from "@/components/auth/auth-modal";
 
 const validationSchema = Yup.object({
   propertyTitle: Yup.string().required("Property title is required"),
@@ -47,12 +49,34 @@ const validationSchema = Yup.object({
 
 export default function CommercialForm({ property_type = "commercial" }) {
   const router = useRouter();
+  
+  // Check if user is authenticated
+  const token = useSelector((state) => state.auth.token);
+  const isAuthenticated = !!token;
+  
+  // Auth modal state
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [pendingSubmit, setPendingSubmit] = useState(false);
+  
   const [images, setImages] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [documents, setDocuments] = useState([]);
   const [uploadPropertyImages, { isLoading: isUploadingImages }] = useUploadPropertyImagesMutation();
   const [createProperty, { isLoading: isCreating }] = useCreatePropertyMutation();
   const isLoading = isUploadingImages || isCreating;
+
+  // Listen for successful login/signup to resume form submission
+  useEffect(() => {
+    const handleResumeSubmit = () => {
+      if (pendingSubmit && isAuthenticated) {
+        setPendingSubmit(false);
+        formik.handleSubmit();
+      }
+    };
+
+    window.addEventListener('resume-form-submit', handleResumeSubmit);
+    return () => window.removeEventListener('resume-form-submit', handleResumeSubmit);
+  }, [pendingSubmit, isAuthenticated]);
 
   const formik = useFormik({
     initialValues: {
@@ -79,6 +103,14 @@ export default function CommercialForm({ property_type = "commercial" }) {
     },
     validationSchema,
     onSubmit: async (values) => {
+      // Check if user is authenticated
+      if (!isAuthenticated) {
+        toast.error("Please login to post a property");
+        setPendingSubmit(true);
+        setShowAuthModal(true);
+        return;
+      }
+
       try {
         if (uploadedImageUrls.length === 0) {
           toast.error("Please upload at least one image.");
@@ -109,7 +141,15 @@ export default function CommercialForm({ property_type = "commercial" }) {
         router.push("/my-property");
       } catch (error) {
         console.error(error);
-        toast.error(error?.data?.message || "Something went wrong");
+        
+        // Handle 401 Unauthorized - token expired or invalid
+        if (error?.status === 401 || error?.originalStatus === 401) {
+          toast.error("Session expired. Please login again.");
+          setPendingSubmit(true);
+          setShowAuthModal(true);
+        } else {
+          toast.error(error?.data?.detail || error?.data?.message || "Something went wrong");
+        }
       }
     },
   });
@@ -817,6 +857,11 @@ export default function CommercialForm({ property_type = "commercial" }) {
           </div>
         </form>
       </div>
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        initialTab="sendOtp"
+      />
     </div>
   );
 }

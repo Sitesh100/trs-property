@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Upload, X, Plus, Loader } from "lucide-react";
@@ -9,6 +9,8 @@ import {
 } from "@/service/propertyApi";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSelector } from "react-redux";
+import AuthModal from "@/components/auth/auth-modal";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Property title is required"),
@@ -71,6 +73,14 @@ export default function ResidentialForm({ property_type }) {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   
+  // Check if user is authenticated
+  const token = useSelector((state) => state.auth.token);
+  const isAuthenticated = !!token;
+  
+  // Auth modal state
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [pendingSubmit, setPendingSubmit] = useState(false);
+  
   // New API for uploading images and creating properties
   const [uploadPropertyImages, { isLoading: isUploadingImages }] = useUploadPropertyImagesMutation();
   const [createProperty, { isLoading: isCreating }] = useCreatePropertyMutation();
@@ -83,6 +93,19 @@ export default function ResidentialForm({ property_type }) {
   const [newFacility, setNewFacility] = useState("");
   
   const isLoading = isUploadingImages || isCreating;
+
+  // Listen for successful login/signup to resume form submission
+  useEffect(() => {
+    const handleResumeSubmit = () => {
+      if (pendingSubmit && isAuthenticated) {
+        setPendingSubmit(false);
+        formik.handleSubmit();
+      }
+    };
+
+    window.addEventListener('resume-form-submit', handleResumeSubmit);
+    return () => window.removeEventListener('resume-form-submit', handleResumeSubmit);
+  }, [pendingSubmit, isAuthenticated]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -116,6 +139,14 @@ export default function ResidentialForm({ property_type }) {
     },
     validationSchema,
     onSubmit: async (values) => {
+      // Check if user is authenticated
+      if (!isAuthenticated) {
+        toast.error("Please login to post a property");
+        setPendingSubmit(true);
+        setShowAuthModal(true);
+        return;
+      }
+
       try {
         if (uploadedImageUrls?.length === 0) {
           toast.error("Please upload at least one image.");
@@ -161,7 +192,15 @@ export default function ResidentialForm({ property_type }) {
         router.push("/my-property");
       } catch (err) {
         console.error(err);
-        toast.error(err?.data?.message || "Something went wrong");
+        
+        // Handle 401 Unauthorized - token expired or invalid
+        if (err?.status === 401 || err?.originalStatus === 401) {
+          toast.error("Session expired. Please login again.");
+          setPendingSubmit(true);
+          setShowAuthModal(true);
+        } else {
+          toast.error(err?.data?.detail || err?.data?.message || "Something went wrong");
+        }
       }
     },
   });
@@ -1032,6 +1071,13 @@ export default function ResidentialForm({ property_type }) {
           </div>
         </form>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+        initialTab="sendOtp" 
+      />
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import { realStateAPI, newRealStateAPI } from "@/redux/createAPI";
 
-/* ==========================================
-   OLD API ENDPOINTS (ACTIVE - Using Old Base URL)
-   ========================================== */
-
+// ========================================
+// 📝 OLD OTP-BASED API (COMMENTED OUT)
+// ========================================
+/*
 const authApiOld = realStateAPI.injectEndpoints({
     endpoints: (build) => ({
         sendOtp: build.mutation({
@@ -53,18 +53,77 @@ const authApiOld = realStateAPI.injectEndpoints({
         }),
     }),
 });
-
-/* ==========================================
-   NEW API ENDPOINTS (Using New Base URL)
-   ========================================== */
+*/
 
 const authApiNew = newRealStateAPI.injectEndpoints({
     endpoints: (build) => ({
-        // ========================================
-        // 🔥 NEW DIRECT AUTH (No OTP Required) 
-        // ========================================
-        
-        // 1. Direct Signup (No OTP)
+        // 1. Register Customer
+        // POST /register/customer
+        registerCustomer: build.mutation({
+            query: (formValues) => ({
+                url: `/register/customer`,
+                method: "POST",
+                body: {
+                    full_name: formValues.fullName,
+                    email: formValues.email,
+                    phone: formValues.phone,
+                    password: formValues.password,
+                    city: formValues.city,
+                },
+            }),
+        }),
+
+        // 2. Register Agent
+        // POST /register/agent
+        registerAgent: build.mutation({
+            query: (formValues) => ({
+                url: `/register/agent`,
+                method: "POST",
+                body: {
+                    full_name: formValues.fullName,
+                    email: formValues.email,
+                    phone: formValues.phone,
+                    password: formValues.password,
+                    city: formValues.city,
+                    rera_number: formValues.reraNumber || "",
+                    agency_name: formValues.agencyName,
+                },
+            }),
+        }),
+
+        // 3. Register Builder
+        // POST /register/builder
+        registerBuilder: build.mutation({
+            query: (formValues) => ({
+                url: `/register/builder`,
+                method: "POST",
+                body: {
+                    company_name: formValues.companyName,
+                    contact_person: formValues.contactPersonName,
+                    email: formValues.email,
+                    phone: formValues.phone,
+                    password: formValues.password,
+                    rera_number: formValues.reraRegistrationNumber,
+                    city: formValues.city,
+                },
+            }),
+        }),
+
+        // Login - Get Access Token
+        // POST /login
+        // Content-Type: application/json (backend expects JSON despite docs saying form-urlencoded)
+        login: build.mutation({
+            query: (formValues) => ({
+                url: `/login`,
+                method: "POST",
+                body: {
+                    email: formValues.username, // API expects 'email' field
+                    password: formValues.password,
+                },
+            }),
+        }),
+
+        // 1. Direct Signup (No OTP) - OLD
         // POST /api/auth/signup
         directSignup: build.mutation({
             query: (formValues) => ({
@@ -73,7 +132,7 @@ const authApiNew = newRealStateAPI.injectEndpoints({
                 body: {
                     fullName: formValues.fullName,
                     phone: formValues.phone,
-                    role: formValues.role, // customer, builder, or agent
+                    role: formValues.role, 
                 },
             }),
         }),
@@ -159,15 +218,23 @@ const authApiNew = newRealStateAPI.injectEndpoints({
     }),
 });
 
-// Export OLD hooks (existing code continues to work)
+// ========================================
+// 📝 OLD HOOKS (COMMENTED OUT - OTP functionality removed)
+// ========================================
+/*
 export const { 
     useSendOtpMutation, 
     useVerifyOtpMutation, 
     useSignUpMutation 
 } = authApiOld;
+*/
 
-// Export NEW hooks (Direct Auth - No OTP)
+// Export NEW hooks (Role-Based Registration & Login)
 export const {
+    useRegisterCustomerMutation,
+    useRegisterAgentMutation,
+    useRegisterBuilderMutation,
+    useLoginMutation,
     useDirectSignupMutation,
     useDirectLoginMutation,
     useGetCurrentUserQuery,

@@ -24,11 +24,17 @@ const MyPropertyCard = () => {
 
 
     function handleSearchAndFilter(query = "", propertyType = null, activeTab = "") {
-        let result = [...data?.data?.properties];
+        // Safety check: ensure data exists before spreading
+        if (!data?.data?.properties) {
+            setFilteredProperties([]);
+            return;
+        }
+
+        let result = [...data.data.properties];
 
         if (query?.trim()) {
             const lowerQuery = query.toLowerCase();
-            result = result?.filter((property) =>
+            result = result.filter((property) =>
                 property?.title?.toLowerCase().includes(lowerQuery) ||
                 property?.city?.toLowerCase().includes(lowerQuery) ||
                 property?.map_location?.toLowerCase().includes(lowerQuery) ||

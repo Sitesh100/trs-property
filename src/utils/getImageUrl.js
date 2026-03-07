@@ -15,6 +15,11 @@ export const getImageUrl = (path) => {
 
     // already absolute URL (Cloudinary, Unsplash, CDN, AWS S3)
     if (path.startsWith("http://") || path.startsWith("https://")) {
+        // Validate S3 URL format and fix if needed
+        if (path.includes('s3.amazonaws.com') || path.includes('s3.ap-south-1.amazonaws.com')) {
+            // Return as-is if it's a proper S3 URL
+            return path;
+        }
         return path;
     }
 

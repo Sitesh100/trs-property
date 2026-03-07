@@ -1,5 +1,9 @@
 "use client";
-import { useDirectSignupMutation } from "@/service/authApi";
+import { 
+  useRegisterCustomerMutation,
+  useRegisterAgentMutation,
+  useRegisterBuilderMutation 
+} from "@/service/authApi";
 import { setToken, setUser } from "@/redux/authSlice";
 import { useFormik } from "formik";
 import { Loader, X, User, Briefcase, Building2 } from "lucide-react";
@@ -10,8 +14,19 @@ import { useState, useMemo } from "react";
 
 function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
   const dispatch = useDispatch();
-  const [directSignup, { isLoading }] = useDirectSignupMutation();
+  
+  // Role-based registration mutations
+  const [registerCustomer, { isLoading: isLoadingCustomer }] = useRegisterCustomerMutation();
+  const [registerAgent, { isLoading: isLoadingAgent }] = useRegisterAgentMutation();
+  const [registerBuilder, { isLoading: isLoadingBuilder }] = useRegisterBuilderMutation();
+  
   const [selectedRole, setSelectedRole] = useState("customer");
+
+  // Determine loading state based on selected role
+  const isLoading = 
+    (selectedRole === "customer" && isLoadingCustomer) ||
+    (selectedRole === "agent" && isLoadingAgent) ||
+    (selectedRole === "builder" && isLoadingBuilder);
 
   // Dynamic validation schema based on role
   const validationSchema = useMemo(() => {
@@ -83,50 +98,72 @@ function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        // Prepare payload based on role
-        let payload = {
-          phone: values.phone,
-          email: values.email,
-          password: values.password,
-          city: values.city,
-          role: values.role,
-        };
+        let response;
 
+        // Call appropriate registration API based on role
         if (values.role === "customer") {
-          payload.fullName = values.fullName;
+          response = await registerCustomer({
+            fullName: values.fullName,
+            email: values.email,
+            phone: values.phone,
+            password: values.password,
+            city: values.city,
+          }).unwrap();
         } else if (values.role === "agent") {
-          payload.fullName = values.fullName;
-          payload.agencyName = values.agencyName;
-          payload.reraNumber = values.reraNumber;
-          payload.officeAddress = values.officeAddress;
+          response = await registerAgent({
+            fullName: values.fullName,
+            email: values.email,
+            phone: values.phone,
+            password: values.password,
+            city: values.city,
+            agencyName: values.agencyName,
+            reraNumber: values.reraNumber,
+          }).unwrap();
         } else if (values.role === "builder") {
-          payload.companyName = values.companyName;
-          payload.contactPersonName = values.contactPersonName;
-          payload.companyAddress = values.companyAddress;
-          payload.reraRegistrationNumber = values.reraRegistrationNumber;
+          response = await registerBuilder({
+            companyName: values.companyName,
+            contactPersonName: values.contactPersonName,
+            email: values.email,
+            phone: values.phone,
+            password: values.password,
+            reraRegistrationNumber: values.reraRegistrationNumber,
+            city: values.city,
+          }).unwrap();
         }
 
-        const response = await directSignup(payload).unwrap();
+        console.log("✅ Registration successful:", response);
         
-        // Handle successful signup
+        // Handle successful registration
+        const message = response?.message || "Registration successful!";
+        toast.success(message);
+        
+        // If token and user data are returned, store them
         const token = response?.token || response?.data?.token;
         const user = response?.user || response?.data?.user;
         
         if (token && user) {
           dispatch(setToken(token));
           dispatch(setUser(user));
-          toast.success(response?.message || "Registration successful! You can now post properties.");
           window.dispatchEvent(new Event("resume-form-submit"));
           onClose();
+        } else {
+          // If no token, redirect to login
+          toast.info("Please login to continue");
+          setSendOtpInfo({
+            phone: values.phone,
+            role: values.role,
+          });
+          setActiveTab("sendOtp");
         }
       } catch (err) {
-        console.log(err);
-        const errorMessage = err?.data?.message || err?.data?.error || 'Something went wrong';
+        console.error("❌ Registration error:", err);
+        const errorMessage = err?.data?.detail || err?.data?.message || err?.data?.error || 'Registration failed';
         
         // Check if user already exists - redirect to login
-        if (errorMessage.toLowerCase().includes('already exists') || 
-            errorMessage.toLowerCase().includes('already registered')) {
-          toast.error("User already exists. Please login instead.");
+        if (errorMessage.toLowerCase().includes('already registered') || 
+            errorMessage.toLowerCase().includes('already exists') ||
+            errorMessage.toLowerCase().includes('phone already')) {
+          toast.error("Phone number already registered. Please login instead.");
           setSendOtpInfo({
             phone: values.phone,
             role: values.role,

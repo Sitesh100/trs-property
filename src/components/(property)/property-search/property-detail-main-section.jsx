@@ -2,100 +2,126 @@
 import { useEffect, useState } from "react"
 import PropertySearchFilterSidebar from "./property-search-filter-sidebar"
 import PropertySearchListing from "./property-search-listing"
-import { useGetAllPropertiesQuery } from "@/service/propertyApi"
+import { useLazySearchPropertiesQuery } from "@/service/propertyApi"
 import PropertySearchBar from "../../ui/property-search-bar"
 
 function PropertyDetailMainSection() {
     const [showFilters, setShowFilters] = useState(false)
-    const { data, isLoading } = useGetAllPropertiesQuery({ limit: 1000 })
-    const [filteredProperties, setFilteredProperties] = useState([])
     const [searchQuery, setSearchQuery] = useState("")
+    
+    // Lazy search query - manually trigger API calls
+    const [triggerSearch, { data, isLoading }] = useLazySearchPropertiesQuery()
+    
+    const [filteredProperties, setFilteredProperties] = useState([])
+    const [clientFilters, setClientFilters] = useState({})
+
+    // Initial load - fetch all properties
+    useEffect(() => {
+        console.log('🔄 Initial load - fetching all properties');
+        triggerSearch({ skip: 0, limit: 1000 });
+    }, []);
 
     useEffect(() => {
         if (data?.data?.properties) {
-            setFilteredProperties(data?.data?.properties)
+            console.log('📦 Received properties:', data.data.properties.length);
+            // Apply client-side filters if needed (for advanced filters not supported by API)
+            applyClientSideFilters(data?.data?.properties, clientFilters)
         }
-    }, [data]);
+    }, [data, clientFilters]);
 
-    function applyFilters(filters, searchText = searchQuery, activeTab = "") {
-        let result = [...data?.data?.properties];
+    function applyClientSideFilters(properties, filters) {
+        let result = [...properties];
 
-        if (searchText.trim()) {
-            result = result?.filter(
-                (property) =>
-                    property?.title?.toLowerCase().includes(searchText?.toLowerCase()) ||
-                    property?.city?.toLowerCase().includes(searchText?.toLowerCase()) ||
-                    property?.map_location?.toLowerCase().includes(searchText?.toLowerCase()) ||
-                    property?.project_name?.toLowerCase().includes(searchText?.toLowerCase()) ||
-                    property?.builder_name?.toLowerCase().includes(searchText?.toLowerCase())
-            );
-        }
-
-        if (filters.city && filters.city.trim() !== "") {
-            result = result.filter((property) =>
-                property?.city?.toLowerCase().includes(filters.city.toLowerCase()) ||
-                property?.map_location?.toLowerCase().includes(filters.city.toLowerCase())
-            );
-        }
-
-        if (filters.property_type && filters.property_type !== "Any") {
-            result = result.filter((property) => property?.property_type === filters.property_type);
-        }
-
-        if (filters.priceRange[0] > 0 || filters.priceRange[1] < 100) {
-            const minPrice = (filters.priceRange[0] / 100) * 10;
-            const maxPrice = (filters.priceRange[1] / 100) * 10;
-
-            result = result.filter((property) => {
-                const price = Number.parseFloat(property?.price ?? property?.expected_price ?? "0");
-                return price >= minPrice && price <= maxPrice;
-            });
-        }
-
-        if (filters.bedrooms && filters.bedrooms !== "Any") {
-            const bedroomCount = Number.parseInt(filters.bedrooms);
-            result = result.filter((property) => {
-                const propBedrooms = property?.bedrooms || 0;
-                return propBedrooms === bedroomCount;
-            });
-        }
-
-        if (filters.bathrooms && filters.bathrooms !== "Any") {
-            const bathroomCount = Number.parseInt(filters.bathrooms);
-            result = result.filter((property) => {
-                const propBathrooms = property?.bathrooms || 0;
-                return propBathrooms === bathroomCount;
-            });
-        }
-
+        // Apply possession status filter (client-side only)
         if (filters.possession_status && filters.possession_status !== "Any") {
             result = result.filter(
                 (property) => property?.possession_status === filters.possession_status
             );
         }
 
+        // Apply price negotiable filter (client-side only)
         if (filters.is_price_negotiable && filters.is_price_negotiable !== "Any") {
             const negotiable = filters.is_price_negotiable === "Yes";
             result = result.filter((property) => property?.is_price_negotiable === negotiable);
         }
 
+        // Apply amenities filter (client-side only)
         if (filters.amenities && filters.amenities.length > 0) {
             result = result.filter((property) =>
                 filters.amenities.every((amenity) => property?.amenities?.includes(amenity))
             );
         }
 
-       if (activeTab && activeTab !== "reset") {
-            result = result.filter((property) => property?.property_post_status === activeTab);
+        // Apply property post status filter (client-side only)
+        if (filters.activeTab && filters.activeTab !== "reset") {
+            result = result.filter((property) => property?.property_post_status === filters.activeTab);
         }
 
         setFilteredProperties(result);
     }
 
+    function applyFilters(filters, searchText = searchQuery, activeTab = "") {
+        console.log('🔍 applyFilters called with:', { filters, searchText, activeTab });
+        
+        // Prepare API filters
+        const apiFilters = {
+            skip: 0,
+            limit: 1000
+        };
+
+        // City filter - combine with search text
+        if (filters.city && filters.city.trim() !== "") {
+            apiFilters.city = filters.city.trim();
+        } else if (searchText && searchText.trim() !== "") {
+            apiFilters.city = searchText.trim();
+        }
+
+        // Property type filter
+        if (filters.property_type && filters.property_type !== "Any") {
+            apiFilters.property_type = filters.property_type;
+        }
+
+        // Price range filter
+        if (filters.priceRange && (filters.priceRange[0] > 0 || filters.priceRange[1] < 100)) {
+            apiFilters.min_price = (filters.priceRange[0] / 100) * 10; // Convert to Cr
+            apiFilters.max_price = (filters.priceRange[1] / 100) * 10; // Convert to Cr
+        }
+
+        // Bedrooms filter
+        if (filters.bedrooms && filters.bedrooms !== "Any") {
+            apiFilters.bedrooms = Number.parseInt(filters.bedrooms);
+        }
+
+        // Bathrooms filter
+        if (filters.bathrooms && filters.bathrooms !== "Any") {
+            apiFilters.bathrooms = Number.parseInt(filters.bathrooms);
+        }
+
+        console.log('🚀 Triggering search API with:', apiFilters);
+
+        // Store client-side filters for additional filtering
+        setClientFilters({
+            possession_status: filters.possession_status,
+            is_price_negotiable: filters.is_price_negotiable,
+            amenities: filters.amenities,
+            activeTab: activeTab
+        });
+
+        // Always trigger the search API with current filters
+        triggerSearch(apiFilters)
+            .unwrap()
+            .then((result) => {
+                console.log('✅ Search API success:', result);
+            })
+            .catch((error) => {
+                console.error('❌ Search API error:', error);
+            });
+    }
+
     function handleSearch(query, propertyType, activeTab = "") {
         setSearchQuery(query);
         applyFilters({
-            city: "",
+            city: query,
             property_type: propertyType === "Any" ? "Any" : propertyType.toLowerCase().replace(" ", "_"),
             property_purpose: "Any",
             priceRange: [0, 100],

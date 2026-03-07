@@ -37,7 +37,27 @@ const nextConfig = {
                 hostname: 'amzn-s3-bucket-trsmallproperties.s3.amazonaws.com',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'your-bucket.s3.ap-south-1.amazonaws.com',
+                pathname: '/**',
+            },
+             {
+                protocol: 'https',
+                hostname: 'trsmalldev.onrender.com',
+                pathname: '/**',
+            },
         ],
+        // More permissive configuration for external images
+        unoptimized: false,
+        dangerouslyAllowSVG: true,
+        contentDispositionType: 'attachment',
+        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
 };
 

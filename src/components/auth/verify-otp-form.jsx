@@ -1,3 +1,9 @@
+// ========================================
+// 📝 THIS FILE IS DEPRECATED - OTP functionality removed
+// Direct login/signup is now used without OTP verification
+// ========================================
+
+/*
 import { setToken, setUser } from "@/redux/authSlice";
 import { useLoginVerifyOtpMutation, useSignupVerifyOtpMutation } from "@/service/authApi";
 import { Loader, X, ArrowLeft } from "lucide-react";
@@ -163,3 +169,9 @@ function VerifyOtpForm({ onClose, sendOtpInfo, setActiveTab }) {
 }
 
 export default VerifyOtpForm;
+*/
+
+// Placeholder export to prevent import errors
+export default function VerifyOtpForm() {
+    return null;
+}

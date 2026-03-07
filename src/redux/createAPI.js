@@ -34,6 +34,10 @@ export const newRealStateAPI = createApi({
             if (token) {
                 headers.set("Authorization", `Bearer ${token}`);
             }
+            // Explicitly set Content-Type for JSON requests
+            if (!headers.has("Content-Type")) {
+                headers.set("Content-Type", "application/json");
+            }
             return headers;
         },
     }),
