@@ -3,10 +3,23 @@ import { Heart, Share2, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PropertyDetailSocialModal from "./property-detail-social-modal";
+import { useToggleFavoriteMutation } from "@/service/favoriteApi";
+import toast from "react-hot-toast";
 
 function PropertyDetailHeader({ property }) {
     const [showShareModal, setShowShareModal] = useState(false);
+    const [toggleFavorite, { isLoading }] = useToggleFavoriteMutation();
     const router = useRouter();
+
+    const handleToggleFavorite = async () => {
+        try {
+            await toggleFavorite(property?.id).unwrap();
+            toast.success(property?.is_favorited ? "Removed from favorites" : "Added to favorites");
+        } catch (err) {
+            console.error("Toggle favorite failed:", err);
+            toast.error(err?.data?.detail || "Failed to update favorite");
+        }
+    };
 
     return (
         <div className="container mx-auto px-4 mt-12">
@@ -35,9 +48,15 @@ function PropertyDetailHeader({ property }) {
                         <Share2 className="h-4 w-4 mr-1" />
                         <span>Share</span>
                     </button>
-                    <button className="flex items-center cursor-pointer text-white border-2 border-white bg-[#1a1333] hover:bg-[#2a1f45] px-3 py-1.5 rounded-lg">
-                        <Heart className="h-4 w-4 mr-1" />
-                        <span>Favorite</span>
+                    <button 
+                        onClick={handleToggleFavorite}
+                        disabled={isLoading}
+                        className="flex items-center cursor-pointer text-white border-2 border-white bg-[#1a1333] hover:bg-[#2a1f45] px-3 py-1.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    >
+                        <Heart className={`h-4 w-4 mr-1 ${
+                            property?.is_favorited ? 'fill-red-500 text-red-500' : ''
+                        }`} />
+                        <span>{property?.is_favorited ? 'Unfavorite' : 'Favorite'}</span>
                     </button>
                 </div>
             </div>

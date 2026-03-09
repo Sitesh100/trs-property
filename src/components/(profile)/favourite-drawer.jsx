@@ -1,26 +1,33 @@
 "use client";
 import { Dialog } from "@headlessui/react";
-import { XCircle, Heart, X, ChevronRight } from "lucide-react";
+import { XCircle, Heart, X, ChevronRight, Loader } from "lucide-react";
 import { Fragment, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { getImageUrl } from "@/utils/getImageUrl";
-import { toggleFavorite } from "@/redux/favoriteSlice";
-import { useGetAllPropertiesQuery } from "@/service/propertyApi";
+import { useGetFavoritesQuery, useToggleFavoriteMutation } from "@/service/favoriteApi";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 export default function FavouriteDrawer() {
     const router = useRouter();
-    const { data } = useGetAllPropertiesQuery({ limit: 1000 });
-    const { favorites } = useSelector((state) => state.favorite);
+    const { token } = useSelector((state) => state.auth);
+    const { data: favoritesData, isLoading } = useGetFavoritesQuery(undefined, {
+        skip: !token, // Skip query if user is not logged in
+    });
+    const [toggleFavorite] = useToggleFavoriteMutation();
     const [isOpen, setIsOpen] = useState(false);
-    const dispatch = useDispatch();
-    const filterFavourite = data?.data?.properties?.filter((property) => favorites?.includes(property._id));
 
-    const handleRemoveFavorite = (id, e) => {
+    const handleRemoveFavorite = async (propertyId, e) => {
         e.stopPropagation();
-        dispatch(toggleFavorite(id));
+        try {
+            await toggleFavorite(propertyId).unwrap();
+            toast.success("Removed from favorites");
+        } catch (err) {
+            console.error("Remove favorite failed:", err);
+            toast.error(err?.data?.detail || "Failed to remove from favorites");
+        }
     };
 
     const handleNavigate = (id) => {
@@ -36,9 +43,9 @@ export default function FavouriteDrawer() {
                 className="relative p-1 group"
             >
                 <Heart className="h-6 w-6 text-red-500 fill-red-500 cursor-pointer transition-transform group-hover:scale-110" />
-                {favorites?.length > 0 && (
+                {favoritesData && favoritesData.length > 0 && (
                     <span className="absolute -top-1 -right-1 bg-white text-red-500 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                        {favorites?.length}
+                        {favoritesData.length}
                     </span>
                 )}
             </button>
@@ -66,7 +73,7 @@ export default function FavouriteDrawer() {
                                     <div>
                                         <h2 className="text-xl font-bold text-white">Your Favorites</h2>
                                         <p className="text-sm text-gray-300">
-                                            {filterFavourite?.length || 0} items
+                                            {favoritesData?.length || 0} items
                                         </p>
                                     </div>
                                     <button
@@ -78,10 +85,16 @@ export default function FavouriteDrawer() {
                                     </button>
                                 </div>
 
-                                {filterFavourite?.length > 0 ? (
+                                {isLoading ? (
+                                    <div className="flex justify-center items-center h-64">
+                                        <Loader className="animate-spin w-8 h-8 text-white" />
+                                    </div>
+                                ) : favoritesData && favoritesData.length > 0 ? (
                                     <ul className="space-y-3">
-                                        {filterFavourite?.map((item) => {
-                                            const imageUrl = getImageUrl(item?.images?.[0]);
+                                        {favoritesData.map((item) => {
+                                            // Handle both image string (comma-separated) and array
+                                            const firstImage = item?.image?.split(',')[0] || item?.images?.[0] || item?.image_ids?.[0];
+                                            const imageUrl = getImageUrl(firstImage);
 
                                             return (
                                                 <motion.li
@@ -96,7 +109,7 @@ export default function FavouriteDrawer() {
                                                     <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0 relative">
                                                         <Image
                                                             src={imageUrl}
-                                                            alt={item?.title}
+                                                            alt={item?.title || 'Property'}
                                                             width={64}
                                                             height={64}
                                                             className="w-full h-full object-cover"
@@ -105,9 +118,9 @@ export default function FavouriteDrawer() {
                                                     </div>
                                                     <div className="flex-1 min-w-0">
                                                         <p className="text-white text-sm font-semibold truncate">{item?.title}</p>
-                                                        <p className="text-gray-300 text-xs truncate">{item?.city}</p>
+                                                        <p className="text-gray-300 text-xs truncate">{item?.city || item?.location}</p>
                                                         <p className="text-white text-sm font-medium mt-1">
-                                                            ₹{item?.expected_price}
+                                                            ₹{item?.expected_price || item?.price}
                                                         </p>
                                                     </div>
                                                     <div className="flex items-center gap-2">

@@ -17,7 +17,7 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
         // POST /createproperty
         createProperty: build.mutation({
             query: (payload) => ({
-                url: `/current-properties/create`,
+                url: `/createproperty`,
                 method: "POST",
                 body: payload,
             }),

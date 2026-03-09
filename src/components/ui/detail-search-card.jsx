@@ -7,14 +7,14 @@ import { getImageUrl } from '@/utils/getImageUrl';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { useSendNotificationMutation } from '@/service/notificationApi';
-import { useToogleFavoritesMutation } from '@/service/favoriteApi';
+import { useToggleFavoriteMutation } from '@/service/favoriteApi';
 
 function DetailSearchCard({ property, action = false }) {
     // Support both old API (images/image_ids array) and new API (image string with comma-separated URLs)
     const firstImage = property?.image || property?.image_ids?.[0] || property?.images?.[0];
     const mainImage = getImageUrl(firstImage);
     const [sendNotification, { isLoading }] = useSendNotificationMutation();
-    const [toogleFavorites] = useToogleFavoritesMutation();
+    const [toggleFavorite, { isLoading: isFavoriteLoading }] = useToggleFavoriteMutation();
     const [imgSrc, setImgSrc] = React.useState(mainImage);
 
     // Reset image source when property changes
@@ -26,10 +26,11 @@ function DetailSearchCard({ property, action = false }) {
         e.preventDefault();
         e.stopPropagation();
         try {
-            const response = await toogleFavorites({ property: property?.id }).unwrap();
-            toast.success(response?.message || "Favourite successfully");
+            await toggleFavorite(property?.id).unwrap();
+            toast.success(property?.is_favorited ? "Removed from favorites" : "Added to favorites");
         } catch (err) {
-            console.log("Favorites failed:", err);
+            console.error("Toggle favorite failed:", err);
+            toast.error(err?.data?.detail || "Failed to update favorite");
         }
     };
 

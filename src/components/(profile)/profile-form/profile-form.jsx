@@ -37,7 +37,7 @@ const ProfileForm = () => {
                 </div>
 
                 {activeTab === 'personal' && (
-                    <ProfileFormPersonal user={user} />
+                    <ProfileFormPersonal />
                 )}
 
                 {activeTab === 'work' && (

@@ -8,12 +8,25 @@ import { useAddBuyRequirementMutation } from "@/service/buyRequirementApi"
 
 const validationSchema = Yup.object({
     city: Yup.string().required("City is required"),
-    min_price: Yup.string().required("Number of min_price is required"),
-    max_price: Yup.string().required("Number of max_price is required"),
-    possession_status: Yup.string().required("possession status is required"),
-    min_carpet_area: Yup.string().required("Number of min_carpet_area is required"),
-    max_carpet_area: Yup.string().required("Number of max_carpet_area is required"),
-    min_bedrooms: Yup.string().required("Number of min_bedrooms is required"),
+    min_price: Yup.number()
+        .typeError("Min price must be a number")
+        .positive("Min price must be positive")
+        .required("Min price is required"),
+    max_price: Yup.number()
+        .typeError("Max price must be a number")
+        .positive("Max price must be positive")
+        .min(Yup.ref('min_price'), 'Max price must be greater than min price')
+        .required("Max price is required"),
+    possession_status: Yup.string().required("Possession status is required"),
+    min_carpet_area: Yup.number()
+        .typeError("Min carpet area must be a number")
+        .positive("Min carpet area must be positive")
+        .required("Min carpet area is required"),
+    max_carpet_area: Yup.number()
+        .typeError("Max carpet area must be a number")
+        .positive("Max carpet area must be positive")
+        .min(Yup.ref('min_carpet_area'), 'Max carpet area must be greater than min carpet area')
+        .required("Max carpet area is required"),
 });
 
 export default function BuyRequirementForm({ property_type }) {
@@ -29,17 +42,17 @@ export default function BuyRequirementForm({ property_type }) {
             possession_status: "",
             min_carpet_area: "",
             max_carpet_area: "",
-            min_bedrooms: "",
         },
         validationSchema,
         onSubmit: async (values) => {
             try {
                 const response = await addBuyRequirement({ ...values, property_type }).unwrap();
-                toast.success(response?.message);
-                router.push("/post-buy-requirement");
+                toast.success("Buy requirement submitted successfully!");
+                formik.resetForm();
+                router.push("/my-buy-requirement");
             } catch (err) {
-                console.error(err);
-                toast.error(err?.data?.message || "Something went wrong");
+                console.error("Buy requirement error:", err);
+                toast.error(err?.data?.detail || err?.data?.message || "Failed to submit buy requirement");
             }
         }
     });
@@ -87,7 +100,7 @@ export default function BuyRequirementForm({ property_type }) {
 
                         <div className="md:col-span-6">
                             <label htmlFor="min_price" className="block text-sm font-medium text-gray-300 mb-1">
-                                Min Price
+                                Min Price*
                             </label>
                             <input
                                 type="number"
@@ -95,14 +108,17 @@ export default function BuyRequirementForm({ property_type }) {
                                 name="min_price"
                                 className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.min_price && formik.errors.min_price ? "border-red-500" : "border-[#3a2a5a]"
                                     } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
-                                placeholder="Enter super area"
+                                placeholder="Enter minimum price"
                                 {...formik.getFieldProps("min_price")}
                             />
+                            {formik.touched.min_price && formik.errors.min_price && (
+                                <div className="text-red-500 text-xs mt-1">{formik.errors.min_price}</div>
+                            )}
                         </div>
 
                         <div className="md:col-span-6">
                             <label htmlFor="max_price" className="block text-sm font-medium text-gray-300 mb-1">
-                                Max Price
+                                Max Price*
                             </label>
                             <input
                                 type="number"
@@ -110,14 +126,17 @@ export default function BuyRequirementForm({ property_type }) {
                                 name="max_price"
                                 className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.max_price && formik.errors.max_price ? "border-red-500" : "border-[#3a2a5a]"
                                     } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
-                                placeholder="Enter super area"
+                                placeholder="Enter maximum price"
                                 {...formik.getFieldProps("max_price")}
                             />
+                            {formik.touched.max_price && formik.errors.max_price && (
+                                <div className="text-red-500 text-xs mt-1">{formik.errors.max_price}</div>
+                            )}
                         </div>
 
                         <div className="md:col-span-6">
                             <label htmlFor="min_carpet_area" className="block text-sm font-medium text-gray-300 mb-1">
-                                Min Carpet Area
+                                Min Carpet Area* (sq ft)
                             </label>
                             <input
                                 type="number"
@@ -125,14 +144,17 @@ export default function BuyRequirementForm({ property_type }) {
                                 name="min_carpet_area"
                                 className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.min_carpet_area && formik.errors.min_carpet_area ? "border-red-500" : "border-[#3a2a5a]"
                                     } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
-                                placeholder="Enter super area"
+                                placeholder="Enter minimum carpet area"
                                 {...formik.getFieldProps("min_carpet_area")}
                             />
+                            {formik.touched.min_carpet_area && formik.errors.min_carpet_area && (
+                                <div className="text-red-500 text-xs mt-1">{formik.errors.min_carpet_area}</div>
+                            )}
                         </div>
 
                         <div className="md:col-span-6">
                             <label htmlFor="max_carpet_area" className="block text-sm font-medium text-gray-300 mb-1">
-                                Max Carpet Area
+                                Max Carpet Area* (sq ft)
                             </label>
                             <input
                                 type="number"
@@ -140,27 +162,15 @@ export default function BuyRequirementForm({ property_type }) {
                                 name="max_carpet_area"
                                 className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.max_carpet_area && formik.errors.max_carpet_area ? "border-red-500" : "border-[#3a2a5a]"
                                     } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
-                                placeholder="Enter super area"
+                                placeholder="Enter maximum carpet area"
                                 {...formik.getFieldProps("max_carpet_area")}
                             />
+                            {formik.touched.max_carpet_area && formik.errors.max_carpet_area && (
+                                <div className="text-red-500 text-xs mt-1">{formik.errors.max_carpet_area}</div>
+                            )}
                         </div>
 
-                        <div className="md:col-span-6">
-                            <label htmlFor="min_bedrooms" className="block text-sm font-medium text-gray-300 mb-1">
-                                Min Bedrooms
-                            </label>
-                            <input
-                                type="number"
-                                id="min_bedrooms"
-                                name="min_bedrooms"
-                                className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.min_bedrooms && formik.errors.min_bedrooms ? "border-red-500" : "border-[#3a2a5a]"
-                                    } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
-                                placeholder="Enter super area"
-                                {...formik.getFieldProps("min_bedrooms")}
-                            />
-                        </div>
-
-                        <div className="md:col-span-6">
+                        <div className="md:col-span-12">
                             <label htmlFor="possession_status" className="block text-sm font-medium text-gray-300 mb-1">
                                 Possession Status*
                             </label>

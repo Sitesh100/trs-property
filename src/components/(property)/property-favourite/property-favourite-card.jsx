@@ -1,31 +1,32 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import DetailSearchCard from '../../ui/detail-search-card'
-import { useGetAllPropertiesQuery } from '@/service/propertyApi';
+import { useGetFavoritesQuery } from '@/service/favoriteApi';
 import PropertySearchBar from '../../ui/property-search-bar';
 import { useSelector } from 'react-redux';
 
 const PropertyFavouriteCard = () => {
-    const { data, isLoading } = useGetAllPropertiesQuery({ limit: 1000 });
-    const { favorites } = useSelector((state) => state.favorite);
-    const filtered = data?.data?.properties?.filter((property) => favorites?.includes(property._id)) || [];
+    const { token } = useSelector((state) => state.auth);
+    const { data: favoritesData, isLoading } = useGetFavoritesQuery(undefined, {
+        skip: !token, // Skip query if user is not logged in
+    });
     const [filteredProperties, setFilteredProperties] = useState([]);
 
     useEffect(() => {
-        if (data?.data?.properties && favorites) {
-            setFilteredProperties(filtered);
+        if (favoritesData) {
+            setFilteredProperties(favoritesData);
         }
-    }, [data, favorites]);
+    }, [favoritesData]);
 
 
     function handleSearchAndFilter(query = "", propertyType = null, activeTab = "") {
-        // Safety check: ensure filtered exists before spreading
-        if (!filtered || filtered.length === 0) {
+        // Safety check: ensure favoritesData exists before filtering
+        if (!favoritesData || favoritesData.length === 0) {
             setFilteredProperties([]);
             return;
         }
 
-        let result = [...filtered];
+        let result = [...favoritesData];
 
         if (query?.trim()) {
             const lowerQuery = query.toLowerCase();
@@ -59,8 +60,16 @@ const PropertyFavouriteCard = () => {
                     <h1 className='md:text-3xl text-lg font-bold'>Your Favorites TRS</h1>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {isLoading ? (
-                        Array.from({ length: 4 }).map((_, i) => (
+                    {!token ? (
+                        <div className="col-span-full flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg">
+                            <div className="text-6xl mb-4">🔒</div>
+                            <h3 className="text-xl font-semibold text-gray-700 mb-2">Please Login</h3>
+                            <p className="text-gray-500 text-center max-w-md">
+                                You need to be logged in to view your favorite properties.
+                            </p>
+                        </div>
+                    ) : isLoading ? (
+                        Array.from({ length: 6 }).map((_, i) => (
                             <div key={i} className="bg-white p-4 rounded-2xl shadow">
                                 <div className="w-full h-48 bg-gray-200 animate-pulse rounded-xl mb-4" />
                                 <div className="h-4 w-1/2 bg-gray-200 animate-pulse rounded mb-2" />
@@ -69,16 +78,16 @@ const PropertyFavouriteCard = () => {
                             </div>
                         ))
                     ) : filteredProperties?.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg">
-                            <div className="text-6xl mb-4">🏠</div>
-                            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Properties Found</h3>
-                            <p className="text-gray-500 text-center">
-                                Try adjusting your filters or search criteria to find more properties.
+                        <div className="col-span-full flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg">
+                            <div className="text-6xl mb-4">💔</div>
+                            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Favorites Yet</h3>
+                            <p className="text-gray-500 text-center max-w-md">
+                                Start exploring properties and click the heart icon to add them to your favorites.
                             </p>
                         </div>
                     ) : (
                         filteredProperties?.map((property, index) => (
-                            <DetailSearchCard property={property} key={index} />
+                            <DetailSearchCard property={property} key={property?.id || index} />
                         ))
                     )}
                 </div>

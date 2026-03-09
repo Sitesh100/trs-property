@@ -1,5 +1,8 @@
-import { realStateAPI } from "@/redux/createAPI";
+import { realStateAPI, newRealStateAPI } from "@/redux/createAPI";
 
+// ========================================
+// 📝 OLD API (COMMENTED OUT)
+// ========================================
 const profileApi = realStateAPI.injectEndpoints({
     endpoints: (build) => ({
         profileUpdate: build.mutation({
@@ -50,5 +53,37 @@ const profileApi = realStateAPI.injectEndpoints({
     }),
 });
 
+// ========================================
+// 📝 NEW API - Customer Profile
+// ========================================
+const profileApiNew = newRealStateAPI.injectEndpoints({
+    endpoints: (build) => ({
+        // GET /api/customer/profile - Get customer profile
+        getCustomerProfile: build.query({
+            query: () => `/api/customer/profile`,
+            providesTags: ['customerProfile'],
+        }),
+
+        // PUT /api/customer/profile - Update customer profile
+        updateCustomerProfile: build.mutation({
+            query: (formValues) => ({
+                url: `/api/customer/profile`,
+                method: "PUT",
+                body: {
+                    full_name: formValues.full_name,
+                    phone: formValues.phone,
+                    city: formValues.city,
+                    company_name: formValues.company_name || null,
+                },
+            }),
+            invalidatesTags: ['customerProfile'],
+        }),
+    }),
+});
+
+// Export OLD hooks
 export const { useProfileUpdateMutation, useProfileKYCMutation, useGetProfileKYCQuery } = profileApi;
+
+// Export NEW hooks
+export const { useGetCustomerProfileQuery, useUpdateCustomerProfileMutation } = profileApiNew;
 

@@ -2,7 +2,7 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { Building2, Home, Building, MapPin, Store, Warehouse } from "lucide-react"
-import { useGetBuyRequirementQuery } from "@/service/buyRequirementApi"
+import { useGetBuyRequirementsQuery } from "@/service/buyRequirementApi"
 
 const propertyCategories = [
     {
@@ -67,7 +67,7 @@ const propertyCategories = [
 
 export default function BuyRequirementMain() {
 
-    const { data } = useGetBuyRequirementQuery();
+    const { data } = useGetBuyRequirementsQuery();
 
     console.log(data, 'datadatadata')
 
