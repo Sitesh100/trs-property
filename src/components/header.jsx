@@ -11,6 +11,8 @@ import toast from "react-hot-toast";
 import ProfileDrawer from "./(profile)/profile-drawer";
 import { usePathname, useRouter } from "next/navigation";
 import HeaderDrawer from "./(profile)/header-drawer";
+import { LogIn } from 'lucide-react';
+
 const links = [
   { href: "/", label: "HOME" },
   { href: "/about", label: "ABOUT US" },
@@ -105,6 +107,13 @@ function Header() {
               <ProfileDrawer onLogout={handlerLogout} user={user} />
             ) : (
               <>
+                <button
+                  onClick={() => setOpen(true)}
+                  className="flex items-center cursor-pointer justify-center w-9 h-9 rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] transition-all duration-300 group"
+                  title="Login"
+                >
+                  <LogIn className="w-5 h-5 text-gray-900 group-hover:text-white transition-colors" />
+                </button>
                 <button
                   onClick={() => router.push("/post-property")}
                   className="golden-button group relative overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 whitespace-nowrap"

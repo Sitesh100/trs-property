@@ -109,18 +109,30 @@ const authApiNew = newRealStateAPI.injectEndpoints({
             }),
         }),
 
-        // Login - Get Access Token
+        // Login - Get Access Token (OAuth2 Password Grant)
         // POST /login
-        // Content-Type: application/json (backend expects JSON despite docs saying form-urlencoded)
+        // Content-Type: application/x-www-form-urlencoded
         login: build.mutation({
-            query: (formValues) => ({
-                url: `/login`,
-                method: "POST",
-                body: {
-                    email: formValues.username, // API expects 'email' field
+            query: (formValues) => {
+                // Create form-urlencoded body
+                const formBody = new URLSearchParams({
+                    grant_type: "password",
+                    username: formValues.username, // email address
                     password: formValues.password,
-                },
-            }),
+                    scope: formValues.scope || "",
+                    client_id: formValues.client_id || "",
+                    client_secret: formValues.client_secret || "",
+                }).toString();
+
+                return {
+                    url: `/login`,
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formBody,
+                };
+            },
         }),
 
         // 1. Direct Signup (No OTP) - OLD
