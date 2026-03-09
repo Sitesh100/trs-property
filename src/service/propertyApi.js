@@ -30,7 +30,7 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
             query: (params = {}) => {
                 const skip = params.skip || 0;
                 const limit = params.limit || 1000;
-                return `/current-properties?skip=${skip}&limit=${limit}`;
+                return `/properties?skip=${skip}&limit=${limit}`;
             },
             providesTags: ['properties'],
             transformResponse: (response) => {

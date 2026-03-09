@@ -19,8 +19,13 @@ function PropertyDetailHeader({ property }) {
                         <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
                         <span className="text-sm font-semibold">Back</span>
                     </button>
-                    <h1 className="text-2xl md:text-4xl font-bold">{property?.title}</h1>
+                    <h1 className="text-2xl md:text-4xl font-bold">{property?.title || 'Property Details'}</h1>
                     <p className="text-xl font-medium mt-2">{property?.map_location || property?.location || property?.city}</p>
+                    {property?.property_type && (
+                        <p className="text-lg mt-1 text-amber-400 capitalize">
+                            {property?.property_type} {property?.status && `• ${property?.status}`}
+                        </p>
+                    )}
                 </div>
                 <div className="flex items-center mt-2 md:mt-0 space-x-4">
                     <button

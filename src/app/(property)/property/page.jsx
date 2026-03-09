@@ -4,7 +4,7 @@ import WhatsapBanner from "@/components/home/whatsap-banner"
 import SliderBanner from "@/components/ui/slider-banner"
 import PropertyCard from "@/components/(property)/property/property-card"
 import IPhoneBanner from "@/components/ui/i-phone-banner"
-import CitiesCard from "@/components/(property)/property/cities-card"
+// import CitiesCard from "@/components/(property)/property/cities-card"
 
 export default function Property() {
 
@@ -14,12 +14,12 @@ export default function Property() {
         { image: '/assets/images/property/square3.jpg', title: 'RESIDENTIAL' },
     ];
 
-    const cities = [
-        { image: '/assets/images/property/city1.jpg', title: 'DELHI' },
-        { image: '/assets/images/property/city2.jpg', title: 'INDORE' },
-        { image: '/assets/images/property/city3.jpg', title: 'MUMBAI' },
-        { image: '/assets/images/property/city4.jpg', title: 'BANGLORE' },
-    ];
+    // const cities = [
+    //     { image: '/assets/images/property/city1.jpg', title: 'DELHI' },
+    //     { image: '/assets/images/property/city2.jpg', title: 'INDORE' },
+    //     { image: '/assets/images/property/city3.jpg', title: 'MUMBAI' },
+    //     { image: '/assets/images/property/city4.jpg', title: 'BANGLORE' },
+    // ];
 
     return (
 
@@ -28,7 +28,7 @@ export default function Property() {
             {/* <SliderBanner /> */}
             <PropertyCard cards={cards} />
             <IPhoneBanner />
-            <CitiesCard cities={cities} />
+            {/* <CitiesCard cities={cities} /> */}
             <WhatsapBanner />
             <Footer />
         </>

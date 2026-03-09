@@ -52,6 +52,11 @@ const nextConfig = {
                 hostname: 'trsmalldev.onrender.com',
                 pathname: '/**',
             },
+            {
+    protocol: 'https',
+    hostname: 'drive.google.com',
+    pathname: '/**',
+},
         ],
         // More permissive configuration for external images
         unoptimized: false,

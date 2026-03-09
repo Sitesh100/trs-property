@@ -20,7 +20,6 @@ function PropertyPropertyDetail({
   propertyFeatures,
   facilities,
   property,
-  requestStatus,
 }) {
   const [tourType, setTourType] = useState("in-person");
   const { user } = useSelector((state) => state.auth);
@@ -76,7 +75,7 @@ function PropertyPropertyDetail({
                   <div className="flex items-center justify-center">
                     <Bed className="h-5 w-5 mr-1 text-black" />
                     <span className="font-bold text-black">
-                      {property?.bedrooms} bed
+                      {property?.bedrooms || 'N/A'}
                     </span>
                   </div>
                 </div>
@@ -85,7 +84,7 @@ function PropertyPropertyDetail({
                   <div className="flex items-center justify-center">
                     <Bath className="h-5 w-5 mr-1 text-black" />
                     <span className="font-bold text-black">
-                      {property?.bathrooms} bath
+                      {property?.bathrooms || 'N/A'}
                     </span>
                   </div>
                 </div>
@@ -94,7 +93,7 @@ function PropertyPropertyDetail({
                   <div className="flex items-center justify-center">
                     <Square className="h-5 w-5 mr-1 text-black" />
                     <span className="font-bold text-black">
-                      {property?.size ?? property?.super_area} sq ft
+                      {property?.size ?? property?.super_area ?? 'N/A'} {property?.size ? 'sq ft' : ''}
                     </span>
                   </div>
                 </div>
@@ -103,7 +102,7 @@ function PropertyPropertyDetail({
                   <div className="flex items-center justify-center">
                     <ArrowDownRight className="h-5 w-5 mr-1 text-black" />
                     <span className="font-bold text-black">
-                      {property?.carpet_area}
+                      {property?.carpet_area || 'N/A'}
                     </span>
                   </div>
                 </div>
@@ -112,7 +111,7 @@ function PropertyPropertyDetail({
 
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4">About this home</h2>
-              <p className="mb-4">{property?.nearby_landmarks}</p>
+              <p className="mb-4">{property?.description || property?.nearby_landmarks}</p>
             </div>
 
             <div className="bg-white rounded-lg p-6 mb-8">
@@ -131,11 +130,14 @@ function PropertyPropertyDetail({
                 {/* Company Info */}
                 <div className="flex-grow text-center md:text-left">
                   <h3 className="font-bold text-xl text-black">
-                    Total Realty Solutions
+                    {property?.owner || "Total Realty Solutions"}
                   </h3>
+                  {property?.agent_name && (
+                    <p className="text-sm text-gray-700 font-medium">Agent: {property?.agent_name}</p>
+                  )}
                   <p className="text-sm text-gray-700">RERA REGISTERED BNO</p>
                   <p className="text-sm text-gray-700">
-                    Indore, Madhya Pradesh
+                    {property?.map_location || property?.city || "Indore, Madhya Pradesh"}
                   </p>
                 </div>
 
@@ -143,7 +145,7 @@ function PropertyPropertyDetail({
                 <div className="flex gap-3 mt-4 md:mt-0 md:ml-auto">
                   {/* Call Button */}
                   <a
-                    href="tel:+919999999999"
+                    href={`tel:${property?.agent_phone || '+919165079260'}`}
                     className="bg-black text-white px-5 py-2 rounded-md text-sm flex items-center justify-center"
                   >
                     CALL NOW
@@ -151,7 +153,7 @@ function PropertyPropertyDetail({
 
                   {/* WhatsApp Button */}
                   <a
-                    href="https://wa.me/919165079260"
+                    href={`https://wa.me/${property?.agent_phone?.replace(/\D/g, '') || '919165079260'}`}
                     target="_blank"
                     className="bg-green-500 text-white px-5 py-2 rounded-md text-sm flex items-center justify-center"
                   >
@@ -230,61 +232,55 @@ function PropertyPropertyDetail({
                 Download Brochure
               </button>
 
-              {requestStatus ? (
-                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded text-green-800 text-center font-medium">
-                  You have already requested a tour.
-                </div>
-              ) : (
-                <div className="mb-6">
-                  <h4 className="font-bold mb-4">Request Home Tour</h4>
-                  <div className="flex mb-4">
-                    <button
-                      className={`flex-1 py-2 text-center cursor-pointer ${
-                        tourType === "in-person"
-                          ? "bg-black text-white"
-                          : "bg-gray-200 text-gray-700"
-                      }`}
-                      onClick={() => setTourType("in-person")}
-                    >
-                      In person
-                    </button>
-                    <button
-                      className={`flex-1 py-2 text-center cursor-pointer ${
-                        tourType === "virtual"
-                          ? "bg-black text-white"
-                          : "bg-gray-200 text-gray-700"
-                      }`}
-                      onClick={() => setTourType("virtual")}
-                    >
-                      Virtual
-                    </button>
-                  </div>
-
-                  <div className="relative mb-4">
-                    <input
-                      type="date"
-                      className="w-full border border-gray-300 rounded p-2 pl-10"
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                    />
-                    <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                  </div>
-
+              <div className="mb-6">
+                <h4 className="font-bold mb-4">Request Home Tour</h4>
+                <div className="flex mb-4">
                   <button
-                    onClick={handleRequestTour}
-                    disabled={isLoading}
-                    className="w-full bg-black text-white py-3 rounded cursor-pointer flex justify-center items-center"
+                    className={`flex-1 py-2 text-center cursor-pointer ${
+                      tourType === "in-person"
+                        ? "bg-black text-white"
+                        : "bg-gray-200 text-gray-700"
+                    }`}
+                    onClick={() => setTourType("in-person")}
                   >
-                    {isLoading ? (
-                      <div className="animate-spin">
-                        <Loader className="w-5 h-5" />
-                      </div>
-                    ) : (
-                      "Request a tour"
-                    )}
+                    In person
+                  </button>
+                  <button
+                    className={`flex-1 py-2 text-center cursor-pointer ${
+                      tourType === "virtual"
+                        ? "bg-black text-white"
+                        : "bg-gray-200 text-gray-700"
+                    }`}
+                    onClick={() => setTourType("virtual")}
+                  >
+                    Virtual
                   </button>
                 </div>
-              )}
+
+                <div className="relative mb-4">
+                  <input
+                    type="date"
+                    className="w-full border border-gray-300 rounded p-2 pl-10"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                  />
+                  <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                </div>
+
+                <button
+                  onClick={handleRequestTour}
+                  disabled={isLoading}
+                  className="w-full bg-black text-white py-3 rounded cursor-pointer flex justify-center items-center"
+                >
+                  {isLoading ? (
+                    <div className="animate-spin">
+                      <Loader className="w-5 h-5" />
+                    </div>
+                  ) : (
+                    "Request a tour"
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

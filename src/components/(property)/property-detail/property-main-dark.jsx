@@ -8,32 +8,48 @@ import PropertyDetailBanner from "./property-detail-banner"
 import PropertyDetailHeader from "./property-detail-header"
 import PropertyDetailImages from "./property-detail-images"
 import PropertyDetailSimilarProperties from "./property-detail-similar-properties"
-import { useGetRequestStatusPropertyQuery } from "@/service/tourApi";
 
 function PropertyMainDark({ id }) {
     const { data, isLoading } = useGetPropertyByIdQuery(id);
-    const apiProperty = data?.data?.property;
+    // New API returns property data directly
+    const apiProperty = data;
     const normalizedProperty = apiProperty
         ? {
             ...apiProperty,
-            id: apiProperty?._id ?? apiProperty?.id,
-            expected_price: apiProperty?.price ?? apiProperty?.expected_price,
-            property_type: apiProperty?.propertyType ?? apiProperty?.property_type,
-            project_name: apiProperty?.projectName ?? apiProperty?.project_name,
-            possession_status: apiProperty?.possessionStatus ?? apiProperty?.possession_status,
-            booking_amount: apiProperty?.bookingAmount ?? apiProperty?.booking_amount,
-            super_area: apiProperty?.size ?? apiProperty?.superArea ?? apiProperty?.super_area,
-            carpet_area: apiProperty?.carpetArea ?? apiProperty?.carpet_area,
-            rera_id: apiProperty?.reraId ?? apiProperty?.rera_id,
-            builder_name: apiProperty?.builderName ?? apiProperty?.builder_name,
-            nearby_landmarks: apiProperty?.landmarks ?? apiProperty?.nearby_landmarks,
-            location: apiProperty?.map_location ?? apiProperty?.location ?? apiProperty?.city,
-            city: apiProperty?.map_location ?? apiProperty?.city ?? apiProperty?.location,
-            images: apiProperty?.image ?? apiProperty?.images ?? apiProperty?.image_ids,
+            id: apiProperty?.id,
+            title: apiProperty?.title,
+            bedrooms: apiProperty?.bedrooms,
+            bathrooms: apiProperty?.bathrooms,
+            expected_price: apiProperty?.price,
+            price: apiProperty?.price,
+            property_type: apiProperty?.property_type,
+            size: apiProperty?.size,
+            super_area: apiProperty?.size,
+            carpet_area: apiProperty?.carpet_area,
+            location: apiProperty?.map_location,
+            city: apiProperty?.map_location,
+            map_location: apiProperty?.map_location,
+            description: apiProperty?.description,
+            nearby_landmarks: apiProperty?.description,
+            images: apiProperty?.image || apiProperty?.image_ids || [],
+            image: apiProperty?.image,
+            image_ids: apiProperty?.image_ids || [],
+            gallery: apiProperty?.gallery,
+            year_built: apiProperty?.year_built,
+            status: apiProperty?.status,
+            agent_name: apiProperty?.agent_name,
+            agent_email: apiProperty?.agent_email,
+            agent_phone: apiProperty?.agent_phone,
+            owner: apiProperty?.owner,
+            floors: apiProperty?.floors,
+            created_date: apiProperty?.created_date,
+            updated_date: apiProperty?.updated_date,
         }
         : undefined;
     const propertyId = normalizedProperty?.id || id;
-    const { data: requestStatus } = useGetRequestStatusPropertyQuery(propertyId);
+
+    console.log('API Response:', data);
+    console.log('Normalized Property:', normalizedProperty);
 
     const propertyFeatures = [
         "3 Bedrooms",
@@ -94,8 +110,6 @@ function PropertyMainDark({ id }) {
         }
     ]
 
-    console.log(requestStatus, 'requestStatus')
-
     if (isLoading) return <>loading...</>
 
     return (
@@ -105,7 +119,7 @@ function PropertyMainDark({ id }) {
                 <main className={`flex-grow property-search-gradient`}>
                     <PropertyDetailHeader property={normalizedProperty} isDark={true} />
                     <PropertyDetailImages property={normalizedProperty} />
-                    <PropertyPropertyDetail property={normalizedProperty} propertyFeatures={propertyFeatures} facilities={facilities} requestStatus={requestStatus?.requested} />
+                    <PropertyPropertyDetail property={normalizedProperty} propertyFeatures={propertyFeatures} facilities={facilities} />
                     <PropertyDetailSimilarProperties similarProperties={similarProperties} />
                     <PropertyDetailBanner />
                 </main>
