@@ -1,11 +1,48 @@
 "use client"
 import DetailSearchCard from '../../ui/detail-search-card'
 import PropertySearchBar from '../../ui/property-search-bar';
+import { useGetRequirementMatchesQuery } from '@/service/buyRequirementApi';
+import { Loader } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
-const PropertyMatchesCard = () => {
-    const filteredProperties = [];
-    function handleSearchAndFilter() {
-        return []
+const PropertyMatchesCard = ({ reqId }) => {
+    const { data: matchesData, isLoading, isError } = useGetRequirementMatchesQuery(reqId, {
+        skip: !reqId,
+    });
+
+    const [filteredProperties, setFilteredProperties] = useState([]);
+
+    useEffect(() => {
+        if (matchesData) {
+            setFilteredProperties(matchesData);
+        }
+    }, [matchesData]);
+
+    function handleSearchAndFilter(query = "", propertyType = null) {
+        if (!matchesData || matchesData.length === 0) {
+            setFilteredProperties([]);
+            return;
+        }
+
+        let result = [...matchesData];
+
+        if (query?.trim()) {
+            const lowerQuery = query.toLowerCase();
+            result = result.filter((property) =>
+                property?.title?.toLowerCase().includes(lowerQuery) ||
+                property?.map_location?.toLowerCase().includes(lowerQuery) ||
+                property?.agent_name?.toLowerCase().includes(lowerQuery)
+            );
+        }
+
+        if (propertyType && propertyType !== "Any") {
+            // Filter by property type if needed
+            result = result.filter((property) => 
+                property?.property_type === propertyType
+            );
+        }
+
+        setFilteredProperties(result);
     }
 
     return (
@@ -13,13 +50,16 @@ const PropertyMatchesCard = () => {
             <div className="property-gradient text-white">
                 <PropertySearchBar onSearch={handleSearchAndFilter} />
             </div>
-            <div className="container mx-auto md:px-10 px-5">
+            <div className="container mx-auto md:px-10 px-5 py-8">
                 <div className="flex justify-between my-8 items-center">
                     <h1 className='md:text-3xl text-lg font-bold'>Your Matches on TRS</h1>
+                    {filteredProperties?.length > 0 && (
+                        <p className="text-gray-600">{filteredProperties.length} properties found</p>
+                    )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {false ? (
-                        Array.from({ length: 4 }).map((_, i) => (
+                    {isLoading ? (
+                        Array.from({ length: 6 }).map((_, i) => (
                             <div key={i} className="bg-white p-4 rounded-2xl shadow">
                                 <div className="w-full h-48 bg-gray-200 animate-pulse rounded-xl mb-4" />
                                 <div className="h-4 w-1/2 bg-gray-200 animate-pulse rounded mb-2" />
@@ -27,17 +67,26 @@ const PropertyMatchesCard = () => {
                                 <div className="h-4 w-full bg-gray-200 animate-pulse rounded" />
                             </div>
                         ))
+                    ) : isError ? (
+                        <div className="col-span-full flex flex-col items-center justify-center h-64 bg-red-50 rounded-lg">
+                            <div className="text-6xl mb-4">⚠️</div>
+                            <h3 className="text-xl font-semibold text-red-700 mb-2">Error Loading Matches</h3>
+                            <p className="text-red-600 text-center">
+                                Unable to load property matches. Please try again later.
+                            </p>
+                        </div>
                     ) : filteredProperties?.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg">
+                        <div className="col-span-full flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg">
                             <div className="text-6xl mb-4">🏠</div>
-                            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Properties Found</h3>
+                            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Matching Properties Found</h3>
                             <p className="text-gray-500 text-center">
-                                Try adjusting your filters or search criteria to find more properties.
+                                We couldn't find any properties matching your requirements yet.<br />
+                                Check back later for new listings.
                             </p>
                         </div>
                     ) : (
                         filteredProperties?.map((property, index) => (
-                            <DetailSearchCard property={property} key={index} />
+                            <DetailSearchCard property={property} key={property.id || index} />
                         ))
                     )}
                 </div>

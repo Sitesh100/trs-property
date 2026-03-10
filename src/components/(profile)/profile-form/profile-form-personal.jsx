@@ -1,12 +1,12 @@
 import { setUser } from '@/redux/authSlice';
 import { useGetCustomerProfileQuery, useUpdateCustomerProfileMutation } from '@/service/profileApi';
+import { useUploadProfileImageMutation } from '@/service/authApi';
 import { Edit, Loader } from 'lucide-react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { getImageUrl } from '@/utils/getImageUrl';
 
 const ProfileFormPersonal = () => {
     const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const ProfileFormPersonal = () => {
     });
     
     const [updateProfile, { isLoading: isUpdating }] = useUpdateCustomerProfileMutation();
+    const [uploadProfileImage, { isLoading: isUploadingImage }] = useUploadProfileImageMutation();
     
     const [previewImage, setPreviewImage] = useState('/assets/images/profile.png');
     const [imageFile, setImageFile] = useState('');
@@ -31,6 +32,11 @@ const ProfileFormPersonal = () => {
                 city: profileData.city || '',
                 company_name: profileData.company_name || '',
             });
+            
+            // Update profile image preview if available
+            if (profileData.profile_image_url) {
+                setPreviewImage(profileData.profile_image_url);
+            }
             
             // Update user in Redux store
             dispatch(setUser(profileData));
@@ -69,15 +75,28 @@ const ProfileFormPersonal = () => {
         },
     });
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
+            // Show preview immediately
             setImageFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setPreviewImage(reader.result);
             };
             reader.readAsDataURL(file);
+
+            // Upload image to server
+            try {
+                const response = await uploadProfileImage(file).unwrap();
+                toast.success("Profile image uploaded successfully!");
+                
+                // Refetch profile data to get updated image URL
+                refetch();
+            } catch (err) {
+                console.error("Profile image upload error:", err);
+                toast.error(err?.data?.detail || err?.data?.message || "Failed to upload profile image");
+            }
         }
     };
 
@@ -101,15 +120,20 @@ const ProfileFormPersonal = () => {
                         />
                         <label
                             htmlFor="profile-upload"
-                            className="absolute bottom-0 right-0 bg-[#2a1f45] text-white p-1 rounded-full cursor-pointer hover:bg-[#3a2a5a]"
+                            className={`absolute bottom-0 right-0 bg-[#2a1f45] text-white p-1 rounded-full cursor-pointer hover:bg-[#3a2a5a] ${isUploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                            <Edit size={16} />
+                            {isUploadingImage ? (
+                                <Loader size={16} className="animate-spin" />
+                            ) : (
+                                <Edit size={16} />
+                            )}
                             <input
                                 id="profile-upload"
                                 type="file"
                                 accept="image/*"
                                 className="hidden"
                                 onChange={handleImageChange}
+                                disabled={isUploadingImage}
                             />
                         </label>
                     </div>

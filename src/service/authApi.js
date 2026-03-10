@@ -60,53 +60,68 @@ const authApiNew = newRealStateAPI.injectEndpoints({
         // 1. Register Customer
         // POST /register/customer
         registerCustomer: build.mutation({
-            query: (formValues) => ({
-                url: `/register/customer`,
-                method: "POST",
-                body: {
-                    full_name: formValues.fullName,
-                    email: formValues.email,
-                    phone: formValues.phone,
-                    password: formValues.password,
-                    city: formValues.city,
-                },
-            }),
+            query: (formValues) => {
+                const formData = new FormData();
+                formData.append('full_name', formValues.fullName);
+                formData.append('email', formValues.email);
+                formData.append('phone', formValues.phone);
+                formData.append('password', formValues.password);
+
+                // Add optional fields if provided
+                if (formValues.city) formData.append('city', formValues.city);
+                if (formValues.companyName) formData.append('company_name', formValues.companyName);
+                if (formValues.profileImage) formData.append('profile_image', formValues.profileImage);
+
+                return {
+                    url: `/register/customer`,
+                    method: "POST",
+                    body: formData,
+                };
+            },
         }),
 
         // 2. Register Agent
         // POST /register/agent
         registerAgent: build.mutation({
-            query: (formValues) => ({
-                url: `/register/agent`,
-                method: "POST",
-                body: {
-                    full_name: formValues.fullName,
-                    email: formValues.email,
-                    phone: formValues.phone,
-                    password: formValues.password,
-                    city: formValues.city,
-                    rera_number: formValues.reraNumber || "",
-                    agency_name: formValues.agencyName,
-                },
-            }),
+            query: (formValues) => {
+                const formData = new FormData();
+                formData.append('full_name', formValues.fullName);
+                formData.append('email', formValues.email);
+                formData.append('phone', formValues.phone);
+                formData.append('password', formValues.password);
+                
+                if (formValues.city) formData.append('city', formValues.city);
+                if (formValues.reraNumber) formData.append('rera_number', formValues.reraNumber);
+                if (formValues.agencyName) formData.append('agency_name', formValues.agencyName);
+
+                return {
+                    url: `/register/agent`,
+                    method: "POST",
+                    body: formData,
+                };
+            },
         }),
 
         // 3. Register Builder
         // POST /register/builder
         registerBuilder: build.mutation({
-            query: (formValues) => ({
-                url: `/register/builder`,
-                method: "POST",
-                body: {
-                    company_name: formValues.companyName,
-                    contact_person: formValues.contactPersonName,
-                    email: formValues.email,
-                    phone: formValues.phone,
-                    password: formValues.password,
-                    rera_number: formValues.reraRegistrationNumber,
-                    city: formValues.city,
-                },
-            }),
+            query: (formValues) => {
+                const formData = new FormData();
+                formData.append('company_name', formValues.companyName);
+                formData.append('contact_person', formValues.contactPersonName);
+                formData.append('email', formValues.email);
+                formData.append('phone', formValues.phone);
+                formData.append('password', formValues.password);
+                
+                if (formValues.reraRegistrationNumber) formData.append('rera_number', formValues.reraRegistrationNumber);
+                if (formValues.city) formData.append('city', formValues.city);
+
+                return {
+                    url: `/register/builder`,
+                    method: "POST",
+                    body: formData,
+                };
+            },
         }),
 
         // Login - Get Access Token (OAuth2 Password Grant)
@@ -227,6 +242,22 @@ const authApiNew = newRealStateAPI.injectEndpoints({
             query: () => `/api/auth/me`,
             providesTags: ['currentUser'],
         }),
+
+        // 6. Upload Profile Image
+        // POST /users/me/image
+        uploadProfileImage: build.mutation({
+            query: (imageFile) => {
+                const formData = new FormData();
+                formData.append('image', imageFile);
+                
+                return {
+                    url: `/users/me/image`,
+                    method: "POST",
+                    body: formData,
+                };
+            },
+            invalidatesTags: ['currentUser'],
+        }),
     }),
 });
 
@@ -250,6 +281,7 @@ export const {
     useDirectSignupMutation,
     useDirectLoginMutation,
     useGetCurrentUserQuery,
+    useUploadProfileImageMutation,
 } = authApiNew;
 
 // 📝 OLD OTP-based hooks (COMMENTED OUT)

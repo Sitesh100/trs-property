@@ -9,11 +9,10 @@ import { useState, Fragment } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { getImageUrl } from "@/utils/getImageUrl";
 
 export default function ProfileDrawer({ onLogout, user }) {
     const [isOpen, setIsOpen] = useState(false);
-    const previewImage = user?.image ? getImageUrl(user.image) : '/assets/images/profile.png';
+    const previewImage = user?.profile_image_url || '/assets/images/profile.png';
     const menuItems = [
         { name: "Profile", url: '/profile' },
         { name: "Post Property", url: '/post-property' },
