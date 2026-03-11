@@ -45,7 +45,7 @@ const staticProperties = [
         bathrooms: 2,
         area: 1200,
         images: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/HDFC LIFE.png"
+        overlay:"/assets/images/builderLogo/emerald.webp"
     },
     {
         id: 4,

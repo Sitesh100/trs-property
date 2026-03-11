@@ -60,7 +60,7 @@ function DetailSearchCard({ property, action = false }) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="group bg-white rounded-2xl overflow-hidden p-4 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-amber-200"
+            className="group bg-white rounded-2xl overflow-hidden p-2 md:p-3 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-amber-200"
         >
             <div className="relative">
                 <div className="relative w-full h-[200px] rounded-2xl overflow-hidden">
