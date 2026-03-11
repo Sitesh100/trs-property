@@ -8,6 +8,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { useSendNotificationMutation } from '@/service/notificationApi';
 import { useToggleFavoriteMutation } from '@/service/favoriteApi';
+import { useDeletePropertyMutation } from '@/service/propertyApi';
 
 function DetailSearchCard({ property, action = false }) {
     // Support both old API (images/image_ids array) and new API (image string with comma-separated URLs)
@@ -15,7 +16,9 @@ function DetailSearchCard({ property, action = false }) {
     const mainImage = getImageUrl(firstImage);
     const [sendNotification, { isLoading }] = useSendNotificationMutation();
     const [toggleFavorite, { isLoading: isFavoriteLoading }] = useToggleFavoriteMutation();
+    const [deleteProperty, { isLoading: isDeleting }] = useDeletePropertyMutation();
     const [imgSrc, setImgSrc] = React.useState(mainImage);
+    const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
 
     // Reset image source when property changes
     React.useEffect(() => {
@@ -34,12 +37,14 @@ function DetailSearchCard({ property, action = false }) {
         }
     };
 
-    const handleDelete = async (e, id) => {
-        e.preventDefault();
-        e.stopPropagation();
-        // TODO: Delete endpoint not available in new API yet
-        // Implement when backend adds DELETE /properties/{id}
-        toast.error("Delete functionality will be available soon");
+    const handleDelete = async (id) => {
+        try {
+            await deleteProperty(id).unwrap();
+            toast.success("Property deleted successfully");
+            setShowDeleteConfirm(false);
+        } catch (err) {
+            toast.error(err?.data?.detail || err?.data?.message || "Failed to delete property");
+        }
     };
 
     const handleSendNotification = async (e, id, name) => {
@@ -131,7 +136,7 @@ function DetailSearchCard({ property, action = false }) {
                             <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 rounded-full"></div>
                         </button>
                     ) : (
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-2 relative">
                             <Link
                                 href={{
                                     pathname: "/post-property/residential/apartment",
@@ -146,11 +151,38 @@ function DetailSearchCard({ property, action = false }) {
                                 <Edit className="h-4 w-4" />
                             </Link>
                             <button
-                                className="bg-red-500 hover:bg-red-600 text-white text-xs p-2.5 rounded-full cursor-pointer transition-colors"
-                                onClick={(e) => handleDelete(e, property?.id)}
+                                className="bg-red-500 hover:bg-red-600 text-white text-xs p-2.5 rounded-full cursor-pointer transition-colors disabled:opacity-50"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowDeleteConfirm(true); }}
+                                disabled={isDeleting}
                             >
-                                <Trash className="h-4 w-4" />
+                                {isDeleting ? <Loader className="h-4 w-4 animate-spin" /> : <Trash className="h-4 w-4" />}
                             </button>
+
+                            {/* Inline delete confirmation popup */}
+                            {showDeleteConfirm && (
+                                <div
+                                    className="absolute bottom-10 right-0 z-50 bg-white border border-gray-200 rounded-2xl shadow-2xl p-4 w-56"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <p className="text-gray-800 font-semibold text-sm mb-1">Delete property?</p>
+                                    <p className="text-gray-500 text-xs mb-3">This action cannot be undone.</p>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowDeleteConfirm(false); }}
+                                            className="flex-1 py-1.5 rounded-full border border-gray-300 text-gray-600 text-xs font-medium hover:bg-gray-50 transition-colors cursor-pointer"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(property?.id); }}
+                                            disabled={isDeleting}
+                                            className="flex-1 py-1.5 rounded-full bg-red-500 hover:bg-red-600 text-white text-xs font-medium transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1"
+                                        >
+                                            {isDeleting ? <Loader className="h-3 w-3 animate-spin" /> : "Delete"}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>

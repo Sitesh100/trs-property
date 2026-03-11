@@ -1,20 +1,29 @@
 "use client"
 import DetailSearchCard from '../../ui/detail-search-card'
 import PropertySearchBar from '../../ui/property-search-bar';
-import { useGetRequirementMatchesQuery } from '@/service/buyRequirementApi';
+import { useGetRequirementMatchesQuery, useGetAllRequirementMatchesQuery } from '@/service/buyRequirementApi';
 import { Loader } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const PropertyMatchesCard = ({ reqId }) => {
-    const { data: matchesData, isLoading, isError } = useGetRequirementMatchesQuery(reqId, {
+    // If reqId is provided, fetch matches for that specific requirement
+    // Otherwise, fetch all matches for the customer
+    const { data: specificMatchesData, isLoading: isLoadingSpecific, isError: isErrorSpecific } = useGetRequirementMatchesQuery(reqId, {
         skip: !reqId,
     });
+    const { data: allMatchesData, isLoading: isLoadingAll, isError: isErrorAll } = useGetAllRequirementMatchesQuery(undefined, {
+        skip: !!reqId,
+    });
+
+    const matchesData = reqId ? specificMatchesData : allMatchesData;
+    const isLoading = reqId ? isLoadingSpecific : isLoadingAll;
+    const isError = reqId ? isErrorSpecific : isErrorAll;
 
     const [filteredProperties, setFilteredProperties] = useState([]);
 
     useEffect(() => {
         if (matchesData) {
-            setFilteredProperties(matchesData);
+            setFilteredProperties(Array.isArray(matchesData) ? matchesData : []);
         }
     }, [matchesData]);
 

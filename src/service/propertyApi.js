@@ -120,6 +120,27 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
                 return response;
             },
         }),
+
+        // Update Property (Auth Required)
+        // PUT /my-properties/{property_id}
+        updateProperty: build.mutation({
+            query: ({ property_id, ...payload }) => ({
+                url: `/my-properties/${property_id}`,
+                method: "PUT",
+                body: payload,
+            }),
+            invalidatesTags: ['myProperties', 'properties'],
+        }),
+
+        // Delete Property (Auth Required)
+        // DELETE /my-properties/{property_id}
+        deleteProperty: build.mutation({
+            query: (property_id) => ({
+                url: `/my-properties/${property_id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ['myProperties', 'properties'],
+        }),
     }),
 });
 
@@ -133,5 +154,7 @@ export const {
     useDownloadPropertyImagesMutation,
     useGetPropertyByIdQuery,
     useGetMyPropertiesQuery,
+    useUpdatePropertyMutation,
+    useDeletePropertyMutation,
 } = propertyApiNew;
 

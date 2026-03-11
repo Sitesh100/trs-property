@@ -63,6 +63,12 @@ const buyRequirementApi = newRealStateAPI.injectEndpoints({
             query: (req_id) => `/api/customer/buy-requirements/${req_id}/matches`,
             providesTags: (result, error, req_id) => [{ type: 'requirementMatches', id: req_id }],
         }),
+
+        // GET /api/customer/buy-requirements/matches/all - Get all matches for the customer
+        getAllRequirementMatches: build.query({
+            query: () => `/api/customer/buy-requirements/matches/all`,
+            providesTags: ['requirementMatches'],
+        }),
     }),
 });
 
@@ -71,5 +77,6 @@ export const {
     useGetBuyRequirementsQuery,
     useDeleteBuyRequirementMutation,
     useGetRequirementMatchesQuery,
+    useGetAllRequirementMatchesQuery,
 } = buyRequirementApi;
 

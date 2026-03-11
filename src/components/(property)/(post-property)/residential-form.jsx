@@ -6,6 +6,8 @@ import { Upload, X, Plus, Loader } from "lucide-react";
 import {
   useUploadPropertyImagesMutation,
   useCreatePropertyMutation,
+  useUpdatePropertyMutation,
+  useGetPropertyByIdQuery,
 } from "@/service/propertyApi";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -72,27 +74,73 @@ export default function ResidentialForm({ property_type }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  
+  const isEditMode = !!id;
+
   // Check if user is authenticated
   const token = useSelector((state) => state.auth.token);
   const isAuthenticated = !!token;
-  
+
   // Auth modal state
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [pendingSubmit, setPendingSubmit] = useState(false);
-  
-  // New API for uploading images and creating properties
+
+  // New API for uploading images and creating/updating properties
   const [uploadPropertyImages, { isLoading: isUploadingImages }] = useUploadPropertyImagesMutation();
   const [createProperty, { isLoading: isCreating }] = useCreatePropertyMutation();
-  
+  const [updateProperty, { isLoading: isUpdating }] = useUpdatePropertyMutation();
+
+  // Fetch existing property data when in edit mode
+  const { data: existingProperty } = useGetPropertyByIdQuery(id, { skip: !id });
+
   const [images, setImages] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [propertyFeatures, setPropertyFeatures] = useState([]);
   const [facilities, setFacilities] = useState([]);
   const [newFeature, setNewFeature] = useState("");
   const [newFacility, setNewFacility] = useState("");
-  
-  const isLoading = isUploadingImages || isCreating;
+
+  // Pre-fill form values when editing an existing property
+  useEffect(() => {
+    if (isEditMode && existingProperty) {
+      formik.setValues({
+        title: existingProperty.title || "",
+        city: existingProperty.city || "",
+        project_name: existingProperty.project_name || "",
+        expected_price: existingProperty.expected_price || "",
+        booking_amount: existingProperty.booking_amount || "",
+        is_price_negotiable: existingProperty.is_price_negotiable || false,
+        carpet_area: existingProperty.carpet_area || "",
+        super_area: existingProperty.super_area || "",
+        bedrooms: existingProperty.bedrooms || "",
+        bathrooms: existingProperty.bathrooms || "",
+        balconies: existingProperty.balconies || "",
+        possession_status: existingProperty.possession_status || "",
+        property_post_status: existingProperty.property_post_status || "",
+        rera_id: existingProperty.rera_id || "",
+        nearby_landmarks: existingProperty.nearby_landmarks || "",
+        builder_name: existingProperty.builder_name || "",
+        builder_logo: existingProperty.builder_logo || "",
+        floor_number: existingProperty.floor_number || "",
+        total_floors: existingProperty.total_floors || "",
+        facing: existingProperty.facing || "",
+        furnished_status: existingProperty.furnished_status || "",
+        parking_spaces: existingProperty.parking_spaces || "",
+        property_age: existingProperty.property_age || "",
+        latitude: existingProperty.latitude || "",
+        longitude: existingProperty.longitude || "",
+        map_address: existingProperty.map_address || "",
+      });
+      if (existingProperty.property_features?.length > 0) setPropertyFeatures(existingProperty.property_features);
+      if (existingProperty.facilities?.length > 0) setFacilities(existingProperty.facilities);
+      if (existingProperty.image) {
+        const urls = existingProperty.image.split(",").filter(Boolean);
+        setUploadedImageUrls(urls);
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [existingProperty, isEditMode]);
+
+  const isLoading = isUploadingImages || isCreating || isUpdating;
 
   // Listen for successful login/signup to resume form submission
   useEffect(() => {
@@ -153,7 +201,7 @@ export default function ResidentialForm({ property_type }) {
           return;
         }
 
-        // Step 2: Create property with already uploaded image URLs
+        // Step 2: Create/Update property with already uploaded image URLs
         const propertyPayload = {
           title: values.title,
           property_type: property_type,
@@ -187,8 +235,15 @@ export default function ResidentialForm({ property_type }) {
           image: uploadedImageUrls.join(","),
         };
 
-        const response = await createProperty(propertyPayload).unwrap();
-        toast.success(response?.message || "Property created successfully!");
+        if (isEditMode) {
+          // PUT: update existing property
+          const response = await updateProperty({ property_id: id, ...propertyPayload }).unwrap();
+          toast.success(response?.message || "Property updated successfully!");
+        } else {
+          // POST: create new property
+          const response = await createProperty(propertyPayload).unwrap();
+          toast.success(response?.message || "Property created successfully!");
+        }
         router.push("/my-property");
       } catch (err) {
         console.error(err);
@@ -1064,7 +1119,7 @@ export default function ResidentialForm({ property_type }) {
                     <Loader />
                   </div>
                 ) : (
-                  "Submit Property"
+                  isEditMode ? "Update Property" : "Submit Property"
                 )}
               </button>
             </div>
