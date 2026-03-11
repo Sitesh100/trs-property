@@ -98,6 +98,28 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
             query: (id) => `/properties/${id}`,
             providesTags: (result, error, id) => [{ type: 'properties', id }],
         }),
+
+        // Get My Properties (Auth Required)
+        // GET /my-properties?skip=0&limit=100
+        getMyProperties: build.query({
+            query: (params = {}) => {
+                const skip = params.skip || 0;
+                const limit = params.limit || 100;
+                return `/my-properties?skip=${skip}&limit=${limit}`;
+            },
+            providesTags: ['myProperties'],
+            transformResponse: (response) => {
+                // Handle both array and object responses
+                if (Array.isArray(response)) {
+                    return {
+                        data: {
+                            properties: response
+                        }
+                    };
+                }
+                return response;
+            },
+        }),
     }),
 });
 
@@ -110,5 +132,6 @@ export const {
     useLazySearchPropertiesQuery,
     useDownloadPropertyImagesMutation,
     useGetPropertyByIdQuery,
+    useGetMyPropertiesQuery,
 } = propertyApiNew;
 

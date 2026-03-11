@@ -1,23 +1,20 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import DetailSearchCard from '../../ui/detail-search-card'
-import { useGetAllPropertiesQuery } from '@/service/propertyApi';
+import { useGetMyPropertiesQuery } from '@/service/propertyApi';
 import PropertySearchBar from '../../ui/property-search-bar';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 
 const MyPropertyCard = () => {
     const { token, user } = useSelector((state) => state.auth);
-    const { data, isLoading } = useGetAllPropertiesQuery({}, {
+    const { data, isLoading } = useGetMyPropertiesQuery({}, {
         skip: !token,
     });
     const [filteredProperties, setFilteredProperties] = useState([]);
 
     useEffect(() => {
         if (data?.data?.properties) {
-            // Note: Since the API doesn't have a "my properties" endpoint,
-            // we're showing all properties. The backend should be updated to 
-            // either add a filter parameter or create a separate endpoint.
             setFilteredProperties(data.data.properties);
         }
     }, [data]);

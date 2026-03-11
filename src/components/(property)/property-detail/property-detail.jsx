@@ -70,42 +70,50 @@ function PropertyPropertyDetail({
           <div className="md:col-span-2">
             <div className="bg-white rounded-lg p-4 mb-8">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                <div className="flex flex-col items-center text-center">
-                  <div className="text-gray-500 mb-2">Bedrooms</div>
-                  <div className="flex items-center justify-center">
-                    <Bed className="h-5 w-5 mr-1 text-black" />
-                    <span className="font-bold text-black">
-                      {property?.bedrooms || 'N/A'}
-                    </span>
+                {(property?.bedrooms !== null && property?.bedrooms !== undefined) && (
+                  <div className="flex flex-col items-center text-center">
+                    <div className="text-gray-500 mb-2">Bedrooms</div>
+                    <div className="flex items-center justify-center">
+                      <Bed className="h-5 w-5 mr-1 text-black" />
+                      <span className="font-bold text-black">
+                        {property?.bedrooms}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <div className="text-gray-500 mb-2">Bathrooms</div>
-                  <div className="flex items-center justify-center">
-                    <Bath className="h-5 w-5 mr-1 text-black" />
-                    <span className="font-bold text-black">
-                      {property?.bathrooms || 'N/A'}
-                    </span>
+                )}
+                {(property?.bathrooms !== null && property?.bathrooms !== undefined) && (
+                  <div className="flex flex-col items-center text-center">
+                    <div className="text-gray-500 mb-2">Bathrooms</div>
+                    <div className="flex items-center justify-center">
+                      <Bath className="h-5 w-5 mr-1 text-black" />
+                      <span className="font-bold text-black">
+                        {property?.bathrooms}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <div className="text-gray-500 mb-2">Square Area</div>
-                  <div className="flex items-center justify-center">
-                    <Square className="h-5 w-5 mr-1 text-black" />
-                    <span className="font-bold text-black">
-                      {property?.size ?? property?.super_area ?? 'N/A'} {property?.size ? 'sq ft' : ''}
-                    </span>
+                )}
+                {property?.super_area && (
+                  <div className="flex flex-col items-center text-center">
+                    <div className="text-gray-500 mb-2">Super Area</div>
+                    <div className="flex items-center justify-center">
+                      <Square className="h-5 w-5 mr-1 text-black" />
+                      <span className="font-bold text-black">
+                        {property?.super_area} sq ft
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <div className="text-gray-500 mb-2">Carpet Area</div>
-                  <div className="flex items-center justify-center">
-                    <ArrowDownRight className="h-5 w-5 mr-1 text-black" />
-                    <span className="font-bold text-black">
-                      {property?.carpet_area || 'N/A'}
-                    </span>
+                )}
+                {property?.carpet_area && (
+                  <div className="flex flex-col items-center text-center">
+                    <div className="text-gray-500 mb-2">Carpet Area</div>
+                    <div className="flex items-center justify-center">
+                      <ArrowDownRight className="h-5 w-5 mr-1 text-black" />
+                      <span className="font-bold text-black">
+                        {property?.carpet_area} sq ft
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -137,7 +145,7 @@ function PropertyPropertyDetail({
                   )}
                   <p className="text-sm text-gray-700">RERA REGISTERED BNO</p>
                   <p className="text-sm text-gray-700">
-                    {property?.map_location || property?.city || "Indore, Madhya Pradesh"}
+                    {property?.map_address || property?.map_location || property?.city || "Indore, Madhya Pradesh"}
                   </p>
                 </div>
 

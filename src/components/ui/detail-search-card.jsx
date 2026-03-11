@@ -100,14 +100,14 @@ function DetailSearchCard({ property, action = false }) {
                             {property?.title?.split(' ')?.slice(0, 4)?.join(' ')}
                         </h3>
                         <p className="md:text-lg font-bold text-gray-900 text-nowrap">
-                            ₹ {property?.price ?? property?.expected_price} <span className="text-sm text-gray-500"></span>
+                            ₹ {property?.expected_price ?? property?.price} <span className="text-sm text-gray-500"></span>
                         </p>
                     </div>
 
                     <div className="flex items-center text-gray-600 text-sm mb-3">
                         <MapPin className="h-4 w-4 mr-1 text-amber-500" />
                         <span className="line-clamp-1">
-                            {(property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')}
+                            {(property?.map_address || property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')}
                         </span>
                     </div>
                 </Link>
@@ -157,24 +157,30 @@ function DetailSearchCard({ property, action = false }) {
 
                 <div className="border-t border-gray-100 pt-3 mt-1">
                     <div className="flex items-center space-x-4 text-sm">
-                        <div className="flex items-center gap-1">
-                            <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                                <Bed className="h-3.5 w-3.5 text-amber-600" />
+                        {(property?.bedrooms !== null && property?.bedrooms !== undefined) && (
+                            <div className="flex items-center gap-1">
+                                <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
+                                    <Bed className="h-3.5 w-3.5 text-amber-600" />
+                                </div>
+                                <span className="text-gray-700 font-medium">{property?.bedrooms} Beds</span>
                             </div>
-                            <span className="text-gray-700 font-medium">{property?.bedrooms} Beds</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                                <Bath className="h-3.5 w-3.5 text-amber-600" />
+                        )}
+                        {(property?.bathrooms !== null && property?.bathrooms !== undefined) && (
+                            <div className="flex items-center gap-1">
+                                <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
+                                    <Bath className="h-3.5 w-3.5 text-amber-600" />
+                                </div>
+                                <span className="text-gray-700 font-medium">{property?.bathrooms} Baths</span>
                             </div>
-                            <span className="text-gray-700 font-medium">{property?.bathrooms} Baths</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                                <Square className="h-3.5 w-3.5 text-amber-600" />
+                        )}
+                        {(property?.super_area || property?.carpet_area) && (
+                            <div className="flex items-center gap-1">
+                                <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
+                                    <Square className="h-3.5 w-3.5 text-amber-600" />
+                                </div>
+                                <span className="text-gray-700 font-medium">{property?.super_area || property?.carpet_area} sqft</span>
                             </div>
-                            <span className="text-gray-700 font-medium">{(property?.size ?? property?.superArea ?? property?.super_area) || "—"} sqft</span>
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>
