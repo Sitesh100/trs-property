@@ -53,25 +53,34 @@ function PropertyMainDark({ id }) {
     console.log('API Response:', data);
     console.log('Normalized Property:', normalizedProperty);
 
-    const propertyFeatures = [
-        "3 Bedrooms",
-        "2 Baths",
-        "Balcony",
-        "Store room",
-        "Air-conditioning",
-        "Fully equipped Kitchen",
-    ]
+    // Build property features from API data
+    const propertyFeatures = [];
+    if (apiProperty?.bedrooms) {
+        propertyFeatures.push(`${apiProperty.bedrooms} Bedroom${apiProperty.bedrooms > 1 ? 's' : ''}`);
+    }
+    if (apiProperty?.bathrooms) {
+        propertyFeatures.push(`${apiProperty.bathrooms} Bathroom${apiProperty.bathrooms > 1 ? 's' : ''}`);
+    }
+    if (apiProperty?.balconies) {
+        propertyFeatures.push(`${apiProperty.balconies} Balcon${apiProperty.balconies > 1 ? 'ies' : 'y'}`);
+    }
+    if (apiProperty?.parking_spaces) {
+        propertyFeatures.push(`${apiProperty.parking_spaces} Parking Space${apiProperty.parking_spaces > 1 ? 's' : ''}`);
+    }
+    if (apiProperty?.floor_number) {
+        propertyFeatures.push(`Floor ${apiProperty.floor_number}`);
+    }
+    if (apiProperty?.total_floors) {
+        propertyFeatures.push(`Total ${apiProperty.total_floors} Floors`);
+    }
+    if (apiProperty?.furnished_status) {
+        propertyFeatures.push(apiProperty.furnished_status);
+    }
 
-    const facilities = [
-        "Carpark",
-        "Swimming Pool",
-        "BBQ Pits",
-        "Kid's Pool",
-        "Gym",
-        "Function rooms",
-        "Tennis Court",
-        "Playground",
-    ]
+    // Get facilities from API response
+    const facilities = apiProperty?.facilities && apiProperty.facilities.length > 0 
+        ? apiProperty.facilities 
+        : [];
 
     const similarProperties = [
         {

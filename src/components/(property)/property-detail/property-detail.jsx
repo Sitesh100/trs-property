@@ -171,37 +171,43 @@ function PropertyPropertyDetail({
               </div>
             </div>
 
-            <div className="mb-8">
-              <h2 className="text-xl font-bold mb-4">Amenities & Features</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="font-bold mb-4">Property Features</h3>
-                  <ul className="space-y-3">
-                    {propertyFeatures.map((feature, index) => (
-                      <li key={index} className="flex items-center">
-                        <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
-                          <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
-                        </div>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-bold mb-4">Facilities</h3>
-                  <ul className="space-y-3">
-                    {facilities.map((facility, index) => (
-                      <li key={index} className="flex items-center">
-                        <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
-                          <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
-                        </div>
-                        <span>{facility}</span>
-                      </li>
-                    ))}
-                  </ul>
+            {(propertyFeatures?.length > 0 || facilities?.length > 0) && (
+              <div className="mb-8">
+                <h2 className="text-xl font-bold mb-4">Amenities & Features</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {propertyFeatures?.length > 0 && (
+                    <div>
+                      <h3 className="font-bold mb-4">Property Features</h3>
+                      <ul className="space-y-3">
+                        {propertyFeatures.map((feature, index) => (
+                          <li key={index} className="flex items-center">
+                            <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
+                              <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
+                            </div>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {facilities?.length > 0 && (
+                    <div>
+                      <h3 className="font-bold mb-4">Facilities</h3>
+                      <ul className="space-y-3">
+                        {facilities.map((facility, index) => (
+                          <li key={index} className="flex items-center">
+                            <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
+                              <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
+                            </div>
+                            <span>{facility}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            )}
 
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4">Map Location</h2>

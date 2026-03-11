@@ -54,7 +54,7 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
                 const queryParams = new URLSearchParams();
                 
                 // Add optional query parameters if they exist
-                if (params?.city) queryParams.append('city', params.city);
+                if (params?.city) queryParams.append('search_query', params.city);
                 if (params?.property_type) queryParams.append('property_type', params.property_type);
                 if (params?.min_price !== undefined && params?.min_price !== null) {
                     queryParams.append('min_price', params.min_price);
