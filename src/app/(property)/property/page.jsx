@@ -27,7 +27,7 @@ export default function Property() {
             <Header />
             {/* <SliderBanner /> */}
             <PropertyCard cards={cards} />
-            <IPhoneBanner />
+            {/* <IPhoneBanner /> */}
             {/* <CitiesCard cities={cities} /> */}
             <WhatsapBanner />
             <Footer />

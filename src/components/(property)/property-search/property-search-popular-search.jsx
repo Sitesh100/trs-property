@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import IPhoneBanner from '../../ui/i-phone-banner';
+// import IPhoneBanner from '../../ui/i-phone-banner';
 
 function PropertySearchPopularSearch() {
     return (
@@ -19,7 +19,7 @@ function PropertySearchPopularSearch() {
                 </div>
             </div>
 
-            <IPhoneBanner />
+            {/* <IPhoneBanner /> */}
         </>
     );
 }

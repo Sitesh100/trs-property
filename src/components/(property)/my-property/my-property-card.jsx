@@ -67,11 +67,12 @@ const MyPropertyCard = () => {
                         >
                             My Property
                         </Link>
-                        <button
+                        <Link
+                            href={"/my-buy-requirement"}
                             className={`w-36 mt-6 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-12 flex items-center justify-center cursor-pointer`}
                         >
                             Buy Requirement
-                        </button>
+                        </Link>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
