@@ -141,14 +141,14 @@ function PropertySearchBar({ onSearch }) {
     setShowSuggestions(false);
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-    if (e.key === "Escape") {
-      setShowSuggestions(false);
-    }
-  };
+  // const handleKeyPress = (e) => {
+  //   if (e.key === "Enter") {
+  //     handleSearch();
+  //   }
+  //   if (e.key === "Escape") {
+  //     setShowSuggestions(false);
+  //   }
+  // };
 
   const handleClear = () => {
     setSearchQuery("");
@@ -275,7 +275,7 @@ function PropertySearchBar({ onSearch }) {
                   className="w-full md:p-4 p-2 bg-gray-50 text-gray-900 placeholder-gray-500 rounded-xl border border-gray-200 outline-none shadow-sm focus:border-amber-400 focus:bg-white transition-all duration-300"
                   value={searchQuery}
                   onChange={handleInputChange}
-                  onKeyDown={handleKeyPress}
+                  // onKeyDown={handleKeyPress}
                   onFocus={() => {
                     if (citySuggestions.length > 0) {
                       setShowSuggestions(true);
