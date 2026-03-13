@@ -438,13 +438,17 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  background: linear-gradient(90deg, #cc922f 0%, #e0aa45 50%, #cc922f 100%);
+  color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 16px rgba(204, 146, 47, 0.30);
 }
 
 .golden-button::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #1f1f1f 0%, #2d2d2d 50%, #1f1f1f 100%);
+  background: linear-gradient(90deg, #2f2618 0%, #3f3220 50%, #2f2618 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 0;
@@ -452,6 +456,11 @@
 
 .golden-button:hover::before {
   opacity: 1;
+}
+
+.golden-button:hover {
+  box-shadow: 0 8px 22px rgba(204, 146, 47, 0.36);
+  transform: translateY(-1px);
 }
 
 .golden-button span {

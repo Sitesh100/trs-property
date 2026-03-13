@@ -21,18 +21,18 @@ export default function MyBuyRequirement() {
     const [filteredRequirements, setFilteredRequirements] = useState([]);
 
     useEffect(() => {
-        if (buyRequirementsData) {
-            setFilteredRequirements(buyRequirementsData);
-        }
+        setFilteredRequirements(Array.isArray(buyRequirementsData) ? buyRequirementsData : []);
     }, [buyRequirementsData]);
 
     const handleSearchAndFilter = (query = "", propertyType = null, activeTab = "") => {
-        if (!buyRequirementsData || buyRequirementsData.length === 0) {
+        const requirements = Array.isArray(buyRequirementsData) ? buyRequirementsData : [];
+
+        if (requirements.length === 0) {
             setFilteredRequirements([]);
             return;
         }
 
-        let result = [...buyRequirementsData];
+        let result = [...requirements];
 
         if (query?.trim()) {
             const lowerQuery = query.toLowerCase();
@@ -43,7 +43,10 @@ export default function MyBuyRequirement() {
         }
 
         if (propertyType && propertyType !== "Any") {
-            result = result.filter((requirement) => requirement?.property_type === propertyType);
+            const normalizedPropertyType = propertyType.toLowerCase();
+            result = result.filter((requirement) =>
+                requirement?.property_type?.toLowerCase() === normalizedPropertyType,
+            );
         }
 
         setFilteredRequirements(result);
@@ -86,7 +89,7 @@ export default function MyBuyRequirement() {
                         </div>
                         <button
                             onClick={handlePostRequirement}
-                            className="golden-button flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-lg transition shadow-lg font-semibold"
+                            className="golden-button flex items-center gap-2 px-6 py-3 rounded-lg font-semibold"
                         >
                             <span className="flex items-center gap-2">
                                 <Plus className="w-5 h-5" />
@@ -165,7 +168,7 @@ export default function MyBuyRequirement() {
                                 </div>
 
                                 {/* View Matches Button */}
-                                <button className="golden-button mt-4 w-full bg-amber-500 hover:bg-amber-600 text-white py-2 rounded-lg transition flex items-center justify-center gap-2 font-semibold">
+                                <button className="golden-button mt-4 w-full py-2 rounded-lg flex items-center justify-center gap-2 font-semibold">
                                     <span className="flex items-center gap-2">
                                         View Matches
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,7 +188,7 @@ export default function MyBuyRequirement() {
                         </p>
                         <button
                             onClick={handlePostRequirement}
-                            className="golden-button flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-lg transition shadow-lg text-lg font-semibold"
+                            className="golden-button flex items-center gap-2 px-8 py-3 rounded-lg text-lg font-semibold"
                         >
                             <span className="flex items-center gap-2">
                                 <Plus className="w-6 h-6" />

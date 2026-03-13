@@ -46,6 +46,16 @@ const buyRequirementApi = newRealStateAPI.injectEndpoints({
         // GET /api/customer/buy-requirements - Get all buy requirements (if needed)
         getBuyRequirements: build.query({
             query: () => `/api/customer/buy-requirements`,
+            transformResponse: (response) => {
+                // Handle both raw array and wrapped payloads across environments.
+                if (Array.isArray(response)) return response;
+                if (Array.isArray(response?.data)) return response.data;
+                if (Array.isArray(response?.data?.data)) return response.data.data;
+                if (Array.isArray(response?.data?.items)) return response.data.items;
+                if (Array.isArray(response?.items)) return response.items;
+                if (Array.isArray(response?.results)) return response.results;
+                return [];
+            },
             providesTags: ['buyRequirements'],
         }),
 
