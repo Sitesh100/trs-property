@@ -2,8 +2,9 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
-import { Plus, Search, MapPin, Sparkles } from "lucide-react";
+import { Plus, Search, Sparkles } from "lucide-react";
 import { lufga } from '@/fonts';
+import { useRouter } from "next/navigation";
 
 function AnimatedCounter({ target }) {
     const count = useMotionValue(0);
@@ -84,21 +85,22 @@ function AnimatedText({ text, className }) {
 }
 
 function HeroSection() {
+    const router = useRouter();
     const { ref, inView } = useInView({
         triggerOnce: false,
         threshold: 0.2,
     });
 
-    const [activeFilter, setActiveFilter] = useState("BUY");
-    const [location, setLocation] = useState("Indore");
+    const [activeFilter, setActiveFilter] = useState("any");
     const [searchQuery, setSearchQuery] = useState("");
 
     const filters = [
-        { id: "BUY", label: "BUY" },
-        { id: "RENT", label: "RENT" },
-        { id: "COMMERCIAL", label: "COMMERCIAL" },
-        { id: "RESIDENTIAL", label: "RESIDENTIAL" },
-        { id: "FARMLAND", label: "FARMLAND" }
+        { id: "any", label: "ALL" },
+        { id: "flat", label: "flat" },
+        { id: "villa", label: "villa" },
+        { id: "plot", label: "Plot" },
+        { id: "commercial", label: "COMMERCIAL" },
+        // { id: "FARMLAND", label: "FARMLAND" },
     ];
 
     const staggerContainer = {
@@ -137,20 +139,35 @@ function HeroSection() {
     };
 
     const getHeadingText = () => {
-        switch(activeFilter) {
-            case "BUY":
-                return "Digital Platform For Agents, Builders & Customers.";
-            case "RENT":
-                return "Find Your Perfect Rental Property Today.";
-            case "COMMERCIAL":
-                return "Discover Prime Commercial Spaces.";
-            case "RESIDENTIAL":
-                return "Your Dream Home Awaits You.";
-            case "FARMLAND":
-                return "Explore Premium Farmland Properties.";
-            default:
-                return "Digital Platform For Agents, Builders & Customers.";
+        const headingByType = {
+            any: "Digital Platform For Agents, Builders & Customers.",
+            flat: "Find Premium Apartments That Match Your Lifestyle.",
+            villa: "Explore Luxury Villas Designed For Comfortable Living.",
+            plot: "Discover Plots In Prime Locations For Your Future Home.",
+            commercial: "Discover Prime Commercial Spaces.",
+        };
+
+        return headingByType[activeFilter] || headingByType.any;
+    };
+
+    const handleHeroSearch = () => {
+        const params = new URLSearchParams();
+        const trimmedQuery = searchQuery.trim();
+        const propertyTypeByFilter = {
+            any: "Any",
+            flat: "flat",
+            villa: "villa",
+            plot: "plot",
+            commercial: "commercial",
+        };
+
+        if (trimmedQuery) {
+            params.set("query", trimmedQuery);
         }
+
+        params.set("propertyType", propertyTypeByFilter[activeFilter] || "Any");
+
+        router.push(`/property${params.toString() ? `?${params.toString()}` : ""}`);
     };
 
     return (
@@ -206,17 +223,20 @@ function HeroSection() {
                 >
 
                     {/* Animated Title */}
-                    <motion.div key={activeFilter} variants={fadeInUp}>
-                        <AnimatedText 
-                            text={getHeadingText()}
-                            className="hero-title text-3xl md:text-5xl lg:text-6xl font-semibold mb-4 md:mb-6 leading-tight tracking-tight md:px-2"
-                        />
-                    </motion.div>
+                    <motion.h1
+                        key={activeFilter}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.45, ease: "easeOut" }}
+                        className="hero-title text-white text-3xl md:text-5xl lg:text-6xl font-semibold mb-4 md:mb-6 leading-tight tracking-tight md:px-2"
+                    >
+                        {getHeadingText()}
+                    </motion.h1>
 
                     {/* Subtitle */}
                     <motion.p 
                         variants={fadeInUp}
-                        className="text-sm sm:text-base md:text-xl font-medium md:font-semibold mb-8 md:mb-10 max-w-2xl mx-auto text-white/90 leading-relaxed px-4"
+                        className="text-sm sm:text-base md:text-xl font-medium md:font-semibold mb-8 md:mb-10 max-w-2xl mx-auto text-white/90 leading-tight px-4"
                     >
                         We provide a complete service for the sale, purchase or rental of real estate.
                         Get access to exclusive network & properties that suit your needs.
@@ -278,7 +298,6 @@ function HeroSection() {
                             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                             transition={{ delay: 0.9, duration: 0.6 }}
                         >
-                            {/* Filter Buttons */}
                             <div className="flex flex-wrap gap-2 md:gap-3 mb-4 md:mb-6 justify-center">
                                 {filters.map((filter, index) => (
                                     <motion.button
@@ -310,15 +329,6 @@ function HeroSection() {
 
                             {/* Search Bar */}
                             <div className="flex flex-col md:flex-row gap-2 sm:gap-3 md:gap-4 items-stretch md:items-center">
-                                <motion.div 
-                                    className="flex items-center gap-2 sm:gap-3 bg-white rounded-xl md:rounded-2xl px-4 sm:px-5 py-3 sm:py-3.5 w-full md:w-auto shadow-lg justify-center md:justify-start"
-                                    whileHover={{ scale: 1.02, boxShadow: "0 10px 40px rgba(0,0,0,0.15)" }}
-                                    transition={{ type: "spring", stiffness: 300 }}
-                                >
-                                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#171137] flex-shrink-0" />
-                                    <span className="font-semibold text-sm sm:text-base text-gray-800">{location}</span>
-                                </motion.div>
-
                                 <div className="flex-1 w-full">
                                     <motion.div 
                                         className="relative"
@@ -338,6 +348,7 @@ function HeroSection() {
                                 <motion.button
                                     whileHover={{ scale: 1.05, boxShadow: "0 15px 40px rgba(23, 17, 55, 0.5)" }}
                                     whileTap={{ scale: 0.95 }}
+                                    onClick={handleHeroSearch}
                                     className="bg-gradient-to-r from-[#171137] to-[#2d1f5c] text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl md:rounded-2xl font-semibold text-sm sm:text-base flex items-center gap-2 transition-all duration-300 shadow-lg w-full md:w-auto justify-center"
                                 >
                                     <Search className="w-4 h-4 sm:w-5 sm:h-5" />

@@ -67,7 +67,7 @@ function Header() {
               height={150}
               
             /> */}
-            <div className="relative w-32 h-8 xs:w-36 xs:h-9 sm:w-44 sm:h-10 md:w-52 md:h-11 lg:w-60 lg:h-12">
+            <div className="relative w-40 h-8 xs:w-44 xs:h-9 sm:w-52 sm:h-10 md:w-60 md:h-11 lg:w-76 lg:h-14">
               <Image
                 src="/assets/logo/TPM Logo.png"
                 alt="Logo"

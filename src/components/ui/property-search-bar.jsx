@@ -336,13 +336,14 @@ function PropertySearchBar({ onSearch }) {
 
             {/* Search Button with Gradient Hover */}
             <div className="w-auto flex-shrink-0">
-              {/* <button
+              <button
                 onClick={handleSearch}
-                className="group relative overflow-hidden md:w-14 md:h-14 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 rounded-2xl flex items-center justify-center transition-all duration-300 cursor-pointer hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] hover:scale-105"
+                aria-label="Search properties"
+                className="group relative overflow-hidden md:w-14 md:h-14 w-10 h-10 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 rounded-2xl flex items-center justify-center transition-all duration-300 cursor-pointer hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] hover:scale-105"
               >
-                <Search className="md:h-6 md:w-6 relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white" />
+                <Search className="md:h-6 md:w-6 h-4 w-4 relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white" />
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              </button> */}
+              </button>
             </div>
 
             {/* Reset Button with Gradient Hover */}

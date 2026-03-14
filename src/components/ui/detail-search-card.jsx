@@ -108,17 +108,16 @@ function DetailSearchCard({ property, action = false }) {
                             ₹ {property?.expected_price ?? property?.price} <span className="text-sm text-gray-500"></span>
                         </p>
                     </div>
+                </Link>
 
-                    <div className="flex items-center text-gray-600 text-sm mb-3">
-                        <MapPin className="h-4 w-4 mr-1 text-amber-500" />
-                        <span className="line-clamp-1">
+                <div className="flex items-center justify-between gap-3 mb-2">
+                    <div className="flex items-center text-gray-600 text-sm min-w-0 flex-1">
+                        <MapPin className="h-4 w-4 mr-1 text-amber-500 shrink-0" />
+                        <span className="truncate">
                             {(property?.map_address || property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')}
                         </span>
                     </div>
-                </Link>
 
-                <div className="flex justify-between items-start mb-2">
-                    <div className="flex-1"></div>
                     {!action ? (
                         <button
                             onClick={(e) => handleSendNotification(e, property?.id, property?.title)}
@@ -136,7 +135,7 @@ function DetailSearchCard({ property, action = false }) {
                             <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 rounded-full"></div>
                         </button>
                     ) : (
-                        <div className="flex space-x-2 relative">
+                        <div className="flex space-x-2 relative shrink-0">
                             <Link
                                 href={{
                                     pathname: "/post-property/residential/apartment",

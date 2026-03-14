@@ -29,7 +29,7 @@ function HomeCard({ property, index = 0 }) {
 
     return (
         <div
-            className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/10 rounded-3xl overflow-hidden flex flex-col h-[380px] transition-all duration-500 hover:border-white/30 hover:shadow-2xl"
+            className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/10 rounded-3xl overflow-hidden flex flex-col md:h-[340px] transition-all duration-500 hover:border-white/30 hover:shadow-2xl"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >

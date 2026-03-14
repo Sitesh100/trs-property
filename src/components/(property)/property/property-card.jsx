@@ -1,13 +1,16 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DetailSearchCard from '../../ui/detail-search-card'
 import { useGetAllPropertiesQuery, useLazySearchPropertiesQuery } from '@/service/propertyApi';
 import PropertySearchBar from '../../ui/property-search-bar';
 import PropertySearchFilterSidebar from '../property-search/property-search-filter-sidebar'
 import SquareCard from './square-card';
 import { Home, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 
 const PropertyCard = ({ cards }) => {
+    const searchParams = useSearchParams();
+    const skipInitialEmptySearchRef = useRef(false);
     // Get all properties initially (no filters)
     const { data: allPropertiesData, isLoading: isLoadingAll } = useGetAllPropertiesQuery({ limit: 1000 });
     
@@ -17,7 +20,7 @@ const PropertyCard = ({ cards }) => {
     const [filteredProperties, setFilteredProperties] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [hasActiveFilters, setHasActiveFilters] = useState(false);
-    const itemsPerPage = 15; // 3 columns x 5 rows
+    const itemsPerPage = 50; // Show 50 properties per page
 
     const [searchFilters, setSearchFilters] = useState({
         query: "",
@@ -32,6 +35,33 @@ const PropertyCard = ({ cards }) => {
         possession_status: "Any",
         is_price_negotiable: "Any",
     });
+
+    // Hydrate initial filters from hero-page redirect query params.
+    useEffect(() => {
+        const query = searchParams.get('query') || searchParams.get('location') || "";
+        const paramPropertyType = searchParams.get('propertyType') || "Any";
+        const paramActiveTab = searchParams.get('activeTab') || "";
+
+        if (!query && paramPropertyType === "Any" && !paramActiveTab) return;
+
+        // PropertySearchBar emits an initial empty onSearch on mount.
+        // Preserve URL-applied filters by skipping that first empty callback.
+        skipInitialEmptySearchRef.current = true;
+
+        setSearchFilters((prev) => ({
+            ...prev,
+            query,
+            propertyType: paramPropertyType,
+            activeTab: paramActiveTab,
+        }));
+
+        if (paramPropertyType && paramPropertyType !== "Any") {
+            setSidebarFilters((prev) => ({
+                ...prev,
+                property_type: paramPropertyType,
+            }));
+        }
+    }, [searchParams]);
 
     // Determine which data to use based on whether filters are active
     const currentData = hasActiveFilters ? searchData : allPropertiesData;
@@ -184,6 +214,18 @@ const PropertyCard = ({ cards }) => {
 
     // Handle search bar filters
     const handleSearchAndFilter = (query = "", propertyType = "Any", activeTab = "") => {
+        if (
+            skipInitialEmptySearchRef.current &&
+            !query?.trim() &&
+            propertyType === "Any" &&
+            !activeTab
+        ) {
+            skipInitialEmptySearchRef.current = false;
+            return;
+        }
+
+        skipInitialEmptySearchRef.current = false;
+
         setSearchFilters({
             query,
             propertyType,
