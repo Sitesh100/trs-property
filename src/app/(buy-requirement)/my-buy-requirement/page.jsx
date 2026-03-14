@@ -89,7 +89,7 @@ export default function MyBuyRequirement() {
                         </div>
                         <button
                             onClick={handlePostRequirement}
-                            className="golden-button flex items-center gap-2 px-6 py-3 rounded-lg font-semibold"
+                            className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 flex items-center gap-2 px-6 py-3 rounded-lg font-semibold"
                         >
                             <span className="flex items-center gap-2">
                                 <Plus className="w-5 h-5" />
@@ -168,7 +168,7 @@ export default function MyBuyRequirement() {
                                 </div>
 
                                 {/* View Matches Button */}
-                                <button className="golden-button mt-4 w-full py-2 rounded-lg flex items-center justify-center gap-2 font-semibold">
+                                <button className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 mt-4 w-full py-2 rounded-lg flex items-center justify-center gap-2 font-semibold">
                                     <span className="flex items-center gap-2">
                                         View Matches
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,7 +188,7 @@ export default function MyBuyRequirement() {
                         </p>
                         <button
                             onClick={handlePostRequirement}
-                            className="golden-button flex items-center gap-2 px-8 py-3 rounded-lg text-lg font-semibold"
+                            className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 flex items-center gap-2 px-8 py-3 rounded-lg text-lg font-semibold"
                         >
                             <span className="flex items-center gap-2">
                                 <Plus className="w-6 h-6" />
