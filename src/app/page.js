@@ -18,40 +18,28 @@ export default function Home() {
 
   const testimonials = [
     {
-      name: "ABHAY SHARMA",
+      name: "Ms. Shweta Sahu",
       image:
         "/assets/images/testimonials/test1.jpg",
-      desc: "Share the amazing things customers are saying about your business. Double click, or click Edit Text to make it yours."
+      desc: "You made the process simple and easy to understand.  Your Insight was Extremely valuable to us and I don’t think we could have done this without TRS."
     },
     {
-      name: "ABHAY SHARMA",
+      name: "Mr. Ajay Jain",
       image:
         "/assets/images/testimonials/test2.jpg",
-      desc: "Share the amazing things customers are saying about your business. Double click, or click Edit Text to make it yours."
+      desc: "I felt like I was in good hands and couldn’t be happier with the outcome. I highly recommend Mr. Narang to anyone looking for a dedicated and knowledgeable real estate professional."
     },
     {
-      name: "Esther Howard",
+      name: "Mr. Girish Talreja",
       image:
         "/assets/images/testimonials/test3.jpg",
-      desc: "Share the amazing things customers are saying about your business. Double click, or click Edit Text to make it yours."
+      desc: "The team was knowledgeable, responsive, and went above and beyond to ensure a smooth process from start to finish. I appreciated their attention ."
     },
     {
-      name: "ABHAY SHARMA",
+      name: "Mr. Jay Bajaj",
       image:
-        "/assets/images/testimonials/test1.jpg",
-      desc: "Share the amazing things customers are saying about your business. Double click, or click Edit Text to make it yours."
-    },
-    {
-      name: "ABHAY SHARMA",
-      image:
-        "/assets/images/testimonials/test2.jpg",
-      desc: "Share the amazing things customers are saying about your business. Double click, or click Edit Text to make it yours."
-    },
-    {
-      name: "Esther Howard",
-      image:
-        "/assets/images/testimonials/test3.jpg",
-      desc: "Share the amazing things customers are saying about your business. Double click, or click Edit Text to make it yours."
+        "/assets/images/testimonials/jay.avif",
+      desc: "The team demonstrated exceptional knowledge and responsiveness, going the extra mile to guarantee a seamless experience from beginning to. I truly valued their attention to detail."
     },
   ]
 

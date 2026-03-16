@@ -2,7 +2,7 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
-import { Plus, Search, Sparkles } from "lucide-react";
+import { MapPin, Plus, Search, Sparkles } from "lucide-react";
 import { lufga } from '@/fonts';
 import { useRouter } from "next/navigation";
 
@@ -96,9 +96,9 @@ function HeroSection() {
 
     const filters = [
         { id: "any", label: "ALL" },
-        { id: "flat", label: "flat" },
-        { id: "villa", label: "villa" },
-        { id: "plot", label: "Plot" },
+        { id: "flat", label: "FLAT" },
+        { id: "villa", label: "VILLA" },
+        { id: "plot", label: "PLOT" },
         { id: "commercial", label: "COMMERCIAL" },
         // { id: "FARMLAND", label: "FARMLAND" },
     ];
@@ -335,13 +335,19 @@ function HeroSection() {
                                         whileHover={{ scale: 1.01 }}
                                         transition={{ type: "spring", stiffness: 300 }}
                                     >
-                                        <input
-                                            type="text"
-                                            placeholder="Search by project or builder name"
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl md:rounded-2xl border-2 border-transparent bg-white text-sm sm:text-base text-gray-800 focus:border-[#171137] focus:outline-none placeholder-gray-400 placeholder:text-xs sm:placeholder:text-sm transition-all duration-300 shadow-lg"
-                                        />
+                                        <div className="w-full flex items-center rounded-xl md:rounded-2xl border-2 border-transparent bg-white shadow-lg overflow-hidden focus-within:border-[#171137] transition-all duration-300">
+                                            <div className="flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-3.5 border-r border-gray-200 text-gray-800 whitespace-nowrap">
+                                                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+                                                <span className="text-sm sm:text-base font-semibold">Indore</span>
+                                            </div>
+                                            <input
+                                                type="text"
+                                                placeholder="Search by project or builder name"
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                className="w-full px-3 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base text-gray-800 focus:outline-none placeholder-gray-400 placeholder:text-xs sm:placeholder:text-sm"
+                                            />
+                                        </div>
                                     </motion.div>
                                 </div>
 

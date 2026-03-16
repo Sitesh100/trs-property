@@ -1,7 +1,20 @@
+"use client";
+
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import LoanDealFormPopup from "@/components/services/loan-deal-form-popup";
 import { Mail } from "lucide-react";
 import Image from "next/image";
+import { useMemo, useState } from "react";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 const loanOffers = [
   {
@@ -69,7 +82,132 @@ function Metric({ label, value }) {
   );
 }
 
+const formatCurrency = (value) =>
+  new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(Number.isFinite(value) ? value : 0);
+
+const parseNumericInput = (value) => {
+  if (!value) return 0;
+  const normalized = String(value).replace(/,/g, "").trim();
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+const principalFromAffordableEMI = (monthlyEmi, annualRate, months) => {
+  if (!monthlyEmi || !months) return 0;
+  if (annualRate <= 0) return monthlyEmi * months;
+
+  const monthlyRate = annualRate / 12 / 100;
+  const growthFactor = (1 + monthlyRate) ** months;
+  return (monthlyEmi * (growthFactor - 1)) / (monthlyRate * growthFactor);
+};
+
+const buildProjectionData = (principal, annualRate, months, monthlyEmi) => {
+  if (!principal || !months || !monthlyEmi) {
+    return [{ year: "Y0", balance: 0, cumulativeInterest: 0 }];
+  }
+
+  const monthlyRate = annualRate > 0 ? annualRate / 12 / 100 : 0;
+  let outstanding = principal;
+  let cumulativeInterest = 0;
+  const data = [{ year: "Y0", balance: principal, cumulativeInterest: 0 }];
+
+  for (let month = 1; month <= months; month += 1) {
+    const interestComponent = monthlyRate > 0 ? outstanding * monthlyRate : 0;
+    const principalComponent = monthlyEmi - interestComponent;
+    outstanding = Math.max(0, outstanding - Math.max(0, principalComponent));
+    cumulativeInterest += interestComponent;
+
+    if (month % 12 === 0 || month === months) {
+      data.push({
+        year: `Y${Math.ceil(month / 12)}`,
+        balance: outstanding,
+        cumulativeInterest,
+      });
+    }
+  }
+
+  return data;
+};
+
+const calculateEligibility = ({ borrowers, age, occupation, netIncome, existingEmi, annualRate, tenureYears }) => {
+  const borrowerCount = borrowers === "two" ? 2 : 1;
+  const retirementAge = occupation === "self-employed" ? 65 : 60;
+  const maxPossibleTenure = Math.max(1, retirementAge - age);
+  const effectiveTenureYears = Math.max(1, Math.min(tenureYears, maxPossibleTenure));
+  const months = effectiveTenureYears * 12;
+
+  const foirBase = occupation === "self-employed" ? 0.55 : 0.5;
+  const foirBoost = borrowerCount === 2 ? 0.1 : 0;
+  const foir = Math.min(0.7, foirBase + foirBoost);
+
+  const maxAffordableEmi = Math.max(0, netIncome * foir - existingEmi);
+  const borrowUpto = principalFromAffordableEMI(maxAffordableEmi, annualRate, months);
+  const payableAmount = maxAffordableEmi * months;
+  const projectionData = buildProjectionData(borrowUpto, annualRate, months, maxAffordableEmi);
+
+  return {
+    borrowUpto,
+    payableAmount,
+    monthlyEmi: maxAffordableEmi,
+    months,
+    effectiveTenureYears,
+    projectionData,
+  };
+};
+
 function LoanOffersPage() {
+  const [isDealPopupOpen, setIsDealPopupOpen] = useState(false);
+  const [selectedBank, setSelectedBank] = useState("");
+  const [borrowers, setBorrowers] = useState("one");
+  const [ageInput, setAgeInput] = useState("35");
+  const [occupation, setOccupation] = useState("salaried");
+  const [netIncomeInput, setNetIncomeInput] = useState("200000");
+  const [existingEmiInput, setExistingEmiInput] = useState("20000");
+  const [interestRateInput, setInterestRateInput] = useState("8.9");
+  const [tenureInput, setTenureInput] = useState("20");
+
+  const [result, setResult] = useState(() =>
+    calculateEligibility({
+      borrowers: "one",
+      age: 35,
+      occupation: "salaried",
+      netIncome: 200000,
+      existingEmi: 20000,
+      annualRate: 8.9,
+      tenureYears: 20,
+    })
+  );
+
+  const handleCalculate = () => {
+    setResult(
+      calculateEligibility({
+        borrowers,
+        age: parseNumericInput(ageInput),
+        occupation,
+        netIncome: parseNumericInput(netIncomeInput),
+        existingEmi: parseNumericInput(existingEmiInput),
+        annualRate: parseNumericInput(interestRateInput),
+        tenureYears: parseNumericInput(tenureInput),
+      })
+    );
+  };
+
+  const chartData = useMemo(() => result.projectionData, [result.projectionData]);
+
+  const openDealPopup = (bankName) => {
+    setSelectedBank(bankName);
+    setIsDealPopupOpen(true);
+  };
+
+  const handleDealSubmit = async (payload) => {
+    // TODO: replace with API integration once endpoint is available.
+    console.log("loan deal form submitted", payload);
+  };
+
   return (
     <>
       <Header />
@@ -109,7 +247,10 @@ function LoanOffersPage() {
                     <Mail className="h-3.5 w-3.5" />
                     Email me this deal
                   </button>
-                  <button className="rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white text-sm font-semibold px-5 py-2.5 transition-colors">
+                  <button
+                    onClick={() => openDealPopup(offer.bank)}
+                    className="rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white text-sm font-semibold px-5 py-2.5 transition-colors"
+                  >
                     Get me this deal
                   </button>
                 </div>
@@ -128,8 +269,22 @@ function LoanOffersPage() {
                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-1 mb-5 flex items-center justify-between">
                   <span className="text-sm text-slate-700 px-3">Number of Borrowers</span>
                   <div className="flex gap-1">
-                    <button className="px-5 py-2 rounded-lg text-sm font-semibold bg-[#24103f] text-white">One</button>
-                    <button className="px-5 py-2 rounded-lg text-sm font-semibold text-slate-600">Two</button>
+                    <button
+                      onClick={() => setBorrowers("one")}
+                      className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                        borrowers === "one" ? "bg-[#24103f] text-white" : "text-slate-600"
+                      }`}
+                    >
+                      One
+                    </button>
+                    <button
+                      onClick={() => setBorrowers("two")}
+                      className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                        borrowers === "two" ? "bg-[#24103f] text-white" : "text-slate-600"
+                      }`}
+                    >
+                      Two
+                    </button>
                   </div>
                 </div>
 
@@ -137,48 +292,77 @@ function LoanOffersPage() {
                   <div className="rounded-xl border border-slate-200 p-3">
                     <p className="text-xs text-slate-500 mb-2">Your Age</p>
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold">35</span>
+                      <input
+                        value={ageInput}
+                        onChange={(e) => setAgeInput(e.target.value)}
+                        className="font-semibold w-20 focus:outline-none"
+                      />
                       <span className="text-sm text-slate-400">Years</span>
                     </div>
                   </div>
                   <div className="rounded-xl border border-slate-200 p-3">
                     <p className="text-xs text-slate-500 mb-2">Occupation</p>
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold">Salaried</span>
-                      <span className="text-sm text-slate-400">v</span>
+                      <select
+                        value={occupation}
+                        onChange={(e) => setOccupation(e.target.value)}
+                        className="font-semibold w-full bg-transparent focus:outline-none"
+                      >
+                        <option value="salaried">Salaried</option>
+                        <option value="self-employed">Self-employed</option>
+                      </select>
                     </div>
                   </div>
                   <div className="rounded-xl border border-slate-200 p-3">
                     <p className="text-xs text-slate-500 mb-2">Net Income</p>
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold">₹ 2,00,000</span>
+                      <input
+                        value={netIncomeInput}
+                        onChange={(e) => setNetIncomeInput(e.target.value)}
+                        className="font-semibold w-32 focus:outline-none"
+                      />
                       <span className="text-sm text-slate-400">Monthly</span>
                     </div>
                   </div>
                   <div className="rounded-xl border border-slate-200 p-3">
                     <p className="text-xs text-slate-500 mb-2">Existing Monthly EMI</p>
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold">₹ 20,000</span>
+                      <input
+                        value={existingEmiInput}
+                        onChange={(e) => setExistingEmiInput(e.target.value)}
+                        className="font-semibold w-28 focus:outline-none"
+                      />
                       <span className="text-sm text-slate-400">Monthly</span>
                     </div>
                   </div>
                   <div className="rounded-xl border border-slate-200 p-3">
                     <p className="text-xs text-slate-500 mb-2">Rate of Interest</p>
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold">8.9</span>
+                      <input
+                        value={interestRateInput}
+                        onChange={(e) => setInterestRateInput(e.target.value)}
+                        className="font-semibold w-20 focus:outline-none"
+                      />
                       <span className="text-sm text-slate-400">%</span>
                     </div>
                   </div>
                   <div className="rounded-xl border border-slate-200 p-3">
                     <p className="text-xs text-slate-500 mb-2">Tenure</p>
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold">20</span>
+                      <input
+                        value={tenureInput}
+                        onChange={(e) => setTenureInput(e.target.value)}
+                        className="font-semibold w-20 focus:outline-none"
+                      />
                       <span className="text-sm text-slate-400">Years</span>
                     </div>
                   </div>
                 </div>
 
-                <button className="mt-4 w-full rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white font-semibold py-3 transition-colors">
+                <button
+                  onClick={handleCalculate}
+                  className="mt-4 w-full rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white font-semibold py-3 transition-colors"
+                >
                   Calculate
                 </button>
               </div>
@@ -186,38 +370,70 @@ function LoanOffersPage() {
               <div className="rounded-xl border border-slate-200 p-4 sm:p-5">
                 <p className="text-sm text-slate-600 text-center mb-4">Your Estimated Results</p>
                 <div className="h-52 rounded-lg bg-slate-50 border border-slate-200 relative overflow-hidden">
-                  <svg viewBox="0 0 500 220" className="absolute inset-0 w-full h-full">
-                    <defs>
-                      <linearGradient id="areaA" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stopColor="#6fc3b6" stopOpacity="0.5" />
-                        <stop offset="100%" stopColor="#6fc3b6" stopOpacity="0.05" />
-                      </linearGradient>
-                      <linearGradient id="areaB" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stopColor="#526574" stopOpacity="0.35" />
-                        <stop offset="100%" stopColor="#526574" stopOpacity="0.05" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M0 175 C65 130, 100 85, 170 75 C235 68, 250 145, 320 150 C390 154, 425 125, 500 112 L500 220 L0 220 Z" fill="url(#areaB)" />
-                    <path d="M0 220 C55 160, 110 120, 170 125 C230 130, 245 175, 315 170 C380 165, 440 145, 500 220 L0 220 Z" fill="url(#areaA)" />
-                  </svg>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={chartData} margin={{ top: 10, right: 8, left: 8, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="borrowCurve" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#6fc3b6" stopOpacity={0.5} />
+                          <stop offset="100%" stopColor="#6fc3b6" stopOpacity={0.06} />
+                        </linearGradient>
+                        <linearGradient id="interestCurve" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#526574" stopOpacity={0.38} />
+                          <stop offset="100%" stopColor="#526574" stopOpacity={0.06} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid vertical={false} stroke="#e2e8f0" strokeDasharray="2 4" />
+                      <XAxis dataKey="year" tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <YAxis hide domain={[0, "dataMax"]} />
+                      <Tooltip
+                        formatter={(value) => formatCurrency(Number(value))}
+                        contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0" }}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="cumulativeInterest"
+                        stroke="#526574"
+                        strokeWidth={1.5}
+                        fill="url(#interestCurve)"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="balance"
+                        stroke="#6fc3b6"
+                        strokeWidth={1.8}
+                        fill="url(#borrowCurve)"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mt-5 text-center">
                   <div>
                     <p className="text-xs text-slate-500">You could borrow upto</p>
-                    <p className="text-xl font-bold text-slate-800">₹ 1,34,33,270</p>
+                    <p className="text-xl font-bold text-slate-800">{formatCurrency(result.borrowUpto)}</p>
                   </div>
                   <div>
                     <p className="text-xs text-slate-500">Payable Amount</p>
-                    <p className="text-xl font-bold text-emerald-600">₹ 2,88,00,000</p>
+                    <p className="text-xl font-bold text-emerald-600">{formatCurrency(result.payableAmount)}</p>
                   </div>
                 </div>
-                <p className="text-sm text-slate-500 text-center mt-4">Monthly EMI <span className="font-bold text-slate-700">₹ 1,20,000</span></p>
+                <p className="text-sm text-slate-500 text-center mt-4">
+                  Monthly EMI <span className="font-bold text-slate-700">{formatCurrency(result.monthlyEmi)}</span>
+                </p>
+                <p className="text-xs text-slate-400 text-center mt-1">
+                  Tenure considered: {result.effectiveTenureYears} years ({result.months} months)
+                </p>
               </div>
             </div>
           </div>
         </section>
       </main>
+      <LoanDealFormPopup
+        isOpen={isDealPopupOpen}
+        bankName={selectedBank}
+        onClose={() => setIsDealPopupOpen(false)}
+        onSubmit={handleDealSubmit}
+      />
       <Footer />
     </>
   );

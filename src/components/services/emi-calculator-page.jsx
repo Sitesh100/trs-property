@@ -1,7 +1,12 @@
+"use client";
+
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import LoanDealFormPopup from "@/components/services/loan-deal-form-popup";
 import { Mail } from "lucide-react";
 import Image from "next/image";
+import { useMemo, useState } from "react";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const offers = [
   { bank: "Kotak Mahindra Bank", rate: "7.55%", emi: "10,000", amount: "35,689", ltv: "90%", initials: "/assets/logo/1.png", accent: "bg-red-100 text-red-700" },
@@ -21,7 +26,109 @@ function Metric({ label, value }) {
   );
 }
 
+const tenureOptions = [
+  { label: "5 Years", value: 5 },
+  { label: "10 Years", value: 10 },
+  { label: "15 Years", value: 15 },
+  { label: "20 Years", value: 20 },
+  { label: "25 Years", value: 25 },
+  { label: "30 Years", value: 30 },
+];
+
+const formatCurrency = (value) =>
+  new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(Number.isFinite(value) ? value : 0);
+
+const parseNumericInput = (value) => {
+  if (!value) return 0;
+  const normalized = value.replace(/,/g, "").trim();
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+const calculateEMI = (principal, annualRate, tenureYears) => {
+  const totalMonths = Math.round(tenureYears * 12);
+
+  if (!principal || !totalMonths) {
+    return {
+      emi: 0,
+      principalAmount: principal || 0,
+      interestAmount: 0,
+      totalAmount: principal || 0,
+      totalMonths,
+    };
+  }
+
+  if (annualRate <= 0) {
+    const emi = principal / totalMonths;
+    return {
+      emi: Number.isFinite(emi) ? emi : 0,
+      principalAmount: principal,
+      interestAmount: 0,
+      totalAmount: principal,
+      totalMonths,
+    };
+  }
+
+  const monthlyRate = annualRate / 12 / 100;
+  const growthFactor = (1 + monthlyRate) ** totalMonths;
+  const emi = (principal * monthlyRate * growthFactor) / (growthFactor - 1);
+  const totalAmount = emi * totalMonths;
+  const interestAmount = totalAmount - principal;
+
+  return {
+    emi: Number.isFinite(emi) ? emi : 0,
+    principalAmount: principal,
+    interestAmount: Number.isFinite(interestAmount) ? interestAmount : 0,
+    totalAmount: Number.isFinite(totalAmount) ? totalAmount : principal,
+    totalMonths,
+  };
+};
+
 function EmiCalculatorPage() {
+  const [isDealPopupOpen, setIsDealPopupOpen] = useState(false);
+  const [selectedBank, setSelectedBank] = useState("");
+  const [loanAmountInput, setLoanAmountInput] = useState("");
+  const [tenureYears, setTenureYears] = useState(0);
+  const [interestRateInput, setInterestRateInput] = useState("7.4");
+  const [hasFinalizedProperty, setHasFinalizedProperty] = useState("");
+  const [result, setResult] = useState({
+    emi: 0,
+    principalAmount: 0,
+    interestAmount: 0,
+    totalAmount: 0,
+    totalMonths: 0,
+  });
+
+  const principal = parseNumericInput(loanAmountInput);
+  const annualRate = parseNumericInput(interestRateInput);
+
+  const pieData = useMemo(
+    () => [
+      { name: "Principal Amount", value: Math.max(result.principalAmount, 0), color: "#24a48f" },
+      { name: "Interest Amount", value: Math.max(result.interestAmount, 0), color: "#e9b425" },
+    ],
+    [result.interestAmount, result.principalAmount]
+  );
+
+  const handleRecalculate = () => {
+    const emiBreakup = calculateEMI(principal, annualRate, tenureYears);
+    setResult(emiBreakup);
+  };
+
+  const openDealPopup = (bankName) => {
+    setSelectedBank(bankName);
+    setIsDealPopupOpen(true);
+  };
+
+  const handleDealSubmit = async (payload) => {
+    // TODO: replace with API integration once endpoint is available.
+    console.log("loan deal form submitted", payload);
+  };
+
   return (
     <>
       <Header />
@@ -61,7 +168,10 @@ function EmiCalculatorPage() {
                     <Mail className="h-3.5 w-3.5" />
                     Email me this deal
                   </button>
-                  <button className="rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white text-sm font-semibold px-5 py-2.5 transition-colors">
+                  <button
+                    onClick={() => openDealPopup(offer.bank)}
+                    className="rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white text-sm font-semibold px-5 py-2.5 transition-colors"
+                  >
                     Get me this deal
                   </button>
                 </div>
@@ -86,42 +196,97 @@ function EmiCalculatorPage() {
                 <input
                   className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-700 mb-4"
                   placeholder="₹ Enter loan amount"
+                  value={loanAmountInput}
+                  onChange={(e) => setLoanAmountInput(e.target.value)}
                 />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-sm text-slate-600 mb-2">Loan Tenure</label>
-                    <select className="w-full rounded-xl border border-slate-200 px-3 py-3 text-slate-700">
-                      <option>Select Tenure</option>
+                    <select
+                      className="w-full rounded-xl border border-slate-200 px-3 py-3 text-slate-700"
+                      value={tenureYears}
+                      onChange={(e) => setTenureYears(Number(e.target.value))}
+                    >
+                      <option value={0}>Select Tenure</option>
+                      {tenureOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm text-slate-600 mb-2">Interest Rate % (p.a.)</label>
-                    <input className="w-full rounded-xl border border-slate-200 px-3 py-3 text-slate-700" defaultValue="7.4" />
+                    <input
+                      className="w-full rounded-xl border border-slate-200 px-3 py-3 text-slate-700"
+                      value={interestRateInput}
+                      onChange={(e) => setInterestRateInput(e.target.value)}
+                    />
                   </div>
                 </div>
 
                 <div className="mt-6">
                   <p className="text-sm text-slate-600 mb-2">Have you finalized your property?</p>
                   <div className="flex items-center gap-6 text-sm text-slate-700">
-                    <label className="inline-flex items-center gap-2"><input type="radio" name="finalized" /> Yes</label>
-                    <label className="inline-flex items-center gap-2"><input type="radio" name="finalized" /> No</label>
+                    <label className="inline-flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="finalized"
+                        checked={hasFinalizedProperty === "yes"}
+                        onChange={() => setHasFinalizedProperty("yes")}
+                      />
+                      Yes
+                    </label>
+                    <label className="inline-flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="finalized"
+                        checked={hasFinalizedProperty === "no"}
+                        onChange={() => setHasFinalizedProperty("no")}
+                      />
+                      No
+                    </label>
                   </div>
                 </div>
 
-                <button className="mt-7 w-full rounded-full bg-[#24103f] hover:bg-[#321a52] text-white font-semibold py-3.5 transition-colors">
+                <button
+                  onClick={handleRecalculate}
+                  className="mt-7 w-full rounded-full bg-[#24103f] hover:bg-[#321a52] text-white font-semibold py-3.5 transition-colors"
+                >
                   Recalculate Your EMI
                 </button>
               </div>
 
               <div className="rounded-xl border border-slate-200 p-4 sm:p-5">
-                <h3 className="text-3xl font-bold text-center text-slate-800">You are Eligible for EMI Amount ₹0</h3>
+                <h3 className="text-3xl font-bold text-center text-slate-800">
+                  You are Eligible for EMI Amount {formatCurrency(result.emi)}
+                </h3>
 
                 <div className="h-64 flex items-center justify-center">
-                  <div className="relative h-40 w-40 rounded-full bg-[#24a48f]">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white text-sm font-semibold">100%</span>
-                    <span className="absolute right-2 top-1/2 h-[2px] w-16 bg-white/70 -translate-y-1/2" />
-                  </div>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={55}
+                        outerRadius={80}
+                        paddingAngle={2}
+                        isAnimationActive
+                      >
+                        {pieData.map((entry) => (
+                          <Cell key={entry.name} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        formatter={(value) => formatCurrency(Number(value))}
+                        contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0" }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </div>
 
                 <div className="flex items-center justify-between text-sm mb-2">
@@ -130,43 +295,14 @@ function EmiCalculatorPage() {
                     <p><span className="inline-block w-2.5 h-2.5 rounded-full bg-[#e9b425] mr-2" />Interest Amount</p>
                   </div>
                   <div className="space-y-2 text-slate-800 font-semibold">
-                    <p>₹0</p>
-                    <p>₹0</p>
+                    <p>{formatCurrency(result.principalAmount)}</p>
+                    <p>{formatCurrency(result.interestAmount)}</p>
                   </div>
                 </div>
 
-                <div className="mt-6">
-                  <h4 className="text-2xl font-bold text-slate-800 mb-4">Top Banks home loan Offers</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="rounded-xl bg-slate-100 p-3 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center font-bold">B</div>
-                        <div>
-                          <p className="font-semibold text-slate-800">Bank of Baroda</p>
-                          <p className="text-xs text-slate-500">Rate 8.4% | Max Term 30yrs</p>
-                        </div>
-                      </div>
-                      <button className="text-indigo-500 text-sm font-medium">View</button>
-                    </div>
-
-                    <div className="rounded-xl bg-slate-100 p-3 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center font-bold">SBI</div>
-                        <div>
-                          <p className="font-semibold text-slate-800">State Bank of India</p>
-                          <p className="text-xs text-slate-500">Rate 8.5% | Max Term 30yrs</p>
-                        </div>
-                      </div>
-                      <button className="text-indigo-500 text-sm font-medium">View</button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 rounded-xl border border-yellow-300 bg-yellow-50 p-3">
-                  <p className="text-yellow-800 text-sm font-semibold">Elite Club</p>
-                  <p className="text-yellow-900 font-semibold mt-1">Assured Rewards Worth ₹90K</p>
-                  <p className="text-yellow-700 text-sm mt-1">FREE B.B Prime + Movie Tickets + 2000- Gift Card + 1000- Gift Card + wall-Gift Card</p>
-                </div>
+                <p className="text-sm text-slate-600 mt-4">
+                  Total repayment over {result.totalMonths || 0} months: <span className="font-semibold text-slate-800">{formatCurrency(result.totalAmount)}</span>
+                </p>
 
                 <button className="mt-5 w-full rounded-full bg-[#24103f] hover:bg-[#321a52] text-white font-semibold py-3.5 transition-colors">
                   Check Bank Offers
@@ -176,6 +312,12 @@ function EmiCalculatorPage() {
           </div>
         </section>
       </main>
+      <LoanDealFormPopup
+        isOpen={isDealPopupOpen}
+        bankName={selectedBank}
+        onClose={() => setIsDealPopupOpen(false)}
+        onSubmit={handleDealSubmit}
+      />
       <Footer />
     </>
   );
