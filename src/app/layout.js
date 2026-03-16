@@ -1,5 +1,6 @@
 import ReduxProvider from "@/providers/redux-provider";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 import { Toaster } from "react-hot-toast";
 import { Roboto } from 'next/font/google'
 

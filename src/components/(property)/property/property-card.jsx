@@ -137,6 +137,24 @@ const PropertyCard = ({ cards }) => {
             hasAPIFilters = true;
         }
 
+        // Possession status filter
+        if (sidebarFilters.possession_status && sidebarFilters.possession_status !== "Any") {
+            apiFilters.possession_status = sidebarFilters.possession_status;
+            hasAPIFilters = true;
+        }
+
+        // Price negotiable filter
+        if (sidebarFilters.is_price_negotiable && sidebarFilters.is_price_negotiable !== "Any") {
+            apiFilters.is_price_negotiable = sidebarFilters.is_price_negotiable === "Yes";
+            hasAPIFilters = true;
+        }
+
+        // Listing status (Sell/Rent)
+        if (searchFilters.activeTab && searchFilters.activeTab !== "reset") {
+            apiFilters.status = searchFilters.activeTab;
+            hasAPIFilters = true;
+        }
+
         // Update state and trigger API if needed
         setHasActiveFilters(hasAPIFilters);
 

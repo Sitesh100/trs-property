@@ -2,6 +2,7 @@
 import { getImageUrl } from "@/utils/getImageUrl";
 import { useSendNotificationMutation } from "@/service/notificationApi";
 import { useRequestTourMutation } from "@/service/tourApi";
+import PropertyMap from "@/components/PropertyMap";
 import {
   ArrowDownRight,
   Bath,
@@ -209,24 +210,6 @@ function PropertyPropertyDetail({
               </div>
             )}
 
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-4">Map Location</h2>
-              <div className="rounded-lg overflow-hidden h-[400px] relative">
-                <Image
-                  src="/assets/images/detail/map.png"
-                  alt="Map"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="bg-[#1a1333]/80 text-white p-4 rounded-lg">
-                    <p className="text-center">
-                      Interactive map will be displayed here
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div>
@@ -296,6 +279,32 @@ function PropertyPropertyDetail({
                 </button>
               </div>
             </div>
+          </div>
+
+          <div className="md:col-span-3 mb-8">
+            <h2 className="text-2xl font-bold mb-4">Map Location</h2>
+            {property?.latitude !== null && property?.latitude !== undefined &&
+            property?.longitude !== null && property?.longitude !== undefined ? (
+              <PropertyMap
+                lat={property?.latitude}
+                lng={property?.longitude}
+                address={property?.map_address || property?.map_location || property?.city}
+              />
+            ) : (
+              <div className="relative rounded-lg h-[400px] overflow-hidden border border-white/20">
+                <Image
+                  src="/assets/images/property/map-placeholder.svg"
+                  alt="Map placeholder"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-black/35 flex items-center justify-center">
+                  <p className="text-center text-sm text-white px-4">
+                    Map coordinates are not available for this property.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

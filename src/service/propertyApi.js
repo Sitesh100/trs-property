@@ -52,6 +52,15 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
                 console.log('🔧 searchProperties query called with params:', params);
                 
                 const queryParams = new URLSearchParams();
+                const normalizeBooleanParam = (value) => {
+                    if (typeof value === 'boolean') return value;
+                    if (typeof value === 'string') {
+                        const normalized = value.trim().toLowerCase();
+                        if (normalized === 'true' || normalized === 'yes') return true;
+                        if (normalized === 'false' || normalized === 'no') return false;
+                    }
+                    return null;
+                };
                 
                 // Add optional query parameters if they exist
                 if (params?.city) queryParams.append('search_query', params.city);
@@ -68,6 +77,12 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
                 if (params?.bathrooms !== undefined && params?.bathrooms !== null) {
                     queryParams.append('bathrooms', params.bathrooms);
                 }
+                if (params?.possession_status) queryParams.append('possession_status', params.possession_status);
+                const negotiableValue = normalizeBooleanParam(params?.is_price_negotiable);
+                if (negotiableValue !== null) {
+                    queryParams.append('is_price_negotiable', negotiableValue);
+                }
+                if (params?.status) queryParams.append('status', params.status);
                 if (params?.skip !== undefined) queryParams.append('skip', params.skip || 0);
                 if (params?.limit !== undefined) queryParams.append('limit', params.limit || 10);
                 

@@ -97,6 +97,21 @@ function PropertyDetailMainSection() {
             apiFilters.bathrooms = Number.parseInt(filters.bathrooms);
         }
 
+        // Possession status filter
+        if (filters.possession_status && filters.possession_status !== "Any") {
+            apiFilters.possession_status = filters.possession_status;
+        }
+
+        // Price negotiable filter
+        if (filters.is_price_negotiable && filters.is_price_negotiable !== "Any") {
+            apiFilters.is_price_negotiable = filters.is_price_negotiable === "Yes";
+        }
+
+        // Listing status (Sell/Rent)
+        if (activeTab && activeTab !== "reset") {
+            apiFilters.status = activeTab;
+        }
+
         console.log('🚀 Triggering search API with:', apiFilters);
 
         // Store client-side filters for additional filtering

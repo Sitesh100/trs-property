@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Map placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#efe9dd" />
+      <stop offset="100%" stop-color="#d8e3ea" />
+    </linearGradient>
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M80 0H0V80" fill="none" stroke="#c7d3dc" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)" />
+  <rect width="1600" height="900" fill="url(#grid)" opacity="0.8" />
+
+  <path d="M-50 250 C 200 120, 420 260, 650 210 S 1100 80, 1650 230" fill="none" stroke="#8fb2c6" stroke-width="20" opacity="0.7" />
+  <path d="M-80 580 C 180 500, 360 610, 630 560 S 1160 430, 1700 590" fill="none" stroke="#a9c6d7" stroke-width="14" opacity="0.8" />
+
+  <path d="M120 120 L1520 760" stroke="#ffffff" stroke-width="18" opacity="0.8" />
+  <path d="M220 790 L1450 120" stroke="#ffffff" stroke-width="12" opacity="0.7" />
+  <path d="M10 430 L1570 430" stroke="#ffffff" stroke-width="10" opacity="0.6" />
+
+  <g transform="translate(810 410)">
+    <path d="M0 -80 C44 -80 80 -44 80 0 C80 58 0 150 0 150 C0 150 -80 58 -80 0 C-80 -44 -44 -80 0 -80Z" fill="#d64343" />
+    <circle cx="0" cy="0" r="26" fill="#ffffff" />
+  </g>
+</svg>

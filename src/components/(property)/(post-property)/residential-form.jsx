@@ -9,6 +9,8 @@ import {
   useUpdatePropertyMutation,
   useGetPropertyByIdQuery,
 } from "@/service/propertyApi";
+import LocationSearch from "@/components/LocationSearch";
+import PropertyMap from "@/components/PropertyMap";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -333,6 +335,26 @@ export default function ResidentialForm({ property_type }) {
   const removeFacility = (index) => {
     setFacilities((prev) => prev.filter((_, i) => i !== index));
   };
+
+  const handleLocationSelect = ({ address, latitude, longitude }) => {
+    formik.setFieldValue("map_address", address || "");
+    formik.setFieldValue("latitude", latitude ?? "");
+    formik.setFieldValue("longitude", longitude ?? "");
+  };
+
+  const handleLocationInputChange = (addressText) => {
+    formik.setFieldValue("map_address", addressText || "");
+    if (!addressText || addressText !== formik.values.map_address) {
+      formik.setFieldValue("latitude", "");
+      formik.setFieldValue("longitude", "");
+    }
+  };
+
+  const hasCoordinates =
+    formik.values.latitude !== "" &&
+    formik.values.latitude !== null &&
+    formik.values.longitude !== "" &&
+    formik.values.longitude !== null;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -916,51 +938,41 @@ export default function ResidentialForm({ property_type }) {
               >
                 Map Address
               </label>
-              <input
-                type="text"
-                id="map_address"
-                name="map_address"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                placeholder="Enter full address"
-                {...formik.getFieldProps("map_address")}
+              <LocationSearch
+                value={formik.values.map_address}
+                onSelect={handleLocationSelect}
+                onQueryChange={handleLocationInputChange}
+                placeholder="Type and select a location"
+                inputClassName="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
               />
             </div>
 
             <div className="md:col-span-6">
-              <label
-                htmlFor="latitude"
-                className="block text-sm font-medium text-gray-300 mb-1"
-              >
-                Latitude
-              </label>
-              <input
-                type="number"
-                step="any"
-                id="latitude"
-                name="latitude"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                placeholder="Enter latitude"
-                {...formik.getFieldProps("latitude")}
-              />
+              <input type="hidden" id="latitude" name="latitude" {...formik.getFieldProps("latitude")} />
+              <div className="text-sm text-gray-300">
+                Latitude: {formik.values.latitude || "Not selected"}
+              </div>
             </div>
 
             <div className="md:col-span-6">
-              <label
-                htmlFor="longitude"
-                className="block text-sm font-medium text-gray-300 mb-1"
-              >
-                Longitude
-              </label>
-              <input
-                type="number"
-                step="any"
-                id="longitude"
-                name="longitude"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                placeholder="Enter longitude"
-                {...formik.getFieldProps("longitude")}
-              />
+              <input type="hidden" id="longitude" name="longitude" {...formik.getFieldProps("longitude")} />
+              <div className="text-sm text-gray-300">
+                Longitude: {formik.values.longitude || "Not selected"}
+              </div>
             </div>
+
+            {hasCoordinates && (
+              <div className="md:col-span-12">
+                <p className="block text-sm font-medium text-gray-300 mb-2">
+                  Map Preview
+                </p>
+                <PropertyMap
+                  lat={formik.values.latitude}
+                  lng={formik.values.longitude}
+                  address={formik.values.map_address}
+                />
+              </div>
+            )}
 
             <div className="md:col-span-12">
               <label
