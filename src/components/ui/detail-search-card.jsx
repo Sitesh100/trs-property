@@ -11,6 +11,19 @@ import { useToggleFavoriteMutation } from '@/service/favoriteApi';
 import { useDeletePropertyMutation } from '@/service/propertyApi';
 
 function DetailSearchCard({ property, action = false }) {
+    const isValueMissing = (value) => {
+        if (value === null || value === undefined) return true;
+        if (typeof value === 'string' && value.trim() === '') return true;
+        if (Array.isArray(value) && value.length === 0) return true;
+        return false;
+    };
+
+    const formatValue = (value, fallback = 'N/A') => {
+        if (isValueMissing(value)) return fallback;
+        if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+        return String(value);
+    };
+
     // Support both old API (images/image_ids array) and new API (image string with comma-separated URLs)
     const firstImage = property?.image || property?.image_ids?.[0] || property?.images?.[0];
     const mainImage = getImageUrl(firstImage);
@@ -59,6 +72,21 @@ function DetailSearchCard({ property, action = false }) {
         }
     };
 
+    // const requiredDetails = [
+    //     { label: 'Property Type', value: formatValue(property?.property_type)?.toUpperCase() },
+    //     { label: 'Status', value: formatValue(property?.status) },
+    //     { label: 'Possession', value: formatValue(property?.possession_status) },
+    //     { label: 'Price Negotiable', value: formatValue(property?.is_price_negotiable) },
+    //     { label: 'Bedrooms', value: formatValue(property?.bedrooms) },
+    //     { label: 'Bathrooms', value: formatValue(property?.bathrooms) },
+    //     { label: 'Area (Super)', value: isValueMissing(property?.super_area) ? 'N/A' : `${property?.super_area} sqft` },
+    //     { label: 'Area (Carpet)', value: isValueMissing(property?.carpet_area) ? 'N/A' : `${property?.carpet_area} sqft` },
+    //     { label: 'Project Name', value: formatValue(property?.project_name) },
+    //     { label: 'City', value: formatValue(property?.city) },
+    //     { label: 'Map Address', value: formatValue(property?.map_address || property?.map_location) },
+    //     { label: 'RERA ID', value: formatValue(property?.rera_id) },
+    // ];
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -79,13 +107,11 @@ function DetailSearchCard({ property, action = false }) {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />
                 </div>
 
-                {property?.possession_status && (
-                    <div className="absolute top-3 left-3 z-20">
-                        <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
-                            {property?.possession_status?.replace(/_/g, ' ')?.replace(/\b\w/g, (c) => c.toUpperCase())}
-                        </span>
-                    </div>
-                )}
+                <div className="absolute top-3 left-3 z-20">
+                    <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
+                        {formatValue(property?.possession_status)?.replace(/_/g, ' ')?.replace(/\b\w/g, (c) => c.toUpperCase())}
+                    </span>
+                </div>
 
                 <button 
                     onClick={handleToggleFavorite}
@@ -102,10 +128,10 @@ function DetailSearchCard({ property, action = false }) {
                 <Link href={`/property-detail-dark/${property?._id || property?.id}`} className="block">
                     <div className="flex justify-between items-start mb-2">
                         <h3 className="md:text-lg font-bold text-gray-900 line-clamp-1 group-hover:text-amber-600 transition-colors">
-                            {property?.title?.split(' ')?.slice(0, 4)?.join(' ')}
+                            {property?.title ? property?.title?.split(' ')?.slice(0, 4)?.join(' ') : 'N/A'}
                         </h3>
                         <p className="md:text-lg font-bold text-gray-900 text-nowrap">
-                            ₹ {property?.expected_price ?? property?.price} <span className="text-sm text-gray-500"></span>
+                            ₹ {formatValue(property?.expected_price ?? property?.price)} <span className="text-sm text-gray-500"></span>
                         </p>
                     </div>
                 </Link>
@@ -114,7 +140,9 @@ function DetailSearchCard({ property, action = false }) {
                     <div className="flex items-center text-gray-600 text-sm min-w-0 flex-1">
                         <MapPin className="h-4 w-4 mr-1 text-amber-500 shrink-0" />
                         <span className="truncate">
-                            {(property?.map_address || property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')}
+                            {(property?.map_address || property?.map_location || property?.city)
+                                ? (property?.map_address || property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')
+                                : 'N/A'}
                         </span>
                     </div>
 
@@ -188,32 +216,32 @@ function DetailSearchCard({ property, action = false }) {
 
                 <div className="border-t border-gray-100 pt-3 mt-1">
                     <div className="flex items-center space-x-4 text-sm">
-                        {(property?.bedrooms !== null && property?.bedrooms !== undefined) && (
-                            <div className="flex items-center gap-1">
-                                <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                                    <Bed className="h-3.5 w-3.5 text-amber-600" />
-                                </div>
-                                <span className="text-gray-700 font-medium">{property?.bedrooms} Beds</span>
+                        <div className="flex items-center gap-1">
+                            <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
+                                <Bed className="h-3.5 w-3.5 text-amber-600" />
                             </div>
-                        )}
-                        {(property?.bathrooms !== null && property?.bathrooms !== undefined) && (
-                            <div className="flex items-center gap-1">
-                                <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                                    <Bath className="h-3.5 w-3.5 text-amber-600" />
-                                </div>
-                                <span className="text-gray-700 font-medium">{property?.bathrooms} Baths</span>
+                            <span className="text-gray-700 font-medium">{formatValue(property?.bedrooms)} Beds</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
+                                <Bath className="h-3.5 w-3.5 text-amber-600" />
                             </div>
-                        )}
-                        {(property?.super_area || property?.carpet_area) && (
-                            <div className="flex items-center gap-1">
-                                <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                                    <Square className="h-3.5 w-3.5 text-amber-600" />
-                                </div>
-                                <span className="text-gray-700 font-medium">{property?.super_area || property?.carpet_area} sqft</span>
+                            <span className="text-gray-700 font-medium">{formatValue(property?.bathrooms)} Baths</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
+                                <Square className="h-3.5 w-3.5 text-amber-600" />
                             </div>
-                        )}
+                            <span className="text-gray-700 font-medium">
+                                {isValueMissing(property?.super_area || property?.carpet_area)
+                                    ? 'N/A'
+                                    : `${property?.super_area || property?.carpet_area} sqft`}
+                            </span>
+                        </div>
                     </div>
                 </div>
+
+               
             </div>
         </motion.div>
     );

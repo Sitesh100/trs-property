@@ -21,6 +21,7 @@ function PropertyPropertyDetail({
   propertyFeatures,
   facilities,
   property,
+  rawProperty,
 }) {
   const [tourType, setTourType] = useState("in-person");
   const { user } = useSelector((state) => state.auth);
@@ -28,6 +29,93 @@ function PropertyPropertyDetail({
   const [sendNotification, { isLoading: isLoadingNotification }] =
     useSendNotificationMutation();
   const [date, setDate] = useState("");
+  const sourceProperty = rawProperty || property || {};
+
+  const isValueMissing = (value) => {
+    if (value === null || value === undefined) return true;
+    if (typeof value === "string" && value.trim() === "") return true;
+    if (Array.isArray(value) && value.length === 0) return true;
+    return false;
+  };
+
+  const formatValue = (value) => {
+    if (isValueMissing(value)) return "N/A";
+    if (typeof value === "boolean") return value ? "Yes" : "No";
+    if (Array.isArray(value)) {
+      const parsed = value
+        .map((item) => {
+          if (item === null || item === undefined) return "";
+          if (typeof item === "string") return item.trim();
+          if (typeof item === "object") return JSON.stringify(item);
+          return String(item);
+        })
+        .filter(Boolean);
+      return parsed.length ? parsed.join(", ") : "N/A";
+    }
+    if (typeof value === "object") {
+      return JSON.stringify(value);
+    }
+    return String(value);
+  };
+
+  const detailStats = [
+    {
+      label: "Bedrooms",
+      icon: Bed,
+      value: formatValue(property?.bedrooms),
+    },
+    {
+      label: "Bathrooms",
+      icon: Bath,
+      value: formatValue(property?.bathrooms),
+    },
+    {
+      label: "Super Area",
+      icon: Square,
+      value: isValueMissing(property?.super_area)
+        ? "N/A"
+        : `${property?.super_area} sq ft`,
+    },
+    {
+      label: "Carpet Area",
+      icon: ArrowDownRight,
+      value: isValueMissing(property?.carpet_area)
+        ? "N/A"
+        : `${property?.carpet_area} sq ft`,
+    },
+  ];
+
+  const requiredDetails = [
+    // { label: "Title", value: sourceProperty?.title },
+    // { label: "Property Type", value: sourceProperty?.property_type },
+    // { label: "Expected Price", value: sourceProperty?.expected_price },
+    // { label: "Status", value: sourceProperty?.status },
+    // { label: "Possession Status", value: sourceProperty?.possession_status },
+    { label: "Price Negotiable", value: sourceProperty?.is_price_negotiable },
+    // { label: "Bedrooms", value: sourceProperty?.bedrooms },
+    // { label: "Bathrooms", value: sourceProperty?.bathrooms },
+    { label: "Balconies", value: sourceProperty?.balconies },
+    { label: "Floor Number", value: sourceProperty?.floor_number },
+    { label: "Total Floors", value: sourceProperty?.total_floors },
+    { label: "Parking Spaces", value: sourceProperty?.parking_spaces },
+    // { label: "Carpet Area", value: sourceProperty?.carpet_area },
+    // { label: "Super Area", value: sourceProperty?.super_area },
+    // { label: "Booking Amount", value: sourceProperty?.booking_amount },
+    { label: "City", value: sourceProperty?.city },
+    // { label: "Map Address", value: sourceProperty?.map_address },
+    // { label: "Project Name", value: sourceProperty?.project_name },
+    { label: "Builder Name", value: sourceProperty?.builder_name },
+    // { label: "RERA ID", value: sourceProperty?.rera_id },
+    { label: "Facing", value: sourceProperty?.facing },
+    { label: "Furnished Status", value: sourceProperty?.furnished_status },
+    { label: "Property Age", value: sourceProperty?.property_age },
+    { label: "Owner", value: sourceProperty?.owner },
+    { label: "Agent Name", value: sourceProperty?.agent_name },
+    // { label: "Agent Email", value: sourceProperty?.agent_email },
+    // { label: "Agent Phone", value: sourceProperty?.agent_phone },
+  ];
+  const contactPhone = property?.agent_phone?.toString()?.trim();
+  const hasValidPhone = Boolean(contactPhone);
 
   const handleDownload = () => {
     if (property?.documents?.length > 0) {
@@ -71,56 +159,24 @@ function PropertyPropertyDetail({
           <div className="md:col-span-2">
             <div className="bg-white rounded-lg p-4 mb-8">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                {(property?.bedrooms !== null && property?.bedrooms !== undefined) && (
-                  <div className="flex flex-col items-center text-center">
-                    <div className="text-gray-500 mb-2">Bedrooms</div>
-                    <div className="flex items-center justify-center">
-                      <Bed className="h-5 w-5 mr-1 text-black" />
-                      <span className="font-bold text-black">
-                        {property?.bedrooms}
-                      </span>
+                {detailStats.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.label} className="flex flex-col items-center text-center">
+                      <div className="text-gray-500 mb-2">{item.label}</div>
+                      <div className="flex items-center justify-center">
+                        <Icon className="h-5 w-5 mr-1 text-black" />
+                        <span className="font-bold text-black">{item.value}</span>
+                      </div>
                     </div>
-                  </div>
-                )}
-                {(property?.bathrooms !== null && property?.bathrooms !== undefined) && (
-                  <div className="flex flex-col items-center text-center">
-                    <div className="text-gray-500 mb-2">Bathrooms</div>
-                    <div className="flex items-center justify-center">
-                      <Bath className="h-5 w-5 mr-1 text-black" />
-                      <span className="font-bold text-black">
-                        {property?.bathrooms}
-                      </span>
-                    </div>
-                  </div>
-                )}
-                {property?.super_area && (
-                  <div className="flex flex-col items-center text-center">
-                    <div className="text-gray-500 mb-2">Super Area</div>
-                    <div className="flex items-center justify-center">
-                      <Square className="h-5 w-5 mr-1 text-black" />
-                      <span className="font-bold text-black">
-                        {property?.super_area} sq ft
-                      </span>
-                    </div>
-                  </div>
-                )}
-                {property?.carpet_area && (
-                  <div className="flex flex-col items-center text-center">
-                    <div className="text-gray-500 mb-2">Carpet Area</div>
-                    <div className="flex items-center justify-center">
-                      <ArrowDownRight className="h-5 w-5 mr-1 text-black" />
-                      <span className="font-bold text-black">
-                        {property?.carpet_area} sq ft
-                      </span>
-                    </div>
-                  </div>
-                )}
+                  );
+                })}
               </div>
             </div>
 
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4">About this home</h2>
-              <p className="mb-4">{property?.description || property?.nearby_landmarks}</p>
+              <p className="mb-4">{formatValue(property?.description || property?.nearby_landmarks)}</p>
             </div>
 
             <div className="bg-white rounded-lg p-6 mb-8">
@@ -139,14 +195,19 @@ function PropertyPropertyDetail({
                 {/* Company Info */}
                 <div className="flex-grow text-center md:text-left">
                   <h3 className="font-bold text-xl text-black">
-                    {property?.owner || "Total Realty Solutions"}
+                    {formatValue(property?.owner)}
                   </h3>
-                  {property?.agent_name && (
-                    <p className="text-sm text-gray-700 font-medium">Agent: {property?.agent_name}</p>
-                  )}
-                  <p className="text-sm text-gray-700">RERA REGISTERED BNO</p>
                   <p className="text-sm text-gray-700">
-                    {property?.map_address || property?.map_location || property?.city || "Indore, Madhya Pradesh"}
+                    Agent: {formatValue(property?.agent_name)}
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    Agent Email: {formatValue(property?.agent_email)}
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    RERA ID: {formatValue(property?.rera_id)}
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    {formatValue(property?.map_address || property?.map_location || property?.city)}
                   </p>
                 </div>
 
@@ -154,61 +215,75 @@ function PropertyPropertyDetail({
                 <div className="flex gap-3 mt-4 md:mt-0 md:ml-auto">
                   {/* Call Button */}
                   <a
-                    href={`tel:${property?.agent_phone || '+919165079260'}`}
-                    className="bg-black text-white px-5 py-2 rounded-md text-sm flex items-center justify-center"
+                    href={hasValidPhone ? `tel:${contactPhone}` : undefined}
+                    className={`px-5 py-2 rounded-md text-sm flex items-center justify-center ${
+                      hasValidPhone
+                        ? "bg-black text-white"
+                        : "bg-gray-300 text-gray-600 pointer-events-none"
+                    }`}
                   >
-                    CALL NOW
+                    {hasValidPhone ? "CALL NOW" : "N/A"}
                   </a>
 
                   {/* WhatsApp Button */}
                   <a
-                    href={`https://wa.me/${property?.agent_phone?.replace(/\D/g, '') || '919165079260'}`}
+                    href={hasValidPhone ? `https://wa.me/${contactPhone.replace(/\D/g, "")}` : undefined}
                     target="_blank"
-                    className="bg-green-500 text-white px-5 py-2 rounded-md text-sm flex items-center justify-center"
+                    className={`px-5 py-2 rounded-md text-sm flex items-center justify-center ${
+                      hasValidPhone
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-300 text-gray-600 pointer-events-none"
+                    }`}
                   >
-                    WHATSAPP
+                    {hasValidPhone ? "WHATSAPP" : "N/A"}
                   </a>
                 </div>
               </div>
             </div>
 
-            {(propertyFeatures?.length > 0 || facilities?.length > 0) && (
-              <div className="mb-8">
-                <h2 className="text-xl font-bold mb-4">Amenities & Features</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {propertyFeatures?.length > 0 && (
-                    <div>
-                      <h3 className="font-bold mb-4">Property Features</h3>
-                      <ul className="space-y-3">
-                        {propertyFeatures.map((feature, index) => (
-                          <li key={index} className="flex items-center">
-                            <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
-                              <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
-                            </div>
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {facilities?.length > 0 && (
-                    <div>
-                      <h3 className="font-bold mb-4">Facilities</h3>
-                      <ul className="space-y-3">
-                        {facilities.map((facility, index) => (
-                          <li key={index} className="flex items-center">
-                            <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
-                              <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
-                            </div>
-                            <span>{facility}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+            <div className="mb-8">
+              <h2 className="text-xl font-bold mb-4">Amenities & Features</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="font-bold mb-4">Property Features</h3>
+                  <ul className="space-y-3">
+                    {(propertyFeatures?.length > 0 ? propertyFeatures : ["N/A"]).map((feature, index) => (
+                      <li key={index} className="flex items-center">
+                        <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
+                          <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
+                        </div>
+                        <span>{formatValue(feature)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-bold mb-4">Facilities</h3>
+                  <ul className="space-y-3">
+                    {(facilities?.length > 0 ? facilities : ["N/A"]).map((facility, index) => (
+                      <li key={index} className="flex items-center">
+                        <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
+                          <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
+                        </div>
+                        <span>{formatValue(facility)}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-            )}
+            </div>
+
+            <div className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-sm p-6 mb-8">
+              <h2 className="text-2xl font-bold mb-4 text-white">Required Details</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {requiredDetails.map((item) => (
+                  <div key={item.label} className="rounded-xl border border-white/15 bg-black/15 p-3">
+                    <p className="text-xs text-white/60 mb-1">{item.label}</p>
+                    <p className="text-sm font-semibold text-white break-words">{formatValue(item.value)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
           </div>
 
@@ -217,7 +292,7 @@ function PropertyPropertyDetail({
               <div className="mb-6">
                 <p className="text-gray-500 text-sm mb-1">SALE PRICE</p>
                 <h3 className="text-2xl font-bold text-black">
-                  ₹ {property?.price ?? property?.expected_price}
+                  ₹ {formatValue(property?.price ?? property?.expected_price)}
                 </h3>
               </div>
 
@@ -288,7 +363,7 @@ function PropertyPropertyDetail({
               <PropertyMap
                 lat={property?.latitude}
                 lng={property?.longitude}
-                address={property?.map_address || property?.map_location || property?.city}
+                  address={property?.map_address || property?.map_location || property?.city || "N/A"}
               />
             ) : (
               <div className="relative rounded-lg h-[400px] overflow-hidden border border-white/20">

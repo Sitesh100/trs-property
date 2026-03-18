@@ -48,10 +48,6 @@ function PropertyMainDark({ id }) {
             updated_date: apiProperty?.updated_date,
         }
         : undefined;
-    const propertyId = normalizedProperty?.id || id;
-
-    console.log('API Response:', data);
-    console.log('Normalized Property:', normalizedProperty);
 
     // Build property features from API data
     const propertyFeatures = [];
@@ -130,7 +126,7 @@ function PropertyMainDark({ id }) {
                 <main className={`flex-grow property-search-gradient`}>
                     <PropertyDetailHeader property={normalizedProperty} isDark={true} />
                     <PropertyDetailImages property={normalizedProperty} />
-                    <PropertyPropertyDetail property={normalizedProperty} propertyFeatures={propertyFeatures} facilities={facilities} />
+                    <PropertyPropertyDetail property={normalizedProperty} rawProperty={apiProperty} propertyFeatures={propertyFeatures} facilities={facilities} />
                     <PropertyDetailSimilarProperties similarProperties={similarProperties} />
                     <PropertyDetailBanner />
                 </main>

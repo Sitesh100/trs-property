@@ -10,6 +10,11 @@ function PropertyDetailHeader({ property }) {
     const [showShareModal, setShowShareModal] = useState(false);
     const [toggleFavorite, { isLoading }] = useToggleFavoriteMutation();
     const router = useRouter();
+    const asText = (value) => {
+        if (value === null || value === undefined) return 'N/A';
+        if (typeof value === 'string' && value.trim() === '') return 'N/A';
+        return String(value);
+    };
 
     const handleToggleFavorite = async () => {
         try {
@@ -32,13 +37,11 @@ function PropertyDetailHeader({ property }) {
                         <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
                         <span className="text-sm font-semibold">Back</span>
                     </button>
-                    <h1 className="text-2xl md:text-4xl font-bold">{property?.title || 'Property Details'}</h1>
-                    <p className="text-xl font-medium mt-2">{property?.map_address || property?.map_location || property?.location || property?.city}</p>
-                    {property?.property_type && (
-                        <p className="text-lg mt-1 text-amber-400 capitalize">
-                            {property?.property_type} {property?.status && `• ${property?.status}`}
-                        </p>
-                    )}
+                    <h1 className="text-2xl md:text-4xl font-bold">{asText(property?.title)}</h1>
+                    <p className="text-xl font-medium mt-2">{asText(property?.map_address || property?.map_location || property?.location || property?.city)}</p>
+                    <p className="text-lg mt-1 text-amber-400 capitalize">
+                        {asText(property?.property_type)} • {asText(property?.status)}
+                    </p>
                 </div>
                 <div className="flex items-center mt-2 md:mt-0 space-x-4">
                     <button
