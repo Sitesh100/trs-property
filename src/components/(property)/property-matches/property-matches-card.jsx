@@ -3,7 +3,7 @@ import DetailSearchCard from '../../ui/detail-search-card'
 import PropertySearchBar from '../../ui/property-search-bar';
 import { useGetRequirementMatchesQuery, useGetAllRequirementMatchesQuery } from '@/service/buyRequirementApi';
 import { Loader } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 const PropertyMatchesCard = ({ reqId }) => {
     // If reqId is provided, fetch matches for that specific requirement
@@ -15,20 +15,36 @@ const PropertyMatchesCard = ({ reqId }) => {
         skip: !!reqId,
     });
 
-    const matchesData = reqId ? specificMatchesData : allMatchesData;
+    const rawMatchesData = reqId ? specificMatchesData : allMatchesData;
     const isLoading = reqId ? isLoadingSpecific : isLoadingAll;
     const isError = reqId ? isErrorSpecific : isErrorAll;
 
     const [filteredProperties, setFilteredProperties] = useState([]);
+    const propertiesRef = useRef([]);
+
+    const normalizeMatches = useCallback((payload) => {
+        if (Array.isArray(payload)) return payload;
+        if (Array.isArray(payload?.data)) return payload.data;
+        if (Array.isArray(payload?.results)) return payload.results;
+        if (Array.isArray(payload?.items)) return payload.items;
+        return [];
+    }, []);
 
     useEffect(() => {
-        if (matchesData) {
-            setFilteredProperties(Array.isArray(matchesData) ? matchesData : []);
-        }
-    }, [matchesData]);
+        const normalized = normalizeMatches(rawMatchesData);
+        propertiesRef.current = normalized;
+        setFilteredProperties(normalized);
+    }, [rawMatchesData, normalizeMatches]);
 
-    function handleSearchAndFilter(query = "", propertyType = null) {
-        if (!matchesData || matchesData.length === 0) {
+    function handleSearchAndFilter(query = "", propertyType = null, activeTab = "") {
+        const matchesData = propertiesRef.current;
+
+        const isEmptySearch = !query?.trim() && (!propertyType || propertyType === "Any") && !activeTab;
+        if (isEmptySearch && matchesData.length === 0 && !rawMatchesData) {
+            return;
+        }
+
+        if (matchesData.length === 0) {
             setFilteredProperties([]);
             return;
         }
@@ -39,15 +55,22 @@ const PropertyMatchesCard = ({ reqId }) => {
             const lowerQuery = query.toLowerCase();
             result = result.filter((property) =>
                 property?.title?.toLowerCase().includes(lowerQuery) ||
-                property?.map_location?.toLowerCase().includes(lowerQuery) ||
+                property?.city?.toLowerCase().includes(lowerQuery) ||
+                property?.map_address?.toLowerCase().includes(lowerQuery) ||
+                property?.project_name?.toLowerCase().includes(lowerQuery) ||
+                property?.builder_name?.toLowerCase().includes(lowerQuery) ||
                 property?.agent_name?.toLowerCase().includes(lowerQuery)
             );
         }
 
         if (propertyType && propertyType !== "Any") {
-            // Filter by property type if needed
+            const propertyTypeMap = {
+                flat_apartment: "flat",
+                builder: "builder_floor",
+            };
+            const normalizedPropertyType = (propertyTypeMap[propertyType] || propertyType).toLowerCase();
             result = result.filter((property) => 
-                property?.property_type === propertyType
+                property?.property_type?.toLowerCase() === normalizedPropertyType
             );
         }
 

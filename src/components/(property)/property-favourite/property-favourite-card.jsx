@@ -34,17 +34,27 @@ const PropertyFavouriteCard = () => {
                 property?.title?.toLowerCase().includes(lowerQuery) ||
                 property?.city?.toLowerCase().includes(lowerQuery) ||
                 property?.map_location?.toLowerCase().includes(lowerQuery) ||
+                property?.map_address?.toLowerCase().includes(lowerQuery) ||
                 property?.project_name?.toLowerCase().includes(lowerQuery) ||
                 property?.builder_name?.toLowerCase().includes(lowerQuery)
             );
         }
 
         if (propertyType && propertyType !== "Any") {
-            result = result.filter((property) => property?.property_type === propertyType);
+            const propertyTypeMap = {
+                flat_apartment: "flat",
+                builder: "builder_floor",
+            };
+            const normalizedPropertyType = (propertyTypeMap[propertyType] || propertyType).toLowerCase();
+            result = result.filter((property) => property?.property_type?.toLowerCase() === normalizedPropertyType);
         }
 
        if (activeTab && activeTab !== "reset") {
-            result = result.filter((property) => property?.property_post_status === activeTab);
+            const tabValue = activeTab.toLowerCase();
+            result = result.filter((property) => {
+                const listingStatus = property?.status?.toLowerCase() || property?.property_for?.toLowerCase() || "";
+                return listingStatus ? listingStatus === tabValue : true;
+            });
         }
 
         setFilteredProperties(result);

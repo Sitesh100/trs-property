@@ -23,6 +23,8 @@ function PropertySearchBar({ onSearch }) {
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef(null);
   const suggestionsRef = useRef(null);
+  const hasUserInteractedRef = useRef(false);
+  const suppressNextDebouncedSearchRef = useRef(false);
 
   // Tab configuration - Added "ALL" as first option
   const tabs = [
@@ -97,12 +99,24 @@ function PropertySearchBar({ onSearch }) {
   );
 
   useEffect(() => {
+    if (suppressNextDebouncedSearchRef.current) {
+      suppressNextDebouncedSearchRef.current = false;
+      return;
+    }
+
+    // Do not emit an initial empty search on mount.
+    // Several pages load server data first and this callback can overwrite it.
+    if (!hasUserInteractedRef.current) {
+      return;
+    }
+
     debouncedSearch(searchQuery, propertyType, activeTab);
     return () => debouncedSearch.cancel();
   }, [searchQuery, propertyType, activeTab]);
 
   // Handle input change
   const handleInputChange = (e) => {
+    hasUserInteractedRef.current = true;
     const value = e.target.value;
     setSearchQuery(value);
     debouncedCitySearch(value);
@@ -110,6 +124,7 @@ function PropertySearchBar({ onSearch }) {
 
   // Handle city selection
   const handleCitySelect = (city) => {
+    hasUserInteractedRef.current = true;
     const cityName =
       typeof city === "string" ? city : city?.name || city?.city || city?.label;
     setSearchQuery(cityName);
@@ -134,6 +149,7 @@ function PropertySearchBar({ onSearch }) {
   }, []);
 
   const handleSearch = () => {
+    hasUserInteractedRef.current = true;
     if (onSearch) {
       onSearch(searchQuery, propertyType, activeTab);
       router.push("/property-search");
@@ -151,6 +167,9 @@ function PropertySearchBar({ onSearch }) {
   // };
 
   const handleClear = () => {
+    hasUserInteractedRef.current = true;
+    // We call onSearch immediately for reset; skip the debounced duplicate.
+    suppressNextDebouncedSearchRef.current = true;
     setSearchQuery("");
     setPropertyType("Any");
     setActiveTab(""); // Reset to ALL
@@ -162,6 +181,7 @@ function PropertySearchBar({ onSearch }) {
   };
 
   const handleTabClick = (tabValue) => {
+    hasUserInteractedRef.current = true;
     if (tabValue === "reset") {
       handleClear();
     } else {
@@ -377,7 +397,10 @@ function PropertySearchBar({ onSearch }) {
                 <button
                   key={tag}
                   onClick={() =>
-                    setPropertyType(tag.toLowerCase().replace(" ", "_"))
+                    {
+                      hasUserInteractedRef.current = true;
+                      setPropertyType(tag.toLowerCase().replace(" ", "_"));
+                    }
                   }
                   className={`group relative overflow-hidden px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border ${
                     isActive

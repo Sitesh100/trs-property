@@ -9,7 +9,7 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import WhatsapBanner from "@/components/home/whatsap-banner";
 import PropertySearchBar from "@/components/ui/property-search-bar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 export default function MyBuyRequirement() {
     const router = useRouter();
@@ -19,13 +19,31 @@ export default function MyBuyRequirement() {
     });
     const [deleteBuyRequirement] = useDeleteBuyRequirementMutation();
     const [filteredRequirements, setFilteredRequirements] = useState([]);
+    const requirementsRef = useRef([]);
+
+    const normalizeRequirements = useCallback((data) => {
+        if (Array.isArray(data)) return data;
+        if (Array.isArray(data?.data)) return data.data;
+        if (Array.isArray(data?.results)) return data.results;
+        if (Array.isArray(data?.items)) return data.items;
+        return [];
+    }, []);
 
     useEffect(() => {
-        setFilteredRequirements(Array.isArray(buyRequirementsData) ? buyRequirementsData : []);
-    }, [buyRequirementsData]);
+        const nextRequirements = normalizeRequirements(buyRequirementsData);
+        requirementsRef.current = nextRequirements;
+        setFilteredRequirements(nextRequirements);
+    }, [buyRequirementsData, normalizeRequirements]);
 
     const handleSearchAndFilter = (query = "", propertyType = null, activeTab = "") => {
-        const requirements = Array.isArray(buyRequirementsData) ? buyRequirementsData : [];
+        const requirements = requirementsRef.current;
+
+        // PropertySearchBar emits an initial empty search callback on mount.
+        // If data has not loaded yet, ignore that callback to avoid flashing empty state.
+        const isEmptySearch = !query?.trim() && (!propertyType || propertyType === "Any") && !activeTab;
+        if (isEmptySearch && requirements.length === 0 && !buyRequirementsData) {
+            return;
+        }
 
         if (requirements.length === 0) {
             setFilteredRequirements([]);
@@ -43,7 +61,11 @@ export default function MyBuyRequirement() {
         }
 
         if (propertyType && propertyType !== "Any") {
-            const normalizedPropertyType = propertyType.toLowerCase();
+            const propertyTypeMap = {
+                flat_apartment: "flat",
+                builder: "builder_floor",
+            };
+            const normalizedPropertyType = (propertyTypeMap[propertyType] || propertyType).toLowerCase();
             result = result.filter((requirement) =>
                 requirement?.property_type?.toLowerCase() === normalizedPropertyType,
             );
