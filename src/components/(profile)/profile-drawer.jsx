@@ -13,6 +13,7 @@ import Image from "next/image";
 export default function ProfileDrawer({ onLogout, user }) {
     const [isOpen, setIsOpen] = useState(false);
     const previewImage = user?.profile_image_url || '/assets/images/profile.png';
+
     const menuItems = [
         { name: "Profile", url: '/profile' },
         { name: "Post Property", url: '/post-property' },

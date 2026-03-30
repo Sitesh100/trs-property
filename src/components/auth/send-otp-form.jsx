@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import { newBasedUrl } from "@/libs/based-url";
 
 function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
     const dispatch = useDispatch();
@@ -50,6 +51,28 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                     };
                     
                     dispatch(setUser(user));
+
+                    // Hydrate full profile immediately so navbar avatar updates right after login.
+                    try {
+                        const profileResponse = await fetch(`${newBasedUrl}/api/customer/profile`, {
+                            method: "GET",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        });
+
+                        if (profileResponse.ok) {
+                            const payload = await profileResponse.json();
+                            const profileData = payload?.data || payload?.result || payload;
+
+                            if (profileData && typeof profileData === "object") {
+                                dispatch(setUser(profileData));
+                            }
+                        }
+                    } catch (profileErr) {
+                        console.error("Profile fetch after login failed:", profileErr);
+                    }
+
                     toast.success("Login successful!");
                     window.dispatchEvent(new Event("resume-form-submit"));
                     onClose();

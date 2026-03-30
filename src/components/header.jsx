@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { useEffect } from "react";
 import AuthModal from "./auth/auth-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAuth } from "@/redux/authSlice";
@@ -30,16 +29,6 @@ function Header() {
   const [open, setOpen] = useState(false);
   const [initialTab, setInitialTab] = useState("sendOtp");
   const pathname = usePathname();
-
-  useEffect(() => {
-    const resumeSubmit = () => {
-      const submitBtn = document.querySelector("button[type='submit']");
-      submitBtn?.click();
-    };
-
-    window.addEventListener("resume-form-submit", resumeSubmit);
-    return () => window.removeEventListener("resume-form-submit", resumeSubmit);
-  }, []);
 
   const handlerLogout = () => {
     dispatch(clearAuth());
