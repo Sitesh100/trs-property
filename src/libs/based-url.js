@@ -2,5 +2,5 @@
 export const basedUrl = "https://realestate123.pythonanywhere.com"
 
 // New Base URL - For new API endpoints
-export const newBasedUrl = "https://trs-api.trspropertymall.com"
+export const newBasedUrl = "https://trs-api.pawan.work"
 
