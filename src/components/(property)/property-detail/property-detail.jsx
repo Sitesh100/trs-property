@@ -23,6 +23,9 @@ function PropertyPropertyDetail({
   property,
   rawProperty,
 }) {
+  const STATIC_CALL_NUMBER = "917024144040";
+  const STATIC_WHATSAPP_URL =
+    "https://api.whatsapp.com/send/?phone=917024144040&text=Hello%2C+I+am+interested+in+your+property%3A+Kalpataru+Grandeur&type=phone_number&app_absent=0";
   const [tourType, setTourType] = useState("in-person");
   const { user } = useSelector((state) => state.auth);
   const [requestTour, { isLoading }] = useRequestTourMutation();
@@ -114,9 +117,6 @@ function PropertyPropertyDetail({
     // { label: "Agent Email", value: sourceProperty?.agent_email },
     // { label: "Agent Phone", value: sourceProperty?.agent_phone },
   ];
-  const contactPhone = property?.agent_phone?.toString()?.trim();
-  const hasValidPhone = Boolean(contactPhone);
-
   const handleDownload = () => {
     if (property?.documents?.length > 0) {
       property?.documents.forEach((docUrl) => {
@@ -195,19 +195,13 @@ function PropertyPropertyDetail({
                 {/* Company Info */}
                 <div className="flex-grow text-center md:text-left">
                   <h3 className="font-bold text-xl text-black">
-                    {formatValue(property?.owner)}
+                    Total Realty Solutions
                   </h3>
                   <p className="text-sm text-gray-700">
-                    Agent: {formatValue(property?.agent_name)}
+                    RERA REGISTERED BNO
                   </p>
                   <p className="text-sm text-gray-700">
-                    Agent Email: {formatValue(property?.agent_email)}
-                  </p>
-                  <p className="text-sm text-gray-700">
-                    RERA ID: {formatValue(property?.rera_id)}
-                  </p>
-                  <p className="text-sm text-gray-700">
-                    {formatValue(property?.map_address || property?.map_location || property?.city)}
+                    Indore, Madhya Pradesh
                   </p>
                 </div>
 
@@ -215,27 +209,20 @@ function PropertyPropertyDetail({
                 <div className="flex gap-3 mt-4 md:mt-0 md:ml-auto">
                   {/* Call Button */}
                   <a
-                    href={hasValidPhone ? `tel:${contactPhone}` : undefined}
-                    className={`px-5 py-2 rounded-md text-sm flex items-center justify-center ${
-                      hasValidPhone
-                        ? "bg-black text-white"
-                        : "bg-gray-300 text-gray-600 pointer-events-none"
-                    }`}
+                    href={`tel:${STATIC_CALL_NUMBER}`}
+                    className="px-5 py-2 rounded-md text-sm flex items-center justify-center bg-black text-white"
                   >
-                    {hasValidPhone ? "CALL NOW" : "N/A"}
+                    CALL NOW
                   </a>
 
                   {/* WhatsApp Button */}
                   <a
-                    href={hasValidPhone ? `https://wa.me/${contactPhone.replace(/\D/g, "")}` : undefined}
+                    href={STATIC_WHATSAPP_URL}
                     target="_blank"
-                    className={`px-5 py-2 rounded-md text-sm flex items-center justify-center ${
-                      hasValidPhone
-                        ? "bg-green-500 text-white"
-                        : "bg-gray-300 text-gray-600 pointer-events-none"
-                    }`}
+                    rel="noopener noreferrer"
+                    className="px-5 py-2 rounded-md text-sm flex items-center justify-center bg-green-500 text-white"
                   >
-                    {hasValidPhone ? "WHATSAPP" : "N/A"}
+                    WHATSAPP
                   </a>
                 </div>
               </div>

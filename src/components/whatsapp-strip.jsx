@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { MessageCircle, X } from 'lucide-react';
 
-const WhatsappStrip = ({ phoneNumber = "919713435452", message = "Hello Team TRS, I would like to get a call back. I am looking for properties." }) => {
+const WhatsappStrip = ({ phoneNumber = "917024144040", message = "Hello Team TRS, I would like to get a call back. I am looking for properties." }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -17,7 +17,7 @@ const WhatsappStrip = ({ phoneNumber = "919713435452", message = "Hello Team TRS
 
   const handleWhatsAppClick = () => {
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
+    const whatsappUrl = `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${encodedMessage}&type=phone_number&app_absent=0`;
     window.open(whatsappUrl, '_blank');
   };
 

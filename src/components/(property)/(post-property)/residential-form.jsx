@@ -134,10 +134,33 @@ export default function ResidentialForm({ property_type }) {
       });
       if (existingProperty.property_features?.length > 0) setPropertyFeatures(existingProperty.property_features);
       if (existingProperty.facilities?.length > 0) setFacilities(existingProperty.facilities);
+
+      const existingImageUrls = [];
       if (existingProperty.image) {
-        const urls = existingProperty.image.split(",").filter(Boolean);
-        setUploadedImageUrls(urls);
+        existingImageUrls.push(
+          ...existingProperty.image
+            .split(",")
+            .map((url) => url.trim())
+            .filter(Boolean),
+        );
       }
+
+      if (Array.isArray(existingProperty.image_ids) && existingProperty.image_ids.length > 0) {
+        existingImageUrls.push(
+          ...existingProperty.image_ids
+            .map((url) => (url ?? "").toString().trim())
+            .filter(Boolean),
+        );
+      }
+
+      const uniqueExistingUrls = [...new Set(existingImageUrls)];
+      setUploadedImageUrls(uniqueExistingUrls);
+      setImages(
+        uniqueExistingUrls.map((url) => ({
+          uploadedUrl: url,
+          url,
+        })),
+      );
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [existingProperty, isEditMode]);

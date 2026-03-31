@@ -15,7 +15,7 @@ function WhatsapBanner() {
                         <h3 className="md:text-2xl text-xl font-bold text-white">GET FREE EXPERT ADVICE ON YOUR REALESTATE MATTERS!</h3>
                     </div>
                     <a
-                        href="https://wa.me/919165079260"
+                        href="https://api.whatsapp.com/send/?phone=917024144040&text=Hello%2C+I+am+interested+in+your+property%3A+Kalpataru+Grandeur&type=phone_number&app_absent=0"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-green-600 text-white px-4 py-2 rounded flex items-center cursor-pointer">
