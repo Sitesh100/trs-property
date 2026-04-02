@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import PropertySearchFilterSidebar from "./property-search-filter-sidebar"
 import PropertySearchListing from "./property-search-listing"
 import { useLazySearchPropertiesQuery } from "@/service/propertyApi"
@@ -8,12 +9,14 @@ import PropertySearchBar from "../../ui/property-search-bar"
 function PropertyDetailMainSection() {
     const [showFilters, setShowFilters] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")
+    const searchParams = useSearchParams()
     
     // Lazy search query - manually trigger API calls
     const [triggerSearch, { data, isLoading }] = useLazySearchPropertiesQuery()
     
     const [filteredProperties, setFilteredProperties] = useState([])
     const [clientFilters, setClientFilters] = useState({})
+    const [initialFilters, setInitialFilters] = useState(null)
 
     const normalizePossessionStatus = (value) => {
         if (!value || value === "Any") return "Any";
@@ -35,6 +38,37 @@ function PropertyDetailMainSection() {
         console.log('🔄 Initial load - fetching all properties');
         triggerSearch({ skip: 0, limit: 1000 });
     }, []);
+
+    useEffect(() => {
+        if (!searchParams) return;
+
+        const city = searchParams.get("city") || "";
+        const property_type = searchParams.get("property_type") || "Any";
+        const status = searchParams.get("status") || "";
+        const possession_status = searchParams.get("possession_status") || "Any";
+
+        const hasPrefilters = city || property_type !== "Any" || status || possession_status !== "Any";
+        if (!hasPrefilters) return;
+
+        setInitialFilters({
+            property_type,
+            possession_status,
+        });
+
+        setSearchQuery(city);
+
+        applyFilters({
+            city,
+            property_type,
+            property_purpose: "Any",
+            priceRange: [0, 100],
+            bedrooms: "Any",
+            bathrooms: "Any",
+            possession_status,
+            is_price_negotiable: "Any",
+            amenities: [],
+        }, city, status);
+    }, [searchParams]);
 
     useEffect(() => {
         if (data?.data?.properties) {
@@ -173,7 +207,8 @@ function PropertyDetailMainSection() {
             <PropertySearchFilterSidebar
                 showFilters={showFilters}
                 setShowFilters={setShowFilters}
-                onFilterChange={applyFilters} 
+                onFilterChange={applyFilters}
+                initialFilters={initialFilters}
             />
             
             {/* Property Listing Section - Same width as search bar */}

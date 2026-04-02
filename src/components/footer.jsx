@@ -6,6 +6,18 @@ import Link from "next/link"
 import { useState } from "react"
 
 function Footer() {
+        const buildPropertySearchHref = ({
+            city,
+            propertyType = "",
+            status = "",
+        }) => {
+            const query = new URLSearchParams();
+            if (city) query.set("city", city);
+            if (propertyType) query.set("property_type", propertyType);
+            if (status) query.set("status", status);
+            return `/property-search?${query.toString()}`;
+        };
+
     const currentYear = new Date().getFullYear()
     const [isVideoOpen, setIsVideoOpen] = useState(false)
 
@@ -35,38 +47,38 @@ function Footer() {
         { name: "About Us", href: "/about" },
         { name: "Consultant Lounge", href: "/consultant-lounge" },
         { name: "Builder Lounge", href: "/builder-lounge" },
-        { name: "Insights & Advice", href: "/insights" },
+        { name: "Insights & Advice", href: "/resources" },
         { name: "Contact Us", href: "/contact" },
     ]
 
     const exclusiveServices = [
-        { name: "Best Loan Offers", href: "/services/loan-offers" },
-        { name: "EMI Calculator", href: "/services/emi-calculator" },
+        { name: "Best Loan Offers", href: "/loan-offers" },
+        { name: "EMI Calculator", href: "/emi-calculator" },
         { name: "Property Valuation", href: "/services/property-valuation" },
-        { name: "Legal Services", href: "/services/legal" },
+        { name: "Legal Services", href: "/resources" },
         { name: "Property Management", href: "/services/management" },
         { name: "Research & Advice", href: "/services/research" },
     ]
 
     const topDeals = [
-        { name: "Commercial Properties In Indore", href: "/property" },
-        { name: "Luxury Villas In Indore", href: "/property" },
-        { name: "Residential Properties In Indore", href: "/property" },
-        { name: "Top Properties In Indore", href: "/property" },
-        { name: "Commercial Properties For Rent", href: "/property" },
-        { name: "Luxury Farmhouses In Indore", href: "/property" },
-        { name: "Rental Properties In Indore", href: "/property" },
-        { name: "Apartments For Sale In Indore", href: "/property" },
-        { name: "Row Houses Projects In Indore", href: "/property" },
+        { name: "Commercial Properties In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "commercial", status: "Sell" }) },
+        { name: "Luxury Villas In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "villa", status: "Sell" }) },
+        { name: "Residential Properties In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "flat", status: "Sell" }) },
+        { name: "Top Properties In Indore", href: buildPropertySearchHref({ city: "Indore" }) },
+        { name: "Commercial Properties For Rent", href: buildPropertySearchHref({ city: "Indore", propertyType: "commercial", status: "Rent" }) },
+        { name: "Luxury Farmhouses In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "farmhouse", status: "Sell" }) },
+        { name: "Rental Properties In Indore", href: buildPropertySearchHref({ city: "Indore", status: "Rent" }) },
+        { name: "Apartments For Sale In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "flat", status: "Sell" }) },
+        { name: "Row Houses Projects In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "row_house", status: "Sell" }) },
     ]
 
     const exploreProperties = [
-        { name: "Commercial Properties In Bangalore", href: "/property" },
-        { name: "Luxury Villas In Indore", href: "/property" },
-        { name: "Commercial Properties In Bangalore", href: "/property" },
-        { name: "Luxury Villas In Indore", href: "/property" },
-        { name: "Commercial Properties In Bangalore", href: "/property" },
-        { name: "Luxury Villas In Indore", href: "/property" },
+        { name: "Commercial Properties In Bangalore", href: buildPropertySearchHref({ city: "Bangalore", propertyType: "commercial", status: "Sell" }) },
+        { name: "Luxury Villas In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "villa", status: "Sell" }) },
+        { name: "Residential Properties In Bangalore", href: buildPropertySearchHref({ city: "Bangalore", propertyType: "flat", status: "Sell" }) },
+        { name: "Plots In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "plot", status: "Sell" }) },
+        { name: "Rental Properties In Bangalore", href: buildPropertySearchHref({ city: "Bangalore", status: "Rent" }) },
+        { name: "Commercial Properties In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "commercial" }) },
     ]
 
     const socialLinks = [

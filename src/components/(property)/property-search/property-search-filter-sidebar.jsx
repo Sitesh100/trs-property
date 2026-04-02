@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 
-function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChange }) {
+function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChange, initialFilters = null }) {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [filters, setFilters] = useState({
     property_type: "Any",
@@ -23,6 +23,11 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
   });
 
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    if (!initialFilters) return;
+    setFilters((prev) => ({ ...prev, ...initialFilters }));
+  }, [initialFilters]);
 
   const propertyTypes = [
     { value: "Any", label: "Any Type", icon: Grid3X3 },
