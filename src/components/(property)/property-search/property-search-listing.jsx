@@ -9,6 +9,21 @@ function PropertySearchListing({ properties, isLoading, setShowFilters }) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 15; // 3 columns x 5 rows
 
+    const normalizePossessionStatus = (value) => {
+        if (!value) return "";
+        const normalized = String(value).trim().toUpperCase();
+
+        if (normalized === "READY_TO_MOVE" || normalized === "READY-TO-MOVE" || normalized === "EADY-TO-MOVE") {
+            return "READY_TO_MOVE";
+        }
+
+        if (normalized === "UNDER_CONSTRUCTION" || normalized === "UNDER-CONSTRUCTION") {
+            return "UNDER_CONSTRUCTION";
+        }
+
+        return normalized;
+    };
+
     useEffect(() => {
         if (!properties || properties?.length === 0) {
             setFilteredProperties([]);
@@ -17,9 +32,9 @@ function PropertySearchListing({ properties, isLoading, setShowFilters }) {
         if (filter === "all") {
             setFilteredProperties(properties);
         } else if (filter === "ready") {
-            setFilteredProperties(properties.filter(p => p.possession_status === "ready-to-move"));
+            setFilteredProperties(properties.filter(p => normalizePossessionStatus(p?.possession_status) === "READY_TO_MOVE"));
         } else if (filter === "development") {
-            setFilteredProperties(properties.filter(p => p.possession_status === "under_construction"));
+            setFilteredProperties(properties.filter(p => normalizePossessionStatus(p?.possession_status) === "UNDER_CONSTRUCTION"));
         } else if (filter === "furnished") {
             setFilteredProperties(properties.filter(p => p.furnished === true));
         } else if (filter === "new_projects") {

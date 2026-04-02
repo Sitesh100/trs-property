@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Send, Facebook, Twitter, Linkedin, Instagram, CheckCircle, Clock, Users, Globe } from 'lucide-react'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
+import toast from 'react-hot-toast'
+import { useSubmitLeadMutation } from '@/service/leadsApi'
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -14,8 +16,8 @@ const ContactPage = () => {
     phone: '',
     message: ''
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitLead, { isLoading: isSubmitting }] = useSubmitLeadMutation()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -23,12 +25,25 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    setTimeout(() => setIsSubmitted(false), 3000)
-    setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' })
+
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim()
+
+    try {
+      const response = await submitLead({
+        name: fullName,
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        service_type: 'Contact Us',
+        message: formData.message.trim() || undefined,
+      }).unwrap()
+
+      toast.success(response?.message || 'Thanks for contacting us. Our team will reach out shortly.')
+      setIsSubmitted(true)
+      setTimeout(() => setIsSubmitted(false), 3000)
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' })
+    } catch (err) {
+      toast.error(err?.data?.detail || err?.data?.message || 'Failed to submit contact request. Please try again.')
+    }
   }
 
   const containerVariants = {
@@ -213,6 +228,7 @@ const ContactPage = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
+                      required
                       className="w-full bg-transparent border-b border-white/20 px-0 py-3 text-white placeholder-white/30 focus:border-[#C6A256] focus:outline-none transition-colors duration-300"
                       placeholder="+91 98765 43210"
                     />

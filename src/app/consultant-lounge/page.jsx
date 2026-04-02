@@ -10,10 +10,13 @@ import {
   Sparkles,
   MessageCircle,
   Send,
+  Loader2,
 } from "lucide-react";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import FeaturedProjects from "@/components/home/featured-projects";
+import toast from "react-hot-toast";
+import { useRequestAgentLoungeAccessMutation } from "@/service/agentLoungeApi";
 
 
 const ConsultantLoungePage = () => {
@@ -30,6 +33,7 @@ const ConsultantLoungePage = () => {
   });
 
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [requestAgentLoungeAccess, { isLoading: isSubmitting }] = useRequestAgentLoungeAccessMutation();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -39,9 +43,40 @@ const ConsultantLoungePage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    const sanitizedPhone = formData.phone.replace(/\s|-/g, "").trim();
+    const normalizedPhone = sanitizedPhone.startsWith("+")
+      ? sanitizedPhone
+      : `+91${sanitizedPhone}`;
+
+    try {
+      const response = await requestAgentLoungeAccess({
+        first_name: formData.firstName.trim(),
+        last_name: formData.lastName.trim(),
+        phone: normalizedPhone,
+        email: formData.email.trim(),
+        company: formData.company.trim() || undefined,
+        experience: formData.experience || undefined,
+        city: formData.city.trim() || undefined,
+      }).unwrap();
+
+      toast.success(response?.message || "Agent lounge request submitted successfully.");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        code: "IN +91",
+        phone: "",
+        email: "",
+        company: "",
+        experience: "",
+        city: "",
+        agreeTerms: false,
+      });
+    } catch (err) {
+      toast.error(err?.data?.detail || err?.data?.message || "Failed to submit request. Please try again.");
+    }
   };
 
   const networkBenefits = [
@@ -284,7 +319,7 @@ const ConsultantLoungePage = () => {
               >
                 <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-2xl p-6 md:p-7 border border-[#C6A256]/20">
                   <h3 className="text-xl font-bold text-white mb-1">
-                    Agent Login / Sign up
+                    Agent Sign up
                   </h3>
                   <p className="text-gray-500 text-sm mb-6">
                     Join our agent community today!
@@ -383,10 +418,10 @@ const ConsultantLoungePage = () => {
                           className="w-full px-3 py-2.5 bg-[#0a0a0a] border border-gray-800 rounded-xl text-sm text-gray-400 focus:border-[#C6A256] focus:outline-none transition appearance-none"
                         >
                           <option value="">Select</option>
-                          <option value="0-2">0-2 years</option>
-                          <option value="2-5">2-5 years</option>
-                          <option value="5-10">5-10 years</option>
-                          <option value="10+">10+ years</option>
+                          <option value="0-2 Years">0-2 years</option>
+                          <option value="2-5 Years">2-5 years</option>
+                          <option value="5-10 Years">5-10 years</option>
+                          <option value="10+ Years">10+ years</option>
                         </select>
                       </div>
                       <div>
@@ -426,12 +461,13 @@ const ConsultantLoungePage = () => {
 
                     <motion.button
                       type="submit"
+                      disabled={isSubmitting}
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.98 }}
                       className="w-full bg-gradient-to-r from-[#C6A256] to-[#D4B45F] text-[#0a0a0a] font-semibold py-3 rounded-xl text-sm hover:shadow-lg hover:shadow-[#C6A256]/30 transition-all duration-300 flex items-center justify-center gap-2"
                     >
-                      <Send className="w-4 h-4" />
-                      Request R-Lounge Access
+                      {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                      {isSubmitting ? "Submitting..." : "Request R-Lounge Access"}
                     </motion.button>
                   </form>
 

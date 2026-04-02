@@ -24,6 +24,20 @@ function DetailSearchCard({ property, action = false }) {
         return String(value);
     };
 
+    const formatIndianPrice = (value) => {
+        if (isValueMissing(value)) return 'N/A';
+        const numericValue = Number(String(value).replace(/,/g, '').trim());
+        if (!Number.isFinite(numericValue)) return String(value);
+
+        const hasDecimals = numericValue % 1 !== 0;
+        return numericValue.toLocaleString('en-IN', {
+            minimumFractionDigits: hasDecimals ? 2 : 0,
+            maximumFractionDigits: 2,
+        });
+    };
+
+    const isFavorite = property?.is_favorited === true || property?.is_favorite === true;
+
     // Support both old API (images/image_ids array) and new API (image string with comma-separated URLs)
     const firstImage = property?.image || property?.image_ids?.[0] || property?.images?.[0];
     const mainImage = getImageUrl(firstImage);
@@ -43,7 +57,7 @@ function DetailSearchCard({ property, action = false }) {
         e.stopPropagation();
         try {
             await toggleFavorite(property?.id).unwrap();
-            toast.success(property?.is_favorited ? "Removed from favorites" : "Added to favorites");
+            toast.success(isFavorite ? "Removed from favorites" : "Added to favorites");
         } catch (err) {
             console.error("Toggle favorite failed:", err);
             toast.error(err?.data?.detail || "Failed to update favorite");
@@ -119,7 +133,7 @@ function DetailSearchCard({ property, action = false }) {
                 >
                     <Heart
                         className={`h-5 w-5 transition-colors duration-200 
-                        ${property?.is_favorited ? "text-red-500 fill-red-500" : "text-white hover:text-red-400"}`}
+                        ${isFavorite ? "text-red-500 fill-red-500" : "text-white hover:text-red-400"}`}
                     />
                 </button>
             </div>
@@ -131,7 +145,7 @@ function DetailSearchCard({ property, action = false }) {
                             {property?.title ? property?.title?.split(' ')?.slice(0, 4)?.join(' ') : 'N/A'}
                         </h3>
                         <p className="md:text-lg font-bold text-gray-900 text-nowrap">
-                            ₹ {formatValue(property?.expected_price ?? property?.price)} <span className="text-sm text-gray-500"></span>
+                            ₹ {formatIndianPrice(property?.expected_price ?? property?.price)} <span className="text-sm text-gray-500"></span>
                         </p>
                     </div>
                 </Link>

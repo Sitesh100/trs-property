@@ -34,8 +34,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
 
   const possessionStatuses = [
     { value: "Any", label: "Any Status" },
-    { value: "ready-to-move", label: "Ready to Move" },
-    { value: "under_construction", label: "Under Construction" },
+    { value: "READY_TO_MOVE", label: "Ready to Move" },
+    { value: "UNDER_CONSTRUCTION", label: "Under Construction" },
   ];
 
   const priceNegotiableOptions = [
@@ -353,7 +353,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               <span className="font-medium text-sm whitespace-nowrap">
                 {filters.possession_status === "Any"
                   ? "Status"
-                  : filters.possession_status === "ready-to-move" ? "Ready" : "UC"}
+                  : filters.possession_status === "READY_TO_MOVE" ? "Ready" : "UC"}
               </span>
               <ChevronDown className={`w-4 h-4 flex-shrink-0 transition-transform duration-300 ${activeDropdown === "possession" ? "rotate-180" : ""}`} />
             </motion.button>

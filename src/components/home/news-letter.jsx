@@ -1,11 +1,32 @@
 "use client"
 import { motion } from "framer-motion"
-import { Mail, Send, Bell, Sparkles } from "lucide-react"
+import { Loader2, Mail, Send } from "lucide-react"
 import { useState } from "react"
+import toast from "react-hot-toast"
+import { useSubscribeNewsletterMutation } from "@/service/newsletterApi"
 
 function NewsLetter() {
     const [email, setEmail] = useState("")
     const [isFocused, setIsFocused] = useState(false)
+    const [subscribeNewsletter, { isLoading }] = useSubscribeNewsletterMutation()
+
+    const handleSubscribe = async (e) => {
+        e.preventDefault()
+
+        const trimmedEmail = email.trim()
+        if (!trimmedEmail) {
+            toast.error("Please enter your email address")
+            return
+        }
+
+        try {
+            await subscribeNewsletter(trimmedEmail).unwrap()
+            toast.success("Thanks for subscribing to our newsletter")
+            setEmail("")
+        } catch (err) {
+            toast.error(err?.data?.detail || err?.data?.message || "Subscription failed. Please try again.")
+        }
+    }
 
     return (
         <section className="py-20 bg-gradient-to-br from-[#0a0a0a] via-[#0f0f0f] to-[#0a0a0a] relative overflow-hidden">
@@ -73,9 +94,12 @@ function NewsLetter() {
                         viewport={{ once: false }}
                         className="relative"
                     >
-                        <div className={`flex flex-col sm:flex-row gap-3 p-2 bg-white/5 backdrop-blur-md border rounded-2xl sm:rounded-full transition-all duration-300 ${
+                        <form
+                            onSubmit={handleSubscribe}
+                            className={`flex flex-col sm:flex-row gap-3 p-2 bg-white/5 backdrop-blur-md border rounded-2xl sm:rounded-full transition-all duration-300 ${
                             isFocused ? 'border-[#9B59B6]/50 shadow-lg shadow-[#9B59B6]/20' : 'border-white/10'
-                        }`}>
+                        }`}
+                        >
                             {/* Email Input */}
                             <div className="flex-1 flex items-center gap-3 px-4 py-2">
                                 <Mail className={`w-5 h-5 transition-colors duration-300 ${isFocused ? 'text-[#9B59B6]' : 'text-white/40'}`} />
@@ -86,6 +110,7 @@ function NewsLetter() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     onFocus={() => setIsFocused(true)}
                                     onBlur={() => setIsFocused(false)}
+                                    required
                                     className="w-full bg-transparent text-white placeholder-white/40 focus:outline-none text-base"
                                 />
                             </div>
@@ -93,14 +118,16 @@ function NewsLetter() {
                             {/* Submit Button with Sphere Effect */}
                             <motion.button
                                 whileTap={{ scale: 0.95 }}
+                                type="submit"
+                                disabled={isLoading}
                                 className="bg-gradient-to-r from-[#9B59B6] to-[#8e44ad] text-white px-8 py-3.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#9B59B6]/30"
                             >
                                 <span className="flex items-center gap-2">
-                                    <Send className="w-4 h-4" />
-                                    Subscribe
+                                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                                    {isLoading ? "Subscribing..." : "Subscribe"}
                                 </span>
                             </motion.button>
-                        </div>
+                        </form>
                     </motion.div>
                     {/* Disclaimer */}
                     <motion.p

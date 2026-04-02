@@ -2,12 +2,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, IndianRupee, Heart } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getImageUrl } from "@/utils/getImageUrl";
 
 function HomeCard({ property, index = 0 }) {
     const [isHovered, setIsHovered] = useState(false);
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(property?.is_favorited === true || property?.is_favorite === true);
+
+    useEffect(() => {
+        setIsLiked(property?.is_favorited === true || property?.is_favorite === true);
+    }, [property?.is_favorited, property?.is_favorite]);
     
     // Support both old API (images/image_ids array) and new API (image string with comma-separated URLs)
     const firstImage = property?.image || property?.image_ids?.[0] || property?.images?.[0];
@@ -18,13 +22,15 @@ function HomeCard({ property, index = 0 }) {
         "/assets/images/detail/image4.jpg";
 
     const formatPrice = (price) => {
-        if (!price) return "0";
-        if (price >= 10000000) {
-            return (price / 10000000).toFixed(2) + " Cr";
-        } else if (price >= 100000) {
-            return (price / 100000).toFixed(2) + " L";
-        }
-        return price.toLocaleString();
+        if (price === null || price === undefined || price === "") return "0";
+        const numericValue = Number(String(price).replace(/,/g, "").trim());
+        if (!Number.isFinite(numericValue)) return String(price);
+
+        const hasDecimals = numericValue % 1 !== 0;
+        return numericValue.toLocaleString("en-IN", {
+            minimumFractionDigits: hasDecimals ? 2 : 0,
+            maximumFractionDigits: 2,
+        });
     };
 
     return (

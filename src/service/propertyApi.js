@@ -61,6 +61,24 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
                     }
                     return null;
                 };
+                const normalizePossessionStatus = (value) => {
+                    if (!value) return null;
+                    const normalized = String(value).trim().toUpperCase();
+
+                    if (normalized === 'READY_TO_MOVE' || normalized === 'UNDER_CONSTRUCTION') {
+                        return normalized;
+                    }
+
+                    if (normalized === 'READY-TO-MOVE' || normalized === 'EADY-TO-MOVE') {
+                        return 'READY_TO_MOVE';
+                    }
+
+                    if (normalized === 'UNDER-CONSTRUCTION') {
+                        return 'UNDER_CONSTRUCTION';
+                    }
+
+                    return null;
+                };
                 
                 // Add optional query parameters if they exist
                 if (params?.city) queryParams.append('search_query', params.city);
@@ -77,7 +95,8 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
                 if (params?.bathrooms !== undefined && params?.bathrooms !== null) {
                     queryParams.append('bathrooms', params.bathrooms);
                 }
-                if (params?.possession_status) queryParams.append('possession_status', params.possession_status);
+                const possessionStatus = normalizePossessionStatus(params?.possession_status);
+                if (possessionStatus) queryParams.append('possession_status', possessionStatus);
                 const negotiableValue = normalizeBooleanParam(params?.is_price_negotiable);
                 if (negotiableValue !== null) {
                     queryParams.append('is_price_negotiable', negotiableValue);

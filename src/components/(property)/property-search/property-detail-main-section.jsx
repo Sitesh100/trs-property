@@ -15,6 +15,21 @@ function PropertyDetailMainSection() {
     const [filteredProperties, setFilteredProperties] = useState([])
     const [clientFilters, setClientFilters] = useState({})
 
+    const normalizePossessionStatus = (value) => {
+        if (!value || value === "Any") return "Any";
+        const normalized = String(value).trim().toUpperCase();
+
+        if (normalized === "READY_TO_MOVE" || normalized === "READY-TO-MOVE" || normalized === "EADY-TO-MOVE") {
+            return "READY_TO_MOVE";
+        }
+
+        if (normalized === "UNDER_CONSTRUCTION" || normalized === "UNDER-CONSTRUCTION") {
+            return "UNDER_CONSTRUCTION";
+        }
+
+        return normalized;
+    }
+
     // Initial load - fetch all properties
     useEffect(() => {
         console.log('🔄 Initial load - fetching all properties');
@@ -34,8 +49,9 @@ function PropertyDetailMainSection() {
 
         // Apply possession status filter (client-side only)
         if (filters.possession_status && filters.possession_status !== "Any") {
+            const selectedStatus = normalizePossessionStatus(filters.possession_status);
             result = result.filter(
-                (property) => property?.possession_status === filters.possession_status
+                (property) => normalizePossessionStatus(property?.possession_status) === selectedStatus
             );
         }
 
@@ -99,7 +115,7 @@ function PropertyDetailMainSection() {
 
         // Possession status filter
         if (filters.possession_status && filters.possession_status !== "Any") {
-            apiFilters.possession_status = filters.possession_status;
+            apiFilters.possession_status = normalizePossessionStatus(filters.possession_status);
         }
 
         // Price negotiable filter
@@ -116,7 +132,7 @@ function PropertyDetailMainSection() {
 
         // Store client-side filters for additional filtering
         setClientFilters({
-            possession_status: filters.possession_status,
+            possession_status: normalizePossessionStatus(filters.possession_status),
             is_price_negotiable: filters.is_price_negotiable,
             amenities: filters.amenities,
             activeTab: activeTab

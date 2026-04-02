@@ -124,11 +124,6 @@ function EmiCalculatorPage() {
     setIsDealPopupOpen(true);
   };
 
-  const handleDealSubmit = async (payload) => {
-    // TODO: replace with API integration once endpoint is available.
-    console.log("loan deal form submitted", payload);
-  };
-
   return (
     <>
       <Header />
@@ -316,7 +311,6 @@ function EmiCalculatorPage() {
         isOpen={isDealPopupOpen}
         bankName={selectedBank}
         onClose={() => setIsDealPopupOpen(false)}
-        onSubmit={handleDealSubmit}
       />
       <Footer />
     </>

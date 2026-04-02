@@ -2,6 +2,8 @@
 
 import { X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
+import { useApplyHomeLoanMutation } from "@/service/homeLoanApi";
 
 const initialFormState = {
   loanAmount: "",
@@ -29,9 +31,6 @@ const validateForm = (form) => {
   if (parseNumber(form.loanAmount) <= 0) errors.loanAmount = "Enter a valid loan amount";
   if (parseNumber(form.tenure) < 1 || parseNumber(form.tenure) > 35) errors.tenure = "Tenure should be 1 to 35 years";
   if (parseNumber(form.age) < 18 || parseNumber(form.age) > 70) errors.age = "Age should be between 18 and 70";
-  if (!form.propertyIdentified) errors.propertyIdentified = "Please select an option";
-  if (!form.propertyCity) errors.propertyCity = "Please select property city";
-  if (parseNumber(form.propertyCost) <= 0) errors.propertyCost = "Enter valid property cost";
   if (!form.employment) errors.employment = "Employment type is required";
   if (parseNumber(form.income) <= 0) errors.income = "Enter valid monthly income";
   if (parseNumber(form.totalEmi) < 0) errors.totalEmi = "EMI cannot be negative";
@@ -51,7 +50,7 @@ function FieldError({ message }) {
 function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
   const [form, setForm] = useState(initialFormState);
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [applyHomeLoan, { isLoading: isSubmitting }] = useApplyHomeLoanMutation();
 
   const title = useMemo(
     () => `We just need a few details to match you with the right home loan product${bankName ? ` for ${bankName}` : ""}`,
@@ -77,7 +76,6 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
   useEffect(() => {
     if (!isOpen) {
       setErrors({});
-      setIsSubmitting(false);
     }
   }, [isOpen]);
 
@@ -97,13 +95,44 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
 
     if (Object.keys(nextErrors).length > 0) return;
 
+    if (!bankName?.trim()) {
+      toast.error("Please select a bank deal first.");
+      return;
+    }
+
+    const payload = {
+      bank_name: bankName,
+      loan_amount: parseNumber(form.loanAmount),
+      tenure_years: parseNumber(form.tenure),
+      age: parseNumber(form.age),
+      employment_type: form.employment === "self-employed" ? "Self-employed" : "Salaried",
+      monthly_income: parseNumber(form.income),
+      full_name: form.fullName.trim(),
+      email: form.email.trim(),
+      phone: form.mobile.trim(),
+    };
+
+    if (form.propertyIdentified) {
+      payload.is_property_identified = form.propertyIdentified === "yes" ? "Yes" : "No";
+    }
+    if (form.propertyCity.trim()) {
+      payload.property_city = form.propertyCity.trim();
+    }
+    if (form.propertyCost.trim()) {
+      payload.property_cost = parseNumber(form.propertyCost);
+    }
+    if (form.totalEmi.trim()) {
+      payload.current_emis = parseNumber(form.totalEmi);
+    }
+
     try {
-      setIsSubmitting(true);
-      await Promise.resolve(onSubmit?.({ ...form, bankName }));
+      const response = await applyHomeLoan(payload).unwrap();
+      await Promise.resolve(onSubmit?.({ ...form, bankName, applicationId: response?.application_id }));
+      toast.success(response?.message || "Your loan application has been received.");
       setForm(initialFormState);
       onClose();
-    } finally {
-      setIsSubmitting(false);
+    } catch (error) {
+      toast.error(error?.data?.detail || error?.data?.message || "Failed to submit loan application. Please try again.");
     }
   };
 
