@@ -67,7 +67,7 @@ const PropertyFavouriteCard = () => {
             </div>
             <div className="container mx-auto md:px-10 px-5">
                 <div className="flex justify-between my-8 items-center">
-                    <h1 className='md:text-3xl text-lg font-bold'>Your Favorites TRS</h1>
+                    <h1 className='md:text-3xl text-lg font-bold'>Your Cart TRS</h1>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {!token ? (
@@ -75,7 +75,7 @@ const PropertyFavouriteCard = () => {
                             <div className="text-6xl mb-4">🔒</div>
                             <h3 className="text-xl font-semibold text-gray-700 mb-2">Please Login</h3>
                             <p className="text-gray-500 text-center max-w-md">
-                                You need to be logged in to view your favorite properties.
+                                You need to be logged in to view your cart properties.
                             </p>
                         </div>
                     ) : isLoading ? (
@@ -90,9 +90,9 @@ const PropertyFavouriteCard = () => {
                     ) : filteredProperties?.length === 0 ? (
                         <div className="col-span-full flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg">
                             <div className="text-6xl mb-4">💔</div>
-                            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Favorites Yet</h3>
+                            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Cart Items Yet</h3>
                             <p className="text-gray-500 text-center max-w-md">
-                                Start exploring properties and click the heart icon to add them to your favorites.
+                                Start exploring properties and click the heart icon to add them to your cart.
                             </p>
                         </div>
                     ) : (

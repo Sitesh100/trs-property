@@ -23,10 +23,10 @@ export default function FavouriteDrawer() {
         e.stopPropagation();
         try {
             await toggleFavorite(propertyId).unwrap();
-            toast.success("Removed from favorites");
+            toast.success("Removed from cart");
         } catch (err) {
             console.error("Remove favorite failed:", err);
-            toast.error(err?.data?.detail || "Failed to remove from favorites");
+            toast.error(err?.data?.detail || "Failed to remove from cart");
         }
     };
 
@@ -39,7 +39,7 @@ export default function FavouriteDrawer() {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                title="View Favorites"
+                title="View Cart"
                 className="relative p-1 group"
             >
                 <Heart className="h-6 w-6 text-red-500 fill-red-500 cursor-pointer transition-transform group-hover:scale-110" />
@@ -71,7 +71,7 @@ export default function FavouriteDrawer() {
                             >
                                 <div className="flex items-center justify-between mb-6 sticky top-0  pt-4 pb-2 z-10">
                                     <div>
-                                        <h2 className="text-xl font-bold text-white">Your Favorites</h2>
+                                        <h2 className="text-xl font-bold text-white">Your Cart</h2>
                                         <p className="text-sm text-gray-300">
                                             {favoritesData?.length || 0} items
                                         </p>
@@ -127,7 +127,7 @@ export default function FavouriteDrawer() {
                                                         <button
                                                             onClick={(e) => handleRemoveFavorite(item?.id, e)}
                                                             className="text-red-500 cursor-pointer transition p-1"
-                                                            title="Remove from favorites"
+                                                            title="Remove from cart"
                                                         >
                                                             <XCircle className="w-5 h-5" />
                                                         </button>
@@ -140,7 +140,7 @@ export default function FavouriteDrawer() {
                                 ) : (
                                     <div className="flex flex-col items-center justify-center h-64 text-center">
                                         <Heart className="h-12 w-12 text-gray-400 mb-4" />
-                                        <h3 className="text-lg font-medium text-white mb-2">No favorites yet</h3>
+                                        <h3 className="text-lg font-medium text-white mb-2">No cart items yet</h3>
                                         <p className="text-gray-300 text-sm max-w-xs">
                                             Click the heart icon on properties to add them here
                                         </p>

@@ -21,7 +21,7 @@ export default function ProfileDrawer({ onLogout, user }) {
         { name: "My Buy Requirements", url: '/my-buy-requirement' },
         { name: "My Property", url: '/my-property' },
         { name: "My Matches", url: '/property-matches' },
-        { name: "Favourite", url: '/property-favourite' },
+        { name: "Cart", url: '/property-favourite' },
     ];
 
     return (

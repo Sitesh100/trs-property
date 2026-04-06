@@ -185,7 +185,7 @@ function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-white">
-          Welcome to TRS - Create Account
+          Welcome to TRS Property Mall - Create Account
         </h2>
         <button onClick={onClose} className="text-gray-400 hover:text-white cursor-pointer">
           <X className="h-5 w-5" />

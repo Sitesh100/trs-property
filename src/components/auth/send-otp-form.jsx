@@ -84,16 +84,20 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                 
                 // Handle error response
                 const errorDetail = err?.data?.detail || err?.data?.message || err?.data?.error || '';
-                
-                if (errorDetail.toLowerCase().includes('invalid email') || 
-                    errorDetail.toLowerCase().includes('invalid phone') || 
-                    errorDetail.toLowerCase().includes('not found') ||
-                    errorDetail.toLowerCase().includes('not registered')) {
-                    toast.error("Email not registered. Please sign up first.");
-                    setActiveTab("signup");
-                } else if (errorDetail.toLowerCase().includes('invalid password') ||
-                           errorDetail.toLowerCase().includes('incorrect password')) {
-                    toast.error("Invalid password. Please try again.");
+
+                const lowerError = errorDetail.toLowerCase();
+                const isCredentialError =
+                    lowerError.includes('invalid email') ||
+                    lowerError.includes('invalid phone') ||
+                    lowerError.includes('not found') ||
+                    lowerError.includes('not registered') ||
+                    lowerError.includes('invalid password') ||
+                    lowerError.includes('incorrect password') ||
+                    lowerError.includes('invalid credential') ||
+                    lowerError.includes('invalid credentials');
+
+                if (isCredentialError) {
+                    toast.error('Invalid credentials');
                 } else {
                     toast.error(errorDetail || 'Login failed. Please try again.');
                 }
@@ -104,7 +108,7 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
     return (
         <div className="p-6">
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-white">Welcome Back to TRS</h2>
+                <h2 className="text-xl font-bold text-white">Welcome Back to TRS Property Mall</h2>
                 <button onClick={onClose} className="text-gray-400 hover:text-white cursor-pointer">
                     <X className="h-5 w-5" />
                 </button>

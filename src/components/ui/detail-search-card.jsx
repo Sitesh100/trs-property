@@ -57,10 +57,10 @@ function DetailSearchCard({ property, action = false }) {
         e.stopPropagation();
         try {
             await toggleFavorite(property?.id).unwrap();
-            toast.success(isFavorite ? "Removed from favorites" : "Added to favorites");
+            toast.success(isFavorite ? "Removed from cart" : "Added to cart");
         } catch (err) {
             console.error("Toggle favorite failed:", err);
-            toast.error(err?.data?.detail || "Failed to update favorite");
+            toast.error(err?.data?.detail || "Failed to update cart");
         }
     };
 

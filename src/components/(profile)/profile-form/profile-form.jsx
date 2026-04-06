@@ -1,14 +1,21 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileFormPersonal from "./profile-form-personal";
 import ProfileFormKyc from "./profile-form-kyc";
 import ProfileFormWork from "./profile-form-work";
 import { useSelector } from "react-redux";
-import { Edit } from "lucide-react";
 
 const ProfileForm = () => {
     const { user } = useSelector((state) => state.auth);
     const [activeTab, setActiveTab] = useState('personal');
+    const role = (user?.role || '').toLowerCase();
+    const canViewExtraSections = role === 'agent' || role === 'builder';
+
+    useEffect(() => {
+        if (!canViewExtraSections && activeTab !== 'personal') {
+            setActiveTab('personal');
+        }
+    }, [canViewExtraSections, activeTab]);
 
     return (
         <div className="min-h-screen profile-gradient p-6 flex justify-center items-center">
@@ -22,29 +29,33 @@ const ProfileForm = () => {
                     >
                         Personal Info
                     </button>
-                    <button
-                        onClick={() => setActiveTab('work')}
-                        className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'work' ? 'text-[#2a1f45] border-b-2 border-[#2a1f45]' : 'text-gray-500'}`}
-                    >
-                        Work Info
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('kyc')}
-                        className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'kyc' ? 'text-[#2a1f45] border-b-2 border-[#2a1f45]' : 'text-gray-500'}`}
-                    >
-                        KYC Doc
-                    </button>
+                    {canViewExtraSections && (
+                        <>
+                            <button
+                                onClick={() => setActiveTab('work')}
+                                className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'work' ? 'text-[#2a1f45] border-b-2 border-[#2a1f45]' : 'text-gray-500'}`}
+                            >
+                                Work Info
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('kyc')}
+                                className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'kyc' ? 'text-[#2a1f45] border-b-2 border-[#2a1f45]' : 'text-gray-500'}`}
+                            >
+                                KYC Doc
+                            </button>
+                        </>
+                    )}
                 </div>
 
                 {activeTab === 'personal' && (
                     <ProfileFormPersonal />
                 )}
 
-                {activeTab === 'work' && (
+                {canViewExtraSections && activeTab === 'work' && (
                     <ProfileFormWork />
                 )}
 
-                {activeTab === 'kyc' && (
+                {canViewExtraSections && activeTab === 'kyc' && (
                     <ProfileFormKyc />
                 )}
             </div>

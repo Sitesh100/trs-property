@@ -19,10 +19,10 @@ function PropertyDetailHeader({ property }) {
     const handleToggleFavorite = async () => {
         try {
             await toggleFavorite(property?.id).unwrap();
-            toast.success(property?.is_favorited ? "Removed from favorites" : "Added to favorites");
+            toast.success(property?.is_favorited ? "Removed from your cart" : "Added to your cart");
         } catch (err) {
             console.error("Toggle favorite failed:", err);
-            toast.error(err?.data?.detail || "Failed to update favorite");
+            toast.error(err?.data?.detail || "Failed to update cart");
         }
     };
 
@@ -59,7 +59,7 @@ function PropertyDetailHeader({ property }) {
                         <Heart className={`h-4 w-4 mr-1 ${
                             property?.is_favorited ? 'fill-red-500 text-red-500' : ''
                         }`} />
-                        <span>{property?.is_favorited ? 'Unfavorite' : 'Favorite'}</span>
+                        <span>{property?.is_favorited ? 'Remove from Cart' : 'Add to Cart'}</span>
                     </button>
                 </div>
             </div>
