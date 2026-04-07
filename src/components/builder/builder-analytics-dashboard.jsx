@@ -3,7 +3,7 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import WhatsapBanner from "@/components/home/whatsap-banner";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
 const STATUS_OPTIONS = ["New", "Followup", "Site Visit", "Negotiation", "Closed", "Cancelled"];
 
@@ -37,18 +37,56 @@ const MONTHLY_ANALYTICS = [
     { month: "Jun", views: 2440, leads: 29, closed: 6 },
 ];
 
-const initialForm = {
-    date: "",
-    customerName: "",
-    customerNumber: "",
-    propertyName: "",
-    notes: "",
-    status: "New",
-};
+const UPCOMING_VISITS = [
+    {
+        id: "visit-up-1",
+        visitDate: "2026-04-10",
+        customerName: "Rohan Khanna",
+        propertyName: "Skyline One",
+        slot: "11:30 AM",
+    },
+    {
+        id: "visit-up-2",
+        visitDate: "2026-04-12",
+        customerName: "Meera S",
+        propertyName: "Marina Heights",
+        slot: "04:00 PM",
+    },
+    {
+        id: "visit-up-3",
+        visitDate: "2026-04-15",
+        customerName: "Dev Arora",
+        propertyName: "Green Crest",
+        slot: "02:15 PM",
+    },
+];
+
+const COMPLETED_VISITS = [
+    {
+        id: "visit-done-1",
+        visitDate: "2026-04-04",
+        customerName: "Ananya Verma",
+        propertyName: "Sunrise Elite",
+        outcome: "Followup",
+    },
+    {
+        id: "visit-done-2",
+        visitDate: "2026-04-06",
+        customerName: "Kunal Mehta",
+        propertyName: "Palm Meadows",
+        outcome: "Negotiation",
+    },
+    {
+        id: "visit-done-3",
+        visitDate: "2026-04-07",
+        customerName: "Sara Khan",
+        propertyName: "Marina Heights",
+        outcome: "Closed",
+    },
+];
 
 export default function BuilderAnalyticsDashboard() {
-    const [form, setForm] = useState(initialForm);
-    const [leads, setLeads] = useState(INITIAL_LEADS);
+    const leads = INITIAL_LEADS;
 
     const maxViews = useMemo(() => Math.max(...MONTHLY_ANALYTICS.map((item) => item.views)), []);
 
@@ -86,33 +124,6 @@ export default function BuilderAnalyticsDashboard() {
         const height = 220;
         return `${linePath} L${width},${height} L0,${height} Z`;
     }, [linePath, graphPoints]);
-
-    const onChange = (key, value) => {
-        setForm((prev) => ({ ...prev, [key]: value }));
-    };
-
-    const onSubmit = (event) => {
-        event.preventDefault();
-        if (!form.customerName.trim() || !form.customerNumber.trim() || !form.propertyName.trim()) return;
-
-        setLeads((prev) => [
-            {
-                id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-                ...form,
-            },
-            ...prev,
-        ]);
-
-        setForm(initialForm);
-    };
-
-    const updateLead = (id, key, value) => {
-        setLeads((prev) => prev.map((lead) => (lead.id === id ? { ...lead, [key]: value } : lead)));
-    };
-
-    const deleteLead = (id) => {
-        setLeads((prev) => prev.filter((lead) => lead.id !== id));
-    };
 
     return (
         <>
@@ -203,127 +214,64 @@ export default function BuilderAnalyticsDashboard() {
                         ))}
                     </div>
 
-                    <form onSubmit={onSubmit} className="mb-6 grid gap-4 rounded-xl border border-white/10 bg-white/5 p-5 md:grid-cols-2">
-                        <label className="text-sm">
-                            Date
-                            <input
-                                type="date"
-                                value={form.date}
-                                onChange={(e) => onChange("date", e.target.value)}
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                            />
-                        </label>
-                        <label className="text-sm">
-                            Customer Name *
-                            <input
-                                type="text"
-                                value={form.customerName}
-                                onChange={(e) => onChange("customerName", e.target.value)}
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                                required
-                            />
-                        </label>
-                        <label className="text-sm">
-                            Customer Number *
-                            <input
-                                type="tel"
-                                value={form.customerNumber}
-                                onChange={(e) => onChange("customerNumber", e.target.value)}
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                                required
-                            />
-                        </label>
-                        <label className="text-sm">
-                            Property / Project Interested *
-                            <input
-                                type="text"
-                                value={form.propertyName}
-                                onChange={(e) => onChange("propertyName", e.target.value)}
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                                required
-                            />
-                        </label>
-                        <label className="text-sm">
-                            Status
-                            <select
-                                value={form.status}
-                                onChange={(e) => onChange("status", e.target.value)}
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                            >
-                                {STATUS_OPTIONS.map((status) => (
-                                    <option key={status} value={status}>{status}</option>
-                                ))}
-                            </select>
-                        </label>
-                        <label className="text-sm md:col-span-2">
-                            Notes
-                            <textarea
-                                rows={3}
-                                value={form.notes}
-                                onChange={(e) => onChange("notes", e.target.value)}
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                            />
-                        </label>
-                        <div className="md:col-span-2">
-                            <button
-                                type="submit"
-                                className="rounded-md bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 px-5 py-2 font-semibold text-black"
-                            >
-                                Add Lead
-                            </button>
+                    <div className="grid gap-6 lg:grid-cols-2">
+                        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                            <div className="mb-3 flex items-center justify-between">
+                                <h3 className="text-lg font-semibold">Upcoming Visits</h3>
+                                <span className="text-xs text-gray-400">Next scheduled site visits</span>
+                            </div>
+                            <table className="w-full table-auto text-left text-sm">
+                                <thead>
+                                    <tr className="border-b border-white/10 text-gray-300">
+                                        <th className="pb-3 pr-2">Visit Date</th>
+                                        <th className="pb-3 pr-2">Customer</th>
+                                        <th className="pb-3 pr-2">Property</th>
+                                        <th className="pb-3 pr-2">Time Slot</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {UPCOMING_VISITS.map((visit) => (
+                                        <tr key={visit.id} className="border-b border-white/5">
+                                            <td className="py-3 pr-2">{visit.visitDate}</td>
+                                            <td className="py-3 pr-2">{visit.customerName}</td>
+                                            <td className="py-3 pr-2">{visit.propertyName}</td>
+                                            <td className="py-3 pr-2">{visit.slot}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-                    </form>
 
-                    <div className="overflow-x-auto rounded-xl border border-white/10 bg-white/5 p-4">
-                        <table className="w-full min-w-200 text-left text-sm">
-                            <thead>
-                                <tr className="border-b border-white/10 text-gray-300">
-                                    <th className="pb-3 pr-3">Date</th>
-                                    <th className="pb-3 pr-3">Lead Name</th>
-                                    <th className="pb-3 pr-3">Customer Number</th>
-                                    <th className="pb-3 pr-3">Property</th>
-                                    <th className="pb-3 pr-3">Notes</th>
-                                    <th className="pb-3 pr-3">Status</th>
-                                    <th className="pb-3 pr-3 text-right">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {leads.length === 0 && (
-                                    <tr>
-                                        <td className="py-4 text-gray-400" colSpan={7}>No leads added yet.</td>
+                        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                            <div className="mb-3 flex items-center justify-between">
+                                <h3 className="text-lg font-semibold">Completed Visits</h3>
+                                <span className="text-xs text-gray-400">Latest visit outcomes</span>
+                            </div>
+                            <table className="w-full table-auto text-left text-sm">
+                                <thead>
+                                    <tr className="border-b border-white/10 text-gray-300">
+                                        <th className="pb-3 pr-2">Visit Date</th>
+                                        <th className="pb-3 pr-2">Customer</th>
+                                        <th className="pb-3 pr-2">Property</th>
+                                        <th className="pb-3 pr-2">Outcome</th>
                                     </tr>
-                                )}
-                                {leads.map((lead) => (
-                                    <tr key={lead.id} className="border-b border-white/5">
-                                        <td className="py-3 pr-3">{lead.date || "-"}</td>
-                                        <td className="py-3 pr-3">{lead.customerName}</td>
-                                        <td className="py-3 pr-3">{lead.customerNumber}</td>
-                                        <td className="py-3 pr-3">{lead.propertyName}</td>
-                                        <td className="py-3 pr-3">{lead.notes || "-"}</td>
-                                        <td className="py-3 pr-3">
-                                            <select
-                                                value={lead.status}
-                                                onChange={(e) => updateLead(lead.id, "status", e.target.value)}
-                                                className="rounded-md border border-white/20 bg-black/30 px-2 py-1 text-white outline-none"
-                                            >
-                                                {STATUS_OPTIONS.map((status) => (
-                                                    <option key={status} value={status}>{status}</option>
-                                                ))}
-                                            </select>
-                                        </td>
-                                        <td className="py-3 pr-3 text-right">
-                                            <button
-                                                type="button"
-                                                onClick={() => deleteLead(lead.id)}
-                                                className="rounded-md border border-red-400/30 bg-red-500/10 px-2 py-1 text-xs text-red-300 hover:bg-red-500/20"
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {COMPLETED_VISITS.map((visit) => (
+                                        <tr key={visit.id} className="border-b border-white/5">
+                                            <td className="py-3 pr-2">{visit.visitDate}</td>
+                                            <td className="py-3 pr-2">{visit.customerName}</td>
+                                            <td className="py-3 pr-2">{visit.propertyName}</td>
+                                            <td className="py-3 pr-2">
+                                                <span className="rounded-full border border-amber-300/30 bg-amber-500/10 px-2 py-1 text-xs text-amber-200">
+                                                    {visit.outcome}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
             </main>

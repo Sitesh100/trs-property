@@ -20,6 +20,7 @@ const initialForm = {
 export default function AgentLeadsPage() {
     const [form, setForm] = useState(initialForm);
     const [leads, setLeads] = useState([]);
+    const [isAddLeadModalOpen, setIsAddLeadModalOpen] = useState(false);
 
     useEffect(() => {
         try {
@@ -64,6 +65,7 @@ export default function AgentLeadsPage() {
             ...prev,
         ]);
         setForm(initialForm);
+        setIsAddLeadModalOpen(false);
     };
 
     const updateLeadStatus = (id, nextStatus) => {
@@ -73,108 +75,36 @@ export default function AgentLeadsPage() {
     return (
         <>
             <Header />
-            <main className="min-h-screen bg-linear-to-b from-[#3F2464] via-[#2b1748] to-black px-4 py-8 text-white md:px-8">
+            <main className="min-h-screen bg-linear-to-b from-[#0a0a0a] via-[#101019] to-[#0b0b0f] px-4 py-8 text-white md:px-8">
                 <section className="mx-auto max-w-6xl">
-                    <div className="mb-6 rounded-xl border border-white/15 bg-black/20 p-5">
-                        <h1 className="text-2xl font-bold">Mini CRM - Leads</h1>
-                        <p className="mt-2 text-sm text-gray-300">
-                            Add leads, track status, and keep property interest notes in one place.
-                        </p>
-                    </div>
-
-                    <form onSubmit={onSubmit} className="mb-6 grid gap-4 rounded-xl border border-white/15 bg-black/20 p-5 md:grid-cols-2">
-                        <label className="text-sm">
-                            Date
-                            <input
-                                type="date"
-                                value={form.date}
-                                onChange={(e) => onChange("date", e.target.value)}
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                            />
-                        </label>
-
-                        <label className="text-sm">
-                            Customer Name *
-                            <input
-                                type="text"
-                                value={form.customerName}
-                                onChange={(e) => onChange("customerName", e.target.value)}
-                                placeholder="Enter customer name"
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                                required
-                            />
-                        </label>
-
-                        <label className="text-sm">
-                            Customer Number *
-                            <input
-                                type="tel"
-                                value={form.customerNumber}
-                                onChange={(e) => onChange("customerNumber", e.target.value)}
-                                placeholder="Enter phone number"
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                                required
-                            />
-                        </label>
-
-                        <label className="text-sm">
-                            Project / Property Interested *
-                            <input
-                                type="text"
-                                value={form.propertyName}
-                                onChange={(e) => onChange("propertyName", e.target.value)}
-                                placeholder="Project or property name"
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                                required
-                            />
-                        </label>
-
-                        <label className="text-sm">
-                            Status
-                            <select
-                                value={form.status}
-                                onChange={(e) => onChange("status", e.target.value)}
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                            >
-                                {STATUS_OPTIONS.map((status) => (
-                                    <option key={status} value={status}>
-                                        {status}
-                                    </option>
-                                ))}
-                            </select>
-                        </label>
-
-                        <label className="text-sm md:col-span-2">
-                            Notes
-                            <textarea
-                                rows={3}
-                                value={form.notes}
-                                onChange={(e) => onChange("notes", e.target.value)}
-                                placeholder="Notes"
-                                className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
-                            />
-                        </label>
-
-                        <div className="md:col-span-2">
+                    <div className="mb-6 rounded-xl border border-white/10 bg-white/5 p-5">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                            <div>
+                                <h1 className="text-2xl font-bold">Mini CRM - Leads</h1>
+                                <p className="mt-2 text-sm text-gray-300">
+                                    Add leads, track status, and keep property interest notes in one place.
+                                </p>
+                            </div>
                             <button
-                                type="submit"
+                                type="button"
+                                onClick={() => setIsAddLeadModalOpen(true)}
                                 className="rounded-md bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 px-5 py-2 font-semibold text-black"
                             >
                                 Add Lead
                             </button>
                         </div>
-                    </form>
+                    </div>
 
                     <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                         {STATUS_OPTIONS.map((status) => (
-                            <div key={status} className="rounded-lg border border-white/15 bg-black/20 px-4 py-3">
+                            <div key={status} className="rounded-lg border border-white/10 bg-white/5 px-4 py-3">
                                 <p className="text-sm text-gray-300">{status}</p>
                                 <p className="text-xl font-bold">{statusCounts[status] || 0}</p>
                             </div>
                         ))}
                     </div>
 
-                    <div className="overflow-x-auto rounded-xl border border-white/15 bg-black/20 p-4">
+                    <div className="overflow-x-auto rounded-xl border border-white/10 bg-white/5 p-4">
                         <table className="w-full min-w-190 text-left text-sm">
                             <thead>
                                 <tr className="border-b border-white/10 text-gray-300">
@@ -220,6 +150,113 @@ export default function AgentLeadsPage() {
                         </table>
                     </div>
                 </section>
+
+                {isAddLeadModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 px-4 py-6">
+                        <div className="w-full max-w-4xl rounded-xl border border-white/10 bg-[#11131c] p-5 shadow-2xl">
+                            <div className="mb-4 flex items-center justify-between">
+                                <h2 className="text-xl font-bold">Add New Lead</h2>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsAddLeadModalOpen(false)}
+                                    className="rounded-md border border-white/20 px-3 py-1 text-sm text-gray-200"
+                                >
+                                    Close
+                                </button>
+                            </div>
+
+                            <form onSubmit={onSubmit} className="grid gap-4 md:grid-cols-2">
+                                <label className="text-sm">
+                                    Date
+                                    <input
+                                        type="date"
+                                        value={form.date}
+                                        onChange={(e) => onChange("date", e.target.value)}
+                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                    />
+                                </label>
+
+                                <label className="text-sm">
+                                    Customer Name *
+                                    <input
+                                        type="text"
+                                        value={form.customerName}
+                                        onChange={(e) => onChange("customerName", e.target.value)}
+                                        placeholder="Enter customer name"
+                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                        required
+                                    />
+                                </label>
+
+                                <label className="text-sm">
+                                    Customer Number *
+                                    <input
+                                        type="tel"
+                                        value={form.customerNumber}
+                                        onChange={(e) => onChange("customerNumber", e.target.value)}
+                                        placeholder="Enter phone number"
+                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                        required
+                                    />
+                                </label>
+
+                                <label className="text-sm">
+                                    Project / Property Interested *
+                                    <input
+                                        type="text"
+                                        value={form.propertyName}
+                                        onChange={(e) => onChange("propertyName", e.target.value)}
+                                        placeholder="Project or property name"
+                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                        required
+                                    />
+                                </label>
+
+                                <label className="text-sm">
+                                    Status
+                                    <select
+                                        value={form.status}
+                                        onChange={(e) => onChange("status", e.target.value)}
+                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                    >
+                                        {STATUS_OPTIONS.map((status) => (
+                                            <option key={status} value={status}>
+                                                {status}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
+
+                                <label className="text-sm md:col-span-2">
+                                    Notes
+                                    <textarea
+                                        rows={3}
+                                        value={form.notes}
+                                        onChange={(e) => onChange("notes", e.target.value)}
+                                        placeholder="Notes"
+                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                    />
+                                </label>
+
+                                <div className="md:col-span-2 flex gap-3">
+                                    <button
+                                        type="submit"
+                                        className="rounded-md bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 px-5 py-2 font-semibold text-black"
+                                    >
+                                        Add Lead
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsAddLeadModalOpen(false)}
+                                        className="rounded-md border border-white/25 px-5 py-2 font-semibold text-white"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
             </main>
             <WhatsapBanner />
             <Footer />
