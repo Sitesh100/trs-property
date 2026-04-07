@@ -155,55 +155,7 @@ export default function BuilderAnalyticsDashboard() {
                         </article>
                     </div>
 
-                    <div className="mb-6 rounded-xl border border-white/10 bg-white/5 p-5">
-                        <div className="mb-4 flex items-center justify-between">
-                            <h2 className="text-lg font-semibold">Property Views Trend</h2>
-                            <span className="text-xs text-gray-400">Demo data - Last 6 months</span>
-                        </div>
-
-                        <div className="mb-4 grid gap-3 sm:grid-cols-3">
-                            {MONTHLY_ANALYTICS.slice(-3).map((item) => (
-                                <div key={`preview-${item.month}`} className="rounded-lg border border-white/10 bg-black/30 px-3 py-2">
-                                    <p className="text-xs text-gray-400">{item.month}</p>
-                                    <p className="text-sm font-semibold">{item.views} views</p>
-                                    <p className="text-xs text-gray-400">{item.leads} leads, {item.closed} closed</p>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="rounded-lg border border-white/10 bg-black/30 p-3">
-                            <svg viewBox="0 0 680 240" className="h-56 w-full">
-                                <defs>
-                                    <linearGradient id="viewsArea" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stopColor="#f2d18b" stopOpacity="0.45" />
-                                        <stop offset="100%" stopColor="#f2d18b" stopOpacity="0.02" />
-                                    </linearGradient>
-                                </defs>
-
-                                <g stroke="#2a2f3d" strokeWidth="1">
-                                    <line x1="0" y1="220" x2="680" y2="220" />
-                                    <line x1="0" y1="165" x2="680" y2="165" />
-                                    <line x1="0" y1="110" x2="680" y2="110" />
-                                    <line x1="0" y1="55" x2="680" y2="55" />
-                                </g>
-
-                                <path d={areaPath} fill="url(#viewsArea)" />
-                                <path d={linePath} fill="none" stroke="#f2d18b" strokeWidth="3" strokeLinecap="round" />
-
-                                {graphPoints.map((point) => (
-                                    <g key={`point-${point.month}`}>
-                                        <circle cx={point.x} cy={point.y} r="4" fill="#f2d18b" />
-                                        <text x={point.x} y={point.y - 10} textAnchor="middle" fontSize="10" fill="#d9dce3">
-                                            {point.views}
-                                        </text>
-                                        <text x={point.x} y="236" textAnchor="middle" fontSize="10" fill="#9ca3af">
-                                            {point.month}
-                                        </text>
-                                    </g>
-                                ))}
-                            </svg>
-                        </div>
-                    </div>
+                    
 
                     <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
                         {STATUS_OPTIONS.map((status) => (
@@ -271,6 +223,56 @@ export default function BuilderAnalyticsDashboard() {
                                     ))}
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <div className="mb-6 mt-6 rounded-xl border border-white/10 bg-white/5 p-5">
+                        <div className="mb-4 flex items-center justify-between">
+                            <h2 className="text-lg font-semibold">Property Views Trend</h2>
+                            <span className="text-xs text-gray-400">Demo data - Last 6 months</span>
+                        </div>
+
+                        <div className="mb-4 grid gap-3 sm:grid-cols-3">
+                            {MONTHLY_ANALYTICS.slice(-3).map((item) => (
+                                <div key={`preview-${item.month}`} className="rounded-lg border border-white/10 bg-black/30 px-3 py-2">
+                                    <p className="text-xs text-gray-400">{item.month}</p>
+                                    <p className="text-sm font-semibold">{item.views} views</p>
+                                    <p className="text-xs text-gray-400">{item.leads} leads, {item.closed} closed</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="rounded-lg border border-white/10 bg-black/30 p-3">
+                            <svg viewBox="0 0 680 240" className="h-56 w-full">
+                                <defs>
+                                    <linearGradient id="viewsArea" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stopColor="#f2d18b" stopOpacity="0.45" />
+                                        <stop offset="100%" stopColor="#f2d18b" stopOpacity="0.02" />
+                                    </linearGradient>
+                                </defs>
+
+                                <g stroke="#2a2f3d" strokeWidth="1">
+                                    <line x1="0" y1="220" x2="680" y2="220" />
+                                    <line x1="0" y1="165" x2="680" y2="165" />
+                                    <line x1="0" y1="110" x2="680" y2="110" />
+                                    <line x1="0" y1="55" x2="680" y2="55" />
+                                </g>
+
+                                <path d={areaPath} fill="url(#viewsArea)" />
+                                <path d={linePath} fill="none" stroke="#f2d18b" strokeWidth="3" strokeLinecap="round" />
+
+                                {graphPoints.map((point) => (
+                                    <g key={`point-${point.month}`}>
+                                        <circle cx={point.x} cy={point.y} r="4" fill="#f2d18b" />
+                                        <text x={point.x} y={point.y - 10} textAnchor="middle" fontSize="10" fill="#d9dce3">
+                                            {point.views}
+                                        </text>
+                                        <text x={point.x} y="236" textAnchor="middle" fontSize="10" fill="#9ca3af">
+                                            {point.month}
+                                        </text>
+                                    </g>
+                                ))}
+                            </svg>
                         </div>
                     </div>
                 </section>
