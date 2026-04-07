@@ -8,9 +8,24 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { newBasedUrl } from "@/libs/based-url";
+import { useRouter } from "next/navigation";
+import { setAuthCookies } from "@/utils/authCookies";
+
+const normalizeUserRole = (roleValue) => {
+    if (!roleValue) return "";
+    return String(roleValue).trim().toLowerCase();
+};
+
+const getRoleDashboardRoute = (roleValue) => {
+    const role = normalizeUserRole(roleValue);
+    if (role.includes("builder")) return "/builder-panel";
+    if (role.includes("agent") || role.includes("consultant")) return "/";
+    return "";
+};
 
 function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
     const dispatch = useDispatch();
+    const router = useRouter();
     const [login, { isLoading }] = useLoginMutation();
     const [showPassword, setShowPassword] = useState(false);
 
@@ -38,7 +53,8 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                 
                 // Handle successful login
                 const token = response?.access_token || response?.token;
-                const role = response?.role;
+                const roleFromLogin = response?.role || response?.user?.role;
+                let resolvedRole = normalizeUserRole(roleFromLogin);
                 
                 if (token) {
                     // Store token
@@ -47,7 +63,7 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                     // Create user object with available data
                     const user = {
                         email: values.username,
-                        role: role || "customer",
+                        role: resolvedRole || "customer",
                     };
                     
                     dispatch(setUser(user));
@@ -67,6 +83,9 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
 
                             if (profileData && typeof profileData === "object") {
                                 dispatch(setUser(profileData));
+                                resolvedRole = normalizeUserRole(
+                                    profileData?.role || profileData?.user_role || resolvedRole
+                                );
                             }
                         }
                     } catch (profileErr) {
@@ -74,8 +93,14 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                     }
 
                     toast.success("Login successful!");
+                    setAuthCookies({ token, role: resolvedRole || "customer" });
                     window.dispatchEvent(new Event("resume-form-submit"));
                     onClose();
+
+                    const dashboardRoute = getRoleDashboardRoute(resolvedRole);
+                    if (dashboardRoute) {
+                        router.push(dashboardRoute);
+                    }
                 } else {
                     toast.error("Invalid response from server");
                 }
@@ -162,7 +187,7 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="golden-button group relative overflow-hidden w-full mt-6 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 font-semibold py-2.5 rounded-lg transition-all duration-300 h-11 flex items-center justify-center cursor-pointer hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 disabled:opacity-50"
+                    className="golden-button group relative overflow-hidden w-full mt-6 bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 font-semibold py-2.5 rounded-lg transition-all duration-300 h-11 flex items-center justify-center cursor-pointer hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 disabled:opacity-50"
                 >
                     <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
                         {isLoading ? (
@@ -173,7 +198,7 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                             "Login"
                         )}
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
+                    <div className="absolute inset-0 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
                 </button>
 
                 <div className="mt-4 text-center">

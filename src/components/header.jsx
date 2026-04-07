@@ -11,6 +11,7 @@ import ProfileDrawer from "./(profile)/profile-drawer";
 import { usePathname, useRouter } from "next/navigation";
 import HeaderDrawer from "./(profile)/header-drawer";
 import { LogIn } from 'lucide-react';
+import { clearAuthCookies } from "@/utils/authCookies";
 
 const links = [
   { href: "/", label: "HOME" },
@@ -31,6 +32,7 @@ function Header() {
   const pathname = usePathname();
 
   const handlerLogout = () => {
+    clearAuthCookies();
     dispatch(clearAuth());
     toast.success("Successfully logged out");
     router.push("/");
@@ -41,7 +43,7 @@ function Header() {
       <header className="sticky top-0 z-50 w-full property-gradient backdrop-blur-sm shadow-lg">
         <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-2.5 md:py-3 flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-end flex-shrink-0">
+          <Link href="/" className="flex items-end shrink-0">
             {/* <Image
               src="/assets/logo/logo2.avif"
               alt="Logo"
@@ -83,7 +85,7 @@ function Header() {
 
                 {/* Underline */}
                 <span
-                  className={`absolute -bottom-1 left-0 h-[2px] bg-amber-400 transition-all duration-300
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-amber-400 transition-all duration-300
                     ${pathname === href
                       ? "w-full"                          // active → full underline
                       : "w-0 group-hover:w-full"          // hover → animate in
@@ -98,19 +100,19 @@ function Header() {
               <>
                 <button
                   onClick={() => setOpen(true)}
-                  className="flex items-center cursor-pointer justify-center w-9 h-9 rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] transition-all duration-300 group"
+                  className="flex items-center cursor-pointer justify-center w-9 h-9 rounded-full bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] transition-all duration-300 group"
                   title="Login"
                 >
                   <LogIn className="w-5 h-5 text-gray-900 group-hover:text-white transition-colors" />
                 </button>
                 <button
                   onClick={() => router.push("/post-property")}
-                  className=" group relative overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 whitespace-nowrap"
+                  className=" group relative overflow-hidden bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 whitespace-nowrap"
                 >
                   <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
                     Post Property
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </button>
                
               </>
@@ -123,12 +125,12 @@ function Header() {
             ) : (
               <button
                 onClick={() => setOpen(true)}
-                className="golden-button group relative overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 px-3 sm:px-4 py-1.5 sm:py-2 rounded text-xs sm:text-sm font-semibold whitespace-nowrap active:scale-95 transition-transform"
+                className="golden-button group relative overflow-hidden bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 px-3 sm:px-4 py-1.5 sm:py-2 rounded text-xs sm:text-sm font-semibold whitespace-nowrap active:scale-95 transition-transform"
               >
                 <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
                   LogIn
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
             )}
 

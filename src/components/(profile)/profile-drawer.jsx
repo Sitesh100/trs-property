@@ -1,7 +1,6 @@
 "use client";
 import { Dialog } from "@headlessui/react";
 import {
-    User,
     LogOut,
     X
 } from "lucide-react";
@@ -13,8 +12,11 @@ import Image from "next/image";
 export default function ProfileDrawer({ onLogout, user }) {
     const [isOpen, setIsOpen] = useState(false);
     const previewImage = user?.profile_image_url || '/assets/images/profile.png';
+    const role = String(user?.role || '').toLowerCase();
+    const isAgentRole = role.includes('agent') || role.includes('consultant');
+    const isBuilderRole = role.includes('builder');
 
-    const menuItems = [
+    const customerMenuItems = [
         { name: "Profile", url: '/profile' },
         { name: "Post Property", url: '/post-property' },
         { name: "Post Buy Requirement", url: '/post-buy-requirement' },
@@ -23,6 +25,23 @@ export default function ProfileDrawer({ onLogout, user }) {
         { name: "My Matches", url: '/property-matches' },
         { name: "Cart", url: '/property-favourite' },
     ];
+
+    const agentMenuItems = [
+        { name: "Profile", url: '/agent/profile' },
+        { name: "Post Property", url: '/agent/post-property' },
+        { name: "Post Buy Requirement", url: '/agent/post-buy-requirement' },
+        { name: "My Buy Requirements", url: '/agent/my-buy-requirements' },
+        { name: "My Property", url: '/agent/my-property' },
+        { name: "Match Making", url: '/agent/match-making' },
+        { name: "Leads", url: '/agent/leads' },
+    ];
+
+    const builderMenuItems = [
+        { name: "Profile", url: '/builder/profile' },
+        { name: "Analytics", url: '/builder/analytics' },
+    ];
+
+    const menuItems = isBuilderRole ? builderMenuItems : isAgentRole ? agentMenuItems : customerMenuItems;
 
     return (
         <>
@@ -59,7 +78,7 @@ export default function ProfileDrawer({ onLogout, user }) {
                                 animate={{ x: 0 }}
                                 exit={{ x: "100%" }}
                                 transition={{ type: "tween", ease: "easeInOut", duration: 0.4 }}
-                                className="fixed inset-y-0 right-0 w-72 sm:w-80 bg-gradient-to-b from-[#3F2464] via-[#2b1748] to-black shadow-2xl p-5 flex flex-col justify-between z-50"
+                                className="fixed inset-y-0 right-0 w-72 sm:w-80 bg-linear-to-b from-[#3F2464] via-[#2b1748] to-black shadow-2xl p-5 flex flex-col justify-between z-50"
                             >
                                 <button
                                     onClick={() => setIsOpen(false)}
@@ -75,7 +94,7 @@ export default function ProfileDrawer({ onLogout, user }) {
                                         <Image src="/assets/logo/logo1.png" alt="Logo" width={100} height={100} />
                                     </Link>
                                     <ul className="space-y-5 mt-10">
-                                        {menuItems?.map(({ name, icon: Icon, url }) => (
+                                        {menuItems?.map(({ name, url }) => (
                                             <Link
                                                 href={url}
                                                 key={name}

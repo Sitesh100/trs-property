@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { useState, useMemo } from "react";
+import { setAuthCookies } from "@/utils/authCookies";
 
 function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
   const dispatch = useDispatch();
@@ -148,6 +149,10 @@ function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
           toast.success("Registration successful!");
           dispatch(setToken(token));
           dispatch(setUser(user));
+          setAuthCookies({
+            token,
+            role: user?.role || user?.user_role || values.role,
+          });
           window.dispatchEvent(new Event("resume-form-submit"));
           onClose();
         } else {
@@ -510,9 +515,9 @@ function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
         <button
           type="submit"
           disabled={isLoading}
-          className="golden-button group relative overflow-hidden w-full mt-6 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 font-semibold py-2 rounded transition-all duration-300 h-10 flex items-center justify-center cursor-pointer hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 disabled:opacity-50"
+          className="golden-button group relative overflow-hidden w-full mt-6 bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 font-semibold py-2 rounded transition-all duration-300 h-10 flex items-center justify-center cursor-pointer hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 disabled:opacity-50"
         >
-          <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
             {isLoading ? (
               <div className="animate-spin">
                 <Loader />
@@ -521,7 +526,7 @@ function SignupForm({ setActiveTab, onClose, sendOtpInfo, setSendOtpInfo }) {
               "Create Account"
             )}
           </span>
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded"></div>
         </button>
 
         <div className="mt-4 text-center">

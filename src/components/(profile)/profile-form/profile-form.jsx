@@ -4,12 +4,16 @@ import ProfileFormPersonal from "./profile-form-personal";
 import ProfileFormKyc from "./profile-form-kyc";
 import ProfileFormWork from "./profile-form-work";
 import { useSelector } from "react-redux";
+import AgentDigitalCard from "../agent-digital-card";
+import BuilderDigitalCard from "../builder-digital-card";
 
 const ProfileForm = () => {
     const { user } = useSelector((state) => state.auth);
     const [activeTab, setActiveTab] = useState('personal');
     const role = (user?.role || '').toLowerCase();
     const canViewExtraSections = role === 'agent' || role === 'builder';
+    const isAgent = role === 'agent';
+    const isBuilder = role === 'builder';
 
     useEffect(() => {
         if (!canViewExtraSections && activeTab !== 'personal') {
@@ -21,6 +25,9 @@ const ProfileForm = () => {
         <div className="min-h-screen profile-gradient p-6 flex justify-center items-center">
             <div className="w-6xl mx-auto bg-white rounded-lg p-6 shadow-lg">
                 <h2 className="text-2xl font-bold mb-6">EDIT PROFILE</h2>
+
+                {isAgent && <AgentDigitalCard />}
+                {isBuilder && <BuilderDigitalCard />}
 
                 <div className="flex border-b mb-6">
                     <button
