@@ -50,8 +50,8 @@ function PropertyValuationPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-[#020b1e] text-white pb-16 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_10%,rgba(199,161,83,0.14),transparent_35%),radial-gradient(circle_at_80%_15%,rgba(91,138,214,0.12),transparent_38%)]" />
+      <main className="min-h-screen bg-[#212121] text-[#F5EFE7] pb-16 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_10%,rgba(198, 162, 86, 0.14),transparent_35%),radial-gradient(circle_at_80%_15%,rgba(10, 31, 61, 0.12),transparent_38%)]" />
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-12 relative z-10">
           <motion.div
@@ -59,7 +59,7 @@ function PropertyValuationPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="inline-flex items-center px-4 py-2 mb-5 text-xs sm:text-sm font-semibold bg-amber-300/15 text-amber-200 border border-amber-200/30 rounded-[0.5rem]"
+            className="inline-flex items-center px-4 py-2 mb-5 text-xs sm:text-sm font-semibold bg-[#212121]/15 text-[#C6A256] border border-[#C6A256]/30 rounded-[0.5rem]"
           >
             Trusted Legal Support
           </motion.div>
@@ -79,7 +79,7 @@ function PropertyValuationPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
-            className="mt-4 max-w-4xl text-base sm:text-lg text-slate-200/90 leading-relaxed"
+            className="mt-4 max-w-4xl text-base sm:text-lg text-[#F5EFE7]/90 leading-relaxed"
           >
             Real estate decisions carry long-term implications. Our legal services are designed to eliminate
             uncertainty at every step. We provide structured legal support across buying, selling, leasing,
@@ -91,7 +91,7 @@ function PropertyValuationPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
-            className="mt-8 bg-[#2a3040]/90 border border-slate-600/30 rounded-[0.5rem] overflow-hidden"
+            className="mt-8 bg-[#212121]/90 border border-[#F5EFE7]/30 rounded-[0.5rem] overflow-hidden"
           >
             <div className="grid grid-cols-1 md:grid-cols-3">
               {serviceSections.map((section, index) => (
@@ -101,12 +101,12 @@ function PropertyValuationPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.45, delay: 0.12 * index, ease: "easeOut" }}
-                  whileHover={{ backgroundColor: "rgba(255,255,255,0.02)" }}
-                  className={`p-6 sm:p-8 border-b md:border-b-0 border-slate-600/30 ${
+                  whileHover={{ backgroundColor: "rgba(245, 239, 231, 0.02)" }}
+                  className={`p-6 sm:p-8 border-b md:border-b-0 border-[#F5EFE7]/30 ${
                     index < serviceSections.length - 1 ? "md:border-r" : ""
                   }`}
                 >
-                  <div className="inline-flex bg-white text-slate-900 text-lg font-semibold px-7 py-2 rounded-[0.5rem] mb-7">
+                  <div className="inline-flex bg-[#F5EFE7] text-[#212121] text-lg font-semibold px-7 py-2 rounded-[0.5rem] mb-7">
                     {section.title}
                   </div>
 
@@ -122,7 +122,7 @@ function PropertyValuationPage() {
                     {section.points.map((point) => (
                       <li
                         key={point}
-                        className="py-3 text-sm sm:text-base text-slate-100 border-b border-slate-500/40"
+                        className="py-3 text-sm sm:text-base text-[#F5EFE7] border-b border-[#F5EFE7]/40"
                       >
                         {point}
                       </li>

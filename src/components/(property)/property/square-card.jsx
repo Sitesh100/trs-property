@@ -98,8 +98,8 @@ const SquareCard = ({ cards }) => {
                             onClick={() => setCurrentIndex(index)}
                             className={`w-1 h-1 rounded-full transition-all duration-300 cursor-pointer ${
                                 currentIndex === index
-                                    ? 'bg-amber-400 w-1'
-                                    : 'bg-white/40'
+                                    ? 'bg-[#212121] w-1'
+                                    : 'bg-[#F5EFE7]/40'
                             }`}
                         />
                     ))}

@@ -44,7 +44,7 @@ const validateForm = (form) => {
 
 function FieldError({ message }) {
   if (!message) return null;
-  return <p className="text-xs text-red-500 mt-1">{message}</p>;
+  return <p className="text-xs text-[#C6A256] mt-1">{message}</p>;
 }
 
 function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
@@ -138,13 +138,13 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
 
   return (
     <div className="fixed top-40 inset-0 z-[120] backdrop-blur-[2px] px-3 py-8 overflow-y-auto">
-      <div className="max-w-4xl mx-auto rounded-2xl bg-white shadow-2xl border border-slate-200 p-4 sm:p-6">
-        <div className="flex items-start justify-between gap-3 border-b border-slate-200 pb-4 mb-4">
-          <h3 className="text-xl sm:text-2xl font-semibold text-slate-800 leading-tight">{title}</h3>
+      <div className="max-w-4xl mx-auto rounded-2xl bg-[#F5EFE7] shadow-2xl border border-[#F5EFE7] p-4 sm:p-6">
+        <div className="flex items-start justify-between gap-3 border-b border-[#F5EFE7] pb-4 mb-4">
+          <h3 className="text-xl sm:text-2xl font-semibold text-[#F5EFE7] leading-tight">{title}</h3>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-slate-500 hover:text-slate-700 transition-colors"
+            className="p-1.5 text-[#F5EFE7] hover:text-[#F5EFE7] transition-colors"
             aria-label="Close form"
           >
             <X className="h-6 w-6" />
@@ -154,50 +154,50 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Loan amount</label>
+              <label className="block text-sm text-[#F5EFE7] mb-1">Loan amount</label>
               <input
                 value={form.loanAmount}
                 onChange={(e) => updateField("loanAmount", e.target.value)}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2.5"
+                className="w-full rounded-xl border border-[#F5EFE7] px-3 py-2.5"
                 placeholder="6,00,000"
               />
               <FieldError message={errors.loanAmount} />
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Tenure</label>
-              <div className="flex rounded-xl border border-slate-200 overflow-hidden">
+              <label className="block text-sm text-[#F5EFE7] mb-1">Tenure</label>
+              <div className="flex rounded-xl border border-[#F5EFE7] overflow-hidden">
                 <input
                   value={form.tenure}
                   onChange={(e) => updateField("tenure", e.target.value)}
                   className="w-full px-3 py-2.5"
                   placeholder="20"
                 />
-                <span className="px-3 py-2.5 text-slate-500 bg-slate-50 border-l border-slate-200">Years</span>
+                <span className="px-3 py-2.5 text-[#F5EFE7] bg-[#212121] border-l border-[#F5EFE7]">Years</span>
               </div>
               <FieldError message={errors.tenure} />
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Your Age</label>
-              <div className="flex rounded-xl border border-slate-200 overflow-hidden">
+              <label className="block text-sm text-[#F5EFE7] mb-1">Your Age</label>
+              <div className="flex rounded-xl border border-[#F5EFE7] overflow-hidden">
                 <input
                   value={form.age}
                   onChange={(e) => updateField("age", e.target.value)}
                   className="w-full px-3 py-2.5"
                   placeholder="35"
                 />
-                <span className="px-3 py-2.5 text-slate-500 bg-slate-50 border-l border-slate-200">Years</span>
+                <span className="px-3 py-2.5 text-[#F5EFE7] bg-[#212121] border-l border-[#F5EFE7]">Years</span>
               </div>
               <FieldError message={errors.age} />
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Is your property identified?</label>
+              <label className="block text-sm text-[#F5EFE7] mb-1">Is your property identified?</label>
               <select
                 value={form.propertyIdentified}
                 onChange={(e) => updateField("propertyIdentified", e.target.value)}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2.5 bg-white"
+                className="w-full rounded-xl border border-[#F5EFE7] px-3 py-2.5 bg-[#F5EFE7]"
               >
                 <option value="">Select</option>
                 <option value="yes">Yes</option>
@@ -207,11 +207,11 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Property city</label>
+              <label className="block text-sm text-[#F5EFE7] mb-1">Property city</label>
               <select
                 value={form.propertyCity}
                 onChange={(e) => updateField("propertyCity", e.target.value)}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2.5 bg-white"
+                className="w-full rounded-xl border border-[#F5EFE7] px-3 py-2.5 bg-[#F5EFE7]"
               >
                 <option value="">Select</option>
                 {cityOptions.map((city) => (
@@ -222,22 +222,22 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Property Cost</label>
+              <label className="block text-sm text-[#F5EFE7] mb-1">Property Cost</label>
               <input
                 value={form.propertyCost}
                 onChange={(e) => updateField("propertyCost", e.target.value)}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2.5"
+                className="w-full rounded-xl border border-[#F5EFE7] px-3 py-2.5"
                 placeholder="37,50,000"
               />
               <FieldError message={errors.propertyCost} />
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">How are you currently employed?</label>
+              <label className="block text-sm text-[#F5EFE7] mb-1">How are you currently employed?</label>
               <select
                 value={form.employment}
                 onChange={(e) => updateField("employment", e.target.value)}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2.5 bg-white"
+                className="w-full rounded-xl border border-[#F5EFE7] px-3 py-2.5 bg-[#F5EFE7]"
               >
                 <option value="salaried">Salaried</option>
                 <option value="self-employed">Self-employed</option>
@@ -246,59 +246,59 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Your Income</label>
-              <div className="flex rounded-xl border border-slate-200 overflow-hidden">
+              <label className="block text-sm text-[#F5EFE7] mb-1">Your Income</label>
+              <div className="flex rounded-xl border border-[#F5EFE7] overflow-hidden">
                 <input
                   value={form.income}
                   onChange={(e) => updateField("income", e.target.value)}
                   className="w-full px-3 py-2.5"
                   placeholder="1,00,000"
                 />
-                <span className="px-3 py-2.5 text-slate-500 bg-slate-50 border-l border-slate-200">Monthly</span>
+                <span className="px-3 py-2.5 text-[#F5EFE7] bg-[#212121] border-l border-[#F5EFE7]">Monthly</span>
               </div>
               <FieldError message={errors.income} />
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Current total EMIs</label>
-              <div className="flex rounded-xl border border-slate-200 overflow-hidden">
+              <label className="block text-sm text-[#F5EFE7] mb-1">Current total EMIs</label>
+              <div className="flex rounded-xl border border-[#F5EFE7] overflow-hidden">
                 <input
                   value={form.totalEmi}
                   onChange={(e) => updateField("totalEmi", e.target.value)}
                   className="w-full px-3 py-2.5"
                   placeholder="10,000"
                 />
-                <span className="px-3 py-2.5 text-slate-500 bg-slate-50 border-l border-slate-200">Monthly</span>
+                <span className="px-3 py-2.5 text-[#F5EFE7] bg-[#212121] border-l border-[#F5EFE7]">Monthly</span>
               </div>
               <FieldError message={errors.totalEmi} />
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Full name is mandatory</label>
+              <label className="block text-sm text-[#F5EFE7] mb-1">Full name is mandatory</label>
               <input
                 value={form.fullName}
                 onChange={(e) => updateField("fullName", e.target.value)}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2.5"
+                className="w-full rounded-xl border border-[#F5EFE7] px-3 py-2.5"
               />
               <FieldError message={errors.fullName} />
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Email ID is mandatory</label>
+              <label className="block text-sm text-[#F5EFE7] mb-1">Email ID is mandatory</label>
               <input
                 value={form.email}
                 onChange={(e) => updateField("email", e.target.value)}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2.5"
+                className="w-full rounded-xl border border-[#F5EFE7] px-3 py-2.5"
               />
               <FieldError message={errors.email} />
             </div>
 
             <div>
-              <label className="block text-sm text-slate-700 mb-1">Mobile number is mandatory</label>
+              <label className="block text-sm text-[#F5EFE7] mb-1">Mobile number is mandatory</label>
               <input
                 value={form.mobile}
                 onChange={(e) => updateField("mobile", e.target.value)}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2.5"
+                className="w-full rounded-xl border border-[#F5EFE7] px-3 py-2.5"
                 maxLength={10}
               />
               <FieldError message={errors.mobile} />
@@ -306,7 +306,7 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
           </div>
 
           <div>
-            <label className="flex items-start gap-2 text-sm text-slate-500">
+            <label className="flex items-start gap-2 text-sm text-[#F5EFE7]">
               <input
                 type="checkbox"
                 className="mt-1"
@@ -315,7 +315,7 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
               />
               <span>
                 I authorize Roome/relevant loan providers and their representatives to call, SMS or email me with
-                reference to this application and accept <span className="text-blue-600">TRS Property Mall Terms & Conditions</span>.
+                reference to this application and accept <span className="text-[#C6A256]">TRS Property Mall Terms & Conditions</span>.
               </span>
             </label>
             <FieldError message={errors.consent} />
@@ -324,12 +324,12 @@ function LoanDealFormPopup({ isOpen, bankName, onClose, onSubmit }) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white font-semibold py-3 transition-colors disabled:opacity-70"
+            className="w-full rounded-xl bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-semibold py-3 transition-colors disabled:opacity-70"
           >
             {isSubmitting ? "Submitting..." : "Submit Details"}
           </button>
 
-          <p className="text-xs text-slate-400 text-center">
+          <p className="text-xs text-[#F5EFE7] text-center">
             Please note that our privacy policy does not govern the use of your data by financial institutions once it is
             shared.
           </p>

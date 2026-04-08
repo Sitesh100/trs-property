@@ -44,89 +44,89 @@
 }
 
 .featured-gradient {
-  background: linear-gradient(180deg, #08030A 23.08%, #492974 73.08%);
+  background: linear-gradient(180deg, #0A1F3D 23.08%, #212121 73.08%);
 }
 
 .founder-gradient {
-  background: linear-gradient(122.56deg, #492974 6.38%, #000000 54.79%);
+  background: linear-gradient(122.56deg, #0A1F3D 6.38%, #212121 54.79%);
 }
 
 .revolution-gradient {
-  background: linear-gradient(122.56deg, #492974 6.38%, #000000 54.79%);
+  background: linear-gradient(122.56deg, #0A1F3D 6.38%, #212121 54.79%);
 }
 
 .patner-gradient {
-  background: linear-gradient(280.58deg, #492974 -58.12%, #000000 92.13%);
+  background: linear-gradient(280.58deg, #0A1F3D -58.12%, #212121 92.13%);
 }
 
 .news-gradient {
-  background: linear-gradient(280.58deg, #492974 -58.12%, #000000 92.13%);
+  background: linear-gradient(280.58deg, #0A1F3D -58.12%, #212121 92.13%);
 }
 
 .testi-gradient {
-  background: linear-gradient(180deg, rgba(73, 41, 116, 0.73) 0%, rgba(0, 0, 0, 0.73) 86.54%);
+  background: linear-gradient(180deg, rgba(10, 31, 61, 0.73) 0%, rgba(33, 33, 33, 0.73) 86.54%);
 }
 
 .property-search-gradient {
-  background: conic-gradient(from 180deg at 50% 50%, #3F2464 0deg, #020002 292.5deg, #3F2464 360deg);
+  background: conic-gradient(from 180deg at 50% 50%, #0A1F3D 0deg, #212121 292.5deg, #0A1F3D 360deg);
 }
 
 .property-gradient {
-  background: linear-gradient(90deg, #171137 0%, #121212 100%);
+  background: linear-gradient(90deg, #0A1F3D 0%, #212121 100%);
 }
 
 .profile-gradient {
-  background: conic-gradient(from 180deg at 50% 50%, #3F2464 0deg, #020002 292.5deg, #3F2464 360deg);
+  background: conic-gradient(from 180deg at 50% 50%, #0A1F3D 0deg, #212121 292.5deg, #0A1F3D 360deg);
 }
 
 /* Filter Section Gradient - NEW */
 .filter-gradient {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+  background: linear-gradient(135deg, #0A1F3D 0%, #212121 55%, #0A1F3D 100%);
 }
 
 /* Filter Bar Gradient - NEW */
 .filter-bar-gradient {
-  background: linear-gradient(90deg, rgba(73, 41, 116, 0.15) 0%, rgba(23, 17, 55, 0.25) 50%, rgba(73, 41, 116, 0.15) 100%);
+  background: linear-gradient(90deg, rgba(10, 31, 61, 0.15) 0%, rgba(33, 33, 33, 0.25) 50%, rgba(10, 31, 61, 0.15) 100%);
   backdrop-filter: blur(10px);
 }
 
 /* Filter Dropdown - NEW */
 .filter-dropdown {
-  background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
-  border: 1px solid rgba(73, 41, 116, 0.3);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(73, 41, 116, 0.2);
+  background: linear-gradient(180deg, #0A1F3D 0%, #212121 100%);
+  border: 1px solid rgba(10, 31, 61, 0.3);
+  box-shadow: 0 10px 40px rgba(33, 33, 33, 0.5), 0 0 20px rgba(10, 31, 61, 0.2);
 }
 
 /* Filter Button Active State - NEW */
 .filter-btn-active {
-  background: rgba(73, 41, 116, 0.25);
-  border-color: #492974;
-  color: white;
+  background: rgba(10, 31, 61, 0.25);
+  border-color: #212121;
+  color: #F5EFE7;
 }
 
 /* Filter Button Default State - NEW */
 .filter-btn-default {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(245, 239, 231, 0.05);
   border: 2px solid transparent;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(245, 239, 231, 0.8);
 }
 
 .filter-btn-default:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(73, 41, 116, 0.5);
+  background: rgba(245, 239, 231, 0.1);
+  border-color: rgba(10, 31, 61, 0.5);
 }
 
 /* Filter Modal Gradient - NEW */
 .filter-modal-gradient {
-  background: linear-gradient(145deg, #1a1a2e 0%, #0d0d1a 100%);
+  background: linear-gradient(145deg, #212121 0%, #212121 100%);
 }
 
 .input-search-shadow {
-  box-shadow: 0px 4px 4px 0px #060606;
+  box-shadow: 0px 4px 4px 0px #212121;
 }
 
 .detail-search-card-shadow {
-  box-shadow: 0px 17px 50px 0px #8F90A652;
+  box-shadow: 0px 17px 50px 0px rgba(245, 239, 231, 0.32);
 }
 
 /* Lufga Font Family */
@@ -174,7 +174,7 @@
 
 .hero-title {
   font-family: 'Lufga', sans-serif;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 4px 30px rgba(33, 33, 33, 0.3);
 }
 
 /* Hero section enhancements */
@@ -184,10 +184,10 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(245, 239, 231, 0.1);
   }
   50% {
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 30px rgba(245, 239, 231, 0.2);
   }
 }
 
@@ -196,15 +196,15 @@
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 10%,
-    black 90%,
+    #212121 10%,
+    #212121 90%,
     transparent 100%
   );
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 10%,
-    black 90%,
+    #212121 10%,
+    #212121 90%,
     transparent 100%
   );
 }
@@ -218,20 +218,20 @@
 }
 
 .custom-range::-webkit-slider-runnable-track {
-  background: linear-gradient(to right, #F2F4F7 0%, #F2F4F7 var(--progress), #1A1A1A var(--progress), #1A1A1A 100%);
+  background: linear-gradient(to right, #F5EFE7 0%, #F5EFE7 var(--progress), #212121 var(--progress), #212121 100%);
   height: 4px;
   border-radius: 2px;
 }
 
 .custom-range::-moz-range-track {
-  background: #1A1A1A;
+  background: #212121;
   height: 4px;
 }
 
 .custom-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  background: white;
+  background: #F5EFE7;
   border-radius: 50%;
   height: 16px;
   width: 16px;
@@ -242,7 +242,7 @@
 }
 
 .custom-range::-moz-range-thumb {
-  background: white;
+  background: #F5EFE7;
   border: none;
   height: 16px;
   width: 16px;
@@ -274,7 +274,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, #ffffff 0%, #4A90D9 100%);
+  background: linear-gradient(90deg, #F5EFE7 0%, #C6A256 100%);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease-out;
@@ -305,7 +305,7 @@
   left: 50%;
   width: 20px;
   height: 20px;
-  background: radial-gradient(circle, #171137 0%, #2d1f5c 50%, #121212 100%);
+  background: radial-gradient(circle, #212121 0%, #212121 50%, #212121 100%);
   border-radius: 50%;
   transform: translateX(-50%) scale(0);
   z-index: -1;
@@ -319,8 +319,8 @@
 }
 
 .sphere-button:hover {
-  border-color: rgba(23, 17, 55, 0.6);
-  box-shadow: 0 8px 25px rgba(23, 17, 55, 0.6), 0 0 15px rgba(73, 41, 116, 0.4);
+  border-color: rgba(33, 33, 33, 0.6);
+  box-shadow: 0 8px 25px rgba(33, 33, 33, 0.6), 0 0 15px rgba(10, 31, 61, 0.4);
 }
 
 .sphere-button span {
@@ -330,76 +330,76 @@
 }
 
 .sphere-button:hover span {
-  color: white;
+  color: #F5EFE7;
 }
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #F5EFE7;
+  --foreground: #212121;
+  --card: #F5EFE7;
+  --card-foreground: #212121;
+  --popover: #F5EFE7;
+  --popover-foreground: #212121;
+  --primary: #0A1F3D;
+  --primary-foreground: #F5EFE7;
+  --secondary: #212121;
+  --secondary-foreground: #F5EFE7;
+  --muted: #F5EFE7;
+  --muted-foreground: #212121;
+  --accent: #C6A256;
+  --accent-foreground: #212121;
+  --destructive: #C6A256;
+  --border: #212121;
+  --input: #212121;
+  --ring: #C6A256;
+  --chart-1: #C6A256;
+  --chart-2: #0A1F3D;
+  --chart-3: #212121;
+  --chart-4: #F5EFE7;
+  --chart-5: #C6A256;
+  --sidebar: #F5EFE7;
+  --sidebar-foreground: #212121;
+  --sidebar-primary: #0A1F3D;
+  --sidebar-primary-foreground: #F5EFE7;
+  --sidebar-accent: #C6A256;
+  --sidebar-accent-foreground: #212121;
+  --sidebar-border: #212121;
+  --sidebar-ring: #C6A256;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #212121;
+  --foreground: #F5EFE7;
+  --card: #0A1F3D;
+  --card-foreground: #F5EFE7;
+  --popover: #0A1F3D;
+  --popover-foreground: #F5EFE7;
+  --primary: #C6A256;
+  --primary-foreground: #212121;
+  --secondary: #212121;
+  --secondary-foreground: #F5EFE7;
+  --muted: #212121;
+  --muted-foreground: #F5EFE7;
+  --accent: #C6A256;
+  --accent-foreground: #212121;
+  --destructive: #C6A256;
+  --border: #F5EFE7;
+  --input: #F5EFE7;
+  --ring: #C6A256;
+  --chart-1: #C6A256;
+  --chart-2: #0A1F3D;
+  --chart-3: #212121;
+  --chart-4: #F5EFE7;
+  --chart-5: #C6A256;
+  --sidebar: #0A1F3D;
+  --sidebar-foreground: #F5EFE7;
+  --sidebar-primary: #C6A256;
+  --sidebar-primary-foreground: #212121;
+  --sidebar-accent: #212121;
+  --sidebar-accent-foreground: #F5EFE7;
+  --sidebar-border: #F5EFE7;
+  --sidebar-ring: #C6A256;
 }
 
 @layer base {
@@ -438,17 +438,17 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  background: linear-gradient(90deg, #cc922f 0%, #e0aa45 50%, #cc922f 100%);
-  color: #ffffff;
+  background: linear-gradient(90deg, #C6A256 0%, #C6A256 50%, #C6A256 100%);
+  color: #F5EFE7;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 5px 16px rgba(204, 146, 47, 0.30);
+  box-shadow: 0 5px 16px rgba(198, 162, 86, 0.30);
 }
 
 .golden-button::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #2f2618 0%, #3f3220 50%, #2f2618 100%);
+  background: linear-gradient(90deg, #212121 0%, #212121 50%, #212121 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 0;
@@ -459,7 +459,7 @@
 }
 
 .golden-button:hover {
-  box-shadow: 0 8px 22px rgba(204, 146, 47, 0.36);
+  box-shadow: 0 8px 22px rgba(198, 162, 86, 0.36);
   transform: translateY(-1px);
 }
 
@@ -484,7 +484,7 @@
   left: 50%;
   width: 20px;
   height: 20px;
-  background: radial-gradient(circle, #1f1f1f 0%, #2d2d2d 50%, #0f0f0f 100%);
+  background: radial-gradient(circle, #212121 0%, #212121 50%, #212121 100%);
   border-radius: 50%;
   transform: translateX(-50%) scale(0);
   z-index: 0;
@@ -498,8 +498,8 @@
 }
 
 .sphere-button-golden:hover {
-  border-color: rgba(251, 191, 36, 0.6);
-  box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4), 0 0 15px rgba(251, 191, 36, 0.3);
+  border-color: rgba(198, 162, 86, 0.6);
+  box-shadow: 0 8px 25px rgba(198, 162, 86, 0.4), 0 0 15px rgba(198, 162, 86, 0.3);
 }
 
 .sphere-button-golden span {
@@ -509,5 +509,5 @@
 }
 
 .sphere-button-golden:hover span {
-  color: white;
+  color: #F5EFE7;
 }

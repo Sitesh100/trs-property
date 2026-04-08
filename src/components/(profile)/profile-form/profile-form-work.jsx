@@ -76,12 +76,12 @@ const ProfileFormWork = () => {
                     type="text"
                     name="locations"
                     placeholder="Search Locations"
-                    className="w-full px-3 py-2 border rounded bg-[#F9F9F9] text-black"
+                    className="w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121]"
                     onChange={formik.handleChange}
                     value={formik.values.locations}
                 />
                 {formik.touched.locations && formik.errors.locations && (
-                    <div className="text-red-500 text-xs mt-1">{formik.errors.locations}</div>
+                    <div className="text-[#C6A256] text-xs mt-1">{formik.errors.locations}</div>
                 )}
             </div>
 
@@ -90,12 +90,12 @@ const ProfileFormWork = () => {
                 <input
                     type="text"
                     name="zoomOptions"
-                    className="w-full px-3 py-2 border rounded bg-[#F9F9F9] text-black"
+                    className="w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121]"
                     onChange={formik.handleChange}
                     value={formik.values.zoomOptions}
                 />
                 {formik.touched.zoomOptions && formik.errors.zoomOptions && (
-                    <div className="text-red-500 text-xs mt-1">{formik.errors.zoomOptions}</div>
+                    <div className="text-[#C6A256] text-xs mt-1">{formik.errors.zoomOptions}</div>
                 )}
             </div>
 
@@ -166,7 +166,7 @@ const ProfileFormWork = () => {
                     </div>
                 </div>
                 {formik.touched.dealIn && formik.errors.dealIn && (
-                    <div className="text-red-500 text-xs mt-1">{formik.errors.dealIn}</div>
+                    <div className="text-[#C6A256] text-xs mt-1">{formik.errors.dealIn}</div>
                 )}
             </div>
 
@@ -188,7 +188,7 @@ const ProfileFormWork = () => {
                     ))}
                 </div>
                 {formik.touched.categories && formik.errors.categories && (
-                    <div className="text-red-500 text-xs mt-1">{formik.errors.categories}</div>
+                    <div className="text-[#C6A256] text-xs mt-1">{formik.errors.categories}</div>
                 )}
             </div>
 
@@ -197,19 +197,19 @@ const ProfileFormWork = () => {
                 <input
                     type="text"
                     name="officeAddress"
-                    className="w-full px-3 py-2 border rounded bg-[#F9F9F9] text-black"
+                    className="w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121]"
                     onChange={formik.handleChange}
                     value={formik.values.officeAddress}
                 />
                 {formik.touched.officeAddress && formik.errors.officeAddress && (
-                    <div className="text-red-500 text-xs mt-1">{formik.errors.officeAddress}</div>
+                    <div className="text-[#C6A256] text-xs mt-1">{formik.errors.officeAddress}</div>
                 )}
             </div>
 
             <div className="flex justify-end items-end">
                 <button
                     type="submit"
-                    className="w-32 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
+                    className="w-32 bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
                 >
                     Save Changes
                 </button>

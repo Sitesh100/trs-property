@@ -122,7 +122,7 @@ function PropertyMainDark({ id }) {
     return (
         <>
             <Header />
-            <div className={`flex flex-col min-h-screen text-white`}>
+            <div className={`flex flex-col min-h-screen text-[#F5EFE7]`}>
                 <main className={`flex-grow property-search-gradient`}>
                     <PropertyDetailHeader property={normalizedProperty} isDark={true} />
                     <PropertyDetailImages property={normalizedProperty} />

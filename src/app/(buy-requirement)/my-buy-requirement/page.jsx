@@ -96,22 +96,22 @@ export default function MyBuyRequirement() {
     return (
         <>
             <Header />
-            <div className="text-white mt-5 md:pt-10">
+            <div className="text-[#F5EFE7] mt-5 md:pt-10">
                 <PropertySearchBar onSearch={handleSearchAndFilter} />
             </div>
-            <div className="min-h-screen bg-gradient-to-b from-[#3F2464] via-[#2b1748] to-black py-10 px-4">
+            <div className="min-h-screen bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] py-10 px-4">
                 <div className="max-w-4xl mx-auto">
                     {/* Header */}
                     <div className="flex items-center justify-between mb-8">
                         <div>
-                            <h1 className="text-3xl font-bold text-white mb-2">Your Buy Requirements</h1>
-                            <p className="text-gray-300">
+                            <h1 className="text-3xl font-bold text-[#F5EFE7] mb-2">Your Buy Requirements</h1>
+                            <p className="text-[#F5EFE7]">
                                 {filteredRequirements?.length || 0} requirements found
                             </p>
                         </div>
                         <button
                             onClick={handlePostRequirement}
-                            className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 flex items-center gap-2 px-6 py-3 rounded-lg font-semibold"
+                            className="bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] flex items-center gap-2 px-6 py-3 rounded-lg font-semibold"
                         >
                             <span className="flex items-center gap-2">
                                 <Plus className="w-5 h-5" />
@@ -123,7 +123,7 @@ export default function MyBuyRequirement() {
                 {/* Content */}
                 {isLoading ? (
                     <div className="flex justify-center items-center h-64">
-                        <Loader className="animate-spin w-12 h-12 text-white" />
+                        <Loader className="animate-spin w-12 h-12 text-[#F5EFE7]" />
                     </div>
                 ) : filteredRequirements && filteredRequirements.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -134,12 +134,12 @@ export default function MyBuyRequirement() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.3, delay: index * 0.1 }}
                                 onClick={() => handleNavigate(item?.id)}
-                                className="bg-white/5 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:bg-white/10 transition cursor-pointer group relative"
+                                className="bg-[#F5EFE7]/5 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:bg-[#F5EFE7]/10 transition cursor-pointer group relative"
                             >
                                 {/* Delete Button */}
                                 <button
                                     onClick={(e) => handleDeleteRequirement(item?.id, e)}
-                                    className="absolute top-4 right-4 text-red-500 hover:text-red-400 transition p-1 opacity-0 group-hover:opacity-100"
+                                    className="absolute top-4 right-4 text-[#C6A256] hover:text-[#C6A256] transition p-1 opacity-0 group-hover:opacity-100"
                                     title="Delete requirement"
                                 >
                                     <XCircle className="w-6 h-6" />
@@ -149,11 +149,11 @@ export default function MyBuyRequirement() {
 
                                 {/* Content */}
                                 <div className="space-y-2">
-                                    <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition">
+                                    <h3 className="text-xl font-bold text-[#F5EFE7] group-hover:text-[#C6A256] transition">
                                         {item?.property_type || 'Property'}
                                     </h3>
                                     
-                                    <div className="flex items-center gap-2 text-gray-300">
+                                    <div className="flex items-center gap-2 text-[#F5EFE7]">
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -161,18 +161,18 @@ export default function MyBuyRequirement() {
                                         <span className="text-sm">{item?.city}</span>
                                     </div>
 
-                                    <div className="pt-2 border-t border-gray-700">
+                                    <div className="pt-2 border-t border-[#F5EFE7]">
                                         <div className="flex items-center justify-between mb-2">
-                                            <span className="text-gray-400 text-sm">Price Range</span>
-                                            <span className="text-white font-semibold">
+                                            <span className="text-[#F5EFE7] text-sm">Price Range</span>
+                                            <span className="text-[#F5EFE7] font-semibold">
                                                 ₹{item?.min_price} - ₹{item?.max_price}
                                             </span>
                                         </div>
 
                                         {(item?.min_carpet_area || item?.max_carpet_area) && (
                                             <div className="flex items-center justify-between">
-                                                <span className="text-gray-400 text-sm">Carpet Area</span>
-                                                <span className="text-white font-semibold">
+                                                <span className="text-[#F5EFE7] text-sm">Carpet Area</span>
+                                                <span className="text-[#F5EFE7] font-semibold">
                                                     {item?.min_carpet_area} - {item?.max_carpet_area} sq.ft
                                                 </span>
                                             </div>
@@ -180,8 +180,8 @@ export default function MyBuyRequirement() {
 
                                         {item?.possession_status && (
                                             <div className="flex items-center justify-between mt-2">
-                                                <span className="text-gray-400 text-sm">Status</span>
-                                                <span className="text-blue-400 font-medium text-sm">
+                                                <span className="text-[#F5EFE7] text-sm">Status</span>
+                                                <span className="text-[#C6A256] font-medium text-sm">
                                                     {item?.possession_status}
                                                 </span>
                                             </div>
@@ -190,7 +190,7 @@ export default function MyBuyRequirement() {
                                 </div>
 
                                 {/* View Matches Button */}
-                                <button className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 mt-4 w-full py-2 rounded-lg flex items-center justify-center gap-2 font-semibold">
+                                <button className="bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] mt-4 w-full py-2 rounded-lg flex items-center justify-center gap-2 font-semibold">
                                     <span className="flex items-center gap-2">
                                         View Matches
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -204,13 +204,13 @@ export default function MyBuyRequirement() {
                 ) : (
                     <div className="flex flex-col items-center justify-center h-96 text-center">
                         
-                        <h3 className="text-2xl font-bold text-white mb-3">No Requirements Yet</h3>
-                        <p className="text-gray-300 text-lg max-w-md mb-8">
+                        <h3 className="text-2xl font-bold text-[#F5EFE7] mb-3">No Requirements Yet</h3>
+                        <p className="text-[#F5EFE7] text-lg max-w-md mb-8">
                             Post your first buy requirement and find matching properties that suit your needs
                         </p>
                         <button
                             onClick={handlePostRequirement}
-                            className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 flex items-center gap-2 px-8 py-3 rounded-lg text-lg font-semibold"
+                            className="bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] flex items-center gap-2 px-8 py-3 rounded-lg text-lg font-semibold"
                         >
                             <span className="flex items-center gap-2">
                                 <Plus className="w-6 h-6" />

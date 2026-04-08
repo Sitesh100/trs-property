@@ -11,7 +11,7 @@ function PropertyDetailBanner() {
                 />
                 <div className="absolute inset-0 flex items-center">
                     <div className="container mx-auto px-4">
-                        <h2 className="text-4xl font-bold text-white">Banner Ad</h2>
+                        <h2 className="text-4xl font-bold text-[#F5EFE7]">Banner Ad</h2>
                     </div>
                 </div>
             </div> */}

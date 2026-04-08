@@ -381,11 +381,11 @@ export default function ResidentialForm({ property_type }) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto bg-gradient-to-b from-[#1a1333] to-[#0d0a1a] rounded-lg shadow-lg p-6">
+      <div className="max-w-4xl mx-auto bg-[#0F0F10] border border-[#2F2F31] rounded-lg shadow-lg p-6">
         <form onSubmit={formik.handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45]">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D]">
                 Basic Information
               </h2>
             </div>
@@ -394,7 +394,7 @@ export default function ResidentialForm({ property_type }) {
               <div>
                 <label
                   htmlFor="title"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Property Title*
                 </label>
@@ -402,16 +402,16 @@ export default function ResidentialForm({ property_type }) {
                   type="text"
                   id="title"
                   name="title"
-                  className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                  className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                     formik.touched.title && formik.errors.title
-                      ? "border-red-500"
-                      : "border-[#3a2a5a]"
-                  } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                      ? "border-[#C6A256]"
+                      : "border-[#3A3A3D]"
+                  } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   placeholder="Enter a catchy title for your property"
                   {...formik.getFieldProps("title")}
                 />
                 {formik.touched.title && formik.errors.title && (
-                  <div className="text-red-500 text-xs mt-1">
+                  <div className="text-[#C6A256] text-xs mt-1">
                     {formik.errors.title}
                   </div>
                 )}
@@ -420,7 +420,7 @@ export default function ResidentialForm({ property_type }) {
               <div>
                 <label
                   htmlFor="city"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   City*
                 </label>
@@ -428,16 +428,16 @@ export default function ResidentialForm({ property_type }) {
                   type="text"
                   id="city"
                   name="city"
-                  className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                  className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                     formik.touched.city && formik.errors.city
-                      ? "border-red-500"
-                      : "border-[#3a2a5a]"
-                  } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                      ? "border-[#C6A256]"
+                      : "border-[#3A3A3D]"
+                  } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   placeholder="Enter city name"
                   {...formik.getFieldProps("city")}
                 />
                 {formik.touched.city && formik.errors.city && (
-                  <div className="text-red-500 text-xs mt-1">
+                  <div className="text-[#C6A256] text-xs mt-1">
                     {formik.errors.city}
                   </div>
                 )}
@@ -448,13 +448,13 @@ export default function ResidentialForm({ property_type }) {
               <div>
                 <label
                   htmlFor="propertyType"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Property Type*
                 </label>
                 <input
                   type="text"
-                  className={`w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                  className={`w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   disabled
                   value={property_type}
                 />
@@ -463,7 +463,7 @@ export default function ResidentialForm({ property_type }) {
               <div>
                 <label
                   htmlFor="project_name"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Project/Society Name*
                 </label>
@@ -471,16 +471,16 @@ export default function ResidentialForm({ property_type }) {
                   type="text"
                   id="project_name"
                   name="project_name"
-                  className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                  className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                     formik.touched.project_name && formik.errors.project_name
-                      ? "border-red-500"
-                      : "border-[#3a2a5a]"
-                  } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                      ? "border-[#C6A256]"
+                      : "border-[#3A3A3D]"
+                  } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   placeholder="Enter project or society name"
                   {...formik.getFieldProps("project_name")}
                 />
                 {formik.touched.project_name && formik.errors.project_name && (
-                  <div className="text-red-500 text-xs mt-1">
+                  <div className="text-[#C6A256] text-xs mt-1">
                     {formik.errors.project_name}
                   </div>
                 )}
@@ -490,19 +490,19 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="possession_status"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Possession Status*
               </label>
               <select
                 id="possession_status"
                 name="possession_status"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.possession_status &&
                   formik.errors.possession_status
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 {...formik.getFieldProps("possession_status")}
               >
                 <option value="">Select Status</option>
@@ -511,7 +511,7 @@ export default function ResidentialForm({ property_type }) {
               </select>
               {formik.touched.possession_status &&
                 formik.errors.possession_status && (
-                  <div className="text-red-500 text-xs mt-1">
+                  <div className="text-[#C6A256] text-xs mt-1">
                     {formik.errors.possession_status}
                   </div>
                 )}
@@ -520,19 +520,19 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="property_post_status"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Property Post Status
               </label>
               <select
                 id="property_post_status"
                 name="property_post_status"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.property_post_status &&
                   formik.errors.property_post_status
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 {...formik.getFieldProps("property_post_status")}
               >
                 <option value="ACTIVE">Active</option>
@@ -541,14 +541,14 @@ export default function ResidentialForm({ property_type }) {
               </select>
               {formik.touched.property_post_status &&
                 formik.errors.property_post_status && (
-                  <div className="text-red-500 text-xs mt-1">
+                  <div className="text-[#C6A256] text-xs mt-1">
                     {formik.errors.property_post_status}
                   </div>
                 )}
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Price Details
               </h2>
             </div>
@@ -556,7 +556,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="expected_price"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Expected Price (₹)*
               </label>
@@ -564,11 +564,11 @@ export default function ResidentialForm({ property_type }) {
                 type="number"
                 id="expected_price"
                 name="expected_price"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.expected_price && formik.errors.expected_price
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter expected price"
                 {...formik.getFieldProps("expected_price")}
               />
@@ -577,7 +577,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="booking_amount"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Booking/Token Amount (₹)
               </label>
@@ -585,11 +585,11 @@ export default function ResidentialForm({ property_type }) {
                 type="number"
                 id="booking_amount"
                 name="booking_amount"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.booking_amount && formik.errors.booking_amount
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter booking amount"
                 {...formik.getFieldProps("booking_amount")}
               />
@@ -608,10 +608,10 @@ export default function ResidentialForm({ property_type }) {
                     className="sr-only"
                     {...formik.getFieldProps("is_price_negotiable")}
                   />
-                  <div className="w-5 h-5 rounded-md border-2 border-[#2a1f45] flex items-center justify-center transition-all duration-200 bg-white">
+                  <div className="w-5 h-5 rounded-md border-2 border-[#3A3A3D] flex items-center justify-center transition-all duration-200 bg-[#F5EFE7]">
                     {formik.values.is_price_negotiable && (
                       <svg
-                        className="w-3 h-3 text-[#2a1f45]"
+                        className="w-3 h-3 text-[#C6A256]"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="3"
@@ -625,7 +625,7 @@ export default function ResidentialForm({ property_type }) {
                       </svg>
                     )}
                   </div>
-                  <span className="ml-2 block text-sm text-gray-300">
+                  <span className="ml-2 block text-sm text-[#F5EFE7]">
                     Price Negotiable
                   </span>
                 </label>
@@ -633,7 +633,7 @@ export default function ResidentialForm({ property_type }) {
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Area Details
               </h2>
             </div>
@@ -641,7 +641,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="carpet_area"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Carpet Area (sq ft)*
               </label>
@@ -649,11 +649,11 @@ export default function ResidentialForm({ property_type }) {
                 type="number"
                 id="carpet_area"
                 name="carpet_area"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.carpet_area && formik.errors.carpet_area
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter carpet area"
                 {...formik.getFieldProps("carpet_area")}
               />
@@ -662,7 +662,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="super_area"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Super Area (sq ft)
               </label>
@@ -670,18 +670,18 @@ export default function ResidentialForm({ property_type }) {
                 type="number"
                 id="super_area"
                 name="super_area"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.super_area && formik.errors.super_area
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter super area"
                 {...formik.getFieldProps("super_area")}
               />
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Room Details
               </h2>
             </div>
@@ -689,7 +689,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="bedrooms"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Bedrooms*
               </label>
@@ -698,16 +698,16 @@ export default function ResidentialForm({ property_type }) {
                 id="bedrooms"
                 name="bedrooms"
                 min="0"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.bedrooms && formik.errors.bedrooms
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter number of bedrooms"
                 {...formik.getFieldProps("bedrooms")}
               />
               {formik.touched.bedrooms && formik.errors.bedrooms && (
-                <div className="text-red-500 text-xs mt-1">
+                <div className="text-[#C6A256] text-xs mt-1">
                   {formik.errors.bedrooms}
                 </div>
               )}
@@ -716,7 +716,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="bathrooms"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Bathrooms*
               </label>
@@ -725,16 +725,16 @@ export default function ResidentialForm({ property_type }) {
                 id="bathrooms"
                 name="bathrooms"
                 min="0"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.bathrooms && formik.errors.bathrooms
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter number of bathrooms"
                 {...formik.getFieldProps("bathrooms")}
               />
               {formik.touched.bathrooms && formik.errors.bathrooms && (
-                <div className="text-red-500 text-xs mt-1">
+                <div className="text-[#C6A256] text-xs mt-1">
                   {formik.errors.bathrooms}
                 </div>
               )}
@@ -743,7 +743,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="balconies"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Balconies*
               </label>
@@ -752,23 +752,23 @@ export default function ResidentialForm({ property_type }) {
                 id="balconies"
                 name="balconies"
                 min="0"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.balconies && formik.errors.balconies
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter number of balconies"
                 {...formik.getFieldProps("balconies")}
               />
               {formik.touched.balconies && formik.errors.balconies && (
-                <div className="text-red-500 text-xs mt-1">
+                <div className="text-[#C6A256] text-xs mt-1">
                   {formik.errors.balconies}
                 </div>
               )}
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Additional Details
               </h2>
             </div>
@@ -776,7 +776,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="rera_id"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 RERA ID
               </label>
@@ -784,7 +784,7 @@ export default function ResidentialForm({ property_type }) {
                 type="text"
                 id="rera_id"
                 name="rera_id"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 placeholder="Enter RERA ID"
                 {...formik.getFieldProps("rera_id")}
               />
@@ -793,7 +793,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="builder_name"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Builder Name
               </label>
@@ -801,7 +801,7 @@ export default function ResidentialForm({ property_type }) {
                 type="text"
                 id="builder_name"
                 name="builder_name"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 placeholder="Enter builder name"
                 {...formik.getFieldProps("builder_name")}
               />
@@ -810,7 +810,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-12">
               <label
                 htmlFor="builder_logo"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Builder Logo URL
               </label>
@@ -818,19 +818,19 @@ export default function ResidentialForm({ property_type }) {
                 type="text"
                 id="builder_logo"
                 name="builder_logo"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 placeholder="Enter builder logo URL"
                 {...formik.getFieldProps("builder_logo")}
               />
               {formik.touched.builder_logo && formik.errors.builder_logo && (
-                <div className="text-red-500 text-xs mt-1">
+                <div className="text-[#C6A256] text-xs mt-1">
                   {formik.errors.builder_logo}
                 </div>
               )}
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Floor Details
               </h2>
             </div>
@@ -838,7 +838,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="floor_number"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Floor Number
               </label>
@@ -847,7 +847,7 @@ export default function ResidentialForm({ property_type }) {
                 id="floor_number"
                 name="floor_number"
                 min="0"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 placeholder="Enter floor number"
                 {...formik.getFieldProps("floor_number")}
               />
@@ -856,7 +856,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="total_floors"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Total Floors
               </label>
@@ -865,7 +865,7 @@ export default function ResidentialForm({ property_type }) {
                 id="total_floors"
                 name="total_floors"
                 min="1"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 placeholder="Enter total floors"
                 {...formik.getFieldProps("total_floors")}
               />
@@ -874,7 +874,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="property_age"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Property Age (Years)
               </label>
@@ -883,7 +883,7 @@ export default function ResidentialForm({ property_type }) {
                 id="property_age"
                 name="property_age"
                 min="0"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 placeholder="Enter property age"
                 {...formik.getFieldProps("property_age")}
               />
@@ -892,14 +892,14 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="facing"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Facing Direction
               </label>
               <select
                 id="facing"
                 name="facing"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 {...formik.getFieldProps("facing")}
               >
                 <option value="">Select Facing</option>
@@ -913,14 +913,14 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="furnished_status"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Furnished Status
               </label>
               <select
                 id="furnished_status"
                 name="furnished_status"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 {...formik.getFieldProps("furnished_status")}
               >
                 <option value="">Select Status</option>
@@ -933,7 +933,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="parking_spaces"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Parking Spaces
               </label>
@@ -942,14 +942,14 @@ export default function ResidentialForm({ property_type }) {
                 id="parking_spaces"
                 name="parking_spaces"
                 min="0"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 placeholder="Enter number of parking spaces"
                 {...formik.getFieldProps("parking_spaces")}
               />
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Location Details
               </h2>
             </div>
@@ -957,7 +957,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-12">
               <label
                 htmlFor="map_address"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Map Address
               </label>
@@ -966,27 +966,27 @@ export default function ResidentialForm({ property_type }) {
                 onSelect={handleLocationSelect}
                 onQueryChange={handleLocationInputChange}
                 placeholder="Type and select a location"
-                inputClassName="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                inputClassName="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
               />
             </div>
 
             <div className="md:col-span-6">
               <input type="hidden" id="latitude" name="latitude" {...formik.getFieldProps("latitude")} />
-              <div className="text-sm text-gray-300">
+              <div className="text-sm text-[#F5EFE7]">
                 Latitude: {formik.values.latitude || "Not selected"}
               </div>
             </div>
 
             <div className="md:col-span-6">
               <input type="hidden" id="longitude" name="longitude" {...formik.getFieldProps("longitude")} />
-              <div className="text-sm text-gray-300">
+              <div className="text-sm text-[#F5EFE7]">
                 Longitude: {formik.values.longitude || "Not selected"}
               </div>
             </div>
 
             {hasCoordinates && (
               <div className="md:col-span-12">
-                <p className="block text-sm font-medium text-gray-300 mb-2">
+                <p className="block text-sm font-medium text-[#F5EFE7] mb-2">
                   Map Preview
                 </p>
                 <PropertyMap
@@ -1000,7 +1000,7 @@ export default function ResidentialForm({ property_type }) {
             <div className="md:col-span-12">
               <label
                 htmlFor="nearby_landmarks"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Nearby Landmarks
               </label>
@@ -1008,17 +1008,17 @@ export default function ResidentialForm({ property_type }) {
                 id="nearby_landmarks"
                 name="nearby_landmarks"
                 rows={3}
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 placeholder="Enter nearby landmarks"
                 {...formik.getFieldProps("nearby_landmarks")}
               ></textarea>
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Property Features
               </h2>
-              <p className="text-gray-400 text-sm mb-4">
+              <p className="text-[#F5EFE7] text-sm mb-4">
                 Add property features like Modular Kitchen, Wooden Flooring, etc.
               </p>
               <div className="flex gap-2 mb-4">
@@ -1027,13 +1027,13 @@ export default function ResidentialForm({ property_type }) {
                   value={newFeature}
                   onChange={(e) => setNewFeature(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addPropertyFeature())}
-                  className="flex-1 px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="flex-1 px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                   placeholder="Enter a feature"
                 />
                 <button
                   type="button"
                   onClick={addPropertyFeature}
-                  className="px-4 py-2 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white rounded transition-colors"
+                  className="px-4 py-2 bg-[#1A1A1C] hover:bg-[#1A1A1C] text-[#F5EFE7] rounded transition-colors"
                 >
                   <Plus className="h-5 w-5" />
                 </button>
@@ -1042,13 +1042,13 @@ export default function ResidentialForm({ property_type }) {
                 {propertyFeatures.map((feature, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 bg-[#2a1f45] px-3 py-1 rounded-full text-sm"
+                    className="flex items-center gap-2 bg-[#1A1A1C] px-3 py-1 rounded-full text-sm"
                   >
                     <span>{feature}</span>
                     <button
                       type="button"
                       onClick={() => removePropertyFeature(index)}
-                      className="text-red-400 hover:text-red-300"
+                      className="text-[#C6A256] hover:text-[#C6A256]"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -1058,10 +1058,10 @@ export default function ResidentialForm({ property_type }) {
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Facilities
               </h2>
-              <p className="text-gray-400 text-sm mb-4">
+              <p className="text-[#F5EFE7] text-sm mb-4">
                 Add facilities like Swimming Pool, Gym, 24x7 Security, etc.
               </p>
               <div className="flex gap-2 mb-4">
@@ -1070,13 +1070,13 @@ export default function ResidentialForm({ property_type }) {
                   value={newFacility}
                   onChange={(e) => setNewFacility(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFacility())}
-                  className="flex-1 px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="flex-1 px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                   placeholder="Enter a facility"
                 />
                 <button
                   type="button"
                   onClick={addFacility}
-                  className="px-4 py-2 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white rounded transition-colors"
+                  className="px-4 py-2 bg-[#1A1A1C] hover:bg-[#1A1A1C] text-[#F5EFE7] rounded transition-colors"
                 >
                   <Plus className="h-5 w-5" />
                 </button>
@@ -1085,13 +1085,13 @@ export default function ResidentialForm({ property_type }) {
                 {facilities.map((facility, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 bg-[#2a1f45] px-3 py-1 rounded-full text-sm"
+                    className="flex items-center gap-2 bg-[#1A1A1C] px-3 py-1 rounded-full text-sm"
                   >
                     <span>{facility}</span>
                     <button
                       type="button"
                       onClick={() => removeFacility(index)}
-                      className="text-red-400 hover:text-red-300"
+                      className="text-[#C6A256] hover:text-[#C6A256]"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -1101,10 +1101,10 @@ export default function ResidentialForm({ property_type }) {
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Property Images
               </h2>
-              <p className="text-gray-400 text-sm mb-4">
+              <p className="text-[#F5EFE7] text-sm mb-4">
                 Upload images of your property (exterior, living room, bedrooms,
                 bathrooms, kitchen, others)
               </p>
@@ -1112,7 +1112,7 @@ export default function ResidentialForm({ property_type }) {
                 {images?.map((img, index) => (
                   <div
                     key={index}
-                    className="relative w-24 h-24 bg-[#2a1f45] rounded-lg overflow-hidden border border-[#3a2a5a]"
+                    className="relative w-24 h-24 bg-[#1A1A1C] rounded-lg overflow-hidden border border-[#3A3A3D]"
                   >
                     <img
                       src={img.url}
@@ -1122,14 +1122,14 @@ export default function ResidentialForm({ property_type }) {
                     <button
                       type="button"
                       onClick={() => removeImage(index)}
-                      className="absolute top-1 right-1 bg-black/70 rounded-full p-1 cursor-pointer"
+                      className="absolute top-1 right-1 bg-[#1A1A1C]/70 rounded-full p-1 cursor-pointer"
                     >
                       <X className="h-3 w-3" />
                     </button>
                   </div>
                 ))}
 
-                <label className="w-24 h-24 flex flex-col items-center justify-center bg-[#2a1f45] rounded-lg border border-dashed border-[#3a2a5a] cursor-pointer hover:bg-[#3a2a5a]">
+                <label className="w-24 h-24 flex flex-col items-center justify-center bg-[#1A1A1C] rounded-lg border border-dashed border-[#3A3A3D] cursor-pointer hover:bg-[#1A1A1C]">
                   <Plus className="h-6 w-6 mb-1" />
                   <span className="text-xs">Add Image</span>
                   <input
@@ -1147,7 +1147,7 @@ export default function ResidentialForm({ property_type }) {
               <button
                 disabled={isLoading}
                 type="submit"
-                className="w-full bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#1A1A1C] hover:bg-[#1A1A1C] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <div className="animate-spin">

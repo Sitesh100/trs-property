@@ -121,7 +121,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
     // Same width and padding as search bar
     <div ref={dropdownRef} className="relative md:mx-28 px-4 sm:px-6">
       {/* Main Horizontal Filter Bar - Same width as search bar */}
-      <div className="property-gradient rounded-2xl shadow-xl border border-[#492974]/20 p-4 md:p-5">
+      <div className="property-gradient rounded-2xl shadow-xl border border-[#212121]/20 p-4 md:p-5">
         
         <div className="flex flex-wrap items-center justify-center gap-3">
 
@@ -133,8 +133,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               onClick={() => toggleDropdown("property_type")}
               className={`flex items-center gap-2 w-44 px-4 py-3 rounded-full transition-all duration-300 border-2 ${
                 activeDropdown === "property_type" || isFilterActive("property_type")
-                  ? "bg-amber-400/20 text-white border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.3)]"
-                  : "bg-white/5 hover:bg-white/10 text-white/80 border-white/10 hover:border-amber-400/50"
+                  ? "bg-[#C6A256]/20 text-[#F5EFE7] border-[#C6A256] shadow-[0_0_15px_rgba(198, 162, 86, 0.3)]"
+                  : "bg-[#F5EFE7]/5 hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80 border-[#F5EFE7]/10 hover:border-[#C6A256]/50"
               }`}
             >
               <Home className="w-4 h-4 flex-shrink-0" />
@@ -167,8 +167,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                         }}
                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 ${
                           filters.property_type === type.value
-                            ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-md"
-                            : "hover:bg-white/10 text-white/80"
+                            ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-md"
+                            : "hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80"
                         }`}
                       >
                         <type.icon className="w-4 h-4" />
@@ -192,8 +192,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               onClick={() => toggleDropdown("bedrooms")}
               className={`flex items-center gap-2 min-w-[140px] px-4 py-3 rounded-full transition-all duration-300 border-2 ${
                 activeDropdown === "bedrooms" || isFilterActive("bedrooms")
-                  ? "bg-amber-400/20 text-white border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.3)]"
-                  : "bg-white/5 hover:bg-white/10 text-white/80 border-white/10 hover:border-amber-400/50"
+                  ? "bg-[#C6A256]/20 text-[#F5EFE7] border-[#C6A256] shadow-[0_0_15px_rgba(198, 162, 86, 0.3)]"
+                  : "bg-[#F5EFE7]/5 hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80 border-[#F5EFE7]/10 hover:border-[#C6A256]/50"
               }`}
             >
               <Bed className="w-4 h-4 flex-shrink-0" />
@@ -213,7 +213,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                   transition={{ duration: 0.2 }}
                   className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 filter-dropdown rounded-2xl p-4 z-50"
                 >
-                  <p className="text-xs text-white/50 mb-3 font-medium uppercase tracking-wide">Select Bedrooms</p>
+                  <p className="text-xs text-[#F5EFE7]/50 mb-3 font-medium uppercase tracking-wide">Select Bedrooms</p>
                   <div className="grid grid-cols-3 gap-2">
                     {["Any", "1", "2", "3", "4", "5+"].map((b) => (
                       <motion.button
@@ -223,8 +223,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                         onClick={() => handleInputChange("bedrooms", b)}
                         className={`py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
                           filters.bedrooms === b
-                            ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-lg"
-                            : "bg-white/10 hover:bg-white/20 text-white/80"
+                            ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-lg"
+                            : "bg-[#F5EFE7]/10 hover:bg-[#F5EFE7]/20 text-[#F5EFE7]/80"
                         }`}
                       >
                         {b}
@@ -244,8 +244,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               onClick={() => toggleDropdown("bathrooms")}
               className={`flex items-center gap-2 min-w-[140px] px-4 py-3 rounded-full transition-all duration-300 border-2 ${
                 activeDropdown === "bathrooms" || isFilterActive("bathrooms")
-                  ? "bg-amber-400/20 text-white border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.3)]"
-                  : "bg-white/5 hover:bg-white/10 text-white/80 border-white/10 hover:border-amber-400/50"
+                  ? "bg-[#C6A256]/20 text-[#F5EFE7] border-[#C6A256] shadow-[0_0_15px_rgba(198, 162, 86, 0.3)]"
+                  : "bg-[#F5EFE7]/5 hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80 border-[#F5EFE7]/10 hover:border-[#C6A256]/50"
               }`}
             >
               <Bath className="w-4 h-4 flex-shrink-0" />
@@ -265,7 +265,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                   transition={{ duration: 0.2 }}
                   className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 filter-dropdown rounded-2xl p-4 z-50"
                 >
-                  <p className="text-xs text-white/50 mb-3 font-medium uppercase tracking-wide">Select Bathrooms</p>
+                  <p className="text-xs text-[#F5EFE7]/50 mb-3 font-medium uppercase tracking-wide">Select Bathrooms</p>
                   <div className="grid grid-cols-3 gap-2">
                     {["Any", "1", "2", "3", "4", "5+"].map((b) => (
                       <motion.button
@@ -275,8 +275,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                         onClick={() => handleInputChange("bathrooms", b)}
                         className={`py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
                           filters.bathrooms === b
-                            ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-lg"
-                            : "bg-white/10 hover:bg-white/20 text-white/80"
+                            ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-lg"
+                            : "bg-[#F5EFE7]/10 hover:bg-[#F5EFE7]/20 text-[#F5EFE7]/80"
                         }`}
                       >
                         {b}
@@ -296,8 +296,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               onClick={() => toggleDropdown("price")}
               className={`flex items-center gap-2 min-w-[130px] px-4 py-3 rounded-full transition-all duration-300 border-2 ${
                 activeDropdown === "price" || isFilterActive("price")
-                  ? "bg-amber-400/20 text-white border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.3)]"
-                  : "bg-white/5 hover:bg-white/10 text-white/80 border-white/10 hover:border-amber-400/50"
+                  ? "bg-[#C6A256]/20 text-[#F5EFE7] border-[#C6A256] shadow-[0_0_15px_rgba(198, 162, 86, 0.3)]"
+                  : "bg-[#F5EFE7]/5 hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80 border-[#F5EFE7]/10 hover:border-[#C6A256]/50"
               }`}
             >
               <IndianRupee className="w-4 h-4 flex-shrink-0" />
@@ -319,7 +319,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                   transition={{ duration: 0.2 }}
                   className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 filter-dropdown rounded-2xl p-5 z-50"
                 >
-                  <p className="text-xs text-white/50 mb-4 font-medium uppercase tracking-wide">Select Budget Range</p>
+                  <p className="text-xs text-[#F5EFE7]/50 mb-4 font-medium uppercase tracking-wide">Select Budget Range</p>
                   <Slider
                     value={filters.priceRange}
                     onValueChange={(value) => handleInputChange("priceRange", value)}
@@ -329,11 +329,11 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                     className="w-full mb-4"
                   />
                   <div className="flex justify-between items-center">
-                    <span className="px-3 py-1.5 bg-amber-400/20 text-amber-400 rounded-lg font-semibold text-sm border border-amber-400/50">
+                    <span className="px-3 py-1.5 bg-[#C6A256]/20 text-[#C6A256] rounded-lg font-semibold text-sm border border-[#C6A256]/50">
                       {formatPrice(filters.priceRange[0])}
                     </span>
-                    <span className="text-white/40 text-sm">to</span>
-                    <span className="px-3 py-1.5 bg-amber-400/20 text-amber-400 rounded-lg font-semibold text-sm border border-amber-400/50">
+                    <span className="text-[#F5EFE7]/40 text-sm">to</span>
+                    <span className="px-3 py-1.5 bg-[#C6A256]/20 text-[#C6A256] rounded-lg font-semibold text-sm border border-[#C6A256]/50">
                       {formatPrice(filters.priceRange[1])}
                     </span>
                   </div>
@@ -350,8 +350,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               onClick={() => toggleDropdown("possession")}
               className={`flex items-center gap-2 min-w-[120px] px-4 py-3 rounded-full transition-all duration-300 border-2 ${
                 activeDropdown === "possession" || isFilterActive("possession_status")
-                  ? "bg-amber-400/20 text-white border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.3)]"
-                  : "bg-white/5 hover:bg-white/10 text-white/80 border-white/10 hover:border-amber-400/50"
+                  ? "bg-[#C6A256]/20 text-[#F5EFE7] border-[#C6A256] shadow-[0_0_15px_rgba(198, 162, 86, 0.3)]"
+                  : "bg-[#F5EFE7]/5 hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80 border-[#F5EFE7]/10 hover:border-[#C6A256]/50"
               }`}
             >
               <Calendar className="w-4 h-4 flex-shrink-0" />
@@ -384,8 +384,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                         }}
                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 ${
                           filters.possession_status === status.value
-                            ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-md"
-                            : "hover:bg-white/10 text-white/80"
+                            ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-md"
+                            : "hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80"
                         }`}
                       >
                         <span className="font-medium text-sm">{status.label}</span>
@@ -408,8 +408,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               onClick={() => toggleDropdown("negotiable")}
               className={`flex items-center gap-2 min-w-[130px] px-4 py-3 rounded-full transition-all duration-300 border-2 ${
                 activeDropdown === "negotiable" || isFilterActive("is_price_negotiable")
-                  ? "bg-amber-400/20 text-white border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.3)]"
-                  : "bg-white/5 hover:bg-white/10 text-white/80 border-white/10 hover:border-amber-400/50"
+                  ? "bg-[#C6A256]/20 text-[#F5EFE7] border-[#C6A256] shadow-[0_0_15px_rgba(198, 162, 86, 0.3)]"
+                  : "bg-[#F5EFE7]/5 hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80 border-[#F5EFE7]/10 hover:border-[#C6A256]/50"
               }`}
             >
               <HandCoins className="w-4 h-4 flex-shrink-0" />
@@ -440,8 +440,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                         }}
                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 ${
                           filters.is_price_negotiable === option.value
-                            ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-md"
-                            : "hover:bg-white/10 text-white/80"
+                            ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-md"
+                            : "hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80"
                         }`}
                       >
                         <span className="font-medium text-sm">{option.label}</span>
@@ -461,16 +461,16 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => toggleDropdown("all")}
-            className="group relative overflow-hidden flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 rounded-full font-semibold text-sm shadow-lg border border-amber-300/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] cursor-pointer"
+            className="group relative overflow-hidden flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] rounded-full font-semibold text-sm shadow-lg border border-[#C6A256]/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(198, 162, 86, 0.5)] cursor-pointer"
           >
-            <SlidersHorizontal className="w-4 h-4 relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white" />
-            <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white whitespace-nowrap">More Filters</span>
+            <SlidersHorizontal className="w-4 h-4 relative z-10 text-[#212121] transition-colors duration-300 group-hover:text-[#F5EFE7]" />
+            <span className="relative z-10 text-[#212121] transition-colors duration-300 group-hover:text-[#F5EFE7] whitespace-nowrap">More Filters</span>
             {getActiveFiltersCount() > 0 && (
-              <span className="relative z-10 bg-gray-900 text-amber-400 w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center">
+              <span className="relative z-10 bg-[#212121] text-[#C6A256] w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center">
                 {getActiveFiltersCount()}
               </span>
             )}
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#212121] via-[#212121] to-[#212121] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
           </motion.button>
 
           {/* Reset Button - Always Visible */}
@@ -478,10 +478,10 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={resetFilters}
-            className="group relative overflow-hidden flex items-center gap-2 px-4 py-3 border-2 border-white/20 hover:border-red-400/50 rounded-full font-medium text-sm transition-all duration-300 hover:shadow-[0_0_15px_rgba(248,113,113,0.3)] cursor-pointer"
+            className="group relative overflow-hidden flex items-center gap-2 px-4 py-3 border-2 border-[#F5EFE7]/20 hover:border-[#C6A256]/50 rounded-full font-medium text-sm transition-all duration-300 hover:shadow-[0_0_15px_rgba(198, 162, 86, 0.3)] cursor-pointer"
           >
-            <RotateCcw className="w-4 h-4 relative z-10 text-white/70 transition-all duration-300 group-hover:text-red-400 group-hover:rotate-[-45deg]" />
-            <span className="relative z-10 text-white/70 transition-colors duration-300 group-hover:text-red-400 whitespace-nowrap">Reset</span>
+            <RotateCcw className="w-4 h-4 relative z-10 text-[#F5EFE7]/70 transition-all duration-300 group-hover:text-[#C6A256] group-hover:rotate-[-45deg]" />
+            <span className="relative z-10 text-[#F5EFE7]/70 transition-colors duration-300 group-hover:text-[#C6A256] whitespace-nowrap">Reset</span>
           </motion.button>
         </div>
       </div>
@@ -496,7 +496,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveDropdown(null)}
-              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-[#212121]/70 backdrop-blur-sm z-40"
             />
 
             {/* Modal */}
@@ -505,24 +505,24 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-3xl md:max-h-[85vh] md:mt-8 founder-gradient rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col border border-amber-400/20"
+              className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-3xl md:max-h-[85vh] md:mt-8 founder-gradient rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col border border-[#C6A256]/20"
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-6 pt-8 pb-4 border-b border-amber-400/20">
+              <div className="flex items-center justify-between px-6 pt-8 pb-4 border-b border-[#C6A256]/20">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 rounded-xl flex items-center justify-center">
-                    <SlidersHorizontal className="w-5 h-5 text-gray-900" />
+                  <div className="w-10 h-10 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] rounded-xl flex items-center justify-center">
+                    <SlidersHorizontal className="w-5 h-5 text-[#212121]" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-white">Filters</h2>
-                    <p className="text-sm text-white/60">Refine your property search</p>
+                    <h2 className="text-lg font-bold text-[#F5EFE7]">Filters</h2>
+                    <p className="text-sm text-[#F5EFE7]/60">Refine your property search</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setActiveDropdown(null)}
-                  className="w-10 h-10 hover:bg-white/10 rounded-xl flex items-center justify-center transition-colors"
+                  className="w-10 h-10 hover:bg-[#F5EFE7]/10 rounded-xl flex items-center justify-center transition-colors"
                 >
-                  <X className="w-5 h-5 text-white/60" />
+                  <X className="w-5 h-5 text-[#F5EFE7]/60" />
                 </button>
               </div>
 
@@ -532,8 +532,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
 
                   {/* Property Type */}
                   <div>
-                    <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                      <Home className="w-4 h-4 text-amber-400" />
+                    <h3 className="text-sm font-semibold text-[#F5EFE7] mb-4 flex items-center gap-2">
+                      <Home className="w-4 h-4 text-[#C6A256]" />
                       Property Type
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -545,8 +545,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                           onClick={() => handleInputChange("property_type", type.value)}
                           className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
                             filters.property_type === type.value
-                              ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-lg"
-                              : "bg-white/10 text-white/80 hover:bg-white/20"
+                              ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-lg"
+                              : "bg-[#F5EFE7]/10 text-[#F5EFE7]/80 hover:bg-[#F5EFE7]/20"
                           }`}
                         >
                           <type.icon className="w-4 h-4" />
@@ -560,8 +560,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Bedrooms */}
                     <div>
-                      <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                        <Bed className="w-4 h-4 text-amber-400" />
+                      <h3 className="text-sm font-semibold text-[#F5EFE7] mb-4 flex items-center gap-2">
+                        <Bed className="w-4 h-4 text-[#C6A256]" />
                         Bedrooms
                       </h3>
                       <div className="flex flex-wrap gap-2">
@@ -573,8 +573,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                             onClick={() => handleInputChange("bedrooms", b)}
                             className={`w-12 h-12 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center ${
                               filters.bedrooms === b
-                                ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-lg"
-                                : "bg-white/10 text-white/80 hover:bg-white/20"
+                                ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-lg"
+                                : "bg-[#F5EFE7]/10 text-[#F5EFE7]/80 hover:bg-[#F5EFE7]/20"
                             }`}
                           >
                             {b}
@@ -585,8 +585,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
 
                     {/* Bathrooms */}
                     <div>
-                      <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                        <Bath className="w-4 h-4 text-amber-400" />
+                      <h3 className="text-sm font-semibold text-[#F5EFE7] mb-4 flex items-center gap-2">
+                        <Bath className="w-4 h-4 text-[#C6A256]" />
                         Bathrooms
                       </h3>
                       <div className="flex flex-wrap gap-2">
@@ -598,8 +598,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                             onClick={() => handleInputChange("bathrooms", b)}
                             className={`w-12 h-12 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center ${
                               filters.bathrooms === b
-                                ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-lg"
-                                : "bg-white/10 text-white/80 hover:bg-white/20"
+                                ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-lg"
+                                : "bg-[#F5EFE7]/10 text-[#F5EFE7]/80 hover:bg-[#F5EFE7]/20"
                             }`}
                           >
                             {b}
@@ -611,11 +611,11 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
 
                   {/* Budget Range */}
                   <div>
-                    <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                      <IndianRupee className="w-4 h-4 text-amber-400" />
+                    <h3 className="text-sm font-semibold text-[#F5EFE7] mb-4 flex items-center gap-2">
+                      <IndianRupee className="w-4 h-4 text-[#C6A256]" />
                       Budget Range
                     </h3>
-                    <div className="bg-white/5 rounded-2xl p-5 border border-amber-400/20">
+                    <div className="bg-[#F5EFE7]/5 rounded-2xl p-5 border border-[#C6A256]/20">
                       <Slider
                         value={filters.priceRange}
                         onValueChange={(value) => handleInputChange("priceRange", value)}
@@ -626,13 +626,13 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                       />
                       <div className="flex items-center justify-between">
                         <div className="text-center">
-                          <p className="text-xs text-white/50 mb-1">Min Budget</p>
-                          <p className="text-lg font-bold text-amber-400">{formatPrice(filters.priceRange[0])}</p>
+                          <p className="text-xs text-[#F5EFE7]/50 mb-1">Min Budget</p>
+                          <p className="text-lg font-bold text-[#C6A256]">{formatPrice(filters.priceRange[0])}</p>
                         </div>
-                        <div className="flex-1 border-t-2 border-dashed border-amber-400/30 mx-4"></div>
+                        <div className="flex-1 border-t-2 border-dashed border-[#C6A256]/30 mx-4"></div>
                         <div className="text-center">
-                          <p className="text-xs text-white/50 mb-1">Max Budget</p>
-                          <p className="text-lg font-bold text-amber-400">{formatPrice(filters.priceRange[1])}</p>
+                          <p className="text-xs text-[#F5EFE7]/50 mb-1">Max Budget</p>
+                          <p className="text-lg font-bold text-[#C6A256]">{formatPrice(filters.priceRange[1])}</p>
                         </div>
                       </div>
                     </div>
@@ -640,8 +640,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
 
                   {/* Possession Status */}
                   <div>
-                    <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-amber-400" />
+                    <h3 className="text-sm font-semibold text-[#F5EFE7] mb-4 flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-[#C6A256]" />
                       Possession Status
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -653,8 +653,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                           onClick={() => handleInputChange("possession_status", status.value)}
                           className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
                             filters.possession_status === status.value
-                              ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-lg"
-                              : "bg-white/10 text-white/80 hover:bg-white/20"
+                              ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-lg"
+                              : "bg-[#F5EFE7]/10 text-[#F5EFE7]/80 hover:bg-[#F5EFE7]/20"
                           }`}
                         >
                           {status.label}
@@ -665,8 +665,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
 
                   {/* Price Negotiable */}
                   <div>
-                    <h3 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                      <HandCoins className="w-4 h-4 text-amber-400" />
+                    <h3 className="text-sm font-semibold text-[#F5EFE7] mb-4 flex items-center gap-2">
+                      <HandCoins className="w-4 h-4 text-[#C6A256]" />
                       Price Negotiable
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -678,8 +678,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                           onClick={() => handleInputChange("is_price_negotiable", option.value)}
                           className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
                             filters.is_price_negotiable === option.value
-                              ? "bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 shadow-lg"
-                              : "bg-white/10 text-white/80 hover:bg-white/20"
+                              ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-lg"
+                              : "bg-[#F5EFE7]/10 text-[#F5EFE7]/80 hover:bg-[#F5EFE7]/20"
                           }`}
                         >
                           {option.label}
@@ -692,24 +692,24 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
               </div>
 
               {/* Footer */}
-              <div className="flex items-center justify-between px-6 py-4 border-t border-amber-400/20 bg-black/30">
+              <div className="flex items-center justify-between px-6 py-4 border-t border-[#C6A256]/20 bg-[#212121]/30">
                 {/* Reset All Button */}
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={resetFilters}
-                  className="group relative overflow-hidden flex items-center gap-2 px-6 py-2.5 border-2 border-red-400/50 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_15px_rgba(248,113,113,0.3)] hover:border-red-400"
+                  className="group relative overflow-hidden flex items-center gap-2 px-6 py-2.5 border-2 border-[#C6A256]/50 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_15px_rgba(198, 162, 86, 0.3)] hover:border-[#C6A256]"
                 >
-                  <RotateCcw className="w-4 h-4 relative z-10 text-red-400 transition-all duration-300 group-hover:text-white group-hover:rotate-[-45deg]" />
-                  <span className="relative z-10 text-red-400 transition-colors duration-300 group-hover:text-white">
+                  <RotateCcw className="w-4 h-4 relative z-10 text-[#C6A256] transition-all duration-300 group-hover:text-[#F5EFE7] group-hover:rotate-[-45deg]" />
+                  <span className="relative z-10 text-[#C6A256] transition-colors duration-300 group-hover:text-[#F5EFE7]">
                     Reset All
                   </span>
-                  <div className="absolute inset-0 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
+                  <div className="absolute inset-0 bg-[#212121] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
                 </motion.button>
 
                 <div className="flex items-center gap-3">
                   {getActiveFiltersCount() > 0 && (
-                    <span className="text-sm text-white/60">
+                    <span className="text-sm text-[#F5EFE7]/60">
                       {getActiveFiltersCount()} filter{getActiveFiltersCount() > 1 ? 's' : ''} applied
                     </span>
                   )}
@@ -719,13 +719,13 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setActiveDropdown(null)}
-                    className="group relative overflow-hidden flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 rounded-full font-semibold text-sm shadow-lg border border-amber-300/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] cursor-pointer"
+                    className="group relative overflow-hidden flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] rounded-full font-semibold text-sm shadow-lg border border-[#C6A256]/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(198, 162, 86, 0.5)] cursor-pointer"
                   >
-                    <Search className="w-4 h-4 relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white" />
-                    <span className="relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white">
+                    <Search className="w-4 h-4 relative z-10 text-[#212121] transition-colors duration-300 group-hover:text-[#F5EFE7]" />
+                    <span className="relative z-10 text-[#212121] transition-colors duration-300 group-hover:text-[#F5EFE7]">
                       Show Properties
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#212121] via-[#212121] to-[#212121] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
                   </motion.button>
                 </div>
               </div>

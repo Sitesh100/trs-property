@@ -8,12 +8,17 @@ import SendOtpForm from "./send-otp-form";
 export default function AuthModal({ isOpen, onClose, initialTab = "sendOtp" }) {
   const [internalOpen, setInternalOpen] = useState(isOpen);
   const [activeTab, setActiveTab] = useState(initialTab);
-  const [sendOtpInfo, setSendOtpInfo] = useState({ phone: "", role: "" });
+  const [sendOtpInfo, setSendOtpInfo] = useState({ phone: "", email: "", role: "" });
 
   // 🔥 YE NAYA HAI (BAS YE)
   useEffect(() => {
-    const openModal = () => {
-      setActiveTab("sendOtp");
+    const openModal = (event) => {
+      const eventDetails = event?.detail || {};
+      const tab = eventDetails?.tab || "sendOtp";
+      const nextSendOtpInfo = eventDetails?.sendOtpInfo || { phone: "", email: "", role: "" };
+
+      setSendOtpInfo((prev) => ({ ...prev, ...nextSendOtpInfo }));
+      setActiveTab(tab);
       setInternalOpen(true);
     };
     window.addEventListener("open-auth-modal", openModal);
@@ -38,7 +43,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = "sendOtp" }) {
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <motion.div
-          className="fixed inset-0 bg-black/70"
+          className="fixed inset-0 bg-[#020814]/80 backdrop-blur-[2px]"
           onClick={handleClose}
         />
 
@@ -46,8 +51,10 @@ export default function AuthModal({ isOpen, onClose, initialTab = "sendOtp" }) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
-          className={`bg-gradient-to-b from-[#1a1333] to-[#0d0a1a] rounded-lg shadow-xl w-full z-10 mx-4 max-h-[90vh] overflow-y-auto ${
-            activeTab === "signup" ? "max-w-3xl" : "max-w-md"
+          className={`bg-[#0A1F3D] border border-[#C6A256]/35 rounded-xl shadow-2xl shadow-[#000000]/70 w-full z-10 mx-4 ${
+            activeTab === "signup"
+              ? "max-w-5xl overflow-visible"
+              : "max-w-md max-h-[90vh] overflow-y-auto"
           }`}
         >
           {/* Login Form (Direct Login - No OTP) */}

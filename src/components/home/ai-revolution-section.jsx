@@ -41,11 +41,11 @@ function AiRevolutionSection({ features }) {
     }
 
     return (
-        <section className="py-20 md:py-28 bg-gradient-to-b from-[#0a0a0a] via-[#080808] to-[#0a0a0a] overflow-hidden relative">
+        <section className="py-20 md:py-28 bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] overflow-hidden relative">
             {/* Background decorative elements - subtle */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#1a1a1a]/30 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#6B46C1]/3 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#212121]/30 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#212121]/3 rounded-full blur-3xl"></div>
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
@@ -63,10 +63,10 @@ function AiRevolutionSection({ features }) {
                             Our Advantages
                         </span>
                     </div>
-                    <h2 className="hero-title text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-white">
+                    <h2 className="hero-title text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-[#F5EFE7]">
                         Why Choose Us
                     </h2>
-                    <p className="text-white/60 max-w-2xl mx-auto text-base md:text-lg">
+                    <p className="text-[#F5EFE7]/60 max-w-2xl mx-auto text-base md:text-lg">
                         Experience the perfect blend of innovation and expertise in real estate solutions
                     </p>
                 </motion.div>
@@ -82,7 +82,7 @@ function AiRevolutionSection({ features }) {
                     >
                         <div className="relative">
                             {/* Glowing effect behind robot */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#2a2a2a]/40 to-[#1a1a1a]/40 rounded-full blur-3xl opacity-60"></div>
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#212121]/40 to-[#212121]/40 rounded-full blur-3xl opacity-60"></div>
                             
                             <motion.div
                                 whileHover={{ scale: 1.05, rotate: 5 }}
@@ -109,7 +109,7 @@ function AiRevolutionSection({ features }) {
                                     repeat: Infinity,
                                     ease: "easeInOut"
                                 }}
-                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border-2 border-white/10 rounded-full"
+                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border-2 border-[#F5EFE7]/10 rounded-full"
                             ></motion.div>
                             
                             <motion.div
@@ -123,7 +123,7 @@ function AiRevolutionSection({ features }) {
                                     ease: "easeInOut",
                                     delay: 0.5
                                 }}
-                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 border-2 border-white/5 rounded-full"
+                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 border-2 border-[#F5EFE7]/5 rounded-full"
                             ></motion.div>
                         </div>
                     </motion.div>
@@ -144,37 +144,37 @@ function AiRevolutionSection({ features }) {
                                     y: -8,
                                     transition: { duration: 0.3 }
                                 }}
-                                className="group relative p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-500 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-black/40"
+                                className="group relative p-6 rounded-2xl bg-[#F5EFE7]/5 backdrop-blur-sm border border-[#F5EFE7]/10 hover:border-[#F5EFE7]/20 transition-all duration-500 cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-[#212121]/40"
                             >
                                 {/* Background gradient on hover */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/0 group-hover:from-white/5 group-hover:to-white/3 rounded-2xl transition-all duration-500"></div>
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#F5EFE7]/0 to-[#F5EFE7]/0 group-hover:from-[#F5EFE7]/5 group-hover:to-[#F5EFE7]/3 rounded-2xl transition-all duration-500"></div>
 
                                 <div className="relative z-10">
                                     {/* Icon container */}
                                     <motion.div
                                         whileHover={{ rotate: 360 }}
                                         transition={{ duration: 0.6 }}
-                                        className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] border border-white/10 shadow-lg shadow-black/40 mx-auto md:mx-0"
+                                        className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 bg-gradient-to-br from-[#212121] to-[#212121] border border-[#F5EFE7]/10 shadow-lg shadow-[#212121]/40 mx-auto md:mx-0"
                                     >
-                                        <div className="text-white">
+                                        <div className="text-[#F5EFE7]">
                                             {feature.icon}
                                         </div>
                                     </motion.div>
 
                                     {/* Title */}
-                                    <h3 className="text-xl font-bold mb-3 text-white text-center md:text-left group-hover:text-[#9B59B6] transition-colors duration-300">
+                                    <h3 className="text-xl font-bold mb-3 text-[#F5EFE7] text-center md:text-left group-hover:text-[#212121] transition-colors duration-300">
                                         {feature.title}
                                     </h3>
 
                                     {/* Description */}
-                                    <p className="text-white/60 text-sm leading-relaxed text-center md:text-left">
+                                    <p className="text-[#F5EFE7]/60 text-sm leading-relaxed text-center md:text-left">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor,
                                         dignissim sit amet, adipiscing nec, ultricies sed, dolor.
                                     </p>
                                 </div>
 
                                 {/* Decorative corner accent */}
-                                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-[#9B59B6]/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-[#212121]/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             </motion.div>
                         ))}
                     </motion.div>
@@ -186,7 +186,7 @@ function AiRevolutionSection({ features }) {
                     whileInView={{ scaleX: 1 }}
                     transition={{ duration: 1, delay: 0.5 }}
                     viewport={{ once: false }}
-                    className="mt-16 h-px bg-gradient-to-r from-transparent via-[#9B59B6]/30 to-transparent max-w-4xl mx-auto"
+                    className="mt-16 h-px bg-gradient-to-r from-transparent via-[#212121]/30 to-transparent max-w-4xl mx-auto"
                 ></motion.div>
             </div>
         </section>

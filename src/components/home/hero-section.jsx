@@ -33,7 +33,7 @@ function AnimatedCounter({ target }) {
     return (
         <span className="flex items-center font-bold">
             {formattedValue}
-            <span className="text-white ml-0.5">+</span>
+            <span className="text-[#F5EFE7] ml-0.5">+</span>
         </span>
     );
 }
@@ -185,8 +185,8 @@ function HeroSection() {
                     Your browser does not support the video tag.
                 </video>
                 {/* Gradient Overlay */}
-                {/* <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div> */}
-                {/* <div className="absolute inset-0 bg-gradient-to-r from-[#171137]/60 to-transparent"></div> */}
+                {/* <div className="absolute inset-0 bg-gradient-to-b from-[#212121]/60 via-[#212121]/40 to-[#212121]/70"></div> */}
+                {/* <div className="absolute inset-0 bg-gradient-to-r from-[#212121]/60 to-transparent"></div> */}
             </div>
 
             {/* Floating particles effect */}
@@ -194,7 +194,7 @@ function HeroSection() {
                 {[...Array(6)].map((_, i) => (
                     <motion.div
                         key={i}
-                        className="absolute w-2 h-2 bg-white/20 rounded-full"
+                        className="absolute w-2 h-2 bg-[#F5EFE7]/20 rounded-full"
                         style={{
                             left: `${15 + i * 15}%`,
                             top: `${20 + (i % 3) * 25}%`,
@@ -219,7 +219,7 @@ function HeroSection() {
                     initial="hidden"
                     animate={inView ? "visible" : "hidden"}
                     variants={staggerContainer}
-                    className="max-w-5xl text-white text-center w-full"
+                    className="max-w-5xl text-[#F5EFE7] text-center w-full"
                 >
 
                     {/* Animated Title */}
@@ -228,7 +228,7 @@ function HeroSection() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.45, ease: "easeOut" }}
-                        className="hero-title text-white text-3xl md:text-5xl lg:text-6xl font-semibold mb-4 md:mb-6 leading-tight tracking-tight md:px-2"
+                        className="hero-title text-[#F5EFE7] text-3xl md:text-5xl lg:text-6xl font-semibold mb-4 md:mb-6 leading-tight tracking-tight md:px-2"
                     >
                         {getHeadingText()}
                     </motion.h1>
@@ -236,7 +236,7 @@ function HeroSection() {
                     {/* Subtitle */}
                     <motion.p 
                         variants={fadeInUp}
-                        className="text-sm sm:text-base md:text-xl font-medium md:font-semibold mb-8 md:mb-10 max-w-2xl mx-auto text-white/90 leading-tight px-4"
+                        className="text-sm sm:text-base md:text-xl font-medium md:font-semibold mb-8 md:mb-10 max-w-2xl mx-auto text-[#F5EFE7]/90 leading-tight px-4"
                     >
                         We provide a complete service for the sale, purchase or rental of real estate.
                         Get access to exclusive network & properties that suit your needs.
@@ -262,17 +262,17 @@ function HeroSection() {
                                     whileHover={{ scale: 1.05, y: -5 }}
                                 >
                                     <div className="relative">
-                                        <h2 className="text-3xl sm:text-4xl md:text-5xl flex justify-center font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                                        <h2 className="text-3xl sm:text-4xl md:text-5xl flex justify-center font-bold bg-gradient-to-r from-[#F5EFE7] to-[#F5EFE7]/80 bg-clip-text text-transparent">
                                             {inView && <AnimatedCounter target={stat.target} />}
                                         </h2>
                                         <motion.div 
-                                            className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-[#9B59B6] to-[#171137] group-hover:w-full transition-all duration-300"
+                                            className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-[#212121] to-[#212121] group-hover:w-full transition-all duration-300"
                                         />
                                     </div>
-                                    <p className="text-xs sm:text-xs md:text-sm font-semibold mt-2 md:mt-3 text-white/80 tracking-wider">{stat.label}</p>
+                                    <p className="text-xs sm:text-xs md:text-sm font-semibold mt-2 md:mt-3 text-[#F5EFE7]/80 tracking-wider">{stat.label}</p>
                                 </motion.div>
                                 {index < arr.length - 1 && (
-                                    <div className="hidden md:block w-px h-12 bg-white/30"></div>
+                                    <div className="hidden md:block w-px h-12 bg-[#F5EFE7]/30"></div>
                                 )}
                             </div>
                         ))}
@@ -284,7 +284,7 @@ function HeroSection() {
                         className="w-full max-w-4xl mx-auto px-2"
                     >
                         <motion.h2 
-                            className="text-lg sm:text-xl md:text-3xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-white via-white to-white/60 bg-clip-text text-transparent"
+                            className="text-lg sm:text-xl md:text-3xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-[#F5EFE7] via-[#F5EFE7] to-[#F5EFE7]/60 bg-clip-text text-transparent"
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
                             transition={{ delay: 0.8, duration: 0.5 }}
@@ -293,7 +293,7 @@ function HeroSection() {
                         </motion.h2>
 
                         <motion.div 
-                            className="bg-white/10 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl border border-white/10"
+                            className="bg-[#F5EFE7]/10 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl border border-[#F5EFE7]/10"
                             initial={{ opacity: 0, y: 30 }}
                             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                             transition={{ delay: 0.9, duration: 0.6 }}
@@ -310,14 +310,14 @@ function HeroSection() {
                                         onClick={() => setActiveFilter(filter.id)}
                                         className={`relative px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-2.5 rounded-full font-semibold text-xs md:text-sm transition-all duration-300 overflow-hidden ${
                                             activeFilter === filter.id
-                                                ? "bg-white text-gray-900 shadow-lg shadow-white/25"
-                                                : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                                                ? "bg-[#F5EFE7] text-[#212121] shadow-lg shadow-[#F5EFE7]/25"
+                                                : "bg-[#F5EFE7]/10 text-[#F5EFE7] hover:bg-[#F5EFE7]/20 border border-[#F5EFE7]/20"
                                         }`}
                                     >
                                         {activeFilter === filter.id && (
                                             <motion.div
                                                 layoutId="activeFilter"
-                                                className="absolute inset-0 bg-white rounded-full"
+                                                className="absolute inset-0 bg-[#F5EFE7] rounded-full"
                                                 initial={false}
                                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                             />
@@ -335,9 +335,9 @@ function HeroSection() {
                                         whileHover={{ scale: 1.01 }}
                                         transition={{ type: "spring", stiffness: 300 }}
                                     >
-                                        <div className="w-full flex items-center rounded-xl md:rounded-2xl border-2 border-transparent bg-white shadow-lg overflow-hidden focus-within:border-[#171137] transition-all duration-300">
-                                            <div className="flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-3.5 border-r border-gray-200 text-gray-800 whitespace-nowrap">
-                                                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+                                        <div className="w-full flex items-center rounded-xl md:rounded-2xl border-2 border-transparent bg-[#F5EFE7] shadow-lg overflow-hidden focus-within:border-[#212121] transition-all duration-300">
+                                            <div className="flex items-center gap-2 px-3 sm:px-4 py-3 sm:py-3.5 border-r border-[#212121]/15 text-[#212121] whitespace-nowrap">
+                                                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[#212121]" />
                                                 <span className="text-sm sm:text-base font-semibold">Indore</span>
                                             </div>
                                             <input
@@ -345,17 +345,17 @@ function HeroSection() {
                                                 placeholder="Search by project or builder name"
                                                 value={searchQuery}
                                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                                className="w-full px-3 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base text-gray-800 focus:outline-none placeholder-gray-400 placeholder:text-xs sm:placeholder:text-sm"
+                                                className="w-full px-3 sm:px-4 py-3 sm:py-3.5 text-sm sm:text-base text-[#212121] focus:outline-none placeholder-[#212121]/55 placeholder:text-xs sm:placeholder:text-sm"
                                             />
                                         </div>
                                     </motion.div>
                                 </div>
 
                                 <motion.button
-                                    whileHover={{ scale: 1.05, boxShadow: "0 15px 40px rgba(23, 17, 55, 0.5)" }}
+                                    whileHover={{ scale: 1.05, boxShadow: "0 15px 40px rgba(33, 33, 33, 0.5)" }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={handleHeroSearch}
-                                    className="bg-gradient-to-r from-[#171137] to-[#2d1f5c] text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl md:rounded-2xl font-semibold text-sm sm:text-base flex items-center gap-2 transition-all duration-300 shadow-lg w-full md:w-auto justify-center"
+                                    className="bg-gradient-to-r from-[#212121] to-[#212121] text-[#F5EFE7] px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl md:rounded-2xl font-semibold text-sm sm:text-base flex items-center gap-2 transition-all duration-300 shadow-lg w-full md:w-auto justify-center"
                                 >
                                     <Search className="w-4 h-4 sm:w-5 sm:h-5" />
                                     Search
@@ -373,12 +373,12 @@ function HeroSection() {
                     transition={{ delay: 1.5, duration: 0.5 }}
                 >
                     <motion.div
-                        className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-2"
+                        className="w-6 h-10 border-2 border-[#F5EFE7]/30 rounded-full flex justify-center p-2"
                         animate={{ y: [0, 5, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                     >
                         <motion.div 
-                            className="w-1.5 h-1.5 bg-white rounded-full"
+                            className="w-1.5 h-1.5 bg-[#F5EFE7] rounded-full"
                             animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
                             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                         />

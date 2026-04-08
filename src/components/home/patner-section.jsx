@@ -53,11 +53,11 @@ function PatnerSection() {
     const duplicatedImages = [...builderLogos, ...builderLogos, ...builderLogos, ...builderLogos];
 
     return (
-        <section className="py-20 md:py-28 bg-gradient-to-br from-[#171137] via-[#121212] to-[#171137] overflow-hidden relative">
+        <section className="py-20 md:py-28 bg-gradient-to-br from-[#212121] via-[#212121] to-[#212121] overflow-hidden relative">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-10 left-1/4 w-64 h-64 bg-purple-500/8 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-violet-500/8 rounded-full blur-3xl"></div>
+                <div className="absolute top-10 left-1/4 w-64 h-64 bg-[#212121]/8 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-[#212121]/8 rounded-full blur-3xl"></div>
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
@@ -70,10 +70,10 @@ function PatnerSection() {
                     className="text-center mb-16"
                 >
 
-                    <h2 className="hero-title text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-[#F3EFE7]">
+                    <h2 className="hero-title text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-[#F5EFE7]">
                         Our Partners & Affiliates
                     </h2>
-                    <p className="text-[#F3EFE7]/50 max-w-xl mx-auto text-base md:text-lg">
+                    <p className="text-[#F5EFE7]/50 max-w-xl mx-auto text-base md:text-lg">
                         Collaborating with industry leaders to bring you the best real estate experience
                     </p>
                 </motion.div>
@@ -102,7 +102,7 @@ function PatnerSection() {
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             className="flex-shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-28 h-28 md:w-36 md:h-36 bg-white border border-[#F3EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className="relative w-28 h-28 md:w-36 md:h-36 bg-[#F5EFE7] border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}
@@ -136,7 +136,7 @@ function PatnerSection() {
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             className="flex-shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-28 h-28 md:w-36 md:h-36 bg-white border border-[#F3EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className="relative w-28 h-28 md:w-36 md:h-36 bg-[#F5EFE7] border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}

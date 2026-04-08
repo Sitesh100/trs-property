@@ -35,7 +35,7 @@ function HomeCard({ property, index = 0 }) {
 
     return (
         <div
-            className="group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/10 rounded-3xl overflow-hidden flex flex-col md:h-[340px] transition-all duration-500 hover:border-white/30 hover:shadow-2xl"
+            className="group relative bg-gradient-to-br from-[#F5EFE7]/10 to-[#F5EFE7]/5 backdrop-blur-md border border-[#F5EFE7]/10 rounded-3xl overflow-hidden flex flex-col md:h-[340px] transition-all duration-500 hover:border-[#F5EFE7]/30 hover:shadow-2xl"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
@@ -52,7 +52,7 @@ function HomeCard({ property, index = 0 }) {
 
                 {/* Featured Badge */}
                 <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-semibold rounded-full border border-white/20">
+                    <span className="px-3 py-1 bg-[#F5EFE7]/20 backdrop-blur-md text-[#F5EFE7] text-xs font-semibold rounded-full border border-[#F5EFE7]/20">
                         Featured
                     </span>
                 </div>
@@ -65,8 +65,8 @@ function HomeCard({ property, index = 0 }) {
                     }}
                     className={`absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
                         isLiked
-                            ? "bg-red-500 text-white"
-                            : "bg-white/20 backdrop-blur-md text-white hover:bg-white/40"
+                            ? "bg-[#212121] text-[#F5EFE7]"
+                            : "bg-[#F5EFE7]/20 backdrop-blur-md text-[#F5EFE7] hover:bg-[#F5EFE7]/40"
                     }`}
                 >
                     <Heart
@@ -78,9 +78,9 @@ function HomeCard({ property, index = 0 }) {
 
                 {/* Price Tag */}
                 <div className="absolute bottom-4 left-4">
-                    <div className="flex items-center gap-1 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                        <IndianRupee className="w-4 h-4 text-[#171137]" />
-                        <span className="text-[#171137] font-bold text-sm">
+                    <div className="flex items-center gap-1 bg-[#F5EFE7]/95 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                        <IndianRupee className="w-4 h-4 text-[#212121]" />
+                        <span className="text-[#212121] font-bold text-sm">
                             {formatPrice(property?.price ?? property?.expected_price)}
                         </span>
                     </div>
@@ -95,13 +95,13 @@ function HomeCard({ property, index = 0 }) {
                 className="p-5 flex-1 flex flex-col justify-between"
             >
                 <div>
-                    <h3 className="text-lg font-bold text-white mb-2">
+                    <h3 className="text-lg font-bold text-[#F5EFE7] mb-2">
                         {property?.title?.length > 20
                             ? property?.title.slice(0, 20) + "..."
                             : property?.title}
                     </h3>
 
-                    <div className="flex items-center gap-1.5 text-white/60">
+                    <div className="flex items-center gap-1.5 text-[#F5EFE7]/60">
                         <MapPin className="w-4 h-4" />
                         <span className="text-sm">
                             {property?.map_location || property?.city || "Location"}
@@ -110,31 +110,31 @@ function HomeCard({ property, index = 0 }) {
                 </div>
 
                 {/* Bottom Info */}
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
+                <div className="flex items-center justify-between mt-4 pt-4 border-t border-[#F5EFE7]/10">
                     <div className="flex items-center gap-3">
                         <div className="text-center">
-                            <p className="text-white font-semibold text-sm">
+                            <p className="text-[#F5EFE7] font-semibold text-sm">
                                 {property?.bedrooms || "3"}
                             </p>
-                            <p className="text-white/50 text-xs">Beds</p>
+                            <p className="text-[#F5EFE7]/50 text-xs">Beds</p>
                         </div>
 
-                        <div className="w-px h-8 bg-white/10"></div>
+                        <div className="w-px h-8 bg-[#F5EFE7]/10"></div>
 
                         <div className="text-center">
-                            <p className="text-white font-semibold text-sm">
+                            <p className="text-[#F5EFE7] font-semibold text-sm">
                                 {property?.bathrooms || "2"}
                             </p>
-                            <p className="text-white/50 text-xs">Baths</p>
+                            <p className="text-[#F5EFE7]/50 text-xs">Baths</p>
                         </div>
 
-                        <div className="w-px h-8 bg-white/10"></div>
+                        <div className="w-px h-8 bg-[#F5EFE7]/10"></div>
 
                         <div className="text-center">
-                            <p className="text-white font-semibold text-sm">
+                            <p className="text-[#F5EFE7] font-semibold text-sm">
                                 {property?.area || "1200"}
                             </p>
-                            <p className="text-white/50 text-xs">Sq Ft</p>
+                            <p className="text-[#F5EFE7]/50 text-xs">Sq Ft</p>
                         </div>
                     </div>
                 </div>
@@ -143,9 +143,9 @@ function HomeCard({ property, index = 0 }) {
             {/* ✅ Circular Builder Logo Overlay */}
             <div className="absolute right-4 bottom-48 translate-y-1/2 z-30 
                 w-16 h-16 md:w-20 md:h-20 
-                rounded-full bg-white 
+                rounded-full bg-[#F5EFE7] 
                 flex items-center justify-center 
-                border-2 border-white/30 
+                border-2 border-[#F5EFE7]/30 
                 shadow-xl">
 
                 <Image

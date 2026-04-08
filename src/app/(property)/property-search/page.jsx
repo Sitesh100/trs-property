@@ -85,7 +85,7 @@ export default function PropertySearch() {
 
         <>
             <Header />
-            <div className="property-search-gradient text-white">
+            <div className="property-search-gradient text-[#F5EFE7]">
                 {/* <SliderBanner /> */}
                 <PropertyDetailMainSection />
                 <PropertySearchReadyProjects readyToMoveProjects={readyToMoveProjects} />

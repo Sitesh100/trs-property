@@ -11,14 +11,14 @@ function PropertySearchReadyProjects({ readyToMoveProjects }) {
 
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         {readyToMoveProjects.map((project, index) => (
-                            <div key={index} className="bg-white text-black rounded-xl overflow-hidden flex items-center p-2">
+                            <div key={index} className="bg-[#F5EFE7] text-[#212121] rounded-xl overflow-hidden flex items-center p-2">
                                 <div className="relative">
                                     <Image src={project.image || "/placeholder.svg"} alt={project.name} width={60} height={60}
                                         className="object-cover w-16 h-16 rounded-xl" />
                                 </div>
                                 <div className="p-3">
                                     <h3 className="font-bold text-sm">{project.name}</h3>
-                                    <p className="text-xs text-gray-400">{project.location}</p>
+                                    <p className="text-xs text-[#F5EFE7]">{project.location}</p>
                                 </div>
                             </div>
                         ))}

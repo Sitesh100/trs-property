@@ -107,7 +107,7 @@ function DetailSearchCard({ property, action = false }) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="group bg-white rounded-2xl overflow-hidden p-2 md:p-3 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-amber-200"
+            className="group bg-white rounded-2xl overflow-hidden p-2 md:p-3 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-[#C6A256]/40"
         >
             <div className="relative">
                 <div className="relative w-full h-[200px] rounded-2xl overflow-hidden">
@@ -122,7 +122,7 @@ function DetailSearchCard({ property, action = false }) {
                 </div>
 
                 <div className="absolute top-3 left-3 z-20">
-                    <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
+                    <span className="bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
                         {formatValue(property?.possession_status)?.replace(/_/g, ' ')?.replace(/\b\w/g, (c) => c.toUpperCase())}
                     </span>
                 </div>
@@ -133,7 +133,7 @@ function DetailSearchCard({ property, action = false }) {
                 >
                     <Heart
                         className={`h-5 w-5 transition-colors duration-200 
-                        ${isFavorite ? "text-red-500 fill-red-500" : "text-white hover:text-red-400"}`}
+                        ${isFavorite ? "text-[#C6A256] fill-[#C6A256]" : "text-white hover:text-[#C6A256]"}`}
                     />
                 </button>
             </div>
@@ -141,7 +141,7 @@ function DetailSearchCard({ property, action = false }) {
             <div className="p-4">
                 <Link href={`/property-detail-dark/${property?._id || property?.id}`} className="block">
                     <div className="flex justify-between items-start mb-2">
-                        <h3 className="md:text-lg font-bold text-gray-900 line-clamp-1 group-hover:text-amber-600 transition-colors">
+                        <h3 className="md:text-lg font-bold text-gray-900 line-clamp-1 group-hover:text-[#C6A256] transition-colors">
                             {property?.title ? property?.title?.split(' ')?.slice(0, 4)?.join(' ') : 'N/A'}
                         </h3>
                         <p className="md:text-lg font-bold text-gray-900 text-nowrap">
@@ -152,7 +152,7 @@ function DetailSearchCard({ property, action = false }) {
 
                 <div className="flex items-center justify-between gap-3 mb-2">
                     <div className="flex items-center text-gray-600 text-sm min-w-0 flex-1">
-                        <MapPin className="h-4 w-4 mr-1 text-amber-500 shrink-0" />
+                        <MapPin className="h-4 w-4 mr-1 text-[#C6A256] shrink-0" />
                         <span className="truncate">
                             {(property?.map_address || property?.map_location || property?.city)
                                 ? (property?.map_address || property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')
@@ -164,7 +164,7 @@ function DetailSearchCard({ property, action = false }) {
                         <button
                             onClick={(e) => handleSendNotification(e, property?.id, property?.title)}
                             disabled={isLoading}
-                            className="group/btn cursor-pointer relative overflow-hidden flex justify-center items-center gap-1.5 min-w-24 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 text-xs font-semibold px-4 py-2 text-nowrap rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(251,191,36,0.5)]"
+                            className="group/btn cursor-pointer relative overflow-hidden flex justify-center items-center gap-1.5 min-w-24 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-xs font-semibold px-4 py-2 text-nowrap rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(198,162,86,0.5)]"
                         >
                             {isLoading ? (
                                 <Loader size={16} className="animate-spin relative z-10" />
@@ -231,20 +231,20 @@ function DetailSearchCard({ property, action = false }) {
                 <div className="border-t border-gray-100 pt-3 mt-1">
                     <div className="flex items-center space-x-4 text-sm">
                         <div className="flex items-center gap-1">
-                            <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                                <Bed className="h-3.5 w-3.5 text-amber-600" />
+                            <div className="w-7 h-7 bg-[#C6A256]/10 rounded-lg flex items-center justify-center">
+                                <Bed className="h-3.5 w-3.5 text-[#C6A256]" />
                             </div>
                             <span className="text-gray-700 font-medium">{formatValue(property?.bedrooms)} Beds</span>
                         </div>
                         <div className="flex items-center gap-1">
-                            <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                                <Bath className="h-3.5 w-3.5 text-amber-600" />
+                            <div className="w-7 h-7 bg-[#C6A256]/10 rounded-lg flex items-center justify-center">
+                                <Bath className="h-3.5 w-3.5 text-[#C6A256]" />
                             </div>
                             <span className="text-gray-700 font-medium">{formatValue(property?.bathrooms)} Baths</span>
                         </div>
                         <div className="flex items-center gap-1">
-                            <div className="w-7 h-7 bg-amber-50 rounded-lg flex items-center justify-center">
-                                <Square className="h-3.5 w-3.5 text-amber-600" />
+                            <div className="w-7 h-7 bg-[#C6A256]/10 rounded-lg flex items-center justify-center">
+                                <Square className="h-3.5 w-3.5 text-[#C6A256]" />
                             </div>
                             <span className="text-gray-700 font-medium">
                                 {isValueMissing(property?.super_area || property?.carpet_area)

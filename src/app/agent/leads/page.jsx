@@ -75,20 +75,20 @@ export default function AgentLeadsPage() {
     return (
         <>
             <Header />
-            <main className="min-h-screen bg-linear-to-b from-[#0a0a0a] via-[#101019] to-[#0b0b0f] px-4 py-8 text-white md:px-8">
+            <main className="min-h-screen bg-linear-to-b from-[#212121] via-[#212121] to-[#212121] px-4 py-8 text-[#F5EFE7] md:px-8">
                 <section className="mx-auto max-w-6xl">
-                    <div className="mb-6 rounded-xl border border-white/10 bg-white/5 p-5">
+                    <div className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                             <div>
                                 <h1 className="text-2xl font-bold">Mini CRM - Leads</h1>
-                                <p className="mt-2 text-sm text-gray-300">
+                                <p className="mt-2 text-sm text-[#F5EFE7]">
                                     Add leads, track status, and keep property interest notes in one place.
                                 </p>
                             </div>
                             <button
                                 type="button"
                                 onClick={() => setIsAddLeadModalOpen(true)}
-                                className="rounded-md bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 px-5 py-2 font-semibold text-black"
+                                className="rounded-md cursor-pointer bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] px-5 py-2 font-semibold text-[#212121]"
                             >
                                 Add Lead
                             </button>
@@ -97,17 +97,17 @@ export default function AgentLeadsPage() {
 
                     <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                         {STATUS_OPTIONS.map((status) => (
-                            <div key={status} className="rounded-lg border border-white/10 bg-white/5 px-4 py-3">
-                                <p className="text-sm text-gray-300">{status}</p>
+                            <div key={status} className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-4 py-3">
+                                <p className="text-sm text-[#F5EFE7]">{status}</p>
                                 <p className="text-xl font-bold">{statusCounts[status] || 0}</p>
                             </div>
                         ))}
                     </div>
 
-                    <div className="overflow-x-auto rounded-xl border border-white/10 bg-white/5 p-4">
+                    <div className="overflow-x-auto rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
                         <table className="w-full min-w-190 text-left text-sm">
                             <thead>
-                                <tr className="border-b border-white/10 text-gray-300">
+                                <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]">
                                     <th className="pb-3 pr-3">Date</th>
                                     <th className="pb-3 pr-3">Lead Name</th>
                                     <th className="pb-3 pr-3">Customer Number</th>
@@ -119,23 +119,23 @@ export default function AgentLeadsPage() {
                             <tbody>
                                 {leads.length === 0 && (
                                     <tr>
-                                        <td className="py-4 text-gray-400" colSpan={6}>
+                                        <td className="py-4 text-[#F5EFE7]" colSpan={6}>
                                             No leads added yet.
                                         </td>
                                     </tr>
                                 )}
                                 {leads.map((lead) => (
-                                    <tr key={lead.id} className="border-b border-white/5">
+                                    <tr key={lead.id} className="border-b border-[#F5EFE7]/5">
                                         <td className="py-3 pr-3">{lead.date || "-"}</td>
                                         <td className="py-3 pr-3">{lead.customerName}</td>
                                         <td className="py-3 pr-3">{lead.customerNumber}</td>
                                         <td className="py-3 pr-3">{lead.propertyName}</td>
-                                        <td className="py-3 pr-3 text-gray-300">{lead.notes || "-"}</td>
+                                        <td className="py-3 pr-3 text-[#F5EFE7]">{lead.notes || "-"}</td>
                                         <td className="py-3 pr-3">
                                             <select
                                                 value={lead.status}
                                                 onChange={(e) => updateLeadStatus(lead.id, e.target.value)}
-                                                className="rounded-md border border-white/20 bg-black/30 px-2 py-1 text-white outline-none"
+                                                className="rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-2 py-1 text-[#F5EFE7] outline-none"
                                             >
                                                 {STATUS_OPTIONS.map((status) => (
                                                     <option key={status} value={status}>
@@ -152,14 +152,14 @@ export default function AgentLeadsPage() {
                 </section>
 
                 {isAddLeadModalOpen && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 px-4 py-6">
-                        <div className="w-full max-w-4xl rounded-xl border border-white/10 bg-[#11131c] p-5 shadow-2xl">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#212121]/75 px-4 py-6">
+                        <div className="w-full max-w-4xl rounded-xl border border-[#F5EFE7]/10 bg-[#21212133] p-5 shadow-2xl">
                             <div className="mb-4 flex items-center justify-between">
                                 <h2 className="text-xl font-bold">Add New Lead</h2>
                                 <button
                                     type="button"
                                     onClick={() => setIsAddLeadModalOpen(false)}
-                                    className="rounded-md border border-white/20 px-3 py-1 text-sm text-gray-200"
+                                    className="rounded-md border border-[#F5EFE7]/20 px-3 py-1 text-sm text-[#F5EFE7]/80 cursor-pointer"
                                 >
                                     Close
                                 </button>
@@ -172,7 +172,7 @@ export default function AgentLeadsPage() {
                                         type="date"
                                         value={form.date}
                                         onChange={(e) => onChange("date", e.target.value)}
-                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
                                     />
                                 </label>
 
@@ -183,7 +183,7 @@ export default function AgentLeadsPage() {
                                         value={form.customerName}
                                         onChange={(e) => onChange("customerName", e.target.value)}
                                         placeholder="Enter customer name"
-                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
                                         required
                                     />
                                 </label>
@@ -195,7 +195,7 @@ export default function AgentLeadsPage() {
                                         value={form.customerNumber}
                                         onChange={(e) => onChange("customerNumber", e.target.value)}
                                         placeholder="Enter phone number"
-                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
                                         required
                                     />
                                 </label>
@@ -207,7 +207,7 @@ export default function AgentLeadsPage() {
                                         value={form.propertyName}
                                         onChange={(e) => onChange("propertyName", e.target.value)}
                                         placeholder="Project or property name"
-                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
                                         required
                                     />
                                 </label>
@@ -217,7 +217,7 @@ export default function AgentLeadsPage() {
                                     <select
                                         value={form.status}
                                         onChange={(e) => onChange("status", e.target.value)}
-                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
                                     >
                                         {STATUS_OPTIONS.map((status) => (
                                             <option key={status} value={status}>
@@ -234,21 +234,21 @@ export default function AgentLeadsPage() {
                                         value={form.notes}
                                         onChange={(e) => onChange("notes", e.target.value)}
                                         placeholder="Notes"
-                                        className="mt-1 w-full rounded-md border border-white/20 bg-black/30 px-3 py-2 text-white outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
                                     />
                                 </label>
 
                                 <div className="md:col-span-2 flex gap-3">
                                     <button
                                         type="submit"
-                                        className="rounded-md bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 px-5 py-2 font-semibold text-black"
+                                        className="rounded-md bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] px-5 py-2 font-semibold cursor-pointer text-[#212121]"
                                     >
                                         Add Lead
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setIsAddLeadModalOpen(false)}
-                                        className="rounded-md border border-white/25 px-5 py-2 font-semibold text-white"
+                                        className="rounded-md border border-[#F5EFE7]/25 px-5 py-2 font-semibold text-[#F5EFE7] cursor-pointer"
                                     >
                                         Cancel
                                     </button>

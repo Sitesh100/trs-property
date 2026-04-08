@@ -31,7 +31,7 @@ const WhatsappStrip = ({ phoneNumber = "917024144040", message = "Hello Team TRS
         
         {/* Animated glow effect */}
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-shimmer" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#F5EFE7] to-transparent animate-shimmer" />
         </div>
 
         {/* Content */}
@@ -41,18 +41,18 @@ const WhatsappStrip = ({ phoneNumber = "917024144040", message = "Hello Team TRS
             <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* Animated WhatsApp icon */}
               <div 
-                className="flex-shrink-0 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center animate-pulse-slow"
+                className="flex-shrink-0 w-10 h-10 rounded-full bg-[#F5EFE7]/10 backdrop-blur-sm flex items-center justify-center animate-pulse-slow"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <MessageCircle 
-                  className={`w-5 h-5 text-white transition-transform duration-300 ${isHovered ? 'scale-110 rotate-12' : ''}`}
+                  className={`w-5 h-5 text-[#F5EFE7] transition-transform duration-300 ${isHovered ? 'scale-110 rotate-12' : ''}`}
                 />
               </div>
 
               {/* Text content */}
               <div className="flex-1 min-w-0">
-                <p className="text-white text-sm md:text-base font-medium truncate">
+                <p className="text-[#F5EFE7] text-sm md:text-base font-medium truncate">
                   Need help? Talk to our expert.
                 </p>
               </div>
@@ -62,10 +62,10 @@ const WhatsappStrip = ({ phoneNumber = "917024144040", message = "Hello Team TRS
             <div className="flex items-center gap-2">
               <button
                 onClick={handleWhatsAppClick}
-                className="group relative px-4 md:px-6 py-2 bg-white rounded-full font-semibold text-[#492974] text-sm md:text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
+                className="group relative px-4 md:px-6 py-2 bg-[#F5EFE7] rounded-full font-semibold text-[#212121] text-sm md:text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
               >
                 {/* Button shimmer effect */}
-                <div className="absolute cursor-pointer inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="absolute cursor-pointer inset-0 bg-gradient-to-r from-transparent via-[#F5EFE7]/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 
                 <span className="relative flex items-center gap-2">
                   <svg 
@@ -81,17 +81,17 @@ const WhatsappStrip = ({ phoneNumber = "917024144040", message = "Hello Team TRS
               {/* Close button */}
               {/* <button
                 onClick={() => setIsVisible(false)}
-                className="p-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 hover:scale-110 active:scale-95"
+                className="p-2 rounded-full bg-[#F5EFE7]/10 backdrop-blur-sm hover:bg-[#F5EFE7]/20 transition-all duration-300 hover:scale-110 active:scale-95"
                 aria-label="Close"
               >
-                <X className="w-4 h-4 text-white" />
+                <X className="w-4 h-4 text-[#F5EFE7]" />
               </button> */}
             </div>
           </div>
         </div>
 
         {/* Bottom accent line */}
-        <div className="h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+        <div className="h-[2px] bg-gradient-to-r from-transparent via-[#F5EFE7]/50 to-transparent" />
       </div>
 
       {/* Custom animations styles */}
@@ -128,11 +128,11 @@ const WhatsappStrip = ({ phoneNumber = "917024144040", message = "Hello Team TRS
         @keyframes pulse-slow {
           0%, 100% {
             opacity: 1;
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 0 rgba(245, 239, 231, 0.4);
           }
           50% {
             opacity: 0.9;
-            box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0);
+            box-shadow: 0 0 20px 10px rgba(245, 239, 231, 0);
           }
         }
 

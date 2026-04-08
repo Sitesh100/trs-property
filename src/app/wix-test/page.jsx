@@ -34,19 +34,19 @@ function WixTestPage() {
   };
 
   return (
-    <main className="container mx-auto px-4 py-10 text-white">
+    <main className="container mx-auto px-4 py-10 text-[#F5EFE7]">
       <h1 className="text-2xl md:text-3xl font-bold mb-4">Wix Data Test</h1>
-      <p className="text-white/70 mb-6">
+      <p className="text-[#F5EFE7]/70 mb-6">
         Run a quick query against Wix CMS and inspect the IDs and first item.
       </p>
 
       <div className="max-w-2xl space-y-4">
         <label className="block">
-          <span className="text-sm text-white/70">Collection Name</span>
+          <span className="text-sm text-[#F5EFE7]/70">Collection Name</span>
           <input
             value={collection}
             onChange={(e) => setCollection(e.target.value)}
-            className="mt-2 w-full rounded-md border border-white/20 bg-black/20 px-3 py-2"
+            className="mt-2 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/20 px-3 py-2"
             placeholder="Members/FullData"
           />
         </label>
@@ -54,19 +54,19 @@ function WixTestPage() {
         <button
           onClick={runTest}
           disabled={loading}
-          className="rounded-md bg-amber-500 text-black px-4 py-2 font-semibold disabled:opacity-60"
+          className="rounded-md bg-[#212121] text-[#212121] px-4 py-2 font-semibold disabled:opacity-60"
         >
           {loading ? "Running..." : "Run Wix Query"}
         </button>
 
         {error && (
-          <div className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-red-200">
+          <div className="rounded-md border border-[#C6A256]/30 bg-[#212121]/10 px-3 py-2 text-[#C6A256]">
             {error}
           </div>
         )}
 
         {result && (
-          <pre className="rounded-md border border-white/20 bg-black/30 p-4 text-xs overflow-auto">
+          <pre className="rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 p-4 text-xs overflow-auto">
             {JSON.stringify(result, null, 2)}
           </pre>
         )}

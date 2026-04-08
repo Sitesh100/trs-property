@@ -93,6 +93,7 @@ const authApiNew = newRealStateAPI.injectEndpoints({
                 if (formValues.city) formData.append('city', formValues.city);
                 if (formValues.reraNumber) formData.append('rera_number', formValues.reraNumber);
                 if (formValues.agencyName) formData.append('agency_name', formValues.agencyName);
+                if (formValues.officeAddress) formData.append('office_address', formValues.officeAddress);
 
                 return {
                     url: `/register/agent`,
@@ -115,6 +116,7 @@ const authApiNew = newRealStateAPI.injectEndpoints({
                 
                 if (formValues.reraRegistrationNumber) formData.append('rera_number', formValues.reraRegistrationNumber);
                 if (formValues.city) formData.append('city', formValues.city);
+                if (formValues.companyAddress) formData.append('company_address', formValues.companyAddress);
 
                 return {
                     url: `/register/builder`,

@@ -11,7 +11,7 @@ function DetailCard({ property }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white text-black rounded-lg overflow-hidden cursor-pointer"
+                className="bg-[#F5EFE7] text-[#212121] rounded-lg overflow-hidden cursor-pointer"
             >
                 <div className="relative h-48 overflow-hidden">
                     <Image
@@ -22,10 +22,10 @@ function DetailCard({ property }) {
                     />
                 </div>
                 <div className="p-4">
-                    <div className="text-xs text-gray-500 mb-1">{property.type}</div>
+                    <div className="text-xs text-[#F5EFE7] mb-1">{property.type}</div>
                     <h3 className="font-medium mb-2">{property.name}</h3>
                     <p className="text-lg font-medium mb-2">₹ {property.price}</p>
-                    <div className="flex items-center text-xs text-gray-500">
+                    <div className="flex items-center text-xs text-[#F5EFE7]">
                         <span className="mr-2">
                             {property.beds} <Bed className="h-3 w-3 inline" />
                         </span>

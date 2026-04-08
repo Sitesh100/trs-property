@@ -157,16 +157,16 @@ function PropertyPropertyDetail({
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <div className="bg-white rounded-lg p-4 mb-8">
+            <div className="bg-[#F5EFE7] rounded-lg p-4 mb-8">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
                 {detailStats.map((item) => {
                   const Icon = item.icon;
                   return (
                     <div key={item.label} className="flex flex-col items-center text-center">
-                      <div className="text-gray-500 mb-2">{item.label}</div>
+                      <div className="text-[#F5EFE7] mb-2">{item.label}</div>
                       <div className="flex items-center justify-center">
-                        <Icon className="h-5 w-5 mr-1 text-black" />
-                        <span className="font-bold text-black">{item.value}</span>
+                        <Icon className="h-5 w-5 mr-1 text-[#212121]" />
+                        <span className="font-bold text-[#212121]">{item.value}</span>
                       </div>
                     </div>
                   );
@@ -179,7 +179,7 @@ function PropertyPropertyDetail({
               <p className="mb-4">{formatValue(property?.description || property?.nearby_landmarks)}</p>
             </div>
 
-            <div className="bg-white rounded-lg p-6 mb-8">
+            <div className="bg-[#F5EFE7] rounded-lg p-6 mb-8">
               <div className="flex flex-col md:flex-row items-center gap-6">
                 {/* Logo */}
                 <div className="w-28 h-28 flex-shrink-0">
@@ -194,13 +194,13 @@ function PropertyPropertyDetail({
 
                 {/* Company Info */}
                 <div className="flex-grow text-center md:text-left">
-                  <h3 className="font-bold text-xl text-black">
+                  <h3 className="font-bold text-xl text-[#212121]">
                     Total Realty Solutions
                   </h3>
-                  <p className="text-sm text-gray-700">
+                  <p className="text-sm text-[#F5EFE7]">
                     RERA REGISTERED BNO
                   </p>
-                  <p className="text-sm text-gray-700">
+                  <p className="text-sm text-[#F5EFE7]">
                     Indore, Madhya Pradesh
                   </p>
                 </div>
@@ -210,7 +210,7 @@ function PropertyPropertyDetail({
                   {/* Call Button */}
                   <a
                     href={`tel:${STATIC_CALL_NUMBER}`}
-                    className="px-5 py-2 rounded-md text-sm flex items-center justify-center bg-black text-white"
+                    className="px-5 py-2 rounded-md text-sm flex items-center justify-center bg-[#212121] text-[#F5EFE7]"
                   >
                     CALL NOW
                   </a>
@@ -220,7 +220,7 @@ function PropertyPropertyDetail({
                     href={STATIC_WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-5 py-2 rounded-md text-sm flex items-center justify-center bg-green-500 text-white"
+                    className="px-5 py-2 rounded-md text-sm flex items-center justify-center bg-[#212121] text-[#F5EFE7]"
                   >
                     WHATSAPP
                   </a>
@@ -236,8 +236,8 @@ function PropertyPropertyDetail({
                   <ul className="space-y-3">
                     {(propertyFeatures?.length > 0 ? propertyFeatures : ["N/A"]).map((feature, index) => (
                       <li key={index} className="flex items-center">
-                        <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
-                          <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
+                        <div className="h-5 w-5 rounded-full border border-[#F5EFE7] flex items-center justify-center mr-2">
+                          <div className="h-2 w-2 bg-[#212121] rounded-full"></div>
                         </div>
                         <span>{formatValue(feature)}</span>
                       </li>
@@ -249,8 +249,8 @@ function PropertyPropertyDetail({
                   <ul className="space-y-3">
                     {(facilities?.length > 0 ? facilities : ["N/A"]).map((facility, index) => (
                       <li key={index} className="flex items-center">
-                        <div className="h-5 w-5 rounded-full border border-gray-500 flex items-center justify-center mr-2">
-                          <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
+                        <div className="h-5 w-5 rounded-full border border-[#F5EFE7] flex items-center justify-center mr-2">
+                          <div className="h-2 w-2 bg-[#212121] rounded-full"></div>
                         </div>
                         <span>{formatValue(facility)}</span>
                       </li>
@@ -260,13 +260,13 @@ function PropertyPropertyDetail({
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/20 bg-white/5 backdrop-blur-sm p-6 mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-white">Required Details</h2>
+            <div className="rounded-2xl border border-[#F5EFE7]/20 bg-[#F5EFE7]/5 backdrop-blur-sm p-6 mb-8">
+              <h2 className="text-2xl font-bold mb-4 text-[#F5EFE7]">Required Details</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {requiredDetails.map((item) => (
-                  <div key={item.label} className="rounded-xl border border-white/15 bg-black/15 p-3">
-                    <p className="text-xs text-white/60 mb-1">{item.label}</p>
-                    <p className="text-sm font-semibold text-white break-words">{formatValue(item.value)}</p>
+                  <div key={item.label} className="rounded-xl border border-[#F5EFE7]/15 bg-[#212121]/15 p-3">
+                    <p className="text-xs text-[#F5EFE7]/60 mb-1">{item.label}</p>
+                    <p className="text-sm font-semibold text-[#F5EFE7] break-words">{formatValue(item.value)}</p>
                   </div>
                 ))}
               </div>
@@ -275,16 +275,16 @@ function PropertyPropertyDetail({
           </div>
 
           <div>
-            <div className="bg-white text-black rounded-lg p-6 sticky top-24">
+            <div className="bg-[#F5EFE7] text-[#212121] rounded-lg p-6 sticky top-24">
               <div className="mb-6">
-                <p className="text-gray-500 text-sm mb-1">SALE PRICE</p>
-                <h3 className="text-2xl font-bold text-black">
+                <p className="text-[#F5EFE7] text-sm mb-1">SALE PRICE</p>
+                <h3 className="text-2xl font-bold text-[#212121]">
                   ₹ {formatValue(property?.price ?? property?.expected_price)}
                 </h3>
               </div>
 
               <button
-                className="w-full bg-black text-white py-3 rounded mb-6 flex items-center justify-center cursor-pointer"
+                className="w-full bg-[#212121] text-[#F5EFE7] py-3 rounded mb-6 flex items-center justify-center cursor-pointer"
                 onClick={handleDownload}
               >
                 <Download className="h-4 w-4 mr-2" />
@@ -297,8 +297,8 @@ function PropertyPropertyDetail({
                   <button
                     className={`flex-1 py-2 text-center cursor-pointer ${
                       tourType === "in-person"
-                        ? "bg-black text-white"
-                        : "bg-gray-200 text-gray-700"
+                        ? "bg-[#212121] text-[#F5EFE7]"
+                        : "bg-[#212121] text-[#F5EFE7]"
                     }`}
                     onClick={() => setTourType("in-person")}
                   >
@@ -307,8 +307,8 @@ function PropertyPropertyDetail({
                   <button
                     className={`flex-1 py-2 text-center cursor-pointer ${
                       tourType === "virtual"
-                        ? "bg-black text-white"
-                        : "bg-gray-200 text-gray-700"
+                        ? "bg-[#212121] text-[#F5EFE7]"
+                        : "bg-[#212121] text-[#F5EFE7]"
                     }`}
                     onClick={() => setTourType("virtual")}
                   >
@@ -319,17 +319,17 @@ function PropertyPropertyDetail({
                 <div className="relative mb-4">
                   <input
                     type="date"
-                    className="w-full border border-gray-300 rounded p-2 pl-10"
+                    className="w-full border border-[#F5EFE7] rounded p-2 pl-10"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                   />
-                  <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                  <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-[#F5EFE7]" />
                 </div>
 
                 <button
                   onClick={handleRequestTour}
                   disabled={isLoading}
-                  className="w-full bg-black text-white py-3 rounded cursor-pointer flex justify-center items-center"
+                  className="w-full bg-[#212121] text-[#F5EFE7] py-3 rounded cursor-pointer flex justify-center items-center"
                 >
                   {isLoading ? (
                     <div className="animate-spin">
@@ -353,15 +353,15 @@ function PropertyPropertyDetail({
                   address={property?.map_address || property?.map_location || property?.city || "N/A"}
               />
             ) : (
-              <div className="relative rounded-lg h-[400px] overflow-hidden border border-white/20">
+              <div className="relative rounded-lg h-[400px] overflow-hidden border border-[#F5EFE7]/20">
                 <Image
                   src="/assets/images/property/map-placeholder.svg"
                   alt="Map placeholder"
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-black/35 flex items-center justify-center">
-                  <p className="text-center text-sm text-white px-4">
+                <div className="absolute inset-0 bg-[#212121]/35 flex items-center justify-center">
+                  <p className="text-center text-sm text-[#F5EFE7] px-4">
                     Map coordinates are not available for this property.
                   </p>
                 </div>

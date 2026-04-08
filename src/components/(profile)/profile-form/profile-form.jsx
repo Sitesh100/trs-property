@@ -23,7 +23,7 @@ const ProfileForm = () => {
 
     return (
         <div className="min-h-screen profile-gradient p-6 flex justify-center items-center">
-            <div className="w-6xl mx-auto bg-white rounded-lg p-6 shadow-lg">
+            <div className="w-6xl mx-auto bg-[#F5EFE7] rounded-lg p-6 shadow-lg">
                 <h2 className="text-2xl font-bold mb-6">EDIT PROFILE</h2>
 
                 {isAgent && <AgentDigitalCard />}
@@ -32,7 +32,7 @@ const ProfileForm = () => {
                 <div className="flex border-b mb-6">
                     <button
                         onClick={() => setActiveTab('personal')}
-                        className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'personal' ? 'text-[#2a1f45] border-b-2 border-[#2a1f45]' : 'text-gray-500'}`}
+                        className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'personal' ? 'text-[#212121] border-b-2 border-[#212121]' : 'text-[#F5EFE7]'}`}
                     >
                         Personal Info
                     </button>
@@ -40,13 +40,13 @@ const ProfileForm = () => {
                         <>
                             <button
                                 onClick={() => setActiveTab('work')}
-                                className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'work' ? 'text-[#2a1f45] border-b-2 border-[#2a1f45]' : 'text-gray-500'}`}
+                                className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'work' ? 'text-[#212121] border-b-2 border-[#212121]' : 'text-[#F5EFE7]'}`}
                             >
                                 Work Info
                             </button>
                             <button
                                 onClick={() => setActiveTab('kyc')}
-                                className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'kyc' ? 'text-[#2a1f45] border-b-2 border-[#2a1f45]' : 'text-gray-500'}`}
+                                className={`md:px-4 px-2 py-2 font-medium cursor-pointer ${activeTab === 'kyc' ? 'text-[#212121] border-b-2 border-[#212121]' : 'text-[#F5EFE7]'}`}
                             >
                                 KYC Doc
                             </button>

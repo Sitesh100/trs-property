@@ -70,8 +70,8 @@ function PropertyDetailPage() {
     return (
         <>
             <Header />
-            <div className={`flex flex-col min-h-screen text-black`}>
-                <main className={`flex-grow bg-[#F2F4F7]`}>
+            <div className={`flex flex-col min-h-screen text-[#212121]`}>
+                <main className={`flex-grow bg-[#F5EFE7]`}>
                     <PropertyDetailHeader />
                     <PropertyDetailImages />
                     <PropertyPropertyDetail propertyFeatures={propertyFeatures} facilities={facilities} />

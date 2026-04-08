@@ -221,11 +221,11 @@ export default function CommercialForm({ property_type = "commercial" }) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto bg-gradient-to-b from-[#1a1333] to-[#0d0a1a] rounded-lg shadow-lg p-6">
+      <div className="max-w-4xl mx-auto bg-[#0F0F10] border border-[#2F2F31] rounded-lg shadow-lg p-6">
         <form onSubmit={formik.handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45]">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D]">
                 Basic Information
               </h2>
             </div>
@@ -234,7 +234,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <div>
                 <label
                   htmlFor="propertyTitle"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Property Title*
                 </label>
@@ -242,17 +242,17 @@ export default function CommercialForm({ property_type = "commercial" }) {
                   type="text"
                   id="propertyTitle"
                   name="propertyTitle"
-                  className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                  className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                     formik.touched.propertyTitle && formik.errors.propertyTitle
-                      ? "border-red-500"
-                      : "border-[#3a2a5a]"
-                  } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                      ? "border-[#C6A256]"
+                      : "border-[#3A3A3D]"
+                  } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   placeholder="Enter office space title"
                   {...formik.getFieldProps("propertyTitle")}
                 />
                 {formik.touched.propertyTitle &&
                   formik.errors.propertyTitle && (
-                    <div className="text-red-500 text-xs mt-1">
+                    <div className="text-[#C6A256] text-xs mt-1">
                       {formik.errors.propertyTitle}
                     </div>
                   )}
@@ -261,7 +261,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <div>
                 <label
                   htmlFor="city"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   City*
                 </label>
@@ -269,16 +269,16 @@ export default function CommercialForm({ property_type = "commercial" }) {
                   type="text"
                   id="city"
                   name="city"
-                  className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                  className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                     formik.touched.city && formik.errors.city
-                      ? "border-red-500"
-                      : "border-[#3a2a5a]"
-                  } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                      ? "border-[#C6A256]"
+                      : "border-[#3A3A3D]"
+                  } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   placeholder="Enter city name"
                   {...formik.getFieldProps("city")}
                 />
                 {formik.touched.city && formik.errors.city && (
-                  <div className="text-red-500 text-xs mt-1">
+                  <div className="text-[#C6A256] text-xs mt-1">
                     {formik.errors.city}
                   </div>
                 )}
@@ -287,7 +287,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <div>
                 <label
                   htmlFor="locality"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Locality*
                 </label>
@@ -295,16 +295,16 @@ export default function CommercialForm({ property_type = "commercial" }) {
                   type="text"
                   id="locality"
                   name="locality"
-                  className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                  className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                     formik.touched.locality && formik.errors.locality
-                      ? "border-red-500"
-                      : "border-[#3a2a5a]"
-                  } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                      ? "border-[#C6A256]"
+                      : "border-[#3A3A3D]"
+                  } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   placeholder="Enter business district/locality"
                   {...formik.getFieldProps("locality")}
                 />
                 {formik.touched.locality && formik.errors.locality && (
-                  <div className="text-red-500 text-xs mt-1">
+                  <div className="text-[#C6A256] text-xs mt-1">
                     {formik.errors.locality}
                   </div>
                 )}
@@ -315,19 +315,19 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <div>
                 <label
                   htmlFor="possessionStatus"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Possession Status*
                 </label>
                 <select
                   id="possessionStatus"
                   name="possessionStatus"
-                  className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                  className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                     formik.touched.possessionStatus &&
                     formik.errors.possessionStatus
-                      ? "border-red-500"
-                      : "border-[#3a2a5a]"
-                  } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                      ? "border-[#C6A256]"
+                      : "border-[#3A3A3D]"
+                  } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   {...formik.getFieldProps("possessionStatus")}
                 >
                   <option value="">Select Status</option>
@@ -336,7 +336,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
                 </select>
                 {formik.touched.possessionStatus &&
                   formik.errors.possessionStatus && (
-                    <div className="text-red-500 text-xs mt-1">
+                    <div className="text-[#C6A256] text-xs mt-1">
                       {formik.errors.possessionStatus}
                     </div>
                   )}
@@ -347,19 +347,19 @@ export default function CommercialForm({ property_type = "commercial" }) {
                   <div>
                     <label
                       htmlFor="availableFromMonth"
-                      className="block text-sm font-medium text-gray-300 mb-1"
+                      className="block text-sm font-medium text-[#F5EFE7] mb-1"
                     >
                       Available Month*
                     </label>
                     <select
                       id="availableFromMonth"
                       name="availableFromMonth"
-                      className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                      className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                         formik.touched.availableFromMonth &&
                         formik.errors.availableFromMonth
-                          ? "border-red-500"
-                          : "border-[#3a2a5a]"
-                      } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                          ? "border-[#C6A256]"
+                          : "border-[#3A3A3D]"
+                      } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                       {...formik.getFieldProps("availableFromMonth")}
                     >
                       <option value="">Select Month</option>
@@ -372,19 +372,19 @@ export default function CommercialForm({ property_type = "commercial" }) {
                   <div>
                     <label
                       htmlFor="availableFromYear"
-                      className="block text-sm font-medium text-gray-300 mb-1"
+                      className="block text-sm font-medium text-[#F5EFE7] mb-1"
                     >
                       Available Year*
                     </label>
                     <select
                       id="availableFromYear"
                       name="availableFromYear"
-                      className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                      className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                         formik.touched.availableFromYear &&
                         formik.errors.availableFromYear
-                          ? "border-red-500"
-                          : "border-[#3a2a5a]"
-                      } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                          ? "border-[#C6A256]"
+                          : "border-[#3A3A3D]"
+                      } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                       {...formik.getFieldProps("availableFromYear")}
                     >
                       <option value="">Select Year</option>
@@ -404,19 +404,19 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <div>
                 <label
                   htmlFor="furnishedStatus"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Furnished Status*
                 </label>
                 <select
                   id="furnishedStatus"
                   name="furnishedStatus"
-                  className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                  className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                     formik.touched.furnishedStatus &&
                     formik.errors.furnishedStatus
-                      ? "border-red-500"
-                      : "border-[#3a2a5a]"
-                  } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                      ? "border-[#C6A256]"
+                      : "border-[#3A3A3D]"
+                  } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   {...formik.getFieldProps("furnishedStatus")}
                 >
                   <option value="">Select Status</option>
@@ -428,7 +428,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Price Details
               </h2>
             </div>
@@ -436,7 +436,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="expectedPrice"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Expected Price (₹)*
               </label>
@@ -444,11 +444,11 @@ export default function CommercialForm({ property_type = "commercial" }) {
                 type="number"
                 id="expectedPrice"
                 name="expectedPrice"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.expectedPrice && formik.errors.expectedPrice
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter expected price"
                 {...formik.getFieldProps("expectedPrice")}
               />
@@ -457,7 +457,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
             <div className="md:col-span-4">
               <label
                 htmlFor="bookingAmount"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Booking/Token Amount (₹)
               </label>
@@ -465,11 +465,11 @@ export default function CommercialForm({ property_type = "commercial" }) {
                 type="number"
                 id="bookingAmount"
                 name="bookingAmount"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.bookingAmount && formik.errors.bookingAmount
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter booking amount"
                 {...formik.getFieldProps("bookingAmount")}
               />
@@ -487,10 +487,10 @@ export default function CommercialForm({ property_type = "commercial" }) {
                   className="sr-only"
                   {...formik.getFieldProps("priceNegotiable")}
                 />
-                <div className="w-5 h-5 rounded-md border-2 border-[#2a1f45] flex items-center justify-center transition-all duration-200 bg-white">
+                <div className="w-5 h-5 rounded-md border-2 border-[#3A3A3D] flex items-center justify-center transition-all duration-200 bg-[#F5EFE7]">
                   {formik.values.priceNegotiable && (
                     <svg
-                      className="w-3 h-3 text-[#2a1f45]"
+                      className="w-3 h-3 text-[#C6A256]"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="3"
@@ -504,7 +504,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
                     </svg>
                   )}
                 </div>
-                <span className="ml-2 block text-sm text-gray-300">
+                <span className="ml-2 block text-sm text-[#F5EFE7]">
                   Price Negotiable
                 </span>
               </label>
@@ -520,10 +520,10 @@ export default function CommercialForm({ property_type = "commercial" }) {
                     className="sr-only"
                     {...formik.getFieldProps("currentlyLeased")}
                   />
-                  <div className="w-5 h-5 rounded-md border-2 border-[#2a1f45] flex items-center justify-center transition-all duration-200 bg-white">
+                  <div className="w-5 h-5 rounded-md border-2 border-[#3A3A3D] flex items-center justify-center transition-all duration-200 bg-[#F5EFE7]">
                     {formik.values.currentlyLeased && (
                       <svg
-                        className="w-3 h-3 text-[#2a1f45]"
+                        className="w-3 h-3 text-[#C6A256]"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="3"
@@ -537,7 +537,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
                       </svg>
                     )}
                   </div>
-                  <span className="ml-2 text-sm text-gray-300">
+                  <span className="ml-2 text-sm text-[#F5EFE7]">
                     Currently Leased Out
                   </span>
                 </label>
@@ -551,10 +551,10 @@ export default function CommercialForm({ property_type = "commercial" }) {
                     className="sr-only"
                     {...formik.getFieldProps("assuredReturns")}
                   />
-                  <div className="w-5 h-5 rounded-md border-2 border-[#2a1f45] flex items-center justify-center transition-all duration-200 bg-white">
+                  <div className="w-5 h-5 rounded-md border-2 border-[#3A3A3D] flex items-center justify-center transition-all duration-200 bg-[#F5EFE7]">
                     {formik.values.assuredReturns && (
                       <svg
-                        className="w-3 h-3 text-[#2a1f45]"
+                        className="w-3 h-3 text-[#C6A256]"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="3"
@@ -568,7 +568,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
                       </svg>
                     )}
                   </div>
-                  <span className="ml-2 text-sm text-gray-300">
+                  <span className="ml-2 text-sm text-[#F5EFE7]">
                     Assured Returns
                   </span>
                 </label>
@@ -582,10 +582,10 @@ export default function CommercialForm({ property_type = "commercial" }) {
                     className="sr-only"
                     {...formik.getFieldProps("receptionArea")}
                   />
-                  <div className="w-5 h-5 rounded-md border-2 border-[#2a1f45] flex items-center justify-center transition-all duration-200 bg-white">
+                  <div className="w-5 h-5 rounded-md border-2 border-[#3A3A3D] flex items-center justify-center transition-all duration-200 bg-[#F5EFE7]">
                     {formik.values.receptionArea && (
                       <svg
-                        className="w-3 h-3 text-[#2a1f45]"
+                        className="w-3 h-3 text-[#C6A256]"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="3"
@@ -599,7 +599,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
                       </svg>
                     )}
                   </div>
-                  <span className="ml-2 text-sm text-gray-300">
+                  <span className="ml-2 text-sm text-[#F5EFE7]">
                     Reception Area
                   </span>
                 </label>
@@ -607,7 +607,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Area Details
               </h2>
             </div>
@@ -615,7 +615,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="carpetArea"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Carpet Area (sq ft)*
               </label>
@@ -623,11 +623,11 @@ export default function CommercialForm({ property_type = "commercial" }) {
                 type="number"
                 id="carpetArea"
                 name="carpetArea"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.carpetArea && formik.errors.carpetArea
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter carpet area"
                 {...formik.getFieldProps("carpetArea")}
               />
@@ -636,7 +636,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
             <div className="md:col-span-6">
               <label
                 htmlFor="superArea"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 Super Area (sq ft)
               </label>
@@ -644,18 +644,18 @@ export default function CommercialForm({ property_type = "commercial" }) {
                 type="number"
                 id="superArea"
                 name="superArea"
-                className={`w-full px-3 py-2 bg-[#2a1f45] border ${
+                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${
                   formik.touched.superArea && formik.errors.superArea
-                    ? "border-red-500"
-                    : "border-[#3a2a5a]"
-                } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                    ? "border-[#C6A256]"
+                    : "border-[#3A3A3D]"
+                } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                 placeholder="Enter super area"
                 {...formik.getFieldProps("superArea")}
               />
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Office Features
               </h2>
             </div>
@@ -664,7 +664,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <div>
                 <label
                   htmlFor="cabins"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Number of Cabins
                 </label>
@@ -672,7 +672,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
                   type="number"
                   id="cabins"
                   name="cabins"
-                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                   placeholder="Enter number of cabins"
                   {...formik.getFieldProps("cabins")}
                 />
@@ -681,7 +681,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <div>
                 <label
                   htmlFor="workstations"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Number of Workstations
                 </label>
@@ -689,7 +689,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
                   type="number"
                   id="workstations"
                   name="workstations"
-                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                   placeholder="Enter number of workstations"
                   {...formik.getFieldProps("workstations")}
                 />
@@ -700,7 +700,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <div>
                 <label
                   htmlFor="conferenceRooms"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Number of Conference Rooms
                 </label>
@@ -708,7 +708,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
                   type="number"
                   id="conferenceRooms"
                   name="conferenceRooms"
-                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                   placeholder="Enter number of conference rooms"
                   {...formik.getFieldProps("conferenceRooms")}
                 />
@@ -717,14 +717,14 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <div>
                 <label
                   htmlFor="pantryType"
-                  className="block text-sm font-medium text-gray-300 mb-1"
+                  className="block text-sm font-medium text-[#F5EFE7] mb-1"
                 >
                   Pantry/Cafeteria
                 </label>
                 <select
                   id="pantryType"
                   name="pantryType"
-                  className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                  className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                   {...formik.getFieldProps("pantryType")}
                 >
                   <option value="">Select Option</option>
@@ -736,7 +736,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Additional Details
               </h2>
             </div>
@@ -744,7 +744,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
             <div className="md:col-span-12">
               <label
                 htmlFor="reraId"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-sm font-medium text-[#F5EFE7] mb-1"
               >
                 RERA ID
               </label>
@@ -752,17 +752,17 @@ export default function CommercialForm({ property_type = "commercial" }) {
                 type="text"
                 id="reraId"
                 name="reraId"
-                className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-3 py-2 bg-[#1A1A1C] border border-[#3A3A3D] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]"
                 placeholder="Enter RERA ID"
                 {...formik.getFieldProps("reraId")}
               />
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45] mt-6">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Property Images
               </h2>
-              <p className="text-gray-400 text-sm mb-4">
+              <p className="text-[#F5EFE7] text-sm mb-4">
                 Upload images of your office space (interior, exterior,
                 workstations, cabins, etc.)
               </p>
@@ -770,7 +770,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
                 {images.map((file, index) => (
                   <div
                     key={index}
-                    className="relative w-24 h-24 bg-[#2a1f45] rounded-lg overflow-hidden border border-[#3a2a5a]"
+                    className="relative w-24 h-24 bg-[#1A1A1C] rounded-lg overflow-hidden border border-[#3A3A3D]"
                   >
                     <img
                       src={file?.url || "/placeholder.svg"}
@@ -780,13 +780,13 @@ export default function CommercialForm({ property_type = "commercial" }) {
                     <button
                       type="button"
                       onClick={() => removeImage(index)}
-                      className="absolute top-1 right-1 bg-black/70 rounded-full p-1"
+                      className="absolute top-1 right-1 bg-[#1A1A1C]/70 rounded-full p-1"
                     >
                       <X className="h-3 w-3" />
                     </button>
                   </div>
                 ))}
-                <label className="w-24 h-24 flex flex-col items-center justify-center bg-[#2a1f45] rounded-lg border border-dashed border-[#3a2a5a] cursor-pointer hover:bg-[#3a2a5a]">
+                <label className="w-24 h-24 flex flex-col items-center justify-center bg-[#1A1A1C] rounded-lg border border-dashed border-[#3A3A3D] cursor-pointer hover:bg-[#1A1A1C]">
                   <Plus className="h-6 w-6 mb-1" />
                   <span className="text-xs">Add Image</span>
                   <input
@@ -801,17 +801,17 @@ export default function CommercialForm({ property_type = "commercial" }) {
             </div>
 
             <div className="md:col-span-12">
-              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45]">
+              <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D]">
                 Property Documents
               </h2>
-              <p className="text-gray-400 text-sm mb-4">
+              <p className="text-[#F5EFE7] text-sm mb-4">
                 Upload floor plan, master plan, location map
               </p>
               <div className="flex flex-wrap gap-4 mb-4">
                 {documents.map((file, index) => (
                   <div
                     key={index}
-                    className="relative w-24 h-24 bg-[#2a1f45] rounded-lg overflow-hidden border border-[#3a2a5a] flex flex-col items-center justify-center p-2"
+                    className="relative w-24 h-24 bg-[#1A1A1C] rounded-lg overflow-hidden border border-[#3A3A3D] flex flex-col items-center justify-center p-2"
                   >
                     <Upload className="h-6 w-6 mb-1" />
                     <span className="text-xs text-center truncate w-full">
@@ -820,13 +820,13 @@ export default function CommercialForm({ property_type = "commercial" }) {
                     <button
                       type="button"
                       onClick={() => removeDocument(index)}
-                      className="absolute top-1 right-1 bg-black/70 rounded-full p-1"
+                      className="absolute top-1 right-1 bg-[#1A1A1C]/70 rounded-full p-1"
                     >
                       <X className="h-3 w-3" />
                     </button>
                   </div>
                 ))}
-                <label className="w-24 h-24 flex flex-col items-center justify-center bg-[#2a1f45] rounded-lg border border-dashed border-[#3a2a5a] cursor-pointer hover:bg-[#3a2a5a]">
+                <label className="w-24 h-24 flex flex-col items-center justify-center bg-[#1A1A1C] rounded-lg border border-dashed border-[#3A3A3D] cursor-pointer hover:bg-[#1A1A1C]">
                   <Plus className="h-6 w-6 mb-1" />
                   <span className="text-xs">Add Document</span>
                   <input
@@ -843,7 +843,7 @@ export default function CommercialForm({ property_type = "commercial" }) {
               <button
                 disabled={isLoading}
                 type="submit"
-                className="w-full bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#1A1A1C] hover:bg-[#1A1A1C] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <div className="animate-spin">

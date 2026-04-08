@@ -117,19 +117,19 @@ export default function LocationSearch({
       />
 
       {isLoading && (
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#F5EFE7]">
           Searching...
         </div>
       )}
 
       {showSuggestions && suggestions.length > 0 && (
-        <ul className="absolute z-20 mt-1 w-full max-h-60 overflow-auto rounded border border-[#3a2a5a] bg-[#1f1736] shadow-lg">
+        <ul className="absolute z-20 mt-1 w-full max-h-60 overflow-auto rounded border border-[#212121] bg-[#212121] shadow-lg">
           {suggestions.map((item) => (
             <li key={item.place_id}>
               <button
                 type="button"
                 onClick={() => handleSelect(item)}
-                className="w-full px-3 py-2 text-left text-sm text-gray-200 hover:bg-[#2a1f45]"
+                className="w-full px-3 py-2 text-left text-sm text-[#F5EFE7]/80 hover:bg-[#212121]"
               >
                 {item.display_name}
               </button>

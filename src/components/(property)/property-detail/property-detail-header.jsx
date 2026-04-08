@@ -32,21 +32,21 @@ function PropertyDetailHeader({ property }) {
                 <div>
                     <button
                         onClick={() => router.back()}
-                        className="flex items-center gap-2 text-white/70 hover:text-amber-400 mb-4 cursor-pointer transition-all duration-300 group"
+                        className="flex items-center gap-2 text-[#F5EFE7]/70 hover:text-[#C6A256] mb-4 cursor-pointer transition-all duration-300 group"
                     >
                         <ArrowLeft className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
                         <span className="text-sm font-semibold">Back</span>
                     </button>
                     <h1 className="text-2xl md:text-4xl font-bold">{asText(property?.title)}</h1>
                     <p className="text-xl font-medium mt-2">{asText(property?.map_address || property?.map_location || property?.location || property?.city)}</p>
-                    <p className="text-lg mt-1 text-amber-400 capitalize">
+                    <p className="text-lg mt-1 text-[#C6A256] capitalize">
                         {asText(property?.property_type)} • {asText(property?.status)}
                     </p>
                 </div>
                 <div className="flex items-center mt-2 md:mt-0 space-x-4">
                     <button
                         onClick={() => setShowShareModal(true)}
-                        className="flex items-center cursor-pointer text-white border-2 border-white bg-[#1a1333] hover:bg-[#2a1f45] px-3 py-1.5 rounded-lg"
+                        className="flex items-center cursor-pointer text-[#F5EFE7] border-2 border-[#F5EFE7] bg-[#212121] hover:bg-[#212121] px-3 py-1.5 rounded-lg"
                     >
                         <Share2 className="h-4 w-4 mr-1" />
                         <span>Share</span>
@@ -54,10 +54,10 @@ function PropertyDetailHeader({ property }) {
                     <button 
                         onClick={handleToggleFavorite}
                         disabled={isLoading}
-                        className="flex items-center cursor-pointer text-white border-2 border-white bg-[#1a1333] hover:bg-[#2a1f45] px-3 py-1.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                        className="flex items-center cursor-pointer text-[#F5EFE7] border-2 border-[#F5EFE7] bg-[#212121] hover:bg-[#212121] px-3 py-1.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     >
                         <Heart className={`h-4 w-4 mr-1 ${
-                            property?.is_favorited ? 'fill-red-500 text-red-500' : ''
+                            property?.is_favorited ? 'fill-[#C6A256] text-[#C6A256]' : ''
                         }`} />
                         <span>{property?.is_favorited ? 'Remove from Cart' : 'Add to Cart'}</span>
                     </button>

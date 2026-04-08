@@ -49,7 +49,7 @@ export default function Home() {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 text-white"
+          className="h-6 w-6 text-[#F5EFE7]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -68,7 +68,7 @@ export default function Home() {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 text-white"
+          className="h-6 w-6 text-[#F5EFE7]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -87,7 +87,7 @@ export default function Home() {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 text-white"
+          className="h-6 w-6 text-[#F5EFE7]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -106,7 +106,7 @@ export default function Home() {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 text-white"
+          className="h-6 w-6 text-[#F5EFE7]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -191,7 +191,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className="flex flex-col min-h-screen  text-white">
+      <div className="flex flex-col min-h-screen  text-[#F5EFE7]">
         <main className="flex-grow">
           <HeroSection />
           <FeaturedProjects />

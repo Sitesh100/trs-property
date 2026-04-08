@@ -48,7 +48,7 @@ function OtpInput({ length = 6, onChange }) {
                     value={digit}
                     onChange={(e) => handleChange(e.target.value, index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
-                    className="w-10 h-12 text-center text-lg bg-[#2a1f45] border border-[#3a2a5a] text-white rounded"
+                    className="w-10 h-12 text-center text-lg bg-[#212121] border border-[#212121] text-[#F5EFE7] rounded"
                 />
             ))}
         </div>
@@ -127,31 +127,31 @@ function VerifyOtpForm({ onClose, sendOtpInfo, setActiveTab }) {
                     <div className="flex items-center gap-2">
                         <button 
                             onClick={handleBack} 
-                            className="text-gray-400 hover:text-white cursor-pointer"
+                            className="text-[#F5EFE7] hover:text-[#F5EFE7] cursor-pointer"
                         >
                             <ArrowLeft className="h-5 w-5" />
                         </button>
-                        <h2 className="text-xl font-bold text-white">
+                        <h2 className="text-xl font-bold text-[#F5EFE7]">
                             {isSignup ? "Verify Signup OTP" : "Verify Login OTP"}
                         </h2>
                     </div>
-                    <button onClick={onClose} className="text-gray-400 hover:text-white cursor-pointer">
+                    <button onClick={onClose} className="text-[#F5EFE7] hover:text-[#F5EFE7] cursor-pointer">
                         <X className="h-5 w-5" />
                     </button>
                 </div>
                 
-                <p className="text-gray-400 text-sm text-center mb-4">
-                    OTP sent to <span className="text-white font-medium">{sendOtpInfo?.phone}</span>
+                <p className="text-[#F5EFE7] text-sm text-center mb-4">
+                    OTP sent to <span className="text-[#F5EFE7] font-medium">{sendOtpInfo?.phone}</span>
                 </p>
 
                 <div className="mt-6 flex flex-col justify-start items-center space-y-4">
-                    <label className="block text-sm font-medium text-gray-300">Enter 6-digit OTP</label>
+                    <label className="block text-sm font-medium text-[#F5EFE7]">Enter 6-digit OTP</label>
                     <OtpInput onChange={handleOtpChange} />
                     <button
                         type="submit"
                         disabled={isLoading}
                         onClick={handlerVerifyOtp}
-                        className="w-full bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
+                        className="w-full bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
                     >
                         {isLoading ? (
                             <div className="animate-spin">

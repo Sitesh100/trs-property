@@ -77,15 +77,15 @@ function Header() {
                 href={href}
                 className={`relative text-xs lg:text-sm font-bold transition-all duration-300 group whitespace-nowrap
                   ${pathname === href
-                    ? "text-amber-400"
-                    : "text-white opacity-90 hover:opacity-100 hover:text-amber-300"
+                    ? "text-[#C6A256]"
+                    : "text-[#F5EFE7] opacity-90 hover:opacity-100 hover:text-[#C6A256]"
                   }`}
               >
                 {label}
 
                 {/* Underline */}
                 <span
-                  className={`absolute -bottom-1 left-0 h-0.5 bg-amber-400 transition-all duration-300
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-[#212121] transition-all duration-300
                     ${pathname === href
                       ? "w-full"                          // active → full underline
                       : "w-0 group-hover:w-full"          // hover → animate in
@@ -100,19 +100,19 @@ function Header() {
               <>
                 <button
                   onClick={() => setOpen(true)}
-                  className="flex items-center cursor-pointer justify-center w-9 h-9 rounded-full bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] transition-all duration-300 group"
+                  className="flex items-center cursor-pointer justify-center w-9 h-9 rounded-full bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] hover:shadow-[0_0_20px_rgba(198, 162, 86, 0.5)] transition-all duration-300 group"
                   title="Login"
                 >
-                  <LogIn className="w-5 h-5 text-gray-900 group-hover:text-white transition-colors" />
+                  <LogIn className="w-5 h-5 text-[#212121] group-hover:text-[#F5EFE7] transition-colors" />
                 </button>
                 <button
                   onClick={() => router.push("/post-property")}
-                  className=" group relative overflow-hidden bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 whitespace-nowrap"
+                  className=" group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(198, 162, 86, 0.5)] border border-[#C6A256]/50 whitespace-nowrap"
                 >
-                  <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                  <span className="relative z-10 transition-colors duration-300 group-hover:text-[#F5EFE7]">
                     Post Property
                   </span>
-                  <div className="absolute inset-0 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-linear-to-r from-[#212121] via-[#212121] to-[#212121] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </button>
                
               </>
@@ -125,12 +125,12 @@ function Header() {
             ) : (
               <button
                 onClick={() => setOpen(true)}
-                className="golden-button group relative overflow-hidden bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 px-3 sm:px-4 py-1.5 sm:py-2 rounded text-xs sm:text-sm font-semibold whitespace-nowrap active:scale-95 transition-transform"
+                className="golden-button group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-3 sm:px-4 py-1.5 sm:py-2 rounded text-xs sm:text-sm font-semibold whitespace-nowrap active:scale-95 transition-transform"
               >
-                <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-[#F5EFE7]">
                   LogIn
                 </span>
-                <div className="absolute inset-0 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-linear-to-r from-[#212121] via-[#212121] to-[#212121] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </button>
             )}
 

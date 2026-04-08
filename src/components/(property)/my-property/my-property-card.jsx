@@ -63,7 +63,7 @@ const MyPropertyCard = () => {
 
     return (
         <>
-            <div className="property-gradient text-white">
+            <div className="property-gradient text-[#F5EFE7]">
                 <PropertySearchBar onSearch={handleSearchAndFilter} />
             </div>
             <div className="container mx-auto md:px-10 px-5">
@@ -72,13 +72,13 @@ const MyPropertyCard = () => {
                     <div className='flex items-center gap-2'>
                         <Link
                             href={"/my-property"}
-                            className={`w-36 mt-6 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-12 flex items-center justify-center cursor-pointer`}
+                            className={`w-36 mt-6 bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-12 flex items-center justify-center cursor-pointer`}
                         >
                             My Property
                         </Link>
                         <Link
                             href={"/my-buy-requirement"}
-                            className={`w-36 mt-6 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-12 flex items-center justify-center cursor-pointer`}
+                            className={`w-36 mt-6 bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-12 flex items-center justify-center cursor-pointer`}
                         >
                             Buy Requirement
                         </Link>
@@ -87,18 +87,18 @@ const MyPropertyCard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {isLoading ? (
                         Array.from({ length: 4 }).map((_, i) => (
-                            <div key={i} className="bg-white p-4 rounded-2xl shadow">
-                                <div className="w-full h-48 bg-gray-200 animate-pulse rounded-xl mb-4" />
-                                <div className="h-4 w-1/2 bg-gray-200 animate-pulse rounded mb-2" />
-                                <div className="h-4 w-1/3 bg-gray-200 animate-pulse rounded mb-2" />
-                                <div className="h-4 w-full bg-gray-200 animate-pulse rounded" />
+                            <div key={i} className="bg-[#F5EFE7] p-4 rounded-2xl shadow">
+                                <div className="w-full h-48 bg-[#212121] animate-pulse rounded-xl mb-4" />
+                                <div className="h-4 w-1/2 bg-[#212121] animate-pulse rounded mb-2" />
+                                <div className="h-4 w-1/3 bg-[#212121] animate-pulse rounded mb-2" />
+                                <div className="h-4 w-full bg-[#212121] animate-pulse rounded" />
                             </div>
                         ))
                     ) : filteredProperties?.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg">
+                        <div className="flex flex-col items-center justify-center h-64 bg-[#212121] rounded-lg">
                             <div className="text-6xl mb-4">🏠</div>
-                            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Properties Found</h3>
-                            <p className="text-gray-500 text-center">
+                            <h3 className="text-xl font-semibold text-[#F5EFE7] mb-2">No Properties Found</h3>
+                            <p className="text-[#F5EFE7] text-center">
                                 Try adjusting your filters or search criteria to find more properties.
                             </p>
                         </div>

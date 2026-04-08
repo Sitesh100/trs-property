@@ -128,30 +128,30 @@ export default function BuilderAnalyticsDashboard() {
     return (
         <>
             <Header />
-            <main className="min-h-screen bg-linear-to-b from-[#0a0a0a] via-[#101019] to-[#0b0b0f] px-4 py-8 text-white md:px-8">
+            <main className="min-h-screen bg-linear-to-b from-[#212121] via-[#212121] to-[#212121] px-4 py-8 text-[#F5EFE7] md:px-8">
                 <section className="mx-auto max-w-7xl">
-                    <div className="mb-6 rounded-xl border border-white/10 bg-white/5 p-5">
+                    <div className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
                         <h1 className="text-2xl font-bold">Builder Analytics Dashboard</h1>
-                        <p className="mt-2 text-sm text-gray-300">
+                        <p className="mt-2 text-sm text-[#F5EFE7]">
                             Personalised analytics for property views, lead tracking, and closed deals.
                         </p>
                     </div>
 
                     <div className="mb-6 grid gap-4 md:grid-cols-3">
-                        <article className="rounded-xl border border-white/10 bg-white/5 p-4">
-                            <p className="text-xs uppercase tracking-wider text-gray-400">Total Visits</p>
+                        <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Total Visits</p>
                             <p className="mt-2 text-3xl font-bold">{totalVisits}</p>
-                            <p className="text-xs text-gray-400">Property profile views</p>
+                            <p className="text-xs text-[#F5EFE7]">Property profile views</p>
                         </article>
-                        <article className="rounded-xl border border-white/10 bg-white/5 p-4">
-                            <p className="text-xs uppercase tracking-wider text-gray-400">Active Leads</p>
+                        <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Active Leads</p>
                             <p className="mt-2 text-3xl font-bold">{totalLeads}</p>
-                            <p className="text-xs text-gray-400">All pipeline leads</p>
+                            <p className="text-xs text-[#F5EFE7]">All pipeline leads</p>
                         </article>
-                        <article className="rounded-xl border border-white/10 bg-white/5 p-4">
-                            <p className="text-xs uppercase tracking-wider text-gray-400">Closed Deals</p>
+                        <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Closed Deals</p>
                             <p className="mt-2 text-3xl font-bold">{closedDeals}</p>
-                            <p className="text-xs text-gray-400">Successful conversions</p>
+                            <p className="text-xs text-[#F5EFE7]">Successful conversions</p>
                         </article>
                     </div>
 
@@ -159,22 +159,22 @@ export default function BuilderAnalyticsDashboard() {
 
                     <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
                         {STATUS_OPTIONS.map((status) => (
-                            <div key={status} className="rounded-lg border border-white/10 bg-white/5 px-4 py-3">
-                                <p className="text-xs text-gray-300">{status}</p>
+                            <div key={status} className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-4 py-3">
+                                <p className="text-xs text-[#F5EFE7]">{status}</p>
                                 <p className="text-xl font-bold">{statusCounts[status] || 0}</p>
                             </div>
                         ))}
                     </div>
 
                     <div className="grid gap-6 lg:grid-cols-2">
-                        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                        <div className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
                             <div className="mb-3 flex items-center justify-between">
                                 <h3 className="text-lg font-semibold">Upcoming Visits</h3>
-                                <span className="text-xs text-gray-400">Next scheduled site visits</span>
+                                <span className="text-xs text-[#F5EFE7]">Next scheduled site visits</span>
                             </div>
                             <table className="w-full table-auto text-left text-sm">
                                 <thead>
-                                    <tr className="border-b border-white/10 text-gray-300">
+                                    <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]">
                                         <th className="pb-3 pr-2">Visit Date</th>
                                         <th className="pb-3 pr-2">Customer</th>
                                         <th className="pb-3 pr-2">Property</th>
@@ -183,7 +183,7 @@ export default function BuilderAnalyticsDashboard() {
                                 </thead>
                                 <tbody>
                                     {UPCOMING_VISITS.map((visit) => (
-                                        <tr key={visit.id} className="border-b border-white/5">
+                                        <tr key={visit.id} className="border-b border-[#F5EFE7]/5">
                                             <td className="py-3 pr-2">{visit.visitDate}</td>
                                             <td className="py-3 pr-2">{visit.customerName}</td>
                                             <td className="py-3 pr-2">{visit.propertyName}</td>
@@ -194,14 +194,14 @@ export default function BuilderAnalyticsDashboard() {
                             </table>
                         </div>
 
-                        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                        <div className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
                             <div className="mb-3 flex items-center justify-between">
                                 <h3 className="text-lg font-semibold">Completed Visits</h3>
-                                <span className="text-xs text-gray-400">Latest visit outcomes</span>
+                                <span className="text-xs text-[#F5EFE7]">Latest visit outcomes</span>
                             </div>
                             <table className="w-full table-auto text-left text-sm">
                                 <thead>
-                                    <tr className="border-b border-white/10 text-gray-300">
+                                    <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]">
                                         <th className="pb-3 pr-2">Visit Date</th>
                                         <th className="pb-3 pr-2">Customer</th>
                                         <th className="pb-3 pr-2">Property</th>
@@ -210,12 +210,12 @@ export default function BuilderAnalyticsDashboard() {
                                 </thead>
                                 <tbody>
                                     {COMPLETED_VISITS.map((visit) => (
-                                        <tr key={visit.id} className="border-b border-white/5">
+                                        <tr key={visit.id} className="border-b border-[#F5EFE7]/5">
                                             <td className="py-3 pr-2">{visit.visitDate}</td>
                                             <td className="py-3 pr-2">{visit.customerName}</td>
                                             <td className="py-3 pr-2">{visit.propertyName}</td>
                                             <td className="py-3 pr-2">
-                                                <span className="rounded-full border border-amber-300/30 bg-amber-500/10 px-2 py-1 text-xs text-amber-200">
+                                                <span className="rounded-full border border-[#C6A256]/30 bg-[#212121]/10 px-2 py-1 text-xs text-[#C6A256]">
                                                     {visit.outcome}
                                                 </span>
                                             </td>
@@ -226,32 +226,32 @@ export default function BuilderAnalyticsDashboard() {
                         </div>
                     </div>
 
-                    <div className="mb-6 mt-6 rounded-xl border border-white/10 bg-white/5 p-5">
+                    <div className="mb-6 mt-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
                         <div className="mb-4 flex items-center justify-between">
                             <h2 className="text-lg font-semibold">Property Views Trend</h2>
-                            <span className="text-xs text-gray-400">Demo data - Last 6 months</span>
+                            <span className="text-xs text-[#F5EFE7]">Demo data - Last 6 months</span>
                         </div>
 
                         <div className="mb-4 grid gap-3 sm:grid-cols-3">
                             {MONTHLY_ANALYTICS.slice(-3).map((item) => (
-                                <div key={`preview-${item.month}`} className="rounded-lg border border-white/10 bg-black/30 px-3 py-2">
-                                    <p className="text-xs text-gray-400">{item.month}</p>
+                                <div key={`preview-${item.month}`} className="rounded-lg border border-[#F5EFE7]/10 bg-[#212121]/30 px-3 py-2">
+                                    <p className="text-xs text-[#F5EFE7]">{item.month}</p>
                                     <p className="text-sm font-semibold">{item.views} views</p>
-                                    <p className="text-xs text-gray-400">{item.leads} leads, {item.closed} closed</p>
+                                    <p className="text-xs text-[#F5EFE7]">{item.leads} leads, {item.closed} closed</p>
                                 </div>
                             ))}
                         </div>
 
-                        <div className="rounded-lg border border-white/10 bg-black/30 p-3">
+                        <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#212121]/30 p-3">
                             <svg viewBox="0 0 680 240" className="h-56 w-full">
                                 <defs>
                                     <linearGradient id="viewsArea" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stopColor="#f2d18b" stopOpacity="0.45" />
-                                        <stop offset="100%" stopColor="#f2d18b" stopOpacity="0.02" />
+                                        <stop offset="0%" stopColor="#C6A256" stopOpacity="0.45" />
+                                        <stop offset="100%" stopColor="#C6A256" stopOpacity="0.02" />
                                     </linearGradient>
                                 </defs>
 
-                                <g stroke="#2a2f3d" strokeWidth="1">
+                                <g stroke="#212121" strokeWidth="1">
                                     <line x1="0" y1="220" x2="680" y2="220" />
                                     <line x1="0" y1="165" x2="680" y2="165" />
                                     <line x1="0" y1="110" x2="680" y2="110" />
@@ -259,15 +259,15 @@ export default function BuilderAnalyticsDashboard() {
                                 </g>
 
                                 <path d={areaPath} fill="url(#viewsArea)" />
-                                <path d={linePath} fill="none" stroke="#f2d18b" strokeWidth="3" strokeLinecap="round" />
+                                <path d={linePath} fill="none" stroke="#C6A256" strokeWidth="3" strokeLinecap="round" />
 
                                 {graphPoints.map((point) => (
                                     <g key={`point-${point.month}`}>
-                                        <circle cx={point.x} cy={point.y} r="4" fill="#f2d18b" />
-                                        <text x={point.x} y={point.y - 10} textAnchor="middle" fontSize="10" fill="#d9dce3">
+                                        <circle cx={point.x} cy={point.y} r="4" fill="#C6A256" />
+                                        <text x={point.x} y={point.y - 10} textAnchor="middle" fontSize="10" fill="#F5EFE7">
                                             {point.views}
                                         </text>
-                                        <text x={point.x} y="236" textAnchor="middle" fontSize="10" fill="#9ca3af">
+                                        <text x={point.x} y="236" textAnchor="middle" fontSize="10" fill="#F5EFE7">
                                             {point.month}
                                         </text>
                                     </g>

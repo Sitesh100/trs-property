@@ -60,127 +60,127 @@ export default function BuyRequirementForm({ property_type }) {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="max-w-4xl mx-auto bg-gradient-to-b from-[#1a1333] to-[#0d0a1a] rounded-lg shadow-lg p-6">
+            <div className="max-w-4xl mx-auto bg-gradient-to-b from-[#212121] to-[#212121] rounded-lg shadow-lg p-6">
                 <form onSubmit={formik.handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
 
                         <div className="md:col-span-12">
-                            <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45]">Basic Information</h2>
+                            <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#212121]">Basic Information</h2>
                         </div>
 
                         <div className="md:col-span-6">
-                            <label htmlFor="city" className="block text-sm font-medium text-gray-300 mb-1">
+                            <label htmlFor="city" className="block text-sm font-medium text-[#F5EFE7] mb-1">
                                 City*
                             </label>
                             <input
                                 type="text"
                                 id="city"
                                 name="city"
-                                className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.city && formik.errors.city ? "border-red-500" : "border-[#3a2a5a]"
-                                    } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.city && formik.errors.city ? "border-[#C6A256]" : "border-[#212121]"
+                                    } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter city name"
                                 {...formik.getFieldProps("city")}
                             />
                             {formik.touched.city && formik.errors.city && (
-                                <div className="text-red-500 text-xs mt-1">{formik.errors.city}</div>
+                                <div className="text-[#C6A256] text-xs mt-1">{formik.errors.city}</div>
                             )}
                         </div>
 
                         <div className="md:col-span-6">
-                            <label htmlFor="propertyType" className="block text-sm font-medium text-gray-300 mb-1">
+                            <label htmlFor="propertyType" className="block text-sm font-medium text-[#F5EFE7] mb-1">
                                 Property Type*
                             </label>
                             <input
                                 type="text"
-                                className={`w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                                className={`w-full px-3 py-2 bg-[#212121] border border-[#212121] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 disabled
                                 value={property_type}
                             />
                         </div>
 
                         <div className="md:col-span-6">
-                            <label htmlFor="min_price" className="block text-sm font-medium text-gray-300 mb-1">
+                            <label htmlFor="min_price" className="block text-sm font-medium text-[#F5EFE7] mb-1">
                                 Min Price*
                             </label>
                             <input
                                 type="number"
                                 id="min_price"
                                 name="min_price"
-                                className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.min_price && formik.errors.min_price ? "border-red-500" : "border-[#3a2a5a]"
-                                    } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.min_price && formik.errors.min_price ? "border-[#C6A256]" : "border-[#212121]"
+                                    } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter minimum price"
                                 {...formik.getFieldProps("min_price")}
                             />
                             {formik.touched.min_price && formik.errors.min_price && (
-                                <div className="text-red-500 text-xs mt-1">{formik.errors.min_price}</div>
+                                <div className="text-[#C6A256] text-xs mt-1">{formik.errors.min_price}</div>
                             )}
                         </div>
 
                         <div className="md:col-span-6">
-                            <label htmlFor="max_price" className="block text-sm font-medium text-gray-300 mb-1">
+                            <label htmlFor="max_price" className="block text-sm font-medium text-[#F5EFE7] mb-1">
                                 Max Price*
                             </label>
                             <input
                                 type="number"
                                 id="max_price"
                                 name="max_price"
-                                className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.max_price && formik.errors.max_price ? "border-red-500" : "border-[#3a2a5a]"
-                                    } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.max_price && formik.errors.max_price ? "border-[#C6A256]" : "border-[#212121]"
+                                    } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter maximum price"
                                 {...formik.getFieldProps("max_price")}
                             />
                             {formik.touched.max_price && formik.errors.max_price && (
-                                <div className="text-red-500 text-xs mt-1">{formik.errors.max_price}</div>
+                                <div className="text-[#C6A256] text-xs mt-1">{formik.errors.max_price}</div>
                             )}
                         </div>
 
                         <div className="md:col-span-6">
-                            <label htmlFor="min_carpet_area" className="block text-sm font-medium text-gray-300 mb-1">
+                            <label htmlFor="min_carpet_area" className="block text-sm font-medium text-[#F5EFE7] mb-1">
                                 Min Carpet Area* (sq ft)
                             </label>
                             <input
                                 type="number"
                                 id="min_carpet_area"
                                 name="min_carpet_area"
-                                className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.min_carpet_area && formik.errors.min_carpet_area ? "border-red-500" : "border-[#3a2a5a]"
-                                    } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.min_carpet_area && formik.errors.min_carpet_area ? "border-[#C6A256]" : "border-[#212121]"
+                                    } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter minimum carpet area"
                                 {...formik.getFieldProps("min_carpet_area")}
                             />
                             {formik.touched.min_carpet_area && formik.errors.min_carpet_area && (
-                                <div className="text-red-500 text-xs mt-1">{formik.errors.min_carpet_area}</div>
+                                <div className="text-[#C6A256] text-xs mt-1">{formik.errors.min_carpet_area}</div>
                             )}
                         </div>
 
                         <div className="md:col-span-6">
-                            <label htmlFor="max_carpet_area" className="block text-sm font-medium text-gray-300 mb-1">
+                            <label htmlFor="max_carpet_area" className="block text-sm font-medium text-[#F5EFE7] mb-1">
                                 Max Carpet Area* (sq ft)
                             </label>
                             <input
                                 type="number"
                                 id="max_carpet_area"
                                 name="max_carpet_area"
-                                className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.max_carpet_area && formik.errors.max_carpet_area ? "border-red-500" : "border-[#3a2a5a]"
-                                    } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.max_carpet_area && formik.errors.max_carpet_area ? "border-[#C6A256]" : "border-[#212121]"
+                                    } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter maximum carpet area"
                                 {...formik.getFieldProps("max_carpet_area")}
                             />
                             {formik.touched.max_carpet_area && formik.errors.max_carpet_area && (
-                                <div className="text-red-500 text-xs mt-1">{formik.errors.max_carpet_area}</div>
+                                <div className="text-[#C6A256] text-xs mt-1">{formik.errors.max_carpet_area}</div>
                             )}
                         </div>
 
                         <div className="md:col-span-12">
-                            <label htmlFor="possession_status" className="block text-sm font-medium text-gray-300 mb-1">
+                            <label htmlFor="possession_status" className="block text-sm font-medium text-[#F5EFE7] mb-1">
                                 Possession Status*
                             </label>
                             <select
                                 id="possession_status"
                                 name="possession_status"
-                                className={`w-full px-3 py-2 bg-[#2a1f45] border ${formik.touched.possession_status && formik.errors.possession_status
-                                    ? "border-red-500"
-                                    : "border-[#3a2a5a]"
-                                    } rounded text-white focus:outline-none focus:ring-2 focus:ring-yellow-500`}
+                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.possession_status && formik.errors.possession_status
+                                    ? "border-[#C6A256]"
+                                    : "border-[#212121]"
+                                    } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 {...formik.getFieldProps("possession_status")}
                             >
                                 <option value="">Select Status</option>
@@ -188,7 +188,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 <option value="under_construction">Under Construction</option>
                             </select>
                             {formik.touched.possession_status && formik.errors.possession_status && (
-                                <div className="text-red-500 text-xs mt-1">{formik.errors.possession_status}</div>
+                                <div className="text-[#C6A256] text-xs mt-1">{formik.errors.possession_status}</div>
                             )}
                         </div>
 
@@ -197,7 +197,7 @@ export default function BuyRequirementForm({ property_type }) {
                             <button
                                 disabled={isLoading}
                                 type="submit"
-                                className="w-full bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
+                                className="w-full bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
                             >
                                 {isLoading ? (
                                     <div className="animate-spin">

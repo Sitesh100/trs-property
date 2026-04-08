@@ -82,10 +82,10 @@ function Footer() {
     ]
 
     const socialLinks = [
-        { icon: Instagram, href: "#", label: "Instagram" },
-        { icon: Facebook, href: "#", label: "Facebook" },
-        { icon: Youtube, href: "#", label: "YouTube" },
-        { icon: Twitter, href: "#", label: "Twitter" },
+        { icon: Instagram, href: "https://www.instagram.com/trspropertymall/?hl=en", label: "Instagram" },
+        { icon: Facebook, href: "https://www.facebook.com/totalrealtyind/", label: "Facebook" },
+        { icon: Youtube, href: "https://www.youtube.com/@TRS_PropertyMall", label: "YouTube" },
+        // { icon: Twitter, href: "#", label: "Twitter" },
     ]
 
     const containerVariants = {
@@ -343,28 +343,17 @@ function Footer() {
                         {/* QR Code and Social Links */}
                         <motion.div variants={itemVariants} className="lg:col-span-1 flex flex-col items-center lg:items-end">
                             <h4 className="text-[#C6A256] font-bold text-base mb-4">
-                                Scan for Brochure
+                                Scan for location
                             </h4>
                             <div className="w-32 h-32 bg-white p-2 rounded-lg mb-6">
                                 <div className="w-full h-full bg-[#121212] rounded flex items-center justify-center">
-                                    <svg viewBox="0 0 100 100" className="w-full h-full p-2">
-                                        <rect fill="white" width="100" height="100"/>
-                                        <g fill="black">
-                                            <rect x="10" y="10" width="25" height="25"/>
-                                            <rect x="65" y="10" width="25" height="25"/>
-                                            <rect x="10" y="65" width="25" height="25"/>
-                                            <rect x="40" y="40" width="20" height="20"/>
-                                            <rect x="65" y="65" width="10" height="10"/>
-                                            <rect x="80" y="65" width="10" height="10"/>
-                                            <rect x="65" y="80" width="10" height="10"/>
-                                            <rect x="15" y="15" width="15" height="15" fill="white"/>
-                                            <rect x="70" y="15" width="15" height="15" fill="white"/>
-                                            <rect x="15" y="70" width="15" height="15" fill="white"/>
-                                            <rect x="18" y="18" width="9" height="9"/>
-                                            <rect x="73" y="18" width="9" height="9"/>
-                                            <rect x="18" y="73" width="9" height="9"/>
-                                        </g>
-                                    </svg>
+                                    <Image 
+                                        src="/assets/logo/qr.png" 
+                                        alt="QR Code to TRS Property Mall Location" 
+                                        width={120} 
+                                        height={120}
+                                        className="object-contain"
+                                    />
                                 </div>
                             </div>
                             
@@ -450,4 +439,3 @@ function Footer() {
 }
 
 export default Footer
-

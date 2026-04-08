@@ -53,7 +53,7 @@ const SliderBanner = () => {
 
     return (
         <div className="relative h-[300px] overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/10 z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-[#212121]/30 to-[#212121]/10 z-10"></div>
 
             <AnimatePresence custom={direction} mode="popLayout">
                 <motion.div

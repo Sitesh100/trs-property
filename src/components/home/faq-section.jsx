@@ -34,14 +34,14 @@ const FAQSection = ({ faqs }) => {
     }
 
     return (
-        <section className="py-20  bg-gradient-to-br from-[#0a0a0a] via-[#121212] to-[#0f0f0f] relative overflow-hidden">
+        <section className="py-20  bg-gradient-to-br from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-20 right-20 w-72 h-72 bg-[#9B59B6]/5 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-20 left-20 w-96 h-96 bg-white/3 rounded-full blur-3xl"></div>
+                <div className="absolute top-20 right-20 w-72 h-72 bg-[#212121]/5 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-20 left-20 w-96 h-96 bg-[#F5EFE7]/3 rounded-full blur-3xl"></div>
                 {/* Decorative question marks */}
                 <div className="absolute top-32 right-1/4 opacity-5">
-                    <MessageCircleQuestion className="w-32 h-32 text-white" />
+                    <MessageCircleQuestion className="w-32 h-32 text-[#F5EFE7]" />
                 </div>
             </div>
 
@@ -55,10 +55,10 @@ const FAQSection = ({ faqs }) => {
                     className="text-center mb-16"
                 >
 
-                    <h2 className="hero-title text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[#F3EFE7]">
+                    <h2 className="hero-title text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[#F5EFE7]">
                         Frequently Asked Questions
                     </h2>
-                    <p className="text-[#F3EFE7]/50 max-w-2xl mx-auto text-base md:text-lg">
+                    <p className="text-[#F5EFE7]/50 max-w-2xl mx-auto text-base md:text-lg">
                         Find answers to common questions about our services and how we can help you
                     </p>
                 </motion.div>
@@ -78,10 +78,10 @@ const FAQSection = ({ faqs }) => {
                             className="group"
                         >
                             <motion.div
-                                className={`relative bg-white/5 backdrop-blur-sm border rounded-2xl overflow-hidden transition-all duration-300 ${
+                                className={`relative bg-[#F5EFE7]/5 backdrop-blur-sm border rounded-2xl overflow-hidden transition-all duration-300 ${
                                     openFAQ === faq?.id 
-                                        ? 'border-[#9B59B6]/40 shadow-lg shadow-[#9B59B6]/10' 
-                                        : 'border-white/10 hover:border-white/20'
+                                        ? 'border-[#212121]/40 shadow-lg shadow-[#212121]/10' 
+                                        : 'border-[#F5EFE7]/10 hover:border-[#F5EFE7]/20'
                                 }`}
                                 whileHover={{ scale: openFAQ === faq?.id ? 1 : 1.01 }}
                                 transition={{ duration: 0.2 }}
@@ -95,13 +95,13 @@ const FAQSection = ({ faqs }) => {
                                         {/* Number indicator */}
                                         <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                                             openFAQ === faq?.id 
-                                                ? 'bg-[#9B59B6] text-white' 
-                                                : 'bg-white/10 text-white/60'
+                                                ? 'bg-[#212121] text-[#F5EFE7]' 
+                                                : 'bg-[#F5EFE7]/10 text-[#F5EFE7]/60'
                                         }`}>
                                             {String(index + 1).padStart(2, '0')}
                                         </span>
                                         <span className={`font-medium text-base md:text-lg transition-colors duration-300 ${
-                                            openFAQ === faq?.id ? 'text-white' : 'text-white/80'
+                                            openFAQ === faq?.id ? 'text-[#F5EFE7]' : 'text-[#F5EFE7]/80'
                                         }`}>
                                             {faq?.question}
                                         </span>
@@ -113,8 +113,8 @@ const FAQSection = ({ faqs }) => {
                                         transition={{ duration: 0.3, ease: "easeInOut" }}
                                         className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                                             openFAQ === faq?.id 
-                                                ? 'bg-[#9B59B6] text-white' 
-                                                : 'bg-white/10 text-white/60 group-hover:bg-white/20'
+                                                ? 'bg-[#212121] text-[#F5EFE7]' 
+                                                : 'bg-[#F5EFE7]/10 text-[#F5EFE7]/60 group-hover:bg-[#F5EFE7]/20'
                                         }`}
                                     >
                                         <ChevronDown className="w-5 h-5" />
@@ -132,12 +132,12 @@ const FAQSection = ({ faqs }) => {
                                             className="overflow-hidden"
                                         >
                                             <div className="px-6 pb-6">
-                                                <div className="ml-12 pl-4 border-l-2 border-[#9B59B6]/30">
+                                                <div className="ml-12 pl-4 border-l-2 border-[#212121]/30">
                                                     <motion.p
                                                         initial={{ opacity: 0, y: -10 }}
                                                         animate={{ opacity: 1, y: 0 }}
                                                         transition={{ duration: 0.3, delay: 0.1 }}
-                                                        className="text-white/60 leading-relaxed text-base"
+                                                        className="text-[#F5EFE7]/60 leading-relaxed text-base"
                                                     >
                                                         {faq?.answer}
                                                     </motion.p>
@@ -152,7 +152,7 @@ const FAQSection = ({ faqs }) => {
                 </motion.div>
                 {/* Bottom decorative line */}
                 <div className="mt-16">
-                    <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                    <div className="h-px bg-gradient-to-r from-transparent via-[#F5EFE7]/10 to-transparent"></div>
                 </div>
             </div>
         </section>

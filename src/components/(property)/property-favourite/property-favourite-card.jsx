@@ -62,7 +62,7 @@ const PropertyFavouriteCard = () => {
 
     return (
         <>
-            <div className="property-gradient text-white">
+            <div className="property-gradient text-[#F5EFE7]">
                 <PropertySearchBar onSearch={handleSearchAndFilter} />
             </div>
             <div className="container mx-auto md:px-10 px-5">
@@ -71,27 +71,27 @@ const PropertyFavouriteCard = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {!token ? (
-                        <div className="col-span-full flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg">
+                        <div className="col-span-full flex flex-col items-center justify-center h-64 bg-[#212121] rounded-lg">
                             <div className="text-6xl mb-4">🔒</div>
-                            <h3 className="text-xl font-semibold text-gray-700 mb-2">Please Login</h3>
-                            <p className="text-gray-500 text-center max-w-md">
+                            <h3 className="text-xl font-semibold text-[#F5EFE7] mb-2">Please Login</h3>
+                            <p className="text-[#F5EFE7] text-center max-w-md">
                                 You need to be logged in to view your cart properties.
                             </p>
                         </div>
                     ) : isLoading ? (
                         Array.from({ length: 6 }).map((_, i) => (
-                            <div key={i} className="bg-white p-4 rounded-2xl shadow">
-                                <div className="w-full h-48 bg-gray-200 animate-pulse rounded-xl mb-4" />
-                                <div className="h-4 w-1/2 bg-gray-200 animate-pulse rounded mb-2" />
-                                <div className="h-4 w-1/3 bg-gray-200 animate-pulse rounded mb-2" />
-                                <div className="h-4 w-full bg-gray-200 animate-pulse rounded" />
+                            <div key={i} className="bg-[#F5EFE7] p-4 rounded-2xl shadow">
+                                <div className="w-full h-48 bg-[#212121] animate-pulse rounded-xl mb-4" />
+                                <div className="h-4 w-1/2 bg-[#212121] animate-pulse rounded mb-2" />
+                                <div className="h-4 w-1/3 bg-[#212121] animate-pulse rounded mb-2" />
+                                <div className="h-4 w-full bg-[#212121] animate-pulse rounded" />
                             </div>
                         ))
                     ) : filteredProperties?.length === 0 ? (
-                        <div className="col-span-full flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg">
+                        <div className="col-span-full flex flex-col items-center justify-center h-64 bg-[#212121] rounded-lg">
                             <div className="text-6xl mb-4">💔</div>
-                            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Cart Items Yet</h3>
-                            <p className="text-gray-500 text-center max-w-md">
+                            <h3 className="text-xl font-semibold text-[#F5EFE7] mb-2">No Cart Items Yet</h3>
+                            <p className="text-[#F5EFE7] text-center max-w-md">
                                 Start exploring properties and click the heart icon to add them to your cart.
                             </p>
                         </div>

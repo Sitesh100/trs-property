@@ -230,7 +230,7 @@ function PropertySearchBar({ onSearch }) {
                 >
                   {/* Gradient Hover Overlay */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isActive ? "hidden" : ""}`}
+                    className={`absolute inset-0 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isActive ? "hidden" : ""}`}
                   ></div>
 
                   {/* Icon - Desktop only */}
@@ -258,7 +258,7 @@ function PropertySearchBar({ onSearch }) {
             <div className="w-full md:w-1/4 md:block hidden">
               <div className="relative border-r-2 border-gray-200 pr-4">
                 <select
-                  className="w-full p-3 bg-gray-50 text-gray-900 border border-gray-200 outline-0 rounded-xl appearance-none cursor-pointer hover:bg-gray-100 hover:border-gray-300 transition-all duration-300 focus:bg-gray-100 focus:border-amber-400"
+                  className="w-full p-3 bg-gray-50 text-gray-900 border border-gray-200 outline-0 rounded-xl appearance-none cursor-pointer hover:bg-gray-100 hover:border-gray-300 transition-all duration-300 focus:bg-gray-100 focus:border-[#C6A256]"
                   value={propertyType}
                   onChange={(e) => setPropertyType(e.target.value)}
                 >
@@ -292,7 +292,7 @@ function PropertySearchBar({ onSearch }) {
                   ref={inputRef}
                   type="text"
                   placeholder="Search by title, city, project name or builder name"
-                  className="w-full md:p-4 p-2 bg-gray-50 text-gray-900 placeholder-gray-500 rounded-xl border border-gray-200 outline-none shadow-sm focus:border-amber-400 focus:bg-white transition-all duration-300"
+                  className="w-full md:p-4 p-2 bg-gray-50 text-gray-900 placeholder-gray-500 rounded-xl border border-gray-200 outline-none shadow-sm focus:border-[#C6A256] focus:bg-white transition-all duration-300"
                   value={searchQuery}
                   onChange={handleInputChange}
                   // onKeyDown={handleKeyPress}
@@ -306,7 +306,7 @@ function PropertySearchBar({ onSearch }) {
                 {/* Loading indicator */}
                 {isLoading && (
                   <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                    <div className="w-5 h-5 border-2 border-gray-300 border-t-amber-400 rounded-full animate-spin"></div>
+                    <div className="w-5 h-5 border-2 border-gray-300 border-t-[#C6A256] rounded-full animate-spin"></div>
                   </div>
                 )}
               </div>
@@ -334,10 +334,10 @@ function PropertySearchBar({ onSearch }) {
                         className="group w-full md:px-4 md:py-3 text-left transition-colors flex items-center gap-3 border-b border-gray-100 last:border-b-0 relative overflow-hidden"
                       >
                         {/* Gradient Hover Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
 
-                        <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0 relative z-10">
-                          <span className="text-amber-600 text-sm">📍</span>
+                        <div className="w-8 h-8 bg-[#C6A256]/20 rounded-full flex items-center justify-center flex-shrink-0 relative z-10">
+                          <span className="text-[#C6A256] text-sm">📍</span>
                         </div>
                         <div className="relative z-10">
                           <p className="text-gray-900 font-medium">
@@ -359,10 +359,10 @@ function PropertySearchBar({ onSearch }) {
               <button
                 onClick={handleSearch}
                 aria-label="Search properties"
-                className="group relative overflow-hidden md:w-14 md:h-14 w-10 h-10 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 rounded-2xl flex items-center justify-center transition-all duration-300 cursor-pointer hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] hover:scale-105"
+                className="group relative overflow-hidden md:w-14 md:h-14 w-10 h-10 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] rounded-2xl flex items-center justify-center transition-all duration-300 cursor-pointer hover:shadow-[0_0_20px_rgba(198, 162, 86, 0.5)] hover:scale-105"
               >
                 <Search className="md:h-6 md:w-6 h-4 w-4 relative z-10 text-gray-900 transition-colors duration-300 group-hover:text-white" />
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
               </button>
             </div>
 
@@ -377,10 +377,10 @@ function PropertySearchBar({ onSearch }) {
                 }`}
               >
                 {/* Gradient Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                 <RotateCcw
-                  className={`md:h-5 md:w-5 relative z-10 transition-all duration-300 group-hover:rotate-[-45deg] group-hover:text-gray-900 ${
+                  className={`md:h-5 md:w-5 relative z-10 transition-all duration-300 group-hover:rotate-[-45deg] group-hover:text-[#212121] ${
                     hasActiveFilters ? "text-red-500" : "text-gray-600"
                   }`}
                 />
@@ -404,13 +404,13 @@ function PropertySearchBar({ onSearch }) {
                   }
                   className={`group relative overflow-hidden px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border ${
                     isActive
-                      ? "bg-amber-400 text-gray-900 border-amber-400"
+                      ? "bg-[#C6A256] text-gray-900 border-[#C6A256]"
                       : "bg-white text-gray-700 border-gray-200"
                   }`}
                 >
                   {/* Gradient Hover Overlay */}
                   {!isActive && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></div>
                   )}
 
                   <span

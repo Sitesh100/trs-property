@@ -66,14 +66,14 @@ const propertyCategories = [
 
 export default function PostPropertyMain() {
     return (
-        <div className="bg-[#0d0a1a] text-white min-h-screen">
+        <div className="bg-[#212121] text-[#F5EFE7] min-h-screen">
             <div className="container mx-auto px-4 py-12">
                 <div className="max-w-5xl mx-auto">
                     <h2 className="text-2xl font-bold mb-6">Select Property Type</h2>
 
                     {propertyCategories?.map((section) => (
                         <div key={section?.title} className="mb-12">
-                            <h3 className="text-xl font-bold mb-4 pb-2 border-b border-[#2a1f45]">
+                            <h3 className="text-xl font-bold mb-4 pb-2 border-b border-[#212121]">
                                 {section?.title}
                             </h3>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -81,11 +81,11 @@ export default function PostPropertyMain() {
                                     <Link key={item?.title} href={item?.href}>
                                         <motion.div
                                             whileHover={{ scale: 1.03 }}
-                                            className="bg-gradient-to-b from-[#1a1333] to-[#0d0a1a] p-6 rounded-lg shadow-lg flex flex-col items-center justify-center text-center cursor-pointer hover:border transition-all"
+                                            className="bg-gradient-to-b from-[#212121] to-[#212121] p-6 rounded-lg shadow-lg flex flex-col items-center justify-center text-center cursor-pointer hover:border transition-all"
                                         >
-                                            <div className="bg-[#2a1f45] p-4 rounded-full mb-4">{item?.icon}</div>
+                                            <div className="bg-[#212121] p-4 rounded-full mb-4">{item?.icon}</div>
                                             <h4 className="font-bold">{item?.title}</h4>
-                                            <p className="text-xs text-gray-400 mt-2">{item?.desc}</p>
+                                            <p className="text-xs text-[#F5EFE7] mt-2">{item?.desc}</p>
                                         </motion.div>
                                     </Link>
                                 ))}

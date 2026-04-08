@@ -4,21 +4,21 @@ import Link from "next/link"
 function WhatsapBanner() {
     return (
         <>
-            <div className="bg-[url('/assets/images/bg-black.png')] py-4 border-t border-[#2a1f45]">
+            <div className="bg-[#212121] py-4 border-t border-[#212121]">
                 <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
                     <div className="flex items-center mb-4 md:mb-0">
                         <div className="mr-4">
-                            <Link href="/" className="text-2xl font-bold text-white flex items-center">
+                            <Link href="/" className="text-2xl font-bold text-[#F5EFE7] flex items-center">
                                 <Image src="/assets/logo/logo1.png" alt="Logo" width={100} height={100} />
                             </Link>
                         </div>
-                        <h3 className="md:text-2xl text-xl font-bold text-white">GET FREE EXPERT ADVICE ON YOUR REALESTATE MATTERS!</h3>
+                        <h3 className="md:text-2xl text-xl font-bold text-[#F5EFE7]">GET FREE EXPERT ADVICE ON YOUR REALESTATE MATTERS!</h3>
                     </div>
                     <a
                         href="https://api.whatsapp.com/send/?phone=917024144040&text=Hello%2C+I+am+interested+in+your+property%3A+Kalpataru+Grandeur&type=phone_number&app_absent=0"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-green-600 text-white px-4 py-2 rounded flex items-center cursor-pointer">
+                        className="bg-[#212121] text-[#F5EFE7] px-4 py-2 rounded flex items-center cursor-pointer">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"

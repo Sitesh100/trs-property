@@ -24,7 +24,7 @@ const loanOffers = [
     amount: "35,689",
     ltv: "90%",
     initials: "/assets/logo/1.png",
-    accent: "bg-red-100 text-red-700",
+    accent: "bg-[#212121] text-[#C6A256]",
   },
   {
     bank: "HDFC Bank",
@@ -33,7 +33,7 @@ const loanOffers = [
     amount: "37,195",
     ltv: "90%",
     initials: "/assets/logo/2.png",
-    accent: "bg-blue-100 text-blue-700",
+    accent: "bg-[#212121] text-[#C6A256]",
   },
   {
     bank: "LIC Housing Finance Ltd",
@@ -42,7 +42,7 @@ const loanOffers = [
     amount: "34,678",
     ltv: "90%",
     initials: "/assets/logo/3.png",
-    accent: "bg-amber-100 text-amber-700",
+    accent: "bg-[#212121] text-[#C6A256]",
   },
   {
     bank: "SBI Home Loans",
@@ -51,7 +51,7 @@ const loanOffers = [
     amount: "34,524",
     ltv: "90%",
     initials: "/assets/logo/4.png",
-    accent: "bg-cyan-100 text-cyan-700",
+    accent: "bg-[#212121] text-[#C6A256]",
   },
   {
     bank: "Axis Bank",
@@ -60,7 +60,7 @@ const loanOffers = [
     amount: "34,678",
     ltv: "90%",
     initials: "/assets/logo/5.png",
-    accent: "bg-rose-100 text-rose-700",
+    accent: "bg-[#212121] text-[#C6A256]",
   },
   {
     bank: "PNB Housing Finance",
@@ -69,15 +69,15 @@ const loanOffers = [
     amount: "38,409",
     ltv: "90%",
     initials: "/assets/logo/7.png",
-    accent: "bg-orange-100 text-orange-700",
+    accent: "bg-[#212121] text-[#C6A256]",
   },
 ];
 
 function Metric({ label, value }) {
   return (
     <div className="text-left min-w-[86px]">
-      <p className="text-[13px] leading-tight font-bold text-slate-700">{value}</p>
-      <p className="text-[11px] text-slate-500">{label}</p>
+      <p className="text-[13px] leading-tight font-bold text-[#212121]">{value}</p>
+      <p className="text-[11px] text-[#212121]">{label}</p>
     </div>
   );
 }
@@ -206,16 +206,16 @@ function LoanOffersPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-slate-100 text-slate-900 pb-16">
+      <main className="min-h-screen bg-[#212121] text-[#F5EFE7] pb-16">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-12">
-          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+          <div className="rounded-2xl border border-[#F5EFE7] bg-[#F5EFE7] shadow-sm overflow-hidden">
             {loanOffers.map((offer) => (
               <div
                 key={offer.bank}
-                className="grid grid-cols-1 md:grid-cols-[1.55fr_1.2fr_280px] items-center gap-4 px-4 sm:px-6 py-5 border-b border-slate-100 last:border-b-0"
+                className="grid grid-cols-1 md:grid-cols-[1.55fr_1.2fr_280px] items-center gap-4 px-4 sm:px-6 py-5 border-b border-[#D8CEC0] last:border-b-0"
               >
                 <div className="flex items-center gap-4">
-                  <div className="h-20 w-20 rounded-full border border-slate-200 bg-slate-50 flex items-center justify-center shrink-0 overflow-hidden">
+                  <div className="h-20 w-20 rounded-full border border-[#F5EFE7] bg-[#212121] flex items-center justify-center shrink-0 overflow-hidden">
                     <div className={`relative w-full h-full rounded-full flex items-center justify-center ${offer.accent}`}>
                       <Image
                         src={offer.initials}
@@ -225,12 +225,12 @@ function LoanOffersPage() {
                       />
                     </div>
                   </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-slate-800">{offer.bank}</h3>
+                  <h3 className="text-base sm:text-lg font-semibold text-[#212121]">{offer.bank}</h3>
                 </div>
 
                 <div className="grid grid-cols-4 gap-3 sm:gap-4">
                   <div className="min-w-[70px]">
-                    <p className="text-lg font-bold text-emerald-600 leading-tight">{offer.rate}</p>
+                    <p className="text-lg font-bold text-[#C6A256] leading-tight">{offer.rate}</p>
                   </div>
                   <Metric label="EMI" value={`₹${offer.emi}`} />
                   <Metric label="Loan Amount" value={`₹${offer.amount}`} />
@@ -238,13 +238,13 @@ function LoanOffersPage() {
                 </div>
 
                 <div className="flex items-center justify-start md:justify-end gap-3 md:gap-4">
-                  <button className="hidden sm:inline-flex items-center gap-1.5 text-xs leading-none whitespace-nowrap text-slate-500 hover:text-slate-700 transition-colors">
+                  <button className="hidden sm:inline-flex items-center gap-1.5 text-xs leading-none whitespace-nowrap text-[#212121] hover:text-[#212121] transition-colors">
                     <Mail className="h-3.5 w-3.5" />
                     Email me this deal
                   </button>
                   <button
                     onClick={() => openDealPopup(offer.bank)}
-                    className="rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white text-sm font-semibold px-5 py-2.5 transition-colors"
+                    className="rounded-xl bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] text-sm font-semibold px-5 py-2.5 transition-colors"
                   >
                     Get me this deal
                   </button>
@@ -253,21 +253,21 @@ function LoanOffersPage() {
             ))}
           </div>
 
-          <div className="mt-8 rounded-2xl border border-slate-200 bg-white shadow-sm p-4 sm:p-6 lg:p-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-800">Calculate housing loan eligibility</h2>
-            <p className="text-sm text-slate-500 mt-2 mb-6">
+          <div className="mt-8 rounded-2xl border border-[#F5EFE7] bg-[#F5EFE7] shadow-sm p-4 sm:p-6 lg:p-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#212121]">Calculate housing loan eligibility</h2>
+            <p className="text-sm text-[#212121] mt-2 mb-6">
               Calculate your borrowing eligibility by submitting your details below
             </p>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
               <div>
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-1 mb-5 flex items-center justify-between">
-                  <span className="text-sm text-slate-700 px-3">Number of Borrowers</span>
+                <div className="rounded-xl border border-[#212121] bg-[#212121] p-1 mb-5 flex items-center justify-between">
+                  <span className="text-sm text-[#F5EFE7] px-3">Number of Borrowers</span>
                   <div className="flex gap-1">
                     <button
                       onClick={() => setBorrowers("one")}
                       className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                        borrowers === "one" ? "bg-[#24103f] text-white" : "text-slate-600"
+                        borrowers === "one" ? "bg-[#212121] text-[#F5EFE7]" : "text-[#F5EFE7]"
                       }`}
                     >
                       One
@@ -275,7 +275,7 @@ function LoanOffersPage() {
                     <button
                       onClick={() => setBorrowers("two")}
                       className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                        borrowers === "two" ? "bg-[#24103f] text-white" : "text-slate-600"
+                        borrowers === "two" ? "bg-[#212121] text-[#F5EFE7]" : "text-[#F5EFE7]"
                       }`}
                     >
                       Two
@@ -284,117 +284,117 @@ function LoanOffersPage() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-slate-200 p-3">
-                    <p className="text-xs text-slate-500 mb-2">Your Age</p>
+                  <div className="rounded-xl border border-[#D8CEC0] p-3">
+                    <p className="text-xs text-[#212121] mb-2">Your Age</p>
                     <div className="flex items-center justify-between">
                       <input
                         value={ageInput}
                         onChange={(e) => setAgeInput(e.target.value)}
-                        className="font-semibold w-20 focus:outline-none"
+                        className="font-semibold w-20 text-[#212121] bg-transparent focus:outline-none"
                       />
-                      <span className="text-sm text-slate-400">Years</span>
+                      <span className="text-sm text-[#212121]">Years</span>
                     </div>
                   </div>
-                  <div className="rounded-xl border border-slate-200 p-3">
-                    <p className="text-xs text-slate-500 mb-2">Occupation</p>
+                  <div className="rounded-xl border border-[#D8CEC0] p-3">
+                    <p className="text-xs text-[#212121] mb-2">Occupation</p>
                     <div className="flex items-center justify-between">
                       <select
                         value={occupation}
                         onChange={(e) => setOccupation(e.target.value)}
-                        className="font-semibold w-full bg-transparent focus:outline-none"
+                        className="font-semibold w-full text-[#212121] bg-transparent focus:outline-none"
                       >
                         <option value="salaried">Salaried</option>
                         <option value="self-employed">Self-employed</option>
                       </select>
                     </div>
                   </div>
-                  <div className="rounded-xl border border-slate-200 p-3">
-                    <p className="text-xs text-slate-500 mb-2">Net Income</p>
+                  <div className="rounded-xl border border-[#D8CEC0] p-3">
+                    <p className="text-xs text-[#212121] mb-2">Net Income</p>
                     <div className="flex items-center justify-between">
                       <input
                         value={netIncomeInput}
                         onChange={(e) => setNetIncomeInput(e.target.value)}
-                        className="font-semibold w-32 focus:outline-none"
+                        className="font-semibold w-32 text-[#212121] bg-transparent focus:outline-none"
                       />
-                      <span className="text-sm text-slate-400">Monthly</span>
+                      <span className="text-sm text-[#212121]">Monthly</span>
                     </div>
                   </div>
-                  <div className="rounded-xl border border-slate-200 p-3">
-                    <p className="text-xs text-slate-500 mb-2">Existing Monthly EMI</p>
+                  <div className="rounded-xl border border-[#D8CEC0] p-3">
+                    <p className="text-xs text-[#212121] mb-2">Existing Monthly EMI</p>
                     <div className="flex items-center justify-between">
                       <input
                         value={existingEmiInput}
                         onChange={(e) => setExistingEmiInput(e.target.value)}
-                        className="font-semibold w-28 focus:outline-none"
+                        className="font-semibold w-28 text-[#212121] bg-transparent focus:outline-none"
                       />
-                      <span className="text-sm text-slate-400">Monthly</span>
+                      <span className="text-sm text-[#212121]">Monthly</span>
                     </div>
                   </div>
-                  <div className="rounded-xl border border-slate-200 p-3">
-                    <p className="text-xs text-slate-500 mb-2">Rate of Interest</p>
+                  <div className="rounded-xl border border-[#D8CEC0] p-3">
+                    <p className="text-xs text-[#212121] mb-2">Rate of Interest</p>
                     <div className="flex items-center justify-between">
                       <input
                         value={interestRateInput}
                         onChange={(e) => setInterestRateInput(e.target.value)}
-                        className="font-semibold w-20 focus:outline-none"
+                        className="font-semibold w-20 text-[#212121] bg-transparent focus:outline-none"
                       />
-                      <span className="text-sm text-slate-400">%</span>
+                      <span className="text-sm text-[#212121]">%</span>
                     </div>
                   </div>
-                  <div className="rounded-xl border border-slate-200 p-3">
-                    <p className="text-xs text-slate-500 mb-2">Tenure</p>
+                  <div className="rounded-xl border border-[#D8CEC0] p-3">
+                    <p className="text-xs text-[#212121] mb-2">Tenure</p>
                     <div className="flex items-center justify-between">
                       <input
                         value={tenureInput}
                         onChange={(e) => setTenureInput(e.target.value)}
-                        className="font-semibold w-20 focus:outline-none"
+                        className="font-semibold w-20 text-[#212121] bg-transparent focus:outline-none"
                       />
-                      <span className="text-sm text-slate-400">Years</span>
+                      <span className="text-sm text-[#212121]">Years</span>
                     </div>
                   </div>
                 </div>
 
                 <button
                   onClick={handleCalculate}
-                  className="mt-4 w-full rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white font-semibold py-3 transition-colors"
+                  className="mt-4 w-full rounded-xl bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-semibold py-3 transition-colors"
                 >
                   Calculate
                 </button>
               </div>
 
-              <div className="rounded-xl border border-slate-200 p-4 sm:p-5">
-                <p className="text-sm text-slate-600 text-center mb-4">Your Estimated Results</p>
-                <div className="h-52 rounded-lg bg-slate-50 border border-slate-200 relative overflow-hidden">
+              <div className="rounded-xl border border-[#D8CEC0] p-4 sm:p-5">
+                <p className="text-sm text-[#212121] text-center mb-4">Your Estimated Results</p>
+                <div className="h-52 rounded-lg bg-[#212121] border border-[#F5EFE7] relative overflow-hidden">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={chartData} margin={{ top: 10, right: 8, left: 8, bottom: 0 }}>
                       <defs>
                         <linearGradient id="borrowCurve" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#6fc3b6" stopOpacity={0.5} />
-                          <stop offset="100%" stopColor="#6fc3b6" stopOpacity={0.06} />
+                          <stop offset="0%" stopColor="#C6A256" stopOpacity={0.5} />
+                          <stop offset="100%" stopColor="#C6A256" stopOpacity={0.06} />
                         </linearGradient>
                         <linearGradient id="interestCurve" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#526574" stopOpacity={0.38} />
-                          <stop offset="100%" stopColor="#526574" stopOpacity={0.06} />
+                          <stop offset="0%" stopColor="#F5EFE7" stopOpacity={0.38} />
+                          <stop offset="100%" stopColor="#F5EFE7" stopOpacity={0.06} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid vertical={false} stroke="#e2e8f0" strokeDasharray="2 4" />
-                      <XAxis dataKey="year" tick={{ fill: "#64748b", fontSize: 11 }} axisLine={false} tickLine={false} />
+                      <CartesianGrid vertical={false} stroke="#F5EFE7" strokeDasharray="2 4" />
+                      <XAxis dataKey="year" tick={{ fill: "#F5EFE7", fontSize: 11 }} axisLine={false} tickLine={false} />
                       <YAxis hide domain={[0, "dataMax"]} />
                       <Tooltip
                         formatter={(value) => formatCurrency(Number(value))}
-                        contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0" }}
+                        contentStyle={{ borderRadius: 12, border: "1px solid #F5EFE7" }}
                       />
                       <Area
                         type="monotone"
                         dataKey="cumulativeInterest"
-                        stroke="#526574"
+                        stroke="#F5EFE7"
                         strokeWidth={1.5}
                         fill="url(#interestCurve)"
                       />
                       <Area
                         type="monotone"
                         dataKey="balance"
-                        stroke="#6fc3b6"
+                        stroke="#C6A256"
                         strokeWidth={1.8}
                         fill="url(#borrowCurve)"
                       />
@@ -404,18 +404,18 @@ function LoanOffersPage() {
 
                 <div className="grid grid-cols-2 gap-4 mt-5 text-center">
                   <div>
-                    <p className="text-xs text-slate-500">You could borrow upto</p>
-                    <p className="text-xl font-bold text-slate-800">{formatCurrency(result.borrowUpto)}</p>
+                    <p className="text-xs text-[#212121]">You could borrow upto</p>
+                    <p className="text-xl font-bold text-[#212121]">{formatCurrency(result.borrowUpto)}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500">Payable Amount</p>
-                    <p className="text-xl font-bold text-emerald-600">{formatCurrency(result.payableAmount)}</p>
+                    <p className="text-xs text-[#F5EFE7]">Payable Amount</p>
+                    <p className="text-xl font-bold text-[#C6A256]">{formatCurrency(result.payableAmount)}</p>
                   </div>
                 </div>
-                <p className="text-sm text-slate-500 text-center mt-4">
-                  Monthly EMI <span className="font-bold text-slate-700">{formatCurrency(result.monthlyEmi)}</span>
+                <p className="text-sm text-[#212121] text-center mt-4">
+                  Monthly EMI <span className="font-bold text-[#212121]">{formatCurrency(result.monthlyEmi)}</span>
                 </p>
-                <p className="text-xs text-slate-400 text-center mt-1">
+                <p className="text-xs text-[#212121] text-center mt-1">
                   Tenure considered: {result.effectiveTenureYears} years ({result.months} months)
                 </p>
               </div>

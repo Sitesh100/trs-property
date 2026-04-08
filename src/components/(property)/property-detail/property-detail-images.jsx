@@ -67,7 +67,7 @@ function PropertyDetailImages({ property }) {
                             />
                             <button
                                 onClick={() => setShowAllPhotos(true)}
-                                className="absolute cursor-pointer bottom-4 right-4 bg-white text-black text-xs px-3 py-1.5 rounded-full flex items-center font-semibold"
+                                className="absolute cursor-pointer bottom-4 right-4 bg-[#F5EFE7] text-[#212121] text-xs px-3 py-1.5 rounded-full flex items-center font-semibold"
                             >
                                 View All Photos
                             </button>
@@ -82,7 +82,7 @@ function PropertyDetailImages({ property }) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
+                        className="fixed inset-0 bg-[#212121] bg-opacity-90 z-50 flex items-center justify-center"
                     >
                         <motion.div
                             initial={{ scale: 0.8 }}
@@ -93,7 +93,7 @@ function PropertyDetailImages({ property }) {
                         >
                             <button
                                 onClick={() => setShowAllPhotos(false)}
-                                className="absolute top-5 right-5 text-white z-50"
+                                className="absolute top-5 right-5 text-[#F5EFE7] z-50"
                             >
                                 <X size={24} />
                             </button>

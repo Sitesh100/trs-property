@@ -79,20 +79,20 @@ export default function AgentDigitalCard() {
 
     return (
         <>
-            <div className="mb-6 rounded-xl border border-[#2a1f45]/20 bg-[#f8f7fb] p-4">
-                <p className="text-sm text-gray-700">Agent Profile as Digital Card</p>
+            <div className="mb-6 rounded-xl border border-[#212121]/20 bg-[#F5EFE7] p-4">
+                <p className="text-sm text-[#F5EFE7]">Agent Profile as Digital Card</p>
                 <div className="mt-3 flex flex-wrap gap-3">
                     <button
                         type="button"
                         onClick={() => setOpen(true)}
-                        className="rounded-md bg-[#2a1f45] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#3a2a5a]"
+                        className="rounded-md bg-[#212121] px-4 py-2 text-sm font-medium text-[#F5EFE7] transition hover:bg-[#212121]"
                     >
                         View your digital card
                     </button>
                     <button
                         type="button"
                         onClick={shareCard}
-                        className="inline-flex items-center gap-2 rounded-md border border-[#2a1f45]/30 px-4 py-2 text-sm font-medium text-[#2a1f45] transition hover:bg-[#efedf6]"
+                        className="inline-flex items-center gap-2 rounded-md border border-[#212121]/30 px-4 py-2 text-sm font-medium text-[#212121] transition hover:bg-[#F5EFE7]"
                     >
                         <Share2 size={14} /> Share your digital card
                     </button>
@@ -102,16 +102,16 @@ export default function AgentDigitalCard() {
             <Dialog as={Fragment} open={open} onClose={() => setOpen(false)}>
                 <div className="fixed inset-0 z-50">
                     <div
-                        className="fixed inset-0 bg-black/50"
+                        className="fixed inset-0 bg-[#212121]/50"
                         onClick={() => setOpen(false)}
                     />
 
                     <div className="fixed inset-0 flex items-center justify-center px-4">
-                        <div className="relative w-full max-w-md rounded-2xl border border-white/20 bg-linear-to-br from-[#2a1f45] via-[#1f1534] to-[#111] p-5 text-white shadow-2xl">
+                        <div className="relative w-full max-w-md rounded-2xl border border-[#F5EFE7]/20 bg-linear-to-br from-[#212121] via-[#212121] to-[#212121] p-5 text-[#F5EFE7] shadow-2xl">
                             <button
                                 type="button"
                                 onClick={() => setOpen(false)}
-                                className="absolute right-3 top-3 rounded-full p-1 text-gray-200 hover:bg-white/10"
+                                className="absolute right-3 top-3 rounded-full p-1 text-[#F5EFE7]/80 hover:bg-[#F5EFE7]/10"
                             >
                                 <X size={16} />
                             </button>
@@ -121,55 +121,55 @@ export default function AgentDigitalCard() {
                                     <img
                                         src={profile.imageUrl}
                                         alt="Agent"
-                                        className="h-16 w-16 rounded-full border border-white/20 object-cover"
+                                        className="h-16 w-16 rounded-full border border-[#F5EFE7]/20 object-cover"
                                     />
                                 ) : (
-                                    <div className="grid h-16 w-16 place-items-center rounded-full border border-white/20 bg-white/10 font-semibold">
+                                    <div className="grid h-16 w-16 place-items-center rounded-full border border-[#F5EFE7]/20 bg-[#F5EFE7]/10 font-semibold">
                                         {getInitials(profile.fullName)}
                                     </div>
                                 )}
 
                                 <div>
                                     <p className="text-lg font-semibold">{profile.fullName}</p>
-                                    <p className="text-sm text-gray-200">{profile.roleName}</p>
-                                    <p className="text-xs text-gray-300">{profile.company}</p>
+                                    <p className="text-sm text-[#F5EFE7]/80">{profile.roleName}</p>
+                                    <p className="text-xs text-[#F5EFE7]">{profile.company}</p>
                                 </div>
                             </div>
 
-                            <div className="space-y-2 rounded-xl border border-white/15 bg-black/20 p-3 text-sm">
-                                {profile.city && <p className="text-gray-200">City: {profile.city}</p>}
+                            <div className="space-y-2 rounded-xl border border-[#F5EFE7]/15 bg-[#212121]/20 p-3 text-sm">
+                                {profile.city && <p className="text-[#F5EFE7]/80">City: {profile.city}</p>}
                                 {profile.phone && (
-                                    <a href={`tel:${profile.phone}`} className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-white/10">
+                                    <a href={`tel:${profile.phone}`} className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-[#F5EFE7]/10">
                                         <span className="inline-flex items-center gap-2"><Phone size={14} /> {profile.phone}</span>
                                         <ExternalLink size={13} />
                                     </a>
                                 )}
                                 {profile.email && (
-                                    <a href={`mailto:${profile.email}`} className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-white/10">
+                                    <a href={`mailto:${profile.email}`} className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-[#F5EFE7]/10">
                                         <span className="inline-flex items-center gap-2"><Mail size={14} /> {profile.email}</span>
                                         <ExternalLink size={13} />
                                     </a>
                                 )}
                                 {getWhatsAppLink(profile.phone) && (
-                                    <a href={getWhatsAppLink(profile.phone)} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-white/10">
+                                    <a href={getWhatsAppLink(profile.phone)} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-[#F5EFE7]/10">
                                         <span>WhatsApp</span>
                                         <ExternalLink size={13} />
                                     </a>
                                 )}
                                 {profile.linkedin && (
-                                    <a href={profile.linkedin} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-white/10">
+                                    <a href={profile.linkedin} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-[#F5EFE7]/10">
                                         <span>LinkedIn</span>
                                         <ExternalLink size={13} />
                                     </a>
                                 )}
                                 {profile.instagram && (
-                                    <a href={profile.instagram} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-white/10">
+                                    <a href={profile.instagram} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-[#F5EFE7]/10">
                                         <span>Instagram</span>
                                         <ExternalLink size={13} />
                                     </a>
                                 )}
                                 {profile.facebook && (
-                                    <a href={profile.facebook} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-white/10">
+                                    <a href={profile.facebook} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-md px-2 py-1 hover:bg-[#F5EFE7]/10">
                                         <span>Facebook</span>
                                         <ExternalLink size={13} />
                                     </a>
@@ -180,14 +180,14 @@ export default function AgentDigitalCard() {
                                 <button
                                     type="button"
                                     onClick={copyPhone}
-                                    className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-3 py-2 text-sm hover:bg-white/10"
+                                    className="inline-flex items-center justify-center gap-2 rounded-md border border-[#F5EFE7]/20 px-3 py-2 text-sm hover:bg-[#F5EFE7]/10"
                                 >
                                     <Copy size={14} /> Copy Phone
                                 </button>
                                 <button
                                     type="button"
                                     onClick={shareCard}
-                                    className="inline-flex items-center justify-center gap-2 rounded-md bg-white text-sm font-semibold text-[#2a1f45] px-3 py-2 hover:bg-gray-100"
+                                    className="inline-flex items-center justify-center gap-2 rounded-md bg-[#F5EFE7] text-sm font-semibold text-[#212121] px-3 py-2 hover:bg-[#F5EFE7]/80"
                                 >
                                     <UserRound size={14} /> Share Card
                                 </button>

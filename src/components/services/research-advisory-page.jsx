@@ -40,13 +40,13 @@ function ResearchAdvisoryPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-[#000816] text-white">
-        <section className="bg-black py-12 sm:py-14">
+      <main className="min-h-screen bg-[#212121] text-[#F5EFE7]">
+        <section className="bg-[#212121] py-12 sm:py-14">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
               Welcome to the ultimate real-estate expert guide.
             </h1>
-            <p className="mt-5 max-w-4xl mx-auto text-base sm:text-lg text-slate-200 leading-relaxed">
+            <p className="mt-5 max-w-4xl mx-auto text-base sm:text-lg text-[#F5EFE7] leading-relaxed">
               This is TRS Market Research & Advice Section. Your go-to and reliable source to find useful and
               trusted real estate research and analysis curated and verified by real-estate experts.
             </p>
@@ -55,28 +55,28 @@ function ResearchAdvisoryPage() {
 
         <section className="py-10 sm:py-14">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="bg-[#e5e5e5] rounded-none sm:rounded-md p-5 sm:p-8 lg:p-10">
+            <div className="bg-[#F5EFE7] rounded-none sm:rounded-md p-5 sm:p-8 lg:p-10">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
                 {articles.map((article) => (
-                  <article key={article.id} className="bg-white border border-slate-400/60 shadow-sm overflow-hidden">
+                  <article key={article.id} className="bg-[#F5EFE7] border border-[#D8CEC0] shadow-sm overflow-hidden">
                     <div className="relative h-56 w-full">
                       <Image src={article.image} alt={article.title} fill className="object-cover" />
                     </div>
 
                     <div className="p-5">
-                      <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
+                      <div className="flex items-center justify-between text-xs text-[#212121] mb-4">
                         <span>
                           {article.date} • {article.readTime}
                         </span>
-                        <button className="text-slate-500 hover:text-slate-700 transition-colors">
+                        <button className="text-[#212121] hover:text-[#212121] transition-colors">
                           <MoreVertical className="w-4 h-4" />
                         </button>
                       </div>
 
-                      <h2 className="text-3xl font-bold text-slate-900 leading-tight mb-3">{article.title}</h2>
-                      <p className="text-slate-700 text-base leading-relaxed mb-4">{article.excerpt}</p>
+                      <h2 className="text-2xl font-bold text-[#212121] leading-tight mb-3">{article.title}</h2>
+                      <p className="text-[#212121] text-base leading-relaxed mb-4">{article.excerpt}</p>
 
-                      <div className="border-t border-slate-200 pt-3 flex items-center gap-1.5 text-slate-500 text-sm">
+                      <div className="border-t border-[#D8CEC0] pt-3 flex items-center gap-1.5 text-[#212121] text-sm">
                         <Eye className="w-4 h-4" />
                         <span>{article.views}</span>
                       </div>

@@ -9,19 +9,19 @@ import { useMemo, useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const offers = [
-  { bank: "Kotak Mahindra Bank", rate: "7.55%", emi: "10,000", amount: "35,689", ltv: "90%", initials: "/assets/logo/1.png", accent: "bg-red-100 text-red-700" },
-  { bank: "HDFC", rate: "8.50%", emi: "13,000", amount: "37,195", ltv: "90%", initials: "/assets/logo/2.png", accent: "bg-blue-100 text-blue-700" },
-  { bank: "LIC Housing Finance Ltd", rate: "6.90%", emi: "5,000", amount: "34,678", ltv: "90%", initials: "/assets/logo/3.png", accent: "bg-amber-100 text-amber-700" },
-  { bank: "SBI Home Loans", rate: "6.80%", emi: "10,000", amount: "34,524", ltv: "90%", initials: "/assets/logo/4.png", accent: "bg-cyan-100 text-cyan-700" },
-  { bank: "ICICI Bank", rate: "6.80%", emi: "7,500", amount: "34,524", ltv: "90%", initials: "/assets/logo/6.png", accent: "bg-rose-100 text-rose-700" },
-  { bank: "PNB Housing Finance", rate: "9.25%", emi: "10,000", amount: "38,409", ltv: "90%", initials: "/assets/logo/5.png", accent: "bg-orange-100 text-orange-700" },
+  { bank: "Kotak Mahindra Bank", rate: "7.55%", emi: "10,000", amount: "35,689", ltv: "90%", initials: "/assets/logo/1.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "HDFC", rate: "8.50%", emi: "13,000", amount: "37,195", ltv: "90%", initials: "/assets/logo/2.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "LIC Housing Finance Ltd", rate: "6.90%", emi: "5,000", amount: "34,678", ltv: "90%", initials: "/assets/logo/3.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "SBI Home Loans", rate: "6.80%", emi: "10,000", amount: "34,524", ltv: "90%", initials: "/assets/logo/4.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "ICICI Bank", rate: "6.80%", emi: "7,500", amount: "34,524", ltv: "90%", initials: "/assets/logo/6.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "PNB Housing Finance", rate: "9.25%", emi: "10,000", amount: "38,409", ltv: "90%", initials: "/assets/logo/5.png", accent: "bg-[#212121] text-[#C6A256]" },
 ];
 
 function Metric({ label, value }) {
   return (
     <div className="text-left min-w-[78px]">
-      <p className="text-[13px] leading-tight font-bold text-slate-700">{value}</p>
-      <p className="text-[11px] text-slate-500">{label}</p>
+      <p className="text-[13px] leading-tight font-bold text-[#212121]">{value}</p>
+      <p className="text-[11px] text-[#212121]">{label}</p>
     </div>
   );
 }
@@ -108,8 +108,8 @@ function EmiCalculatorPage() {
 
   const pieData = useMemo(
     () => [
-      { name: "Principal Amount", value: Math.max(result.principalAmount, 0), color: "#24a48f" },
-      { name: "Interest Amount", value: Math.max(result.interestAmount, 0), color: "#e9b425" },
+      { name: "Principal Amount", value: Math.max(result.principalAmount, 0), color: "#C6A256" },
+      { name: "Interest Amount", value: Math.max(result.interestAmount, 0), color: "#C6A256" },
     ],
     [result.interestAmount, result.principalAmount]
   );
@@ -127,16 +127,16 @@ function EmiCalculatorPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-slate-100 text-slate-900 pb-16">
+      <main className="min-h-screen bg-[#212121] text-[#F5EFE7] pb-16">
         <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10">
-          <div className="rounded-2xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+          <div className="rounded-2xl bg-[#F5EFE7] border border-[#D8CEC0] shadow-sm overflow-hidden">
             {offers.map((offer) => (
              <div
                 key={offer.bank}
-                className="grid grid-cols-1 md:grid-cols-[1.55fr_1.2fr_280px] items-center gap-4 px-4 sm:px-6 py-5 border-b border-slate-100 last:border-b-0"
+                className="grid grid-cols-1 md:grid-cols-[1.55fr_1.2fr_280px] items-center gap-4 px-4 sm:px-6 py-5 border-b border-[#D8CEC0] last:border-b-0"
               >
                 <div className="flex items-center gap-4">
-                  <div className="h-20 w-20 rounded-full bord flex items-center justify-center shrink-0 overflow-hidden">
+                  <div className="h-20 w-20 rounded-full border border-[#D8CEC0] flex items-center justify-center shrink-0 overflow-hidden">
                     <div className={`relative h-full w-full rounded-full flex items-center justify-center ${offer.accent}`}>
                       <Image
                         src={offer.initials}
@@ -146,12 +146,12 @@ function EmiCalculatorPage() {
                       />
                     </div>
                   </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-slate-800">{offer.bank}</h3>
+                  <h3 className="text-base sm:text-lg font-semibold text-[#212121]">{offer.bank}</h3>
                 </div>
 
                 <div className="grid grid-cols-4 gap-3 sm:gap-4">
                   <div className="min-w-[70px]">
-                    <p className="text-lg font-bold text-emerald-600 leading-tight">{offer.rate}</p>
+                    <p className="text-lg font-bold text-[#C6A256] leading-tight">{offer.rate}</p>
                   </div>
                   <Metric label="EMI" value={`₹${offer.emi}`} />
                   <Metric label="Loan Amount" value={`₹${offer.amount}`} />
@@ -159,13 +159,13 @@ function EmiCalculatorPage() {
                 </div>
 
                 <div className="flex items-center justify-start md:justify-end gap-3">
-                  <button className="hidden sm:flex items-center gap-1 text-[11px] text-slate-500 hover:text-slate-700 transition-colors">
+                  <button className="hidden sm:flex items-center gap-1 text-[11px] text-[#212121] hover:text-[#212121] transition-colors">
                     <Mail className="h-3.5 w-3.5" />
                     Email me this deal
                   </button>
                   <button
                     onClick={() => openDealPopup(offer.bank)}
-                    className="rounded-xl bg-[#24103f] hover:bg-[#321a52] text-white text-sm font-semibold px-5 py-2.5 transition-colors"
+                    className="rounded-xl bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] text-sm font-semibold px-5 py-2.5 transition-colors"
                   >
                     Get me this deal
                   </button>
@@ -175,21 +175,21 @@ function EmiCalculatorPage() {
           </div>
 
           <div className="mt-8">
-            <h1 className="text-3xl sm:text-4xl font-bold text-slate-800">Home Loan EMI Calculator</h1>
-            <p className="text-slate-600 mt-3 max-w-5xl">
+            <h1 className="text-3xl sm:text-4xl font-bold text-[#F5EFE7]">Home Loan EMI Calculator</h1>
+            <p className="text-[#F5EFE7] mt-3 max-w-5xl">
               Home Loan EMI Calculator provides an instant estimate of your EMI by requiring the loan amount,
               interest rate, and loan tenure. This ensures manageable debt repayment and aids in budget planning.
             </p>
           </div>
 
-          <div className="mt-6 rounded-2xl bg-white border border-slate-200 shadow-sm p-4 sm:p-6 lg:p-8">
+          <div className="mt-6 rounded-2xl bg-[#F5EFE7] border border-[#D8CEC0] shadow-sm p-4 sm:p-6 lg:p-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
               <div>
-                <h2 className="text-3xl font-bold text-slate-800 mb-5">Home Loans</h2>
+                <h2 className="text-3xl font-bold text-[#212121] mb-5">Home Loans</h2>
 
-                <label className="block text-sm text-slate-600 mb-2">Loan Amount</label>
+                <label className="block text-sm text-[#212121] mb-2">Loan Amount</label>
                 <input
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-700 mb-4"
+                  className="w-full rounded-xl border border-[#D8CEC0] px-4 py-3 text-[#212121] bg-[#F5EFE7] mb-4"
                   placeholder="₹ Enter loan amount"
                   value={loanAmountInput}
                   onChange={(e) => setLoanAmountInput(e.target.value)}
@@ -197,9 +197,9 @@ function EmiCalculatorPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm text-slate-600 mb-2">Loan Tenure</label>
+                    <label className="block text-sm text-[#212121] mb-2">Loan Tenure</label>
                     <select
-                      className="w-full rounded-xl border border-slate-200 px-3 py-3 text-slate-700"
+                      className="w-full rounded-xl border border-[#D8CEC0] px-3 py-3 text-[#212121] bg-[#F5EFE7]"
                       value={tenureYears}
                       onChange={(e) => setTenureYears(Number(e.target.value))}
                     >
@@ -212,9 +212,9 @@ function EmiCalculatorPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm text-slate-600 mb-2">Interest Rate % (p.a.)</label>
+                    <label className="block text-sm text-[#212121] mb-2">Interest Rate % (p.a.)</label>
                     <input
-                      className="w-full rounded-xl border border-slate-200 px-3 py-3 text-slate-700"
+                      className="w-full rounded-xl border border-[#D8CEC0] px-3 py-3 text-[#212121] bg-[#F5EFE7]"
                       value={interestRateInput}
                       onChange={(e) => setInterestRateInput(e.target.value)}
                     />
@@ -222,8 +222,8 @@ function EmiCalculatorPage() {
                 </div>
 
                 <div className="mt-6">
-                  <p className="text-sm text-slate-600 mb-2">Have you finalized your property?</p>
-                  <div className="flex items-center gap-6 text-sm text-slate-700">
+                  <p className="text-sm text-[#212121] mb-2">Have you finalized your property?</p>
+                  <div className="flex items-center gap-6 text-sm text-[#212121]">
                     <label className="inline-flex items-center gap-2">
                       <input
                         type="radio"
@@ -247,14 +247,14 @@ function EmiCalculatorPage() {
 
                 <button
                   onClick={handleRecalculate}
-                  className="mt-7 w-full rounded-full bg-[#24103f] hover:bg-[#321a52] text-white font-semibold py-3.5 transition-colors"
+                  className="mt-7 w-full rounded-full bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-semibold py-3.5 transition-colors"
                 >
                   Recalculate Your EMI
                 </button>
               </div>
 
-              <div className="rounded-xl border border-slate-200 p-4 sm:p-5">
-                <h3 className="text-3xl font-bold text-center text-slate-800">
+              <div className="rounded-xl border border-[#D8CEC0] p-4 sm:p-5">
+                <h3 className="text-3xl font-bold text-center text-[#212121]">
                   You are Eligible for EMI Amount {formatCurrency(result.emi)}
                 </h3>
 
@@ -278,28 +278,28 @@ function EmiCalculatorPage() {
                       </Pie>
                       <Tooltip
                         formatter={(value) => formatCurrency(Number(value))}
-                        contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0" }}
+                        contentStyle={{ borderRadius: 12, border: "1px solid #F5EFE7" }}
                       />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
 
                 <div className="flex items-center justify-between text-sm mb-2">
-                  <div className="space-y-2 text-slate-700">
-                    <p><span className="inline-block w-2.5 h-2.5 rounded-full bg-[#24a48f] mr-2" />Principal Amount</p>
-                    <p><span className="inline-block w-2.5 h-2.5 rounded-full bg-[#e9b425] mr-2" />Interest Amount</p>
+                  <div className="space-y-2 text-[#212121]">
+                    <p><span className="inline-block w-2.5 h-2.5 rounded-full bg-[#C6A256] mr-2" />Principal Amount</p>
+                    <p><span className="inline-block w-2.5 h-2.5 rounded-full bg-[#C6A256] mr-2" />Interest Amount</p>
                   </div>
-                  <div className="space-y-2 text-slate-800 font-semibold">
+                  <div className="space-y-2 text-[#212121] font-semibold">
                     <p>{formatCurrency(result.principalAmount)}</p>
                     <p>{formatCurrency(result.interestAmount)}</p>
                   </div>
                 </div>
 
-                <p className="text-sm text-slate-600 mt-4">
-                  Total repayment over {result.totalMonths || 0} months: <span className="font-semibold text-slate-800">{formatCurrency(result.totalAmount)}</span>
+                <p className="text-sm text-[#212121] mt-4">
+                  Total repayment over {result.totalMonths || 0} months: <span className="font-semibold text-[#212121]">{formatCurrency(result.totalAmount)}</span>
                 </p>
 
-                <button className="mt-5 w-full rounded-full bg-[#24103f] hover:bg-[#321a52] text-white font-semibold py-3.5 transition-colors">
+                <button className="mt-5 w-full rounded-full bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-semibold py-3.5 transition-colors">
                   Check Bank Offers
                 </button>
               </div>

@@ -152,12 +152,12 @@ function FeaturedProjects() {
     };
 
     return (
-        <section className="pt-10 md:pt-20 bg-gradient-to-br from-[#0a0a0a] via-[#110f1f] to-[#0a0a0a] overflow-hidden relative">
+        <section className="pt-10 md:pt-20 bg-gradient-to-br from-[#212121] via-[#212121] to-[#212121] overflow-hidden relative">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-20 left-10 w-72 h-72 bg-[#9B59B6]/8 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#171137]/40 rounded-full blur-3xl"></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-[#9B59B6]/5 to-[#171137]/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-20 left-10 w-72 h-72 bg-[#212121]/8 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#212121]/40 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-[#212121]/5 to-[#212121]/10 rounded-full blur-3xl"></div>
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
@@ -169,10 +169,10 @@ function FeaturedProjects() {
                     viewport={{ once: false, amount: 0.3 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="hero-title text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-white">
+                    <h2 className="hero-title text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-[#F5EFE7]">
                         Handpicked Featured Projects
                     </h2>
-                    <p className="text-white/60 max-w-2xl mx-auto text-base md:text-lg">
+                    <p className="text-[#F5EFE7]/60 max-w-2xl mx-auto text-base md:text-lg">
                         Discover our exclusive selection of premium properties, carefully chosen to match your lifestyle and investment goals.
                     </p>
                 </motion.div>
@@ -211,12 +211,12 @@ function FeaturedProjects() {
                         
                         {/* Custom Navigation */}
                         <div className="flex items-center justify-center gap-4 mt-10">
-                            <CarouselPrevious className="relative inset-0 translate-x-0 translate-y-0 h-12 w-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white hover:text-[#171137] transition-all duration-300" />
+                            <CarouselPrevious className="relative inset-0 translate-x-0 translate-y-0 h-12 w-12 rounded-full bg-[#F5EFE7]/10 backdrop-blur-sm border border-[#F5EFE7]/20 text-[#F5EFE7] hover:bg-[#F5EFE7] hover:text-[#212121] transition-all duration-300" />
                             <div className="flex items-center gap-2 px-4">
-                                <Building2 className="w-5 h-5 text-white/50" />
-                                <span className="text-white/50 text-sm font-medium">Swipe to explore</span>
+                                <Building2 className="w-5 h-5 text-[#F5EFE7]/50" />
+                                <span className="text-[#F5EFE7]/50 text-sm font-medium">Swipe to explore</span>
                             </div>
-                            <CarouselNext className="relative inset-0 translate-x-0 translate-y-0 h-12 w-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white hover:text-[#171137] transition-all duration-300" />
+                            <CarouselNext className="relative inset-0 translate-x-0 translate-y-0 h-12 w-12 rounded-full bg-[#F5EFE7]/10 backdrop-blur-sm border border-[#F5EFE7]/20 text-[#F5EFE7] hover:bg-[#F5EFE7] hover:text-[#212121] transition-all duration-300" />
                         </div>
                     </Carousel>
                 </motion.div>

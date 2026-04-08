@@ -32,37 +32,37 @@ const AboutPage = () => {
       icon: Users,
       title: "Customer Centricity",
       description: "We place our clients at the heart of everything, building relationships grounded in trust, honesty, and exceptional service.",
-      gradient: "from-purple-500/20 to-pink-500/20"
+      gradient: "from-[#212121]/20 to-[#C6A256]/20"
     },
     {
       icon: Handshake,
       title: "Integrity",
       description: "We uphold transparency and authenticity in every interaction, ensuring our solutions are honest and value-driven.",
-      gradient: "from-blue-500/20 to-purple-500/20"
+      gradient: "from-[#212121]/20 to-[#212121]/20"
     },
     {
       icon: TrendingUp,
       title: "Innovation",
       description: "We continuously embrace technology and unique business models to enhance stakeholder growth and customer experience.",
-      gradient: "from-pink-500/20 to-purple-500/20"
+      gradient: "from-[#C6A256]/20 to-[#212121]/20"
     },
     {
       icon: Award,
       title: "Excellence",
       description: "At TRS we strive for unparalleled quality in delivering seamless, hassle-free real estate experiences.",
-      gradient: "from-purple-500/20 to-blue-500/20"
+      gradient: "from-[#212121]/20 to-[#212121]/20"
     },
     {
       icon: Target,
       title: "Collaboration",
       description: "We nurture growth for employees, agents, builders, and clients alike through mutually beneficial partnerships.",
-      gradient: "from-indigo-500/20 to-purple-500/20"
+      gradient: "from-[#212121]/20 to-[#212121]/20"
     },
     {
       icon: Globe,
       title: "Global Mindset",
       description: "We aim to serve every household, large or small, with a vision to expand our real estate solutions worldwide.",
-      gradient: "from-purple-500/20 to-pink-500/20"
+      gradient: "from-[#212121]/20 to-[#C6A256]/20"
     }
   ]
 
@@ -112,10 +112,119 @@ const AboutPage = () => {
     }
   ]
 
+  const serviceColumns = [
+    [
+      {
+        title: "1. Property Transactions",
+        points: [
+          "Residential & Commercial Sales & Leasing",
+          "Luxury & Vacation Home Consulting",
+          "Investment Property Sales",
+        ],
+      },
+      {
+        title: "2. Investment Consulting",
+        points: [
+          "High-Yield Property Market Analysis",
+          "Portfolio Diversification & Risk Assessment",
+          "Joint Venture & Partnership Opportunities",
+        ],
+      },
+      {
+        title: "3. Project Advisory",
+        points: [
+          "Feasibility Studies & Market Research",
+          "Project Planning & Regulatory Approvals",
+          "Pre-Launch Sales & Pricing Strategy",
+        ],
+      },
+      {
+        title: "4. Land Services",
+        points: [
+          "Land Acquisition & Valuation",
+          "Zoning, Due Diligence & Developer Connections",
+          "Agricultural Land Conversion",
+        ],
+      },
+    ],
+    [
+      {
+        title: "5. Leasing & Rental Management",
+        points: [
+          "Tenant Sourcing & Lease Negotiation",
+          "Rent Collection & Property Maintenance",
+          "Short-Term Rental Advisory (Airbnb, etc.)",
+        ],
+      },
+      {
+        title: "6. Marketing & Branding",
+        points: [
+          "Real Estate Project Branding & Lead Generation",
+          "Digital & Offline Marketing Strategies",
+          "Professional Photography & Videography",
+        ],
+      },
+      {
+        title: "7. Legal & Compliance Advisory",
+        points: [
+          "Title Search & Ownership Verification",
+          "RERA Registration & Compliance",
+          "Taxation & Documentation Support",
+        ],
+      },
+      {
+        title: "8. Property Valuation & Vastu",
+        points: [
+          "Sales & Rental Yield Valuation",
+          "Commercial & Re-Development Assessment",
+          "Vastu Consultation",
+        ],
+      },
+    ],
+    [
+      {
+        title: "9. Property Management",
+        points: [
+          "Maintenance & Renovation Advisory",
+          "Tenant Issue Resolution & Asset Tracking",
+        ],
+      },
+      {
+        title: "10. Relocation Services",
+        points: [
+          "End-to-End Relocation Assistance",
+          "Temporary Housing & Community Guidance",
+        ],
+      },
+      {
+        title: "11. Real Estate Development Consulting",
+        points: [
+          "PMC & Developer Network Building",
+          "Architect, Builder & Engineer Partnerships",
+          "Financing & Fundraising Advisory",
+        ],
+      },
+      {
+        title: "12. Real Estate Technology Integration",
+        points: [
+          "CRM Implementation & Analytics Tools",
+          "Virtual Tours & AR/VR Property Marketing",
+        ],
+      },
+      {
+        title: "13. Real Estate Education & Training",
+        points: [
+          "Buyer & Investor Workshops",
+          "Agent Sales Training & Market Insights",
+        ],
+      },
+    ],
+  ]
+
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gradient-to-br from-[#0a0514] via-[#0f0821] to-[#1a0f2e] text-white overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-[#212121] via-[#212121] to-[#212121] text-[#F5EFE7] overflow-hidden">
         {/* Video Modals */}
         <AnimatePresence>
           {selectedVideo && (
@@ -127,7 +236,7 @@ const AboutPage = () => {
               onClick={() => setSelectedVideo(null)}
             >
               {/* Backdrop with blur */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#0a0514]/90 via-[#1a0f2e]/85 to-[#0f0821]/90 backdrop-blur-md" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#212121]/90 via-[#212121]/85 to-[#212121]/90 backdrop-blur-md" />
               
               {/* Modal Content */}
               <motion.div
@@ -135,15 +244,15 @@ const AboutPage = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="relative w-full max-w-5xl aspect-video bg-gradient-to-br from-[#1a0f2e] to-[#0f0821] rounded-2xl overflow-hidden shadow-2xl border border-purple-500/30"
+                className="relative w-full max-w-5xl aspect-video bg-gradient-to-br from-[#212121] to-[#212121] rounded-2xl overflow-hidden shadow-2xl border border-[#C6A256]/30"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Close Button */}
                 <button
                   onClick={() => setSelectedVideo(null)}
-                  className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#492974]/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-[#492974]/80 transition-colors"
+                  className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#212121]/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-[#212121]/80 transition-colors"
                 >
-                  <X className="w-6 h-6 text-white" />
+                  <X className="w-6 h-6 text-[#F5EFE7]" />
                 </button>
 
                 {/* YouTube Embed */}
@@ -170,7 +279,7 @@ const AboutPage = () => {
               onClick={() => setShowFounderVideo(false)}
             >
               {/* Backdrop with blur */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#0a0514]/90 via-[#1a0f2e]/85 to-[#0f0821]/90 backdrop-blur-md" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#212121]/90 via-[#212121]/85 to-[#212121]/90 backdrop-blur-md" />
               
               {/* Modal Content */}
               <motion.div
@@ -178,15 +287,15 @@ const AboutPage = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="relative w-full max-w-5xl bg-gradient-to-br from-[#1a0f2e] to-[#0f0821] rounded-2xl overflow-hidden shadow-2xl border border-purple-500/30"
+                className="relative w-full max-w-5xl bg-gradient-to-br from-[#212121] to-[#212121] rounded-2xl overflow-hidden shadow-2xl border border-[#C6A256]/30"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Close Button */}
                 <button
                   onClick={() => setShowFounderVideo(false)}
-                  className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#492974]/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-[#492974]/80 transition-colors"
+                  className="absolute top-4 right-4 z-10 w-10 h-10 bg-[#212121]/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-[#212121]/80 transition-colors"
                 >
-                  <X className="w-6 h-6 text-white" />
+                  <X className="w-6 h-6 text-[#F5EFE7]" />
                 </button>
 
                 {/* Local Video */}
@@ -212,7 +321,7 @@ const AboutPage = () => {
             <div className="absolute inset-0 z-10" />
             <Image
               src="https://images.pexels.com/photos/19157992/pexels-photo-19157992.jpeg"
-              alt="Total Reality Solutions"
+              alt="Total Realty Solutions"
               fill
               className="object-cover opacity-40"
               priority
@@ -233,13 +342,13 @@ const AboutPage = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-4xl md:text-6xl font-bold mb-8 leading-tight"
               >
-                <span className="text-white">Total Reality Solutions</span> is a{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                <span className="text-[#F5EFE7]">Total Realty Solutions</span> is a{" "}
+               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256]">
                   PAN-India
                 </span>{" "}
                 consulting company with a legacy of over{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400">
-                  25+ years
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256]">
+                  20+ years
                 </span>{" "}
                 in delivering comprehensive real estate services.
               </motion.h1>
@@ -250,10 +359,10 @@ const AboutPage = () => {
                   initial={{ opacity: 0, x: -50 }}
                   animate={heroInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="bg-gradient-to-br from-purple-900/30 to-[#1a0f2e]/40 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300"
+                  className="bg-gradient-to-br from-[#212121]/30 to-[#212121]/40 backdrop-blur-sm p-8 rounded-2xl border border-[#C6A256]/20 hover:border-[#C6A256]/40 transition-all duration-300"
                 >
-                  <h3 className="text-2xl font-bold mb-4 text-purple-400">OUR MISSION</h3>
-                  <p className="text-gray-300 leading-relaxed">
+                  <h3 className="text-2xl font-bold mb-4 text-[#C6A256]">OUR MISSION</h3>
+                  <p className="text-[#F5EFE7] leading-relaxed">
                     To deliver end-to-end, transparent, and technologically empowered real estate solutions tailored to each client's unique needs, fostering trust, comfort, and lasting value across residential, commercial, leasing, and investment domains worldwide.
                   </p>
                 </motion.div>
@@ -262,10 +371,10 @@ const AboutPage = () => {
                   initial={{ opacity: 0, x: 50 }}
                   animate={heroInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.8, delay: 0.6 }}
-                  className="bg-gradient-to-br from-pink-900/30 to-[#1a0f2e]/40 backdrop-blur-sm p-8 rounded-2xl border border-pink-500/20 hover:border-pink-500/40 transition-all duration-300"
+                  className="bg-gradient-to-br from-[#212121]/30 to-[#212121]/40 backdrop-blur-sm p-8 rounded-2xl border border-[#C6A256]/20 hover:border-[#C6A256]/40 transition-all duration-300"
                 >
-                  <h3 className="text-2xl font-bold mb-4 text-pink-400">OUR VISION</h3>
-                  <p className="text-gray-300 leading-relaxed">
+                  <h3 className="text-2xl font-bold mb-4 text-[#C6A256]">OUR VISION</h3>
+                  <p className="text-[#F5EFE7] leading-relaxed">
                     To be the world's most trusted and innovative 360-degree real estate partner, transforming how individuals and businesses experience property solutions by making hassle-free, authentic, and scalable realty services accessible to every household globally.
                   </p>
                 </motion.div>
@@ -276,7 +385,7 @@ const AboutPage = () => {
 
         {/* Core Values Section */}
         <section ref={valuesRef} className="py-20 md:py-28 relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0514] via-[#492974]/15 to-[#0f0821]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#212121] via-[#212121]/15 to-[#212121]" />
           
           <div className="container mx-auto px-4 relative z-10">
             <motion.div
@@ -286,7 +395,7 @@ const AboutPage = () => {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Values</span>
+                Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5EFE7] via-[#C6A256] to-[#C6A256]">Values</span>
               </h2>
             </motion.div>
 
@@ -300,16 +409,16 @@ const AboutPage = () => {
                   className="group relative"
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${value.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <div className="relative bg-gradient-to-br from-[#1a0f2e] to-[#0f0821] p-8 rounded-2xl border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 h-full">
+                  <div className="relative bg-gradient-to-br from-[#212121] to-[#212121] p-8 rounded-2xl border border-[#C6A256]/20 hover:border-[#C6A256]/50 transition-all duration-300 h-full">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl">
-                        <value.icon className="w-6 h-6 text-purple-400" />
+                      <div className="p-3 bg-gradient-to-br from-[#212121]/20 to-[#C6A256]/20 rounded-xl">
+                        <value.icon className="w-6 h-6 text-[#C6A256]" />
                       </div>
                     </div>
-                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 transition-all duration-300">
+                    <h3 className="text-xl font-bold mb-3 text-[#F5EFE7] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#212121] group-hover:to-[#C6A256] transition-all duration-300">
                       {value.title}
                     </h3>
-                    <p className="text-gray-400 leading-relaxed">
+                    <p className="text-[#F5EFE7] leading-relaxed">
                       {value.description}
                     </p>
                   </div>
@@ -321,7 +430,7 @@ const AboutPage = () => {
 
         {/* Founder's Desk Section */}
         <section ref={founderRef} className="py-20 md:py-28 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-black via-[#0a0a0a] to-[#492974]/15" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#212121] via-[#212121] to-[#212121]/15" />
           
           <div className="container mx-auto px-4 relative z-10">
             <motion.div
@@ -331,7 +440,7 @@ const AboutPage = () => {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold">
-                Founder's <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Desk</span>
+                Founder's <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5EFE7] via-[#C6A256] to-[#C6A256]">Desk</span>
               </h2>
             </motion.div>
 
@@ -342,8 +451,8 @@ const AboutPage = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl lg:rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative aspect-video rounded-2xl lg:rounded-3xl overflow-hidden border border-purple-500/30 cursor-pointer"
+                <div className="absolute inset-0 bg-gradient-to-br from-[#212121]/30 to-[#C6A256]/30 rounded-2xl lg:rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative aspect-video rounded-2xl lg:rounded-3xl overflow-hidden border border-[#C6A256]/30 cursor-pointer"
                   onClick={() => setShowFounderVideo(true)}
                 >
                   <video
@@ -354,10 +463,10 @@ const AboutPage = () => {
                     playsInline
                     autoPlay
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1a0f2e]/70 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/70 to-transparent" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 md:w-20 md:h-20 bg-[#492974]/40 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-400/30">
-                      <Play className="w-6 h-6 md:w-8 md:h-8 text-amber-300 ml-1" fill="currentColor" />
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-[#212121]/40 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-[#C6A256]/30">
+                      <Play className="w-6 h-6 md:w-8 md:h-8 text-[#C6A256] ml-1" fill="currentColor" />
                     </div>
                   </div>
                 </div>
@@ -369,20 +478,20 @@ const AboutPage = () => {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="space-y-4 md:space-y-6"
               >
-                <p className="text-base md:text-xl lg:text-2xl text-gray-300 leading-relaxed italic">
+                <p className="text-base md:text-xl lg:text-2xl text-[#F5EFE7] leading-relaxed italic">
                   TRS embodies Trust, the cornerstone of our business; Relationships, the bridge to lasting partnerships; and Success, the result of our unwavering commitment to Transparency, Responsibility, and Sustainability. Guided by Tradition, powered by Talent, and driven by a passion for exceptional Service, we build a future you can rely on.
                 </p>
                 <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Rtn. Dr. Gajendra Narang</h3>
-                  <p className="text-sm md:text-base text-purple-400 font-semibold mb-4">CHAIRMAN & MANAGING DIRECTOR</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-[#F5EFE7] mb-2">Rtn. Dr. Gajendra Narang</h3>
+                  <p className="text-sm md:text-base text-[#C6A256] font-semibold mb-4">CHAIRMAN & MANAGING DIRECTOR</p>
                   <div className="flex gap-3 md:gap-4">
-                    <a href="https://www.instagram.com/gajendrasinghnarang/" className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center hover:bg-purple-500/40 transition-colors">
+                    <a href="https://www.instagram.com/gajendrasinghnarang/" className="w-10 h-10 bg-[#212121]/20 rounded-full flex items-center justify-center hover:bg-[#212121]/40 transition-colors">
                       <Instagram className="w-5 h-5" />
                     </a>
-                    <a href="https://www.linkedin.com/in/dr-gajendra-singh-narang-93000631/" className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center hover:bg-purple-500/40 transition-colors">
+                    <a href="https://www.linkedin.com/in/dr-gajendra-singh-narang-93000631/" className="w-10 h-10 bg-[#212121]/20 rounded-full flex items-center justify-center hover:bg-[#212121]/40 transition-colors">
                       <Linkedin className="w-5 h-5" />
                     </a>
-                    <a href="https://www.facebook.com/gajendra.narang/" className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center hover:bg-purple-500/40 transition-colors">
+                    <a href="https://www.facebook.com/gajendra.narang/" className="w-10 h-10 bg-[#212121]/20 rounded-full flex items-center justify-center hover:bg-[#212121]/40 transition-colors">
                       <Facebook className="w-5 h-5" />
                     </a>
                   
@@ -400,23 +509,23 @@ const AboutPage = () => {
                 className="space-y-4 md:space-y-6 order-2 lg:order-1"
               >
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-                  Growth <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Leader</span>
+                  Growth <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5EFE7] via-[#C6A256] to-[#C6A256]">Leader</span>
                 </h2>
-                <div className="text-4xl md:text-6xl text-purple-400 opacity-50">"</div>
-                <p className="text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed italic">
+                <div className="text-4xl md:text-6xl text-[#C6A256] opacity-50">"</div>
+                <p className="text-base md:text-lg lg:text-xl text-[#F5EFE7] leading-relaxed italic">
                   Not Just Selling Property. Redefining the Experience Around it. I see real estate as more than transactions. For me, it is a system—where branding, data, digital tools, and market psychology work together, built on transparency and long-term trust. My focus is to innovate, digitise, and simplify the entire property journey removing friction, confusion, and guesswork to deliver a seamless, end-to-end experience rooted in clarity, confidence, and credibility for buyers, investors, and developers.
                 </p>
                 <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Sammartha Narang</h3>
-                  <p className="text-sm md:text-base text-purple-400 font-semibold mb-4">CHIEF OF SALES & MARKETING</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-[#F5EFE7] mb-2">Sammartha Narang</h3>
+                  <p className="text-sm md:text-base text-[#C6A256] font-semibold mb-4">CHIEF OF SALES & MARKETING</p>
                   <div className="flex gap-3 md:gap-4">
-                    <a href="https://www.linkedin.com/in/sammartha-narang-44446b134/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center hover:bg-purple-500/40 transition-colors">
+                    <a href="https://www.linkedin.com/in/sammartha-narang-44446b134/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" className="w-10 h-10 bg-[#212121]/20 rounded-full flex items-center justify-center hover:bg-[#212121]/40 transition-colors">
                       <Linkedin className="w-5 h-5" />
                     </a>
-                    {/* <a href="#" className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center hover:bg-purple-500/40 transition-colors">
+                    {/* <a href="#" className="w-10 h-10 bg-[#212121]/20 rounded-full flex items-center justify-center hover:bg-[#212121]/40 transition-colors">
                       <Facebook className="w-5 h-5" />
                     </a>
-                    <a href="#" className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center hover:bg-purple-500/40 transition-colors">
+                    <a href="#" className="w-10 h-10 bg-[#212121]/20 rounded-full flex items-center justify-center hover:bg-[#212121]/40 transition-colors">
                       <Instagram className="w-5 h-5" />
                     </a> */}
                   </div>
@@ -429,8 +538,8 @@ const AboutPage = () => {
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="relative group order-1 lg:order-2"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-purple-500/30 rounded-2xl lg:rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative h-[400px] md:h-[500px] lg:h-[550px] rounded-2xl lg:rounded-3xl overflow-hidden border border-purple-500/30">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#C6A256]/30 to-[#212121]/30 rounded-2xl lg:rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative h-[400px] md:h-[500px] lg:h-[550px] rounded-2xl lg:rounded-3xl overflow-hidden border border-[#C6A256]/30">
                   <Image
                     src="/assets/images/femal.jpg"
                     alt="Growth Leader"
@@ -438,7 +547,7 @@ const AboutPage = () => {
                     className="object-cover"
                     style={{ objectPosition: 'center 20%' }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1a0f2e]/70 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/70 to-transparent" />
                 </div>
               </motion.div>
             </div>
@@ -446,16 +555,61 @@ const AboutPage = () => {
         </section>
 
         {/* Awards & Recognition */}
-        <section className="pt-12 md:p-20 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-black to-[#492974]/10" />
+        <section className="pt-10 md:p-6 relative overflow-hidden">
+          <div />
          
 
           <FounderAwardSection />
         </section>
 
+        {/* Real Estate Services */}
+        <section className="py-16 md:py-20 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#212121] via-[#212121]/20 to-[#212121]" />
+          <div className="absolute -top-16 -left-16 w-56 h-56 bg-[#C6A256]/10 blur-3xl rounded-full" />
+          <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-[#C6A256]/10 blur-3xl rounded-full" />
+
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="relative bg-gradient-to-br from-[#212121]/95 via-[#212121]/90 to-[#212121]/95 border border-[#C6A256]/25 rounded-3xl p-6 md:p-10 lg:p-12 shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8 md:mb-10">
+                <div>
+                  <h2 className="text-2xl md:text-4xl font-bold text-[#F5EFE7] leading-tight">
+                    Real Estate Services <span className="text-[#C6A256]">- Connect With Us</span>
+                  </h2>
+                  <div className="h-0.5 w-28 bg-gradient-to-r from-[#C6A256] to-transparent mt-3" />
+                  <p className="mt-3 text-[#F5EFE7]/75 text-base md:text-xl font-semibold">
+                    (We work on for Mandate Sales PAN India)
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10">
+                {serviceColumns.map((column, columnIndex) => (
+                  <div key={columnIndex} className="space-y-6">
+                    {column.map((service) => (
+                      <div key={service.title} className="group">
+                        <h3 className="text-xl md:text-2xl leading-tight font-bold text-[#C6A256] group-hover:text-[#F5EFE7] transition-colors duration-300">
+                          {service.title}
+                        </h3>
+                        <ul className="mt-2 space-y-1.5 text-[#F5EFE7]/90 text-sm md:text-base leading-relaxed">
+                          {service.points.map((point) => (
+                            <li key={point} className="flex items-start gap-2">
+                              <span className="text-[#C6A256] mt-1">•</span>
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Recent Podcasts & Video Highlights */}
         <section className="py-20 md:py-28 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0514] via-[#492974]/15 to-[#0f0821]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#212121] via-[#212121]/15 to-[#212121]" />
           
           <div className="container mx-auto px-4 relative z-10">
             <motion.div
@@ -466,7 +620,7 @@ const AboutPage = () => {
               className="mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-bold">
-                Recent Podcasts & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Video Highlights</span>
+                Recent Podcasts & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5EFE7] via-[#C6A256] to-[#C6A256]">Video Highlights</span>
               </h2>
             </motion.div>
 
@@ -481,21 +635,21 @@ const AboutPage = () => {
                   className="group cursor-pointer"
                   onClick={() => setSelectedVideo(podcast.videoId)}
                 >
-                  <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-purple-500/20 group-hover:border-purple-500/50 transition-colors">
+                  <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-[#C6A256]/20 group-hover:border-[#C6A256]/50 transition-colors">
                     <Image
                       src={`https://img.youtube.com/vi/${podcast.videoId}/maxresdefault.jpg`}
                       alt={podcast.title}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a0f2e]/60 to-transparent group-hover:from-[#492974]/40 transition-colors" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/60 to-transparent group-hover:from-[#212121]/40 transition-colors" />
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-14 h-14 bg-[#492974]/40 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-amber-300/40">
-                        <Play className="w-6 h-6 text-amber-300 ml-1" fill="currentColor" />
+                      <div className="w-14 h-14 bg-[#212121]/40 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-[#C6A256]/40">
+                        <Play className="w-6 h-6 text-[#C6A256] ml-1" fill="currentColor" />
                       </div>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-300 line-clamp-2 group-hover:text-purple-400 transition-colors">
+                  <p className="text-sm text-[#F5EFE7] line-clamp-2 group-hover:text-[#C6A256] transition-colors">
                     {podcast.title}
                   </p>
                 </motion.div>

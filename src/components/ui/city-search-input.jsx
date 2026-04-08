@@ -47,7 +47,7 @@ function CitySearchInput({ filters, handleInputChange }) {
             <input
                 type="text"
                 placeholder="Search City"
-                className="w-full px-2 text-sm py-2 border border-[#D0D5DD] rounded-md text-black focus:outline-none"
+                className="w-full px-2 text-sm py-2 border border-[#F5EFE7] rounded-md text-[#212121] focus:outline-none"
                 value={filters.city}
                 onChange={(e) => handleChange(e.target.value)}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
@@ -57,12 +57,12 @@ function CitySearchInput({ filters, handleInputChange }) {
             />
 
             {showSuggestions && suggestions.length > 0 && (
-                <ul className="absolute z-10 bg-white border border-gray-300 mt-1 w-full rounded-md shadow-lg max-h-40 overflow-auto">
+                <ul className="absolute z-10 bg-[#F5EFE7] border border-[#F5EFE7] mt-1 w-full rounded-md shadow-lg max-h-40 overflow-auto">
                     {suggestions.map((city, index) => (
                         <li
                             key={index}
                             onClick={() => handleSelect(city)}
-                            className="px-4 py-2 text-sm text-black hover:bg-gray-100 cursor-pointer"
+                            className="px-4 py-2 text-sm text-[#212121] hover:bg-[#F5EFE7]/80 cursor-pointer"
                         >
                             {city}
                         </li>

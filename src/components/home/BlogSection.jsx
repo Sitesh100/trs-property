@@ -137,12 +137,12 @@ const BlogSection = () => {
   }
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-[#0a0a0a] via-[#0d0a14] to-[#0a0a0a] relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
       {/* Background decorative elements - subtle purple */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#1a1030]/30 to-transparent"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#6B46C1]/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-0 w-80 h-80 bg-[#492974]/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#212121]/30 to-transparent"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#212121]/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-0 w-80 h-80 bg-[#212121]/5 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -154,10 +154,10 @@ const BlogSection = () => {
           viewport={{ once: false, amount: 0.3 }}
           className="text-center mb-12"
         >
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-wide">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#F5EFE7] tracking-wide">
             TRS ADVICE & INSIGHTS
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-[#6B46C1] to-[#C6A256] mx-auto mt-4"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-[#212121] to-[#C6A256] mx-auto mt-4"></div>
         </motion.div>
 
         {/* Blog Grid */}
@@ -175,7 +175,7 @@ const BlogSection = () => {
               className="group"
             >
               <Link href={`/blog/${post.slug}`}>
-                <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#1a1a1a] cursor-pointer">
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#212121] cursor-pointer">
                   {/* Image */}
                   <Image
                     src={post.image}
@@ -185,11 +185,11 @@ const BlogSection = () => {
                   />
                   
                   {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/90 via-[#212121]/40 to-transparent"></div>
                   
                   {/* Date Badge */}
                   <div className="absolute top-3 left-3">
-                    <span className="px-3 py-1 bg-[#1a1a1a]/80 backdrop-blur-sm text-white text-xs font-medium rounded-md border border-white/10">
+                    <span className="px-3 py-1 bg-[#212121]/80 backdrop-blur-sm text-[#F5EFE7] text-xs font-medium rounded-md border border-[#F5EFE7]/10">
                       {post.date}
                     </span>
                   </div>
@@ -197,16 +197,16 @@ const BlogSection = () => {
                   {/* Content */}
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     {/* Title */}
-                    <h3 className="text-white font-medium text-sm md:text-base leading-tight mb-3 line-clamp-2 group-hover:text-[#C6A256] transition-colors duration-300">
+                    <h3 className="text-[#F5EFE7] font-medium text-sm md:text-base leading-tight mb-3 line-clamp-2 group-hover:text-[#C6A256] transition-colors duration-300">
                       {post.title}
                     </h3>
                     
                     {/* Divider */}
-                    <div className="w-full h-px bg-white/20 mb-3"></div>
+                    <div className="w-full h-px bg-[#F5EFE7]/20 mb-3"></div>
                     
                     {/* Footer - Views and Likes */}
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 text-white/60">
+                      <div className="flex items-center gap-1.5 text-[#F5EFE7]/60">
                         <Eye className="w-4 h-4" />
                         <span className="text-xs">{post.views}</span>
                       </div>
@@ -220,15 +220,15 @@ const BlogSection = () => {
                         className="flex items-center gap-1.5 transition-colors duration-200"
                       >
                         {post.likes > 0 && (
-                          <span className={`text-xs ${likedPosts[post.id] ? 'text-red-500' : 'text-white/60'}`}>
+                          <span className={`text-xs ${likedPosts[post.id] ? 'text-[#C6A256]' : 'text-[#F5EFE7]/60'}`}>
                             {post.likes}
                           </span>
                         )}
                         <Heart 
                           className={`w-4 h-4 transition-colors duration-200 ${
                             likedPosts[post.id] 
-                              ? 'text-red-500 fill-red-500' 
-                              : 'text-white/60 hover:text-red-500'
+                              ? 'text-[#C6A256] fill-[#C6A256]' 
+                              : 'text-[#F5EFE7]/60 hover:text-[#C6A256]'
                           }`} 
                         />
                       </button>
@@ -251,10 +251,10 @@ const BlogSection = () => {
           <button
             onClick={handlePrevPage}
             disabled={currentPage === 1}
-            className={`w-10 h-10 rounded-full border border-white/20 flex items-center justify-center transition-all duration-300 ${
+            className={`w-10 h-10 rounded-full border border-[#F5EFE7]/20 flex items-center justify-center transition-all duration-300 ${
               currentPage === 1 
                 ? 'opacity-30 cursor-not-allowed' 
-                : 'hover:border-[#C6A256] hover:text-[#C6A256] text-white/60'
+                : 'hover:border-[#C6A256] hover:text-[#C6A256] text-[#F5EFE7]/60'
             }`}
           >
             <ChevronLeft className="w-5 h-5" />
@@ -267,8 +267,8 @@ const BlogSection = () => {
                 onClick={() => setCurrentPage(page)}
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
                   currentPage === page
-                    ? 'bg-[#C6A256] text-[#0a0a0a]'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-[#C6A256] text-[#212121]'
+                    : 'text-[#F5EFE7]/60 hover:text-[#F5EFE7]'
                 }`}
               >
                 {page}
@@ -279,10 +279,10 @@ const BlogSection = () => {
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`w-10 h-10 rounded-full border border-white/20 flex items-center justify-center transition-all duration-300 ${
+            className={`w-10 h-10 rounded-full border border-[#F5EFE7]/20 flex items-center justify-center transition-all duration-300 ${
               currentPage === totalPages 
                 ? 'opacity-30 cursor-not-allowed' 
-                : 'hover:border-[#C6A256] hover:text-[#C6A256] text-white/60'
+                : 'hover:border-[#C6A256] hover:text-[#C6A256] text-[#F5EFE7]/60'
             }`}
           >
             <ChevronRight className="w-5 h-5" />

@@ -2,7 +2,7 @@
 import { useLoginMutation } from "@/service/authApi";
 import { setToken, setUser } from "@/redux/authSlice";
 import { useFormik } from "formik";
-import { Loader, X, Eye, EyeOff } from "lucide-react";
+import { Loader, X, Eye, EyeOff, ShieldCheck } from "lucide-react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
@@ -131,55 +131,59 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
     });
 
     return (
-        <div className="p-6">
+        <div className="p-6 bg-[#0A1F3D] border border-[#C6A256]/35 rounded-xl shadow-[0_20px_45px_rgba(0,0,0,0.45)]">
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-white">Welcome Back to TRS Property Mall</h2>
-                <button onClick={onClose} className="text-gray-400 hover:text-white cursor-pointer">
+                <div>
+                    <h2 className="text-xl font-bold text-[#F5EFE7]">Welcome Back to TRS Property Mall</h2>
+                   
+                </div>
+                <button onClick={onClose} className="text-[#F5EFE7]/80 hover:text-[#C6A256] cursor-pointer transition-colors">
                     <X className="h-5 w-5" />
                 </button>
             </div>
+            
             <form onSubmit={formik.handleSubmit}>
                 <div className="space-y-4">
                     {/* Email Field */}
                     <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-300 mb-1">
-                            Email<span className="text-red-500">*</span>
+                        <label htmlFor="username" className="block text-sm font-medium text-[#F5EFE7] mb-1">
+                            Email<span className="text-[#C6A256]">*</span>
                         </label>
                         <input
                             type="email"
                             id="username"
-                            className="w-full px-3 py-2 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                            className="w-full px-3 py-2 bg-[#212121]/95 border border-[#F5EFE7]/25 rounded-md text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:outline-none focus:ring-2 focus:ring-[#C6A256]/60 focus:border-[#C6A256]"
                             placeholder="Enter your email address"
                             {...formik.getFieldProps("username")}
                         />
                         {formik.touched.username && formik.errors.username && (
-                            <div className="text-red-500 text-xs mt-1">{formik.errors.username}</div>
+                            <div className="text-[#C6A256] text-xs mt-1">{formik.errors.username}</div>
                         )}
                     </div>
 
                     {/* Password Field */}
                     <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
-                            Password<span className="text-red-500">*</span>
+                        <label htmlFor="password" className="block text-sm font-medium text-[#F5EFE7] mb-1">
+                            Password<span className="text-[#C6A256]">*</span>
                         </label>
                         <div className="relative">
                             <input
                                 type={showPassword ? "text" : "password"}
                                 id="password"
-                                className="w-full px-3 py-2 pr-10 bg-[#2a1f45] border border-[#3a2a5a] rounded text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                                className="w-full px-3 py-2 pr-10 bg-[#212121]/95 border border-[#F5EFE7]/25 rounded-md text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:outline-none focus:ring-2 focus:ring-[#C6A256]/60 focus:border-[#C6A256]"
                                 placeholder="Enter your password"
                                 {...formik.getFieldProps("password")}
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white cursor-pointer"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F5EFE7]/70 hover:text-[#C6A256] cursor-pointer transition-colors"
                             >
                                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                             </button>
                         </div>
                         {formik.touched.password && formik.errors.password && (
-                            <div className="text-red-500 text-xs mt-1">{formik.errors.password}</div>
+                            <div className="text-[#C6A256] text-xs mt-1">{formik.errors.password}</div>
                         )}
                     </div>
                 </div>
@@ -187,9 +191,9 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="golden-button group relative overflow-hidden w-full mt-6 bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 text-gray-900 font-semibold py-2.5 rounded-lg transition-all duration-300 h-11 flex items-center justify-center cursor-pointer hover:shadow-[0_0_20px_rgba(251,191,36,0.5)] border border-amber-300/50 disabled:opacity-50"
+                    className="w-full mt-6 bg-[#C6A256] text-[#0A1F3D] font-semibold py-2.5 rounded-lg transition-all duration-300 h-11 flex items-center justify-center cursor-pointer hover:bg-[#b79345] hover:shadow-[0_0_18px_rgba(198,162,86,0.35)] border border-[#C6A256] disabled:opacity-50"
                 >
-                    <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                    <span>
                         {isLoading ? (
                             <div className="animate-spin">
                                 <Loader />
@@ -198,16 +202,15 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                             "Login"
                         )}
                     </span>
-                    <div className="absolute inset-0 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
                 </button>
 
                 <div className="mt-4 text-center">
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-[#F5EFE7] text-sm">
                         Don't have an account?{" "}
                         <button
                             type="button"
                             onClick={() => setActiveTab("signup")}
-                            className="text-amber-400 hover:text-amber-300 font-medium cursor-pointer"
+                            className="text-[#C6A256] hover:text-[#d9b66b] font-medium cursor-pointer transition-colors"
                         >
                             Sign up
                         </button>

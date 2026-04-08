@@ -99,17 +99,17 @@ const FounderAwardSection = () => {
   }, [isVideoOpen])
 
   return (
-    <section className="md:pt-8 pt-5 bg-gradient-to-b from-[#0a0a0a] via-[#080808] to-[#0a0a0a] relative overflow-hidden">
+    <section className="md:pt-8 pt-5 bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
       {/* Background decorative elements - subtle */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#1a1a1a]/50 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#6B46C1]/3 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#212121]/50 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#212121]/3 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Main Content Grid */}
          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
-               Awards & <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Recognition</span>
+               Awards & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5EFE7] via-[#C6A256] to-[#C6A256]">Recognition</span>
            </h2>
         <div className="flex flex-col lg:flex-row gap-8 items-stretch">
           
@@ -124,7 +124,7 @@ const FounderAwardSection = () => {
           >
             <div 
               onClick={openVideo}
-              className="relative aspect-video rounded-xl overflow-hidden cursor-pointer group shadow-2xl shadow-black/40"
+              className="relative aspect-video rounded-xl overflow-hidden cursor-pointer group shadow-2xl shadow-[#212121]/40"
             >
               {/* Video Thumbnail/Preview */}
               <video
@@ -137,22 +137,22 @@ const FounderAwardSection = () => {
               </video>
               
               {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/80 via-[#212121]/30 to-transparent"></div>
               
               {/* Play Button */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-[#C6A256] to-[#a8893f] flex items-center justify-center shadow-2xl shadow-black/50 group-hover:shadow-black/60 transition-shadow duration-300"
+                  className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-[#C6A256] to-[#C6A256] flex items-center justify-center shadow-2xl shadow-[#212121]/50 group-hover:shadow-[#212121]/60 transition-shadow duration-300"
                 >
-                  <Play className="w-8 h-8 md:w-10 md:h-10 text-[#0a0a0a] fill-[#0a0a0a] ml-1" />
+                  <Play className="w-8 h-8 md:w-10 md:h-10 text-[#212121] fill-[#212121] ml-1" />
                 </motion.div>
               </div>
               
               {/* Video Duration Badge */}
-              <div className="absolute bottom-4 left-4 px-3 py-1 bg-black/60 backdrop-blur-sm rounded-lg">
-                <span className="text-white text-sm font-medium">01:25</span>
+              <div className="absolute bottom-4 left-4 px-3 py-1 bg-[#212121]/60 backdrop-blur-sm rounded-lg">
+                <span className="text-[#F5EFE7] text-sm font-medium">01:25</span>
               </div>
             </div>
           </motion.div>
@@ -188,7 +188,7 @@ const FounderAwardSection = () => {
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                         {/* Hover overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       </motion.div>
                     </div>
                   ))}
@@ -202,7 +202,7 @@ const FounderAwardSection = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={scrollPrev}
-                    className="w-12 h-12 rounded-full border-2 border-white/20 flex items-center justify-center text-white/50 hover:border-[#C6A256] hover:text-[#C6A256] transition-all duration-300 bg-black/30 backdrop-blur-sm"
+                    className="w-12 h-12 rounded-full border-2 border-[#F5EFE7]/20 flex items-center justify-center text-[#F5EFE7]/50 hover:border-[#C6A256] hover:text-[#C6A256] transition-all duration-300 bg-[#212121]/30 backdrop-blur-sm"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </motion.button>
@@ -210,7 +210,7 @@ const FounderAwardSection = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={scrollNext}
-                    className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C6A256] to-[#a8893f] flex items-center justify-center text-[#0a0a0a] hover:shadow-lg hover:shadow-black/40 transition-all duration-300"
+                    className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C6A256] to-[#C6A256] flex items-center justify-center text-[#212121] hover:shadow-lg hover:shadow-[#212121]/40 transition-all duration-300"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </motion.button>
@@ -233,7 +233,7 @@ const FounderAwardSection = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
               onClick={closeVideo}
-              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md"
+              className="fixed inset-0 z-50 bg-[#212121]/80 backdrop-blur-md"
             />
             
             {/* Video Container */}
@@ -244,13 +244,13 @@ const FounderAwardSection = () => {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 pointer-events-none"
             >
-              <div className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-purple-900/30 pointer-events-auto">
+              <div className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-[#C6A256]/30 pointer-events-auto">
                 {/* Close Button */}
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={closeVideo}
-                  className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-colors duration-200"
+                  className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-[#212121]/60 backdrop-blur-sm flex items-center justify-center text-[#F5EFE7] hover:bg-[#212121]/80 transition-colors duration-200"
                 >
                   <X className="w-5 h-5" />
                 </motion.button>

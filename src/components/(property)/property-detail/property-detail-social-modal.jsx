@@ -23,13 +23,13 @@ const PropertyDetailSocialModal = ({ property, showShareModal  , setShowShareMod
     return (
         <>
             {showShareModal && (
-                <div className="fixed inset-0 bg-black/50 bg-opacity-50 z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-lg p-6 max-w-md w-full">
+                <div className="fixed inset-0 bg-[#212121]/50 bg-opacity-50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-[#F5EFE7] rounded-lg p-6 max-w-md w-full">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xl font-bold">Share this property</h3>
                             <button
                                 onClick={() => setShowShareModal(false)}
-                                className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                                className="text-[#F5EFE7] hover:text-[#F5EFE7] cursor-pointer"
                             >
                                 <X className="h-6 w-6" />
                             </button>
@@ -63,14 +63,14 @@ const PropertyDetailSocialModal = ({ property, showShareModal  , setShowShareMod
                                     type="text"
                                     value={shareUrl}
                                     readOnly
-                                    className="flex-1 px-3 py-2 outline-none text-black"
+                                    className="flex-1 px-3 py-2 outline-none text-[#212121]"
                                 />
                                 <button
                                     onClick={() => {
                                         navigator.clipboard.writeText(shareUrl);
                                         toast.success("Link copied to clipboard!");
                                     }}
-                                    className="bg-[#1a1333] text-white px-4 py-2 cursor-pointer"
+                                    className="bg-[#212121] text-[#F5EFE7] px-4 py-2 cursor-pointer"
                                 >
                                     Copy
                                 </button>

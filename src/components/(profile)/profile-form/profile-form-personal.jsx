@@ -103,7 +103,7 @@ const ProfileFormPersonal = () => {
     if (isLoadingProfile) {
         return (
             <div className="flex justify-center items-center py-12">
-                <Loader className="animate-spin w-8 h-8 text-[#2a1f45]" />
+                <Loader className="animate-spin w-8 h-8 text-[#212121]" />
             </div>
         );
     }
@@ -120,7 +120,7 @@ const ProfileFormPersonal = () => {
                         />
                         <label
                             htmlFor="profile-upload"
-                            className={`absolute bottom-0 right-0 bg-[#2a1f45] text-white p-1 rounded-full cursor-pointer hover:bg-[#3a2a5a] ${isUploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`absolute bottom-0 right-0 bg-[#212121] text-[#F5EFE7] p-1 rounded-full cursor-pointer hover:bg-[#212121] ${isUploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             {isUploadingImage ? (
                                 <Loader size={16} className="animate-spin" />
@@ -139,7 +139,7 @@ const ProfileFormPersonal = () => {
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold">{profileData?.full_name || "User"}</h3>
-                        <p className="text-sm text-gray-600">{profileData?.email || ""}</p>
+                        <p className="text-sm text-[#F5EFE7]">{profileData?.email || ""}</p>
                     </div>
                 </div>
             </div>
@@ -154,11 +154,11 @@ const ProfileFormPersonal = () => {
                             value={formik.values.full_name}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className={`w-full px-3 py-2 border rounded bg-[#F9F9F9] text-black ${formik.touched.full_name && formik.errors.full_name ? 'border-red-500' : ''
+                            className={`w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121] ${formik.touched.full_name && formik.errors.full_name ? 'border-[#C6A256]' : ''
                                 }`}
                         />
                         {formik.touched.full_name && formik.errors.full_name && (
-                            <div className="text-red-500 text-xs mt-1">{formik.errors.full_name}</div>
+                            <div className="text-[#C6A256] text-xs mt-1">{formik.errors.full_name}</div>
                         )}
                     </div>
 
@@ -170,11 +170,11 @@ const ProfileFormPersonal = () => {
                             value={formik.values.phone}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className={`w-full px-3 py-2 border rounded bg-[#F9F9F9] text-black ${formik.touched.phone && formik.errors.phone ? 'border-red-500' : ''
+                            className={`w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121] ${formik.touched.phone && formik.errors.phone ? 'border-[#C6A256]' : ''
                                 }`}
                         />
                         {formik.touched.phone && formik.errors.phone && (
-                            <div className="text-red-500 text-xs mt-1">{formik.errors.phone}</div>
+                            <div className="text-[#C6A256] text-xs mt-1">{formik.errors.phone}</div>
                         )}
                     </div>
 
@@ -186,11 +186,11 @@ const ProfileFormPersonal = () => {
                             value={formik.values.city}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className={`w-full px-3 py-2 border rounded bg-[#F9F9F9] text-black ${formik.touched.city && formik.errors.city ? 'border-red-500' : ''
+                            className={`w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121] ${formik.touched.city && formik.errors.city ? 'border-[#C6A256]' : ''
                                 }`}
                         />
                         {formik.touched.city && formik.errors.city && (
-                            <div className="text-red-500 text-xs mt-1">{formik.errors.city}</div>
+                            <div className="text-[#C6A256] text-xs mt-1">{formik.errors.city}</div>
                         )}
                     </div>
 
@@ -203,11 +203,11 @@ const ProfileFormPersonal = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="Enter your company name"
-                            className={`w-full px-3 py-2 border rounded bg-[#F9F9F9] text-black ${formik.touched.company_name && formik.errors.company_name ? 'border-red-500' : ''
+                            className={`w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121] ${formik.touched.company_name && formik.errors.company_name ? 'border-[#C6A256]' : ''
                                 }`}
                         />
                         {formik.touched.company_name && formik.errors.company_name && (
-                            <div className="text-red-500 text-xs mt-1">{formik.errors.company_name}</div>
+                            <div className="text-[#C6A256] text-xs mt-1">{formik.errors.company_name}</div>
                         )}
                     </div>
 
@@ -217,16 +217,16 @@ const ProfileFormPersonal = () => {
                             type="email"
                             value={profileData?.email || ''}
                             disabled
-                            className="w-full px-3 py-2 border rounded bg-gray-100 text-gray-500 cursor-not-allowed"
+                            className="w-full px-3 py-2 border rounded bg-[#212121] text-[#F5EFE7] cursor-not-allowed"
                         />
-                        <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+                        <p className="text-xs text-[#F5EFE7] mt-1">Email cannot be changed</p>
                     </div>
                 </div>
                 <div className="flex justify-end items-end">
                     <button
                         type="submit"
                         disabled={isUpdating}
-                        className="w-32 bg-[#2a1f45] hover:bg-[#3a2a5a] text-white font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-70"
+                        className="w-32 bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-70"
                     >
                         {isUpdating ? (
                             <div className="animate-spin">

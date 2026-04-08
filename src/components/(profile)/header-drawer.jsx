@@ -16,7 +16,7 @@ export default function HeaderDrawer({ menuOpen, setMenuOpen, links }) {
         <>
             <button
                 onClick={() => setMenuOpen(true)}
-                className="text-white flex justify-center items-center cursor-pointer"
+                className="text-[#F5EFE7] flex justify-center items-center cursor-pointer"
             >
                 <Menu />
             </button>
@@ -31,7 +31,7 @@ export default function HeaderDrawer({ menuOpen, setMenuOpen, links }) {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 0.4 }}
                                 exit={{ opacity: 0 }}
-                                className="fixed inset-0 bg-black"
+                                className="fixed inset-0 bg-[#212121]"
                             />
 
                             <motion.div
@@ -39,18 +39,18 @@ export default function HeaderDrawer({ menuOpen, setMenuOpen, links }) {
                                 animate={{ x: 0 }}
                                 exit={{ x: "100%" }}
                                 transition={{ type: "tween", ease: "easeInOut", duration: 0.4 }}
-                                className="fixed inset-y-0 right-0 w-72 sm:w-80 bg-gradient-to-b from-[#3F2464] via-[#2b1748] to-black shadow-2xl p-5 flex flex-col justify-between z-50"
+                                className="fixed inset-y-0 right-0 w-72 sm:w-80 bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] shadow-2xl p-5 flex flex-col justify-between z-50"
                             >
                                 <button
                                     onClick={() => setMenuOpen(false)}
-                                    className="absolute top-4 right-4 text-white hover:text-red-500 transition
+                                    className="absolute top-4 right-4 text-[#F5EFE7] hover:text-[#C6A256] transition
                                     cursor-pointer"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
 
                                 <div className="mt-10">
-                                    <Link href="/" className="text-2xl font-bold text-white flex items-center">
+                                    <Link href="/" className="text-2xl font-bold text-[#F5EFE7] flex items-center">
                                         <Image src="/assets/logo/logo2.avif" alt="Logo" width={100} height={100} />
                                     </Link>
                                     <ul className="space-y-5 mt-10">
@@ -58,7 +58,7 @@ export default function HeaderDrawer({ menuOpen, setMenuOpen, links }) {
                                             <Link
                                                 href={href}
                                                 key={label}
-                                                className="flex items-center gap-3 text-white hover:text-yellow-400 cursor-pointer transition-colors"
+                                                className="flex items-center gap-3 text-[#F5EFE7] hover:text-[#C6A256] cursor-pointer transition-colors"
                                             >
                                                 <span>{label}</span>
                                             </Link>

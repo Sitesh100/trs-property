@@ -10,11 +10,11 @@ function PropertySearchPopularSearch() {
                     <h2 className="text-2xl font-bold mb-8 text-center">Popular Searches In Indore</h2>
 
                     <div className="grid md:grid-cols-5 grid-cols-1 gap-4">
-                        <button className="bg-white text-black px-4 py-2 rounded-full text-sm cursor-pointer">Holiday Homes Indore</button>
-                        <button className="bg-white text-black px-4 py-2 rounded-full text-sm cursor-pointer">Office Spaces Indore</button>
-                        <button className="bg-white text-black px-4 py-2 rounded-full text-sm cursor-pointer">Rowhouses Indore</button>
-                        <button className="bg-white text-black px-4 py-2 rounded-full text-sm cursor-pointer">Rental Properties</button>
-                        <button className="bg-white text-black px-4 py-2 rounded-full text-sm cursor-pointer">Upcoming Residential</button>
+                        <button className="bg-[#F5EFE7] text-[#212121] px-4 py-2 rounded-full text-sm cursor-pointer">Holiday Homes Indore</button>
+                        <button className="bg-[#F5EFE7] text-[#212121] px-4 py-2 rounded-full text-sm cursor-pointer">Office Spaces Indore</button>
+                        <button className="bg-[#F5EFE7] text-[#212121] px-4 py-2 rounded-full text-sm cursor-pointer">Rowhouses Indore</button>
+                        <button className="bg-[#F5EFE7] text-[#212121] px-4 py-2 rounded-full text-sm cursor-pointer">Rental Properties</button>
+                        <button className="bg-[#F5EFE7] text-[#212121] px-4 py-2 rounded-full text-sm cursor-pointer">Upcoming Residential</button>
                     </div>
                 </div>
             </div>
