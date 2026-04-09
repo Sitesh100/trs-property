@@ -7,6 +7,7 @@ import { Award, Users, Globe, Target, Handshake, TrendingUp, Play, Instagram, Li
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import FounderAwardSection from '@/components/home/founder-award-section'
+import VideoTestimonialsSection from '@/components/home/video-testimonials-section'
 
 const AboutPage = () => {
   const [selectedVideo, setSelectedVideo] = useState(null)
@@ -561,6 +562,8 @@ const AboutPage = () => {
 
           <FounderAwardSection />
         </section>
+
+        <VideoTestimonialsSection />
 
         {/* Real Estate Services */}
         <section className="py-16 md:py-20 relative overflow-hidden">
