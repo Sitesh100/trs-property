@@ -138,21 +138,21 @@ function DetailSearchCard({ property, action = false }) {
                 </button>
             </div>
 
-            <div className="p-4">
+            <div className="p-4 md:p-4">
                 <Link href={`/property-detail-dark/${property?._id || property?.id}`} className="block">
                     <div className="flex justify-between items-start mb-2">
-                        <h3 className="md:text-lg font-bold text-gray-900 line-clamp-1 group-hover:text-[#C6A256] transition-colors">
+                        <h3 className="text-xl md:text-lg font-bold text-gray-900 line-clamp-1 group-hover:text-[#C6A256] transition-colors">
                             {property?.title ? property?.title?.split(' ')?.slice(0, 4)?.join(' ') : 'N/A'}
                         </h3>
-                        <p className="md:text-lg font-bold text-gray-900 text-nowrap">
+                        <p className="text-xl md:text-lg font-bold text-gray-900 text-nowrap">
                             ₹ {formatIndianPrice(property?.expected_price ?? property?.price)} <span className="text-sm text-gray-500"></span>
                         </p>
                     </div>
                 </Link>
 
-                <div className="flex items-center justify-between gap-3 mb-2">
-                    <div className="flex items-center text-gray-600 text-sm min-w-0 flex-1">
-                        <MapPin className="h-4 w-4 mr-1 text-[#C6A256] shrink-0" />
+                <div className="flex items-center justify-between gap-2 md:gap-3 mb-2">
+                    <div className="flex items-center text-gray-600 text-sm md:text-sm min-w-0 flex-1">
+                        <MapPin className="h-4 w-4 mr-1.5 text-[#C6A256] shrink-0" />
                         <span className="truncate">
                             {(property?.map_address || property?.map_location || property?.city)
                                 ? (property?.map_address || property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')
@@ -164,13 +164,13 @@ function DetailSearchCard({ property, action = false }) {
                         <button
                             onClick={(e) => handleSendNotification(e, property?.id, property?.title)}
                             disabled={isLoading}
-                            className="group/btn cursor-pointer relative overflow-hidden flex justify-center items-center gap-1.5 min-w-24 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-xs font-semibold px-4 py-2 text-nowrap rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(198,162,86,0.5)]"
+                            className="group/btn cursor-pointer relative overflow-hidden flex justify-center items-center gap-1.5 md:gap-1.5 min-w-24 md:min-w-24 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-xs md:text-xs font-semibold px-4 md:px-4 py-2 md:py-2 text-nowrap rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(198,162,86,0.5)]"
                         >
                             {isLoading ? (
                                 <Loader size={16} className="animate-spin relative z-10" />
                             ) : (
                                 <>
-                                    <Phone size={14} className="relative z-10 transition-colors duration-300 group-hover/btn:text-white" />
+                                    <Phone className="w-4 h-4 md:w-4 md:h-4 relative z-10 transition-colors duration-300 group-hover/btn:text-white" />
                                     <span className="relative z-10 transition-colors duration-300 group-hover/btn:text-white">CALL NOW</span>
                                 </>
                             )}
@@ -228,8 +228,8 @@ function DetailSearchCard({ property, action = false }) {
                     )}
                 </div>
 
-                <div className="border-t border-gray-100 pt-3 mt-1">
-                    <div className="flex items-center space-x-4 text-sm">
+                <div className="border-t border-gray-100 pt-3 md:pt-3 mt-1">
+                    <div className="flex items-center space-x-4 md:space-x-4 text-sm md:text-sm">
                         <div className="flex items-center gap-1">
                             <div className="w-7 h-7 bg-[#C6A256]/10 rounded-lg flex items-center justify-center">
                                 <Bed className="h-3.5 w-3.5 text-[#C6A256]" />

@@ -581,12 +581,14 @@ const ConsultantLoungePage = () => {
 
 
 
-
-
-
         {/* Network Benefits Section */}
-        <section className="relative py-16 md:py-24">
-          <div className="container mx-auto px-4">
+        <section className="relative py-10 md:py-10 overflow-hidden mt-8">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_20%,rgba(10,31,61,0.55),transparent_50%),radial-gradient(circle_at_88%_82%,rgba(24,55,102,0.24),transparent_45%),linear-gradient(180deg,#171c26_0%,#1d222d_60%,#212121_100%)]" />
+            <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(rgba(245,239,231,0.11)_1px,transparent_1px),linear-gradient(90deg,rgba(245,239,231,0.11)_1px,transparent_1px)] bg-size-[42px_42px]" />
+          </div>
+
+          <div className="relative container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -615,7 +617,7 @@ const ConsultantLoungePage = () => {
                   transition={{ duration: 0.5, delay: idx * 0.08 }}
                   viewport={{ once: true }}
                   whileHover={{ y: -5 }}
-                  className="bg-gradient-to-br from-[#212121] to-[#212121] border border-[#C6A256]/10 rounded-2xl p-6 hover:border-[#C6A256]/40 transition-all duration-300 group"
+                  className="bg-[linear-gradient(145deg,rgba(18,25,37,0.86),rgba(33,33,33,0.9))] border border-[#C6A256]/12 rounded-2xl p-6 hover:border-[#C6A256]/40 hover:shadow-[0_10px_26px_rgba(10,31,61,0.22)] transition-all duration-300 group backdrop-blur-[1.5px]"
                 >
                   <div className="text-[#C6A256] mb-3 group-hover:scale-110 transition-transform duration-300">
                     {benefit.icon}

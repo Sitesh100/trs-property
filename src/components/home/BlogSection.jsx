@@ -166,16 +166,16 @@ const BlogSection = () => {
           initial="hidden"
           animate="visible"
           variants={containerVariants}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
         >
           {currentPosts.map((post) => (
             <motion.div
               key={post.id}
               variants={cardVariants}
-              className="group"
+              className="group w-full max-w-95 mx-auto sm:max-w-none"
             >
               <Link href={`/blog/${post.slug}`}>
-                <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#212121] cursor-pointer">
+                <div className="relative aspect-16/10 sm:aspect-4/3 rounded-lg sm:rounded-xl overflow-hidden bg-[#212121] cursor-pointer">
                   {/* Image */}
                   <Image
                     src={post.image}
@@ -188,26 +188,26 @@ const BlogSection = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/90 via-[#212121]/40 to-transparent"></div>
                   
                   {/* Date Badge */}
-                  <div className="absolute top-3 left-3">
-                    <span className="px-3 py-1 bg-[#212121]/80 backdrop-blur-sm text-[#F5EFE7] text-xs font-medium rounded-md border border-[#F5EFE7]/10">
+                  <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
+                    <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-[#212121]/80 backdrop-blur-sm text-[#F5EFE7] text-[11px] sm:text-xs font-medium rounded-md border border-[#F5EFE7]/10">
                       {post.date}
                     </span>
                   </div>
                   
                   {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
                     {/* Title */}
-                    <h3 className="text-[#F5EFE7] font-medium text-sm md:text-base leading-tight mb-3 line-clamp-2 group-hover:text-[#C6A256] transition-colors duration-300">
+                    <h3 className="text-[#F5EFE7] font-medium text-xs sm:text-sm md:text-base leading-tight mb-2 sm:mb-3 line-clamp-2 group-hover:text-[#C6A256] transition-colors duration-300">
                       {post.title}
                     </h3>
                     
                     {/* Divider */}
-                    <div className="w-full h-px bg-[#F5EFE7]/20 mb-3"></div>
+                    <div className="w-full h-px bg-[#F5EFE7]/20 mb-2 sm:mb-3"></div>
                     
                     {/* Footer - Views and Likes */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5 text-[#F5EFE7]/60">
-                        <Eye className="w-4 h-4" />
+                        <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         <span className="text-xs">{post.views}</span>
                       </div>
                       
@@ -225,7 +225,7 @@ const BlogSection = () => {
                           </span>
                         )}
                         <Heart 
-                          className={`w-4 h-4 transition-colors duration-200 ${
+                          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors duration-200 ${
                             likedPosts[post.id] 
                               ? 'text-[#C6A256] fill-[#C6A256]' 
                               : 'text-[#F5EFE7]/60 hover:text-[#C6A256]'

@@ -68,22 +68,22 @@ function Testimonials({ testimonials }) {
                         className="relative"
                     >
                         {/* Navigation Arrows */}
-                        <div className="flex gap-3 mb-6">
+                        <div className="flex gap-2.5 mb-5 md:mb-6">
                             <motion.button
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handlePrev}
-                                className="w-12 h-12 rounded-full border-2 border-[#F5EFE7]/20 flex items-center justify-center text-[#F5EFE7]/50 hover:border-[#F5EFE7]/40 hover:text-[#F5EFE7] transition-all duration-300"
+                                className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[#F5EFE7]/20 flex items-center justify-center text-[#F5EFE7]/50 hover:border-[#F5EFE7]/40 hover:text-[#F5EFE7] transition-all duration-300"
                             >
-                                <ChevronLeft className="w-5 h-5" />
+                                <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
                             </motion.button>
                             <motion.button
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={handleNext}
-                                className="w-12 h-12 rounded-full bg-[#F5EFE7] flex items-center justify-center text-[#212121] hover:bg-[#F5EFE7]/90 transition-all duration-300"
+                                className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#F5EFE7] flex items-center justify-center text-[#212121] hover:bg-[#F5EFE7]/90 transition-all duration-300"
                             >
-                                <ChevronRight className="w-5 h-5" />
+                                <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
                             </motion.button>
                         </div>
 
@@ -98,9 +98,9 @@ function Testimonials({ testimonials }) {
                                 className="relative"
                             >
                                 <div className="relative bg-gradient-to-br from-[#F5EFE7]/20 to-[#212121]/30 rounded-3xl p-[1px] shadow-2xl shadow-[#212121]/40">
-                                    <div className="bg-gradient-to-br from-[#212121] to-[#212121] rounded-3xl p-6 md:p-8">
+                                    <div className="bg-gradient-to-br from-[#212121] to-[#212121] rounded-3xl p-5 md:p-8">
                                         {/* Image */}
-                                        <div className="relative w-full aspect-square max-w-[280px] mx-auto mb-6 rounded-2xl overflow-hidden">
+                                        <div className="relative w-full aspect-square max-w-55 md:max-w-70 mx-auto mb-4 md:mb-6 rounded-2xl overflow-hidden">
                                             <Image
                                                 src={activeTestimonial?.image || "/placeholder.svg"}
                                                 alt={activeTestimonial?.name}
@@ -111,10 +111,10 @@ function Testimonials({ testimonials }) {
                                         
                                         {/* Name and Title */}
                                         <div className="text-center">
-                                            <h3 className="text-xl md:text-2xl font-bold text-[#F5EFE7] mb-1">
+                                            <h3 className="text-lg md:text-2xl font-bold text-[#F5EFE7] mb-1">
                                                 {activeTestimonial?.name}
                                             </h3>
-                                            <p className="text-[#F5EFE7]/60 text-sm">
+                                            <p className="text-[#F5EFE7]/60 text-xs md:text-sm">
                                                 Verified Customer
                                             </p>
                                         </div>
@@ -144,14 +144,14 @@ function Testimonials({ testimonials }) {
                                 className="relative"
                             >
                                 {/* Speech bubble */}
-                                <div className="relative bg-[#F5EFE7]/5 backdrop-blur-sm border border-[#F5EFE7]/10 rounded-3xl p-8 md:p-10">
+                                <div className="relative bg-[#F5EFE7]/5 backdrop-blur-sm border border-[#F5EFE7]/10 rounded-3xl p-6 md:p-10">
                                     {/* Quote icon */}
                                     <div className="absolute -top-4 -left-4 w-10 h-10 bg-[#212121] rounded-full flex items-center justify-center">
                                         <Quote className="w-5 h-5 text-[#F5EFE7] rotate-180" />
                                     </div>
 
                                     {/* Quote text */}
-                                    <p className="text-[#F5EFE7] text-lg md:text-xl leading-relaxed">
+                                    <p className="text-[#F5EFE7] text-base md:text-xl leading-relaxed">
                                         &ldquo;{activeTestimonial?.desc}&rdquo;
                                     </p>
 
@@ -167,12 +167,12 @@ function Testimonials({ testimonials }) {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.4 }}
                             viewport={{ once: false }}
-                            className="mt-12 flex justify-center lg:justify-start"
+                            className="mt-8 md:mt-12 flex justify-center lg:justify-start"
                         >
-                            <div className="inline-flex items-center gap-2 bg-[#F5EFE7]/5 backdrop-blur-sm border border-[#F5EFE7]/10 rounded-full px-6 py-3">
-                                <span className="text-[#F5EFE7] font-bold text-lg">{activeIndex + 1}</span>
+                            <div className="inline-flex items-center gap-2 bg-[#F5EFE7]/5 backdrop-blur-sm border border-[#F5EFE7]/10 rounded-full px-5 md:px-6 py-2.5 md:py-3">
+                                <span className="text-[#F5EFE7] font-bold text-base md:text-lg">{activeIndex + 1}</span>
                                 <span className="text-[#F5EFE7]/30">/</span>
-                                <span className="text-[#F5EFE7]/50 font-medium">{testimonials.length}</span>
+                                <span className="text-[#F5EFE7]/50 font-medium text-sm md:text-base">{testimonials.length}</span>
                             </div>
                         </motion.div>
 
@@ -182,7 +182,7 @@ function Testimonials({ testimonials }) {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.5 }}
                             viewport={{ once: false }}
-                            className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start"
+                            className="mt-7 md:mt-8 flex flex-wrap gap-3 md:gap-4 justify-center lg:justify-start"
                         >
                             {testimonials.slice(0, 5).map((testimonial, index) => (
                                 <motion.button

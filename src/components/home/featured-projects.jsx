@@ -196,7 +196,7 @@ function FeaturedProjects() {
                             {staticProperties.map((property, index) => (
                                 <CarouselItem 
                                     key={property.id} 
-                                    className="pl-4 md:pl-6 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                                    className="pl-4 md:pl-6 basis-[88%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
                                 >
                                     <motion.div
                                         variants={itemVariants}

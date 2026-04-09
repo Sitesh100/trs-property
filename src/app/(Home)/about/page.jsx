@@ -384,7 +384,7 @@ const AboutPage = () => {
         </section>
 
         {/* Core Values Section */}
-        <section ref={valuesRef} className="py-20 md:py-28 relative">
+        <section ref={valuesRef} className="py-10 md:py-16 relative">
           <div className="absolute inset-0 bg-gradient-to-b from-[#212121] via-[#212121]/15 to-[#212121]" />
           
           <div className="container mx-auto px-4 relative z-10">
@@ -409,7 +409,7 @@ const AboutPage = () => {
                   className="group relative"
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${value.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <div className="relative bg-gradient-to-br from-[#212121] to-[#212121] p-8 rounded-2xl border border-[#C6A256]/20 hover:border-[#C6A256]/50 transition-all duration-300 h-full">
+                  <div className="relative bg-gradient-to-br from-[#212121] to-[#212121] md:p-8 p-4 rounded-2xl border border-[#C6A256]/20 hover:border-[#C6A256]/50 transition-all duration-300 h-full">
                     <div className="flex items-start gap-4 mb-4">
                       <div className="p-3 bg-gradient-to-br from-[#212121]/20 to-[#C6A256]/20 rounded-xl">
                         <value.icon className="w-6 h-6 text-[#C6A256]" />
@@ -418,7 +418,7 @@ const AboutPage = () => {
                     <h3 className="text-xl font-bold mb-3 text-[#F5EFE7] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#212121] group-hover:to-[#C6A256] transition-all duration-300">
                       {value.title}
                     </h3>
-                    <p className="text-[#F5EFE7] leading-relaxed">
+                    <p className="text-[#F5EFE7] leading-tight">
                       {value.description}
                     </p>
                   </div>

@@ -382,8 +382,13 @@ const BuilderLounge = () => {
         </section>
 
         {/* ================= BENEFITS SECTION ================= */}
-        <section id="builder-benefits" className="py-16">
-          <div className="container mx-auto px-4">
+        <section id="builder-benefits" className="relative py-16 overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(10,31,61,0.5),transparent_50%),radial-gradient(circle_at_82%_88%,rgba(24,55,102,0.22),transparent_45%),linear-gradient(180deg,#181c25_0%,#1e222c_55%,#212121_100%)]" />
+            <div className="absolute inset-0 opacity-[0.07] bg-[linear-gradient(rgba(245,239,231,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(245,239,231,0.12)_1px,transparent_1px)] bg-size-[44px_44px]" />
+          </div>
+
+          <div className="relative container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">
               Benefits For Builders
             </h2>
@@ -393,7 +398,7 @@ const BuilderLounge = () => {
                 <motion.div
                   key={i}
                   whileHover={{ y: -5 }}
-                  className="p-6 bg-transparent hover:bg-[#212121] transition text-center"
+                  className="p-6 bg-transparent hover:bg-[#0A1F3D]/25 hover:backdrop-blur-[1px] transition text-center rounded-xl"
                 >
                   <h3 className="text-lg font-semibold mb-4 text-[#F5EFE7]">
                     {item.title}
@@ -408,8 +413,10 @@ const BuilderLounge = () => {
         </section>
 
         {/* ================= TRUSTED BUILDERS SECTION ================= */}
-        <section className="py-8">
-          <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-6 items-center">
+        <section className="relative py-8 overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(135deg,rgba(10,31,61,0.28)_0%,rgba(10,31,61,0.1)_34%,rgba(33,33,33,0)_70%)]" />
+
+          <div className="relative container mx-auto px-4 grid lg:grid-cols-2 gap-6 items-center">
 
             {/* LEFT TEXT */}
             <div>
@@ -427,7 +434,7 @@ const BuilderLounge = () => {
               {builderLogos.map((logo, i) => (
                 <div
                   key={i}
-                  className="bg-[#F5EFE7] flex items-center justify-center overflow-hidden"
+                  className="bg-[#F5EFE7] border border-[#0A1F3D]/20 shadow-[0_8px_24px_rgba(10,31,61,0.16)] flex items-center justify-center overflow-hidden"
                   style={{ width: "100%", aspectRatio: "2/1" }}
                 >
                   <div className="relative w-full h-full">

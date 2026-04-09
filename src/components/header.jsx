@@ -125,12 +125,12 @@ function Header() {
             ) : (
               <button
                 onClick={() => setOpen(true)}
-                className="golden-button group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-3 sm:px-4 py-1.5 sm:py-2 rounded text-xs sm:text-sm font-semibold whitespace-nowrap active:scale-95 transition-transform"
+                className="golden-button group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-4 rounded-md text-sm sm:text-sm font-semibold whitespace-nowrap border border-[#C6A256]/60 active:scale-95 transition-all duration-200"
               >
                 <span className="relative z-10 transition-colors duration-300 group-hover:text-[#F5EFE7]">
-                  LogIn
+                  Login
                 </span>
-                <div className="absolute inset-0 bg-linear-to-r from-[#212121] via-[#212121] to-[#212121] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                {/* <div className="absolute inset-0 bg-linear-to-r from-[#212121] via-[#212121] to-[#212121] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div> */}
               </button>
             )}
 
@@ -138,6 +138,9 @@ function Header() {
               menuOpen={menuOpen}
               setMenuOpen={setMenuOpen}
               links={links}
+              isLoggedIn={Boolean(token)}
+              onLogout={handlerLogout}
+              onLogin={() => setOpen(true)}
             />
           </div>
         </div>

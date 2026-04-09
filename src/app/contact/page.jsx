@@ -136,7 +136,7 @@ const ContactPage = () => {
         </section>
 
         {/* Main Contact Section */}
-        <section className="py-20 md:py-28 bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
+        <section className="py-4 md:py-12 bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-0 right-0 w-96 h-96 bg-[#212121]/5 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#212121]/5 rounded-full blur-3xl"></div>
@@ -145,7 +145,7 @@ const ContactPage = () => {
           <div className="container mx-auto px-4 relative z-10">
 
             {/* Equal-height two columns — height driven by image column */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
 
               {/* Left — India Map (no bg, blends into page) */}
               <motion.div
