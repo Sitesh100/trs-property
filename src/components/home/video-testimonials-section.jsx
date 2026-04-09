@@ -180,7 +180,7 @@ const VideoTestimonialsSection = () => {
   }, [miniCards.length])
 
   return (
-    <section className="py-16 md:py-24 relative overflow-hidden">
+    <section className="py-16 md:py-24 relative overflow-hidden bg-linear-to-br from-[#212121] via-[#1B1B1B] to-[#2A2318]">
       <div className="pointer-events-none absolute inset-0 hidden xl:block">
         <div
           className="absolute right-12 top-24 opacity-40"

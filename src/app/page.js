@@ -1,18 +1,19 @@
 import Header from "@/components/header"
 import HeroSection from "@/components/home/hero-section"
-import FounderSection from "@/components/home/founder-section"
+// import FounderSection from "@/components/home/founder-section"
 import FounderAwardSection from "@/components/home/founder-award-section"
-import AiRevolutionSection from "@/components/home/ai-revolution-section"
-import DeveloperBanner from "@/components/home/developer-banner"
+// import AiRevolutionSection from "@/components/home/ai-revolution-section"
+// import DeveloperBanner from "@/components/home/developer-banner"
 import PatnerSection from "@/components/home/patner-section"
-import Testimonials from "@/components/home/testimonials"
+// import Testimonials from "@/components/home/testimonials"
 import NewsLetter from "@/components/home/news-letter"
-import WhatsapBanner from "@/components/home/whatsap-banner"
+// import WhatsapBanner from "@/components/home/whatsap-banner"
 import Footer from "@/components/footer"
 import FeaturedProjects from "@/components/home/featured-projects"
 import ServicesToolsSection from "@/components/home/services-tools-section"
-import FAQSection from "@/components/home/faq-section"
+// import FAQSection from "@/components/home/faq-section"
 import BlogSection from "@/components/home/BlogSection"
+import VideoTestimonialsSection from "@/components/home/video-testimonials-section"
 
 export default function Home() {
 
@@ -191,8 +192,8 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className="flex flex-col min-h-screen  text-[#F5EFE7]">
-        <main className="flex-grow">
+      <div className="home-page-gradient flex flex-col min-h-screen text-[#F5EFE7]">
+        <main className="grow">
           <HeroSection />
           <FeaturedProjects />
           {/* <FounderSection /> */}
@@ -202,7 +203,8 @@ export default function Home() {
           <FounderAwardSection />
           {/* <AiRevolutionSection features={features} /> */}
           {/* <DeveloperBanner /> */}
-          <Testimonials testimonials={testimonials} />
+          {/* <Testimonials testimonials={testimonials} /> */}
+          <VideoTestimonialsSection />
           <ServicesToolsSection />
           
           <BlogSection />
