@@ -63,13 +63,13 @@ const ProfileFormKyc = () => {
     return (
         <div className="mb-6">
             <div className="space-y-4 mb-6">
-                <div className="flex items-center justify-between py-2 border-b">
-                    <span>Phone Number Verified</span>
+                <div className="flex items-center justify-between py-2 border-b border-[#d1d5db]">
+                    <span className="text-[#374151] font-medium">Phone Number Verified</span>
                     <span className="text-[#C6A256]">Verified</span>
                 </div>
-                <div className="py-2 border-b">
+                <div className="py-3 px-3 rounded-xl border border-[#d1d5db] bg-white/70">
                     <div className="flex items-center justify-between mb-2">
-                        <span>Govt. ID</span>
+                        <span className="text-[#374151] font-medium">Govt. ID</span>
                         <span className={files.govt_id ? "text-[#C6A256]" : "text-[#C6A256]"}>
                             {files.govt_id ? "Uploaded" : "Pending"}
                         </span>
@@ -82,7 +82,7 @@ const ProfileFormKyc = () => {
                                 accept="image/*,.pdf"
                                 onChange={(e) => handleFileChange(e, 'govt_id')}
                             />
-                            <div className="w-48 text-center px-4 py-2 bg-[#212121] text-[#F5EFE7] rounded hover:bg-[#212121]">
+                            <div className="w-48 text-center px-4 py-2 bg-[#1f2937] text-[#F5EFE7] rounded-lg hover:bg-[#111827] transition-colors">
                                 Upload Govt ID
                             </div>
                         </label>
@@ -91,15 +91,15 @@ const ProfileFormKyc = () => {
                                 <img
                                     src={previews.govt_id}
                                     alt="Govt ID Preview"
-                                    className="h-16 w-16 object-cover border rounded"
+                                    className="h-16 w-16 object-cover border border-[#d1d5db] rounded-lg"
                                 />
                             </div>
                         )}
                     </div>
                 </div>
-                <div className="py-2 border-b">
+                <div className="py-3 px-3 rounded-xl border border-[#d1d5db] bg-white/70">
                     <div className="flex items-center justify-between mb-2">
-                        <span>Visiting Card</span>
+                        <span className="text-[#374151] font-medium">Visiting Card</span>
                         <span className={files.visiting_card ? "text-[#C6A256]" : "text-[#C6A256]"}>
                             {files.visiting_card ? "Uploaded" : "Pending"}
                         </span>
@@ -112,7 +112,7 @@ const ProfileFormKyc = () => {
                                 accept="image/*,.pdf"
                                 onChange={(e) => handleFileChange(e, 'visiting_card')}
                             />
-                            <div className="w-48 text-center px-4 py-2 bg-[#212121] text-[#F5EFE7] rounded hover:bg-[#212121]">
+                            <div className="w-48 text-center px-4 py-2 bg-[#1f2937] text-[#F5EFE7] rounded-lg hover:bg-[#111827] transition-colors">
                                 Upload Visiting Card
                             </div>
                         </label>
@@ -121,15 +121,15 @@ const ProfileFormKyc = () => {
                                 <img
                                     src={previews.visiting_card}
                                     alt="Visiting Card Preview"
-                                    className="h-16 w-16 object-cover border rounded"
+                                    className="h-16 w-16 object-cover border border-[#d1d5db] rounded-lg"
                                 />
                             </div>
                         )}
                     </div>
                 </div>
-                <div className="py-2 border-b">
+                <div className="py-3 px-3 rounded-xl border border-[#d1d5db] bg-white/70">
                     <div className="flex items-center justify-between mb-2">
-                        <span>RERA</span>
+                        <span className="text-[#374151] font-medium">RERA</span>
                         <span className={files.rera_certificate ? "text-[#C6A256]" : "text-[#C6A256]"}>
                             {files.rera_certificate ? "Uploaded" : "Pending"}
                         </span>
@@ -142,7 +142,7 @@ const ProfileFormKyc = () => {
                                 accept="image/*,.pdf"
                                 onChange={(e) => handleFileChange(e, 'rera_certificate')}
                             />
-                            <div className="w-48 text-center px-4 py-2 bg-[#212121] text-[#F5EFE7] rounded hover:bg-[#212121]">
+                            <div className="w-48 text-center px-4 py-2 bg-[#1f2937] text-[#F5EFE7] rounded-lg hover:bg-[#111827] transition-colors">
                                 Upload RERA
                             </div>
                         </label>
@@ -151,7 +151,7 @@ const ProfileFormKyc = () => {
                                 <img
                                     src={previews.rera_certificate}
                                     alt="RERA Preview"
-                                    className="h-16 w-16 object-cover border rounded"
+                                    className="h-16 w-16 object-cover border border-[#d1d5db] rounded-lg"
                                 />
                             </div>
                         )}
@@ -163,7 +163,7 @@ const ProfileFormKyc = () => {
                 <button
                     onClick={handleSubmit}
                     disabled={isLoading}
-                    className="w-36 px-6 py-2 flex justify-center items-center bg-[#212121] text-[#F5EFE7] rounded hover:bg-[#212121] cursor-pointer"
+                    className="w-36 px-6 py-2 flex justify-center items-center bg-[#1f2937] text-[#F5EFE7] rounded-lg hover:bg-[#111827] transition-colors cursor-pointer"
                 >
                     {isLoading ? (
                         <div className="animate-spin">
@@ -173,7 +173,7 @@ const ProfileFormKyc = () => {
                         "Update KYC"
                     )}
                 </button>
-                <button className="w-36 px-6 py-2 flex justify-center items-center bg-[#212121] text-[#F5EFE7] rounded hover:bg-[#212121] cursor-pointer">
+                <button className="w-36 px-6 py-2 flex justify-center items-center bg-[#374151] text-[#F5EFE7] rounded-lg hover:bg-[#1f2937] transition-colors cursor-pointer">
                     View Profile
                 </button>
             </div>

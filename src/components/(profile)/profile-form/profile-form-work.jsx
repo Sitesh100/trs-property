@@ -70,13 +70,13 @@ const ProfileFormWork = () => {
 
     return (
         <form onSubmit={formik.handleSubmit} className="grid grid-cols-1 gap-4 mb-6">
-            <div className="border p-4 rounded-lg">
-                <label className="text-sm block mb-1 font-medium">What are the main Locations you focus in Ourgoor?*</label>
+            <div className="border border-[#d1d5db] bg-white/70 p-4 rounded-xl">
+                <label className="text-sm block mb-1 font-medium text-[#374151]">What are the main Locations you focus in Ourgoor?*</label>
                 <input
                     type="text"
                     name="locations"
                     placeholder="Search Locations"
-                    className="w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121]"
+                    className="w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/85 text-[#1f2937] focus:outline-none focus:border-[#C6A256]"
                     onChange={formik.handleChange}
                     value={formik.values.locations}
                 />
@@ -85,12 +85,12 @@ const ProfileFormWork = () => {
                 )}
             </div>
 
-            <div className="border p-4 rounded-lg">
-                <label className="text-sm block mb-1 font-medium">ZoomOptions *</label>
+            <div className="border border-[#d1d5db] bg-white/70 p-4 rounded-xl">
+                <label className="text-sm block mb-1 font-medium text-[#374151]">ZoomOptions *</label>
                 <input
                     type="text"
                     name="zoomOptions"
-                    className="w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121]"
+                    className="w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/85 text-[#1f2937] focus:outline-none focus:border-[#C6A256]"
                     onChange={formik.handleChange}
                     value={formik.values.zoomOptions}
                 />
@@ -99,8 +99,8 @@ const ProfileFormWork = () => {
                 )}
             </div>
 
-            <div className="border p-4 rounded-lg">
-                <label className="text-sm block mb-1 font-medium">What do you Deal in?*</label>
+            <div className="border border-[#d1d5db] bg-white/70 p-4 rounded-xl">
+                <label className="text-sm block mb-1 font-medium text-[#374151]">What do you Deal in?*</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                     <div className="space-y-2">
                         <h4 className="text-sm font-medium">Residential</h4>
@@ -109,7 +109,7 @@ const ProfileFormWork = () => {
                                 <input
                                     type="checkbox"
                                     id="residential-primary"
-                                    className="h-4 w-4"
+                                    className="h-4 w-4 accent-[#C6A256]"
                                     checked={formik.values.dealIn.residential.primary}
                                     onChange={() => formik.setFieldValue(
                                         'dealIn.residential.primary',
@@ -122,7 +122,7 @@ const ProfileFormWork = () => {
                                 <input
                                     type="checkbox"
                                     id="residential-rebelle"
-                                    className="h-4 w-4"
+                                    className="h-4 w-4 accent-[#C6A256]"
                                     checked={formik.values.dealIn.residential.rebelle}
                                     onChange={() => formik.setFieldValue(
                                         'dealIn.residential.rebelle',
@@ -140,7 +140,7 @@ const ProfileFormWork = () => {
                                 <input
                                     type="checkbox"
                                     id="commercial-primary"
-                                    className="h-4 w-4"
+                                    className="h-4 w-4 accent-[#C6A256]"
                                     checked={formik.values.dealIn.commercial.primary}
                                     onChange={() => formik.setFieldValue(
                                         'dealIn.commercial.primary',
@@ -153,7 +153,7 @@ const ProfileFormWork = () => {
                                 <input
                                     type="checkbox"
                                     id="commercial-rebelle"
-                                    className="h-4 w-4"
+                                    className="h-4 w-4 accent-[#C6A256]"
                                     checked={formik.values.dealIn.commercial.rebelle}
                                     onChange={() => formik.setFieldValue(
                                         'dealIn.commercial.rebelle',
@@ -170,15 +170,15 @@ const ProfileFormWork = () => {
                 )}
             </div>
 
-            <div className="border p-4 rounded-lg">
-                <label className="text-sm block mb-1 font-medium">Choose your Top Categories*</label>
+            <div className="border border-[#d1d5db] bg-white/70 p-4 rounded-xl">
+                <label className="text-sm block mb-1 font-medium text-[#374151]">Choose your Top Categories*</label>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                     {['Floor', 'Apartment', 'Villa', 'Plot', 'Retail', 'Office'].map((category) => (
                         <div key={category} className="flex items-center gap-2">
                             <input
                                 type="checkbox"
                                 id={`category-${category.toLowerCase()}`}
-                                className="h-4 w-4"
+                                className="h-4 w-4 accent-[#C6A256]"
                                 value={category}
                                 checked={formik.values.categories.includes(category)}
                                 onChange={handleCategoryChange}
@@ -192,12 +192,12 @@ const ProfileFormWork = () => {
                 )}
             </div>
 
-            <div className="border p-4 rounded-lg">
-                <label className="text-sm block mb-1 font-medium">Your Office Address</label>
+            <div className="border border-[#d1d5db] bg-white/70 p-4 rounded-xl">
+                <label className="text-sm block mb-1 font-medium text-[#374151]">Your Office Address</label>
                 <input
                     type="text"
                     name="officeAddress"
-                    className="w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121]"
+                    className="w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/85 text-[#1f2937] focus:outline-none focus:border-[#C6A256]"
                     onChange={formik.handleChange}
                     value={formik.values.officeAddress}
                 />
@@ -209,7 +209,7 @@ const ProfileFormWork = () => {
             <div className="flex justify-end items-end">
                 <button
                     type="submit"
-                    className="w-32 bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
+                    className="w-36 bg-[#1f2937] hover:bg-[#111827] text-[#F5EFE7] font-medium py-2 rounded-lg transition-colors h-10 flex items-center justify-center cursor-pointer"
                 >
                     Save Changes
                 </button>

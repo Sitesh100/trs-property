@@ -120,7 +120,7 @@ const ProfileFormPersonal = () => {
                         />
                         <label
                             htmlFor="profile-upload"
-                            className={`absolute bottom-0 right-0 bg-[#212121] text-[#F5EFE7] p-1 rounded-full cursor-pointer hover:bg-[#212121] ${isUploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`absolute bottom-0 right-0 bg-[#1f2937] text-[#F5EFE7] p-1 rounded-full cursor-pointer hover:bg-[#111827] transition-colors ${isUploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             {isUploadingImage ? (
                                 <Loader size={16} className="animate-spin" />
@@ -138,8 +138,8 @@ const ProfileFormPersonal = () => {
                         </label>
                     </div>
                     <div>
-                        <h3 className="text-lg font-semibold">{profileData?.full_name || "User"}</h3>
-                        <p className="text-sm text-[#F5EFE7]">{profileData?.email || ""}</p>
+                        <h3 className="text-lg font-semibold text-[#1f2937]">{profileData?.full_name || "User"}</h3>
+                        <p className="text-sm text-[#6b7280]">{profileData?.email || ""}</p>
                     </div>
                 </div>
             </div>
@@ -147,14 +147,14 @@ const ProfileFormPersonal = () => {
             <form onSubmit={formik.handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div>
-                        <label className="text-sm block mb-1">Full Name*</label>
+                        <label className="text-sm block mb-1 text-[#374151]">Full Name*</label>
                         <input
                             type="text"
                             name="full_name"
                             value={formik.values.full_name}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className={`w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121] ${formik.touched.full_name && formik.errors.full_name ? 'border-[#C6A256]' : ''
+                            className={`w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/80 text-[#1f2937] focus:outline-none focus:border-[#C6A256] ${formik.touched.full_name && formik.errors.full_name ? 'border-[#C6A256]' : ''
                                 }`}
                         />
                         {formik.touched.full_name && formik.errors.full_name && (
@@ -163,14 +163,14 @@ const ProfileFormPersonal = () => {
                     </div>
 
                     <div>
-                        <label className="text-sm block mb-1">Phone Number*</label>
+                        <label className="text-sm block mb-1 text-[#374151]">Phone Number*</label>
                         <input
                             type="text"
                             name="phone"
                             value={formik.values.phone}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className={`w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121] ${formik.touched.phone && formik.errors.phone ? 'border-[#C6A256]' : ''
+                            className={`w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/80 text-[#1f2937] focus:outline-none focus:border-[#C6A256] ${formik.touched.phone && formik.errors.phone ? 'border-[#C6A256]' : ''
                                 }`}
                         />
                         {formik.touched.phone && formik.errors.phone && (
@@ -179,14 +179,14 @@ const ProfileFormPersonal = () => {
                     </div>
 
                     <div>
-                        <label className="text-sm block mb-1">City*</label>
+                        <label className="text-sm block mb-1 text-[#374151]">City*</label>
                         <input
                             type="text"
                             name="city"
                             value={formik.values.city}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className={`w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121] ${formik.touched.city && formik.errors.city ? 'border-[#C6A256]' : ''
+                            className={`w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/80 text-[#1f2937] focus:outline-none focus:border-[#C6A256] ${formik.touched.city && formik.errors.city ? 'border-[#C6A256]' : ''
                                 }`}
                         />
                         {formik.touched.city && formik.errors.city && (
@@ -195,7 +195,7 @@ const ProfileFormPersonal = () => {
                     </div>
 
                     <div>
-                        <label className="text-sm block mb-1">Company Name</label>
+                        <label className="text-sm block mb-1 text-[#374151]">Company Name</label>
                         <input
                             type="text"
                             name="company_name"
@@ -203,7 +203,7 @@ const ProfileFormPersonal = () => {
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             placeholder="Enter your company name"
-                            className={`w-full px-3 py-2 border rounded bg-[#F5EFE7] text-[#212121] ${formik.touched.company_name && formik.errors.company_name ? 'border-[#C6A256]' : ''
+                            className={`w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/80 text-[#1f2937] focus:outline-none focus:border-[#C6A256] ${formik.touched.company_name && formik.errors.company_name ? 'border-[#C6A256]' : ''
                                 }`}
                         />
                         {formik.touched.company_name && formik.errors.company_name && (
@@ -212,21 +212,21 @@ const ProfileFormPersonal = () => {
                     </div>
 
                     <div>
-                        <label className="text-sm block mb-1">Email</label>
+                        <label className="text-sm block mb-1 text-[#374151]">Email</label>
                         <input
                             type="email"
                             value={profileData?.email || ''}
                             disabled
-                            className="w-full px-3 py-2 border rounded bg-[#212121] text-[#F5EFE7] cursor-not-allowed"
+                            className="w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-[#f3f4f6] text-[#6b7280] cursor-not-allowed"
                         />
-                        <p className="text-xs text-[#F5EFE7] mt-1">Email cannot be changed</p>
+                        <p className="text-xs text-[#6b7280] mt-1">Email cannot be changed</p>
                     </div>
                 </div>
                 <div className="flex justify-end items-end">
                     <button
                         type="submit"
                         disabled={isUpdating}
-                        className="w-32 bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-70"
+                        className="w-36 bg-[#1f2937] hover:bg-[#111827] text-[#F5EFE7] font-medium py-2 rounded-lg transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-70"
                     >
                         {isUpdating ? (
                             <div className="animate-spin">

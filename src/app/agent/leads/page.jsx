@@ -152,14 +152,19 @@ export default function AgentLeadsPage() {
                 </section>
 
                 {isAddLeadModalOpen && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#212121]/75 px-4 py-6">
-                        <div className="w-full max-w-4xl rounded-xl border border-[#F5EFE7]/10 bg-[#21212133] p-5 shadow-2xl">
+                    <div className="fixed inset-0 z-70">
+                        <div
+                            className="absolute inset-0 bg-[#111827]/80 backdrop-blur-sm"
+                            onClick={() => setIsAddLeadModalOpen(false)}
+                        />
+                        <div className="relative flex min-h-full items-center justify-center px-4 py-6">
+                            <div className="w-full max-w-4xl rounded-2xl border border-[#F5EFE7]/20 bg-[#111827]/95 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.6)]">
                             <div className="mb-4 flex items-center justify-between">
                                 <h2 className="text-xl font-bold">Add New Lead</h2>
                                 <button
                                     type="button"
                                     onClick={() => setIsAddLeadModalOpen(false)}
-                                    className="rounded-md border border-[#F5EFE7]/20 px-3 py-1 text-sm text-[#F5EFE7]/80 cursor-pointer"
+                                    className="rounded-md border border-[#F5EFE7]/25 px-3 py-1 text-sm text-[#F5EFE7]/90 hover:bg-[#F5EFE7]/10 cursor-pointer transition-colors"
                                 >
                                     Close
                                 </button>
@@ -172,7 +177,7 @@ export default function AgentLeadsPage() {
                                         type="date"
                                         value={form.date}
                                         onChange={(e) => onChange("date", e.target.value)}
-                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/35 bg-[#0f172a]/75 px-3 py-2 text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:border-[#C6A256] outline-none"
                                     />
                                 </label>
 
@@ -183,7 +188,7 @@ export default function AgentLeadsPage() {
                                         value={form.customerName}
                                         onChange={(e) => onChange("customerName", e.target.value)}
                                         placeholder="Enter customer name"
-                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/35 bg-[#0f172a]/75 px-3 py-2 text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:border-[#C6A256] outline-none"
                                         required
                                     />
                                 </label>
@@ -195,7 +200,7 @@ export default function AgentLeadsPage() {
                                         value={form.customerNumber}
                                         onChange={(e) => onChange("customerNumber", e.target.value)}
                                         placeholder="Enter phone number"
-                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/35 bg-[#0f172a]/75 px-3 py-2 text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:border-[#C6A256] outline-none"
                                         required
                                     />
                                 </label>
@@ -207,7 +212,7 @@ export default function AgentLeadsPage() {
                                         value={form.propertyName}
                                         onChange={(e) => onChange("propertyName", e.target.value)}
                                         placeholder="Project or property name"
-                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/35 bg-[#0f172a]/75 px-3 py-2 text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:border-[#C6A256] outline-none"
                                         required
                                     />
                                 </label>
@@ -217,7 +222,7 @@ export default function AgentLeadsPage() {
                                     <select
                                         value={form.status}
                                         onChange={(e) => onChange("status", e.target.value)}
-                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/35 bg-[#0f172a]/75 px-3 py-2 text-[#F5EFE7] focus:border-[#C6A256] outline-none"
                                     >
                                         {STATUS_OPTIONS.map((status) => (
                                             <option key={status} value={status}>
@@ -234,7 +239,7 @@ export default function AgentLeadsPage() {
                                         value={form.notes}
                                         onChange={(e) => onChange("notes", e.target.value)}
                                         placeholder="Notes"
-                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/20 bg-[#212121]/30 px-3 py-2 text-[#F5EFE7] outline-none"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/35 bg-[#0f172a]/75 px-3 py-2 text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:border-[#C6A256] outline-none"
                                     />
                                 </label>
 
@@ -248,12 +253,13 @@ export default function AgentLeadsPage() {
                                     <button
                                         type="button"
                                         onClick={() => setIsAddLeadModalOpen(false)}
-                                        className="rounded-md border border-[#F5EFE7]/25 px-5 py-2 font-semibold text-[#F5EFE7] cursor-pointer"
+                                        className="rounded-md border border-[#F5EFE7]/35 px-5 py-2 font-semibold text-[#F5EFE7] hover:bg-[#F5EFE7]/10 cursor-pointer transition-colors"
                                     >
                                         Cancel
                                     </button>
                                 </div>
                             </form>
+                        </div>
                         </div>
                     </div>
                 )}
