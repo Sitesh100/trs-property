@@ -1,5 +1,6 @@
 "use client"
 
+import { AnimatePresence, motion } from "framer-motion"
 import { Play, Volume2, VolumeX } from "lucide-react"
 import { useEffect, useMemo, useRef, useState } from "react"
 
@@ -9,7 +10,7 @@ const VIDEO_TESTIMONIALS = [
     name: "Client Testimonial 01",
     sources: [
       {
-        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials-videos/fixed_videos/testimonial1.mp4",
+        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials/testimonial/testimonial1.mp4",
         type: 'video/mp4; codecs="avc1.64001F, mp4a.40.2"',
       },
     ],
@@ -19,7 +20,7 @@ const VIDEO_TESTIMONIALS = [
     name: "Client Testimonial 02",
     sources: [
       {
-        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials-videos/fixed_videos/testimonial2.mp4",
+        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials/testimonial/testimonial2.mp4",
         type: 'video/mp4; codecs="avc1.64001F, mp4a.40.2"',
       },
     ],
@@ -29,7 +30,7 @@ const VIDEO_TESTIMONIALS = [
     name: "Client Testimonial 03",
     sources: [
       {
-        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials-videos/fixed_videos/testimonial3.mp4",
+        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials/testimonial/testimonial3.mp4",
         type: 'video/mp4; codecs="avc1.64001F, mp4a.40.2"',
       },
     ],
@@ -39,7 +40,7 @@ const VIDEO_TESTIMONIALS = [
     name: "Client Testimonial 04",
     sources: [
       {
-        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials-videos/fixed_videos/testimonial4.mp4",
+        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials/testimonial/testimonial4.mp4",
         type: 'video/mp4; codecs="avc1.64001F, mp4a.40.2"',
       },
     ],
@@ -49,7 +50,7 @@ const VIDEO_TESTIMONIALS = [
     name: "Client Testimonial 05",
     sources: [
       {
-        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials-videos/fixed_videos/testimonial5.mp4",
+        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials/testimonial/testimonial5.mp4",
         type: 'video/mp4; codecs="avc1.64001F, mp4a.40.2"',
       },
     ],
@@ -59,7 +60,7 @@ const VIDEO_TESTIMONIALS = [
     name: "Client Testimonial 06",
     sources: [
       {
-        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials-videos/fixed_videos/testimonial6.mp4",
+        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials/testimonial/testimonial6.mp4",
         type: 'video/mp4; codecs="avc1.64001F, mp4a.40.2"',
       },
     ],
@@ -69,7 +70,7 @@ const VIDEO_TESTIMONIALS = [
     name: "Client Testimonial 07",
     sources: [
       {
-        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials-videos/fixed_videos/testimonial7.mp4",
+        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials/testimonial/testimonial7.mp4",
         type: 'video/mp4; codecs="avc1.64001F, mp4a.40.2"',
       },
     ],
@@ -79,7 +80,17 @@ const VIDEO_TESTIMONIALS = [
     name: "Client Testimonial 08",
     sources: [
       {
-        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials-videos/fixed_videos/testimonial8.mp4",
+        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials/testimonial/testimonial8.mp4",
+        type: 'video/mp4; codecs="avc1.64001F, mp4a.40.2"',
+      },
+    ],
+  },
+  {
+    id: 9,
+    name: "Client Testimonial 09",
+    sources: [
+      {
+        src: "https://amzn-s3-bucket-trsmallproperties.s3.ap-south-1.amazonaws.com/testimonials/testimonial/testimonial9.mp4",
         type: 'video/mp4; codecs="avc1.64001F, mp4a.40.2"',
       },
     ],
@@ -120,6 +131,7 @@ const VideoTestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isMuted, setIsMuted] = useState(true)
   const [erroredIds, setErroredIds] = useState([])
+  const [isMiniRailPaused, setIsMiniRailPaused] = useState(false)
   const activeVideoRef = useRef(null)
   const miniSliderRef = useRef(null)
 
@@ -160,24 +172,33 @@ const VideoTestimonialsSection = () => {
     const slider = miniSliderRef.current
     if (!slider) return undefined
 
-    const timer = setInterval(() => {
-      const firstCard = slider.querySelector("[data-mini-card='true']")
-      if (!firstCard) return
+    let frameId = null
+    let lastTime = 0
+    const speed = 20
 
-      const sliderStyle = window.getComputedStyle(slider)
-      const gap = Number.parseFloat(sliderStyle.columnGap || sliderStyle.gap || "0")
-      const step = firstCard.clientWidth + gap
-      const maxScroll = slider.scrollWidth - slider.clientWidth - 2
-      const target = slider.scrollLeft + step
+    const drift = (time) => {
+      if (!lastTime) lastTime = time
+      const delta = time - lastTime
+      lastTime = time
 
-      slider.scrollTo({
-        left: target > maxScroll ? 0 : target,
-        behavior: "smooth",
-      })
-    }, 2600)
+      if (!isMiniRailPaused) {
+        const maxScroll = slider.scrollWidth - slider.clientWidth
+        if (maxScroll > 2) {
+          slider.scrollLeft += (speed * delta) / 1000
+          if (slider.scrollLeft >= maxScroll - 1) {
+            slider.scrollLeft = 0
+          }
+        }
+      }
 
-    return () => clearInterval(timer)
-  }, [miniCards.length])
+      frameId = window.requestAnimationFrame(drift)
+    }
+
+    frameId = window.requestAnimationFrame(drift)
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId)
+    }
+  }, [miniCards.length, isMiniRailPaused])
 
   return (
     <section className="py-16 md:py-24 relative overflow-hidden bg-linear-to-br from-[#212121] via-[#1B1B1B] to-[#2A2318]">
@@ -205,81 +226,120 @@ const VideoTestimonialsSection = () => {
 
         <div className="grid grid-cols-1 xl:grid-cols-[max-content_minmax(0,1fr)] gap-0 xl:gap-25 items-start xl:items-end">
           <div className="flex justify-center xl:justify-start">
-            <div className="relative w-full max-w-sm md:max-w-sm xl:max-w-sm aspect-9/16 rounded-2xl overflow-hidden border border-[#C6A256]/35 bg-[#212121]">
-            {activeSource && !isErrored ? (
-              <video
-                key={`${activeVideo.id}-${activeSource.src}`}
-                ref={activeVideoRef}
-                className="w-full h-full object-cover rounded-2xl"
-                controls
-                playsInline
-                muted={isMuted}
-                autoPlay
-                preload="metadata"
-                onEnded={handleActiveVideoEnded}
-                onError={() => setErroredIds((prev) => [...new Set([...prev, activeVideo.id])])}
-              >
-                <source src={activeSource.src} type={activeSource.type} />
-              </video>
-            ) : (
-              <UnsupportedVideoCard />
-            )}
+            <div className="relative w-full max-w-84 md:max-w-88 xl:max-w-88 aspect-9/16 rounded-2xl overflow-hidden border border-[#C6A256]/35 bg-[#212121]">
+              <AnimatePresence mode="wait" initial={false}>
+                {activeSource && !isErrored ? (
+                  <motion.video
+                    key={`${activeVideo.id}-${activeSource.src}`}
+                    ref={activeVideoRef}
+                    className="w-full h-full object-cover rounded-2xl"
+                    controls
+                    playsInline
+                    muted={isMuted}
+                    autoPlay
+                    preload="metadata"
+                    onEnded={handleActiveVideoEnded}
+                    onError={() => setErroredIds((prev) => [...new Set([...prev, activeVideo.id])])}
+                    initial={{ opacity: 0, x: 18, scale: 0.985 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -18, scale: 0.985 }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <source src={activeSource.src} type={activeSource.type} />
+                  </motion.video>
+                ) : (
+                  <motion.div
+                    key={`unsupported-${activeVideo.id}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <UnsupportedVideoCard />
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-            <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-              <div>
-                <p className="text-sm text-[#F5EFE7]/70">Now Playing</p>
-                {/* <h3 className="text-[#F5EFE7] font-semibold">{activeVideo.name}</h3> */}
+              <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
+                <div>
+                  <p className="text-sm text-[#F5EFE7]/70">Now Playing</p>
+                  {/* <h3 className="text-[#F5EFE7] font-semibold">{activeVideo.name}</h3> */}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsMuted((prev) => !prev)}
+                  className="bg-black/60 px-3 py-2 rounded-full text-[#F5EFE7] text-sm"
+                >
+                  {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                </button>
               </div>
-
-              <button
-                type="button"
-                onClick={() => setIsMuted((prev) => !prev)}
-                className="bg-black/60 px-3 py-2 rounded-full text-[#F5EFE7] text-sm"
-              >
-                {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-              </button>
             </div>
           </div>
-          </div>
 
-          <div
-            ref={miniSliderRef}
-            className="flex gap-2 md:gap-3 overflow-x-auto pr-1 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:self-end"
-          >
-            {miniCards.map((videoIndex) => {
-              const video = VIDEO_TESTIMONIALS[videoIndex]
-              const source = getPlayableSource(video)
+          <div className="relative min-h-55 xl:min-h-130 flex items-end overflow-hidden rounded-3xl">
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute -right-20 -top-15 h-72 w-72 rounded-full bg-black/35 blur-3xl" />
+              <div className="absolute right-24 top-20 h-60 w-60 rounded-full border border-[#0f0f0f]/90" />
+              <div className="absolute -right-10 top-28 h-96 w-96 rounded-full border border-[#171717]/80" />
+              <div
+                className="absolute inset-y-0 right-0 w-[85%] opacity-40"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at 1px 1px, rgba(26, 26, 26, 0.95) 1px, transparent 1px)",
+                  backgroundSize: "18px 18px",
+                  maskImage: "radial-gradient(circle at 78% 52%, black 0%, black 42%, transparent 80%)",
+                  WebkitMaskImage:
+                    "radial-gradient(circle at 78% 52%, black 0%, black 42%, transparent 80%)",
+                }}
+              />
+            </div>
 
-              return (
-                <button
-                  key={video.id}
-                  type="button"
-                  onClick={() => handleMiniClick(videoIndex)}
-                  data-mini-card="true"
-                  className="relative shrink-0 w-28 md:w-32 aspect-9/16 rounded-xl overflow-hidden border border-[#F5EFE7]/20 snap-start"
-                >
-                  {source ? (
-                    <video
-                      className="w-full h-full object-cover"
-                      muted
-                      playsInline
-                      autoPlay
-                      loop
-                      preload="metadata"
-                    >
-                      <source src={source.src} type={source.type} />
-                    </video>
-                  ) : (
-                    <UnsupportedVideoCard compact />
-                  )}
+            <div
+              ref={miniSliderRef}
+              className="relative z-10 flex gap-2 md:gap-3 overflow-x-auto pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:self-end"
+              onMouseEnter={() => setIsMiniRailPaused(true)}
+              onMouseLeave={() => setIsMiniRailPaused(false)}
+              onTouchStart={() => setIsMiniRailPaused(true)}
+              onTouchEnd={() => setIsMiniRailPaused(false)}
+            >
+              {miniCards.map((videoIndex) => {
+                const video = VIDEO_TESTIMONIALS[videoIndex]
+                const source = getPlayableSource(video)
 
-                  <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center pointer-events-none">
-                    <p className="text-[#F5EFE7] text-xs">{video.name}</p>
-                    <Play size={14} className="text-[#C6A256]" />
-                  </div>
-                </button>
-              )
-            })}
+                return (
+                  <motion.button
+                    key={video.id}
+                    type="button"
+                    onClick={() => handleMiniClick(videoIndex)}
+                    data-mini-card="true"
+                    layout
+                    transition={{ type: "spring", stiffness: 110, damping: 26, mass: 0.8 }}
+                    className="relative shrink-0 w-28 md:w-32 aspect-9/16 rounded-xl overflow-hidden border border-[#F5EFE7]/20"
+                  >
+                    {source ? (
+                      <video
+                        className="w-full h-full object-cover"
+                        muted
+                        playsInline
+                        autoPlay
+                        loop
+                        preload="metadata"
+                      >
+                        <source src={source.src} type={source.type} />
+                      </video>
+                    ) : (
+                      <UnsupportedVideoCard compact />
+                    )}
+
+                    <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center pointer-events-none">
+                      <p className="text-[#F5EFE7] text-xs">{video.name}</p>
+                      <Play size={14} className="text-[#C6A256]" />
+                    </div>
+                  </motion.button>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>

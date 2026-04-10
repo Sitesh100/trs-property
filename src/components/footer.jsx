@@ -84,6 +84,7 @@ function Footer() {
     const socialLinks = [
         { icon: Instagram, href: "https://www.instagram.com/trspropertymall/?hl=en", label: "Instagram" },
         { icon: Facebook, href: "https://www.facebook.com/totalrealtyind/", label: "Facebook" },
+        { icon: Linkedin, href: "https://www.linkedin.com/showcase/trs-property-mall/posts/?feedView=all", label: "LinkedIn" },
         { icon: Youtube, href: "https://www.youtube.com/@TRS_PropertyMall", label: "YouTube" },
         // { icon: Twitter, href: "#", label: "Twitter" },
     ]

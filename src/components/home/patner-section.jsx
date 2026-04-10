@@ -102,12 +102,12 @@ function PatnerSection() {
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             className="flex-shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-28 h-28 md:w-36 md:h-36 bg-[#F5EFE7] border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className="relative w-44 h-44 md:w-48 md:h-48 bg-[#F5EFE7] border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}
-                                    width={80}
-                                    height={80}
+                                    width={160}
+                                    height={160}
                                     className="object-contain transition-transform duration-300 group-hover:scale-110"
                                 />
                             </div>
@@ -136,12 +136,12 @@ function PatnerSection() {
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             className="flex-shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-28 h-28 md:w-36 md:h-36 bg-[#F5EFE7] border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className="relative w-44 h-44 md:w-48 md:h-48 bg-[#F5EFE7] border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}
-                                    width={80}
-                                    height={80}
+                                    width={160}
+                                    height={160}
                                     className=" object-contain transition-transform duration-300 group-hover:scale-110"
                                 />
                             </div>

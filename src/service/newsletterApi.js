@@ -3,10 +3,10 @@ import { newRealStateAPI } from "@/redux/createAPI";
 const newsletterApi = newRealStateAPI.injectEndpoints({
     endpoints: (build) => ({
         subscribeNewsletter: build.mutation({
-            query: (email) => ({
+            query: (payload) => ({
                 url: "/api/subscribe",
                 method: "POST",
-                body: { email },
+                body: typeof payload === "string" ? { email: payload } : payload,
             }),
         }),
     }),
