@@ -9,12 +9,13 @@ import { useMemo, useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const offers = [
-  { bank: "Kotak Mahindra Bank", rate: "7.55%", emi: "10,000", amount: "35,689", ltv: "90%", initials: "/assets/logo/1.png", accent: "bg-[#212121] text-[#C6A256]" },
-  { bank: "HDFC", rate: "8.50%", emi: "13,000", amount: "37,195", ltv: "90%", initials: "/assets/logo/2.png", accent: "bg-[#212121] text-[#C6A256]" },
-  { bank: "LIC Housing Finance Ltd", rate: "6.90%", emi: "5,000", amount: "34,678", ltv: "90%", initials: "/assets/logo/3.png", accent: "bg-[#212121] text-[#C6A256]" },
-  { bank: "SBI Home Loans", rate: "6.80%", emi: "10,000", amount: "34,524", ltv: "90%", initials: "/assets/logo/4.png", accent: "bg-[#212121] text-[#C6A256]" },
-  { bank: "ICICI Bank", rate: "6.80%", emi: "7,500", amount: "34,524", ltv: "90%", initials: "/assets/logo/6.png", accent: "bg-[#212121] text-[#C6A256]" },
-  { bank: "PNB Housing Finance", rate: "9.25%", emi: "10,000", amount: "38,409", ltv: "90%", initials: "/assets/logo/5.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "Kotak Mahindra Bank", rate: "7.40%", emi: "10,000", amount: "35,689", ltv: "90%", initials: "/assets/logo/1.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "HDFC Bank", rate: "7.15%", emi: "13,000", amount: "37,195", ltv: "90%", initials: "/assets/logo/2.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "LIC Housing Finance Ltd", rate: "7.40%", emi: "5,000", amount: "34,678", ltv: "90%", initials: "/assets/logo/3.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "SBI Home Loans", rate: "7.10%", emi: "10,000", amount: "34,524", ltv: "90%", initials: "/assets/logo/4.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "Axis Bank", rate: "7.25%", emi: "10,000", amount: "34,678", ltv: "90%", initials: "/assets/logo/5.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "ICICI Bank", rate: "7.20%", emi: "7,500", amount: "34,524", ltv: "90%", initials: "/assets/logo/6.png", accent: "bg-[#212121] text-[#C6A256]" },
+  { bank: "PNB Housing Finance", rate: "7.90%", emi: "10,000", amount: "38,409", ltv: "90%", initials: "/assets/logo/7.png", accent: "bg-[#212121] text-[#C6A256]" },
 ];
 
 function Metric({ label, value }) {

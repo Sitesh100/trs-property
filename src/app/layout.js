@@ -1,4 +1,5 @@
 import ReduxProvider from "@/providers/redux-provider";
+import GlobalBackButton from "@/components/ui/global-back-button";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import { Toaster } from "react-hot-toast";
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
       <body>
         <ReduxProvider>
           {children}
+          <GlobalBackButton />
           <Toaster />
         </ReduxProvider>
       </body>

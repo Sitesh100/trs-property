@@ -4,7 +4,7 @@ import Image from "next/image"
 import { lufga } from '@/fonts';
 
 // Builder Logo Images
-import AdaniRealty from "../../../public/assets/images/builderLogo/adani.png";
+import AdaniRealty from "../../../public/assets/images/builderLogo/adani.jpg";
 import AdityaBirla from "../../../public/assets/images/builderLogo/aditya.jpeg";
 import Azizi from "../../../public/assets/images/builderLogo/AZIZI.png";
 import BhartiyaCity from "../../../public/assets/images/builderLogo/BHARTIYA CITY.png";
@@ -18,7 +18,7 @@ import HighwayInfrastructure from "../../../public/assets/images/builderLogo/HIG
 import Kalpataru from "../../../public/assets/images/builderLogo/KALPATARU.png";
 import LTRealty from "../../../public/assets/images/builderLogo/L T REALTY.jpeg";
 import MahindraLifespace from "../../../public/assets/images/builderLogo/MAHINDRA LIFESPACE.png";
-import OberaiReality from "../../../public/assets/images/builderLogo/OBERAI REALITY.jpeg";
+import OberaiReality from "../../../public/assets/images/builderLogo/oberoi.webp";
 import Omaxe from "../../../public/assets/images/builderLogo/OMAXE.png";
 import RaymondReality from "../../../public/assets/images/builderLogo/RAYMOND REALITY.png";
 import Rustomjee from "../../../public/assets/images/builderLogo/RUSTOMJEE.jpeg";
@@ -102,7 +102,7 @@ function PatnerSection() {
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             className="flex-shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-44 h-44 md:w-48 md:h-48 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className="relative w-40 h-40 md:w-44 md:h-44 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}
@@ -136,7 +136,7 @@ function PatnerSection() {
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             className="flex-shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-44 h-44 md:w-48 md:h-48 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className="relative w-40 h-40 md:w-44 md:h-44 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}

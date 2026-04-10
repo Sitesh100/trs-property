@@ -25,7 +25,7 @@ const blogPosts = [
     views: 1,
     likes: 1,
     isLiked: true,
-    slug: "surge-india-real-estate"
+    slug: "surge-india-real-state"
   },
   {
     id: 3,

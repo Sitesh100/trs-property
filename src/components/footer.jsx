@@ -1,5 +1,5 @@
 "use client"
-import { Phone, Mail, MapPin, ArrowRight, Facebook, Twitter, Instagram, Linkedin, Youtube, ChevronRight, Building2, Play } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Facebook, Twitter, Instagram, Linkedin, Youtube, ChevronRight, Building2, Play, MessageSquare } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
@@ -29,8 +29,8 @@ function Footer() {
             "Grande Exotica, Pipliyahana,",
             "Bicholi Mardana, Indore - 452016"
         ],
-        email: "totalrealtysolutions11@gmail.com",
-        phone: "917024144040"
+        email: "info@totalrealtysolutions.org",
+        phone: "9111655111"
     }
 
     const rLounge = {
@@ -123,7 +123,7 @@ function Footer() {
             {/* Fixed Contact Buttons - Right Side */}
             <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
                 <motion.a
-                    href="tel:917024144040"
+                    href="tel:9111655111"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     className="w-12 h-12 rounded-full bg-[#C6A256] flex items-center justify-center shadow-lg"
@@ -131,7 +131,7 @@ function Footer() {
                     <Phone className="w-5 h-5 text-[#121212]" />
                 </motion.a>
                 <motion.a
-                    href="https://api.whatsapp.com/send/?phone=917024144040&text=Hello%2C+I+am+interested+in+your+property%3A+Kalpataru+Grandeur&type=phone_number&app_absent=0"
+                    href="https://api.whatsapp.com/send/?phone=9111655111&text=Hello%2C+I+am+interested+in+your+property%3A+Kalpataru+Grandeur&type=phone_number&app_absent=0"
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1 }}
@@ -143,12 +143,20 @@ function Footer() {
                     </svg>
                 </motion.a>
                 <motion.a
-                    href="mailto:totalrealtysolutions11@gmail.com"
+                    href="mailto:info@totalrealtysolutions.org"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     className="w-12 h-12 rounded-full bg-[#C6A256] flex items-center justify-center shadow-lg"
                 >
                     <Mail className="w-5 h-5 text-[#121212]" />
+                </motion.a>
+                <motion.a
+                    href="sms:9111655111"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-12 h-12 rounded-full bg-[#C6A256] flex items-center justify-center shadow-lg"
+                >
+                    <MessageSquare className="w-5 h-5 text-[#121212]" />
                 </motion.a>
             </div>
             
@@ -320,9 +328,9 @@ function Footer() {
                                     className="h-24 w-auto"
                                 />
                             </Link>
-                            <p className="text-[#F3EFE7]/60 text-xs text-center">
+                            {/* <p className="text-[#F3EFE7]/60 text-xs text-center">
                                 MEGA CHOICES | MEGA OFFERS | MEGA HOMES
-                            </p>
+                            </p> */}
                             <p className="text-[#F3EFE7]/40 text-xs text-center mt-4">
                                 © {currentYear} | By Total Realty Solutions Pvt. Ltd.
                             </p>

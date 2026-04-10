@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { MessageCircle, X } from 'lucide-react';
 
-const WhatsappStrip = ({ phoneNumber = "917024144040", message = "Hello Team TRS, I would like to get a call back. I am looking for properties." }) => {
+const WhatsappStrip = ({ phoneNumber = "9111655111", message = "Hello Team TRS, I would like to get a call back. I am looking for properties." }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 

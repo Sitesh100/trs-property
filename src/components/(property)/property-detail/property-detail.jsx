@@ -23,9 +23,9 @@ function PropertyPropertyDetail({
   property,
   rawProperty,
 }) {
-  const STATIC_CALL_NUMBER = "917024144040";
+  const STATIC_CALL_NUMBER = "9111655111";
   const STATIC_WHATSAPP_URL =
-    "https://api.whatsapp.com/send/?phone=917024144040&text=Hello%2C+I+am+interested+in+your+property%3A+Kalpataru+Grandeur&type=phone_number&app_absent=0";
+    "https://api.whatsapp.com/send/?phone=9111655111&text=Hello%2C+I+am+interested+in+your+property%3A+Kalpataru+Grandeur&type=phone_number&app_absent=0";
   const [tourType, setTourType] = useState("in-person");
   const { user } = useSelector((state) => state.auth);
   const [requestTour, { isLoading }] = useRequestTourMutation();

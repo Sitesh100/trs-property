@@ -44,11 +44,11 @@ function ResearchAdvisoryPage() {
         <section className="bg-[#212121] py-12 sm:py-14">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
-              Welcome to the ultimate real-estate expert guide.
+              Welcome to the ultimate Real Estate expert guide.
             </h1>
             <p className="mt-5 max-w-4xl mx-auto text-base sm:text-lg text-[#F5EFE7] leading-relaxed">
               This is TRS Market Research & Advice Section. Your go-to and reliable source to find useful and
-              trusted real estate research and analysis curated and verified by real-estate experts.
+              trusted real estate research and analysis curated and verified by Real Estate experts.
             </p>
           </div>
         </section>

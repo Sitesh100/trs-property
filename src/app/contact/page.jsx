@@ -343,24 +343,24 @@ const ContactPage = () => {
                     <Phone className="w-7 h-7 text-[#F5EFE7]" />
                   </div>
                   <h3 className="text-[#F5EFE7] font-semibold text-xl mb-2">Call</h3>
-                  <a href="tel:+919425092651" className="text-[#C6A256] text-lg hover:text-[#F5EFE7] transition-colors duration-300">
-                    +91-9425092651
+                  <a href="tel:9111655111" className="text-[#C6A256] text-lg hover:text-[#F5EFE7] transition-colors duration-300">
+                    9111655111
                   </a>
                 </motion.div>
 
                 <motion.div variants={itemVariants} className="text-center">
                   <a
-                    href="mailto:info@trspropertymall.com"
+                    href="mailto:info@totalrealtysolutions.org"
                     className="w-16 h-16 bg-gradient-to-br from-[#212121] to-[#212121] rounded-2xl flex items-center justify-center mx-auto mb-4 hover:scale-105 transition-transform duration-300"
                     aria-label="Email TRS Property Mall"
                   >
                     <Mail className="w-7 h-7 text-[#F5EFE7]" />
                   </a>
                   <h3 className="text-[#F5EFE7] font-semibold text-xl mb-2">
-                    <a href="mailto:info@trspropertymall.com" className="hover:text-[#C6A256] transition-colors duration-300">Email</a>
+                    <a href="mailto:info@totalrealtysolutions.org" className="hover:text-[#C6A256] transition-colors duration-300">Email</a>
                   </h3>
-                  <a href="mailto:info@trspropertymall.com" className="text-[#C6A256] text-lg hover:text-[#F5EFE7] transition-colors duration-300">
-                    info@trspropertymall.com
+                  <a href="mailto:info@totalrealtysolutions.org" className="text-[#C6A256] text-lg hover:text-[#F5EFE7] transition-colors duration-300">
+                    info@totalrealtysolutions.org
                   </a>
                 </motion.div>
 

@@ -19,7 +19,7 @@ import {
 const loanOffers = [
   {
     bank: "Kotak Mahindra Bank",
-    rate: "7.55%",
+    rate: "7.40%",
     emi: "10,000",
     amount: "35,689",
     ltv: "90%",
@@ -28,7 +28,7 @@ const loanOffers = [
   },
   {
     bank: "HDFC Bank",
-    rate: "8.50%",
+    rate: "7.15%",
     emi: "13,000",
     amount: "37,195",
     ltv: "90%",
@@ -37,7 +37,7 @@ const loanOffers = [
   },
   {
     bank: "LIC Housing Finance Ltd",
-    rate: "6.90%",
+    rate: "7.40%",
     emi: "5,000",
     amount: "34,678",
     ltv: "90%",
@@ -46,7 +46,7 @@ const loanOffers = [
   },
   {
     bank: "SBI Home Loans",
-    rate: "6.80%",
+    rate: "7.10%",
     emi: "10,000",
     amount: "34,524",
     ltv: "90%",
@@ -55,7 +55,7 @@ const loanOffers = [
   },
   {
     bank: "Axis Bank",
-    rate: "6.90%",
+    rate: "7.25%",
     emi: "10,000",
     amount: "34,678",
     ltv: "90%",
@@ -63,8 +63,17 @@ const loanOffers = [
     accent: "bg-[#212121] text-[#C6A256]",
   },
   {
+    bank: "ICICI Bank",
+    rate: "7.20%",
+    emi: "7,500",
+    amount: "34,524",
+    ltv: "90%",
+    initials: "/assets/logo/6.png",
+    accent: "bg-[#212121] text-[#C6A256]",
+  },
+  {
     bank: "PNB Housing Finance",
-    rate: "9.25%",
+    rate: "7.90%",
     emi: "10,000",
     amount: "38,409",
     ltv: "90%",
@@ -238,10 +247,7 @@ function LoanOffersPage() {
                 </div>
 
                 <div className="flex items-center justify-start md:justify-end gap-3 md:gap-4">
-                  <button className="hidden sm:inline-flex items-center gap-1.5 text-xs leading-none whitespace-nowrap text-[#212121] hover:text-[#212121] transition-colors">
-                    <Mail className="h-3.5 w-3.5" />
-                    Email me this deal
-                  </button>
+                  
                   <button
                     onClick={() => openDealPopup(offer.bank)}
                     className="rounded-xl bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] text-sm font-semibold px-5 py-2.5 transition-colors"
