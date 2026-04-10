@@ -3,7 +3,8 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import WhatsapBanner from "@/components/home/whatsap-banner";
-import { useMemo } from "react";
+import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 
 const STATUS_OPTIONS = ["New", "Followup", "Site Visit", "Negotiation", "Closed", "Cancelled"];
 
@@ -26,6 +27,117 @@ const INITIAL_LEADS = [
         notes: "Budget approval in progress",
         status: "Negotiation",
     },
+    {
+        id: "lead-3",
+        date: "2026-04-06",
+        customerName: "Kunal Mehta",
+        customerNumber: "9034567812",
+        propertyName: "Palm Meadows",
+        notes: "Requested payment plan breakup",
+        status: "New",
+    },
+    {
+        id: "lead-4",
+        date: "2026-04-07",
+        customerName: "Sara Khan",
+        customerNumber: "9981234567",
+        propertyName: "Marina Heights",
+        notes: "Follow-up post site visit",
+        status: "Followup",
+    },
+    {
+        id: "lead-5",
+        date: "2026-04-08",
+        customerName: "Aakash Jain",
+        customerNumber: "9872301456",
+        propertyName: "Skyline One",
+        notes: "Booked site visit for family",
+        status: "Site Visit",
+    },
+    {
+        id: "lead-6",
+        date: "2026-04-09",
+        customerName: "Ritika Das",
+        customerNumber: "9812345087",
+        propertyName: "Palm Meadows",
+        notes: "Commercial unit shortlisted",
+        status: "Closed",
+    },
+    {
+        id: "lead-7",
+        date: "2026-04-09",
+        customerName: "Aman Verma",
+        customerNumber: "9198123412",
+        propertyName: "Skyline One",
+        notes: "Loan declined by bank",
+        status: "Cancelled",
+    },
+];
+
+const BUILDER_PROJECTS = [
+    {
+        id: "project-1",
+        name: "Skyline One",
+        location: "Sector 102, Gurugram",
+        image: "/assets/images/project/project1.webp",
+        typology: "2 & 3 BHK",
+        inventory: "186 Units",
+        possession: "Dec 2026",
+        avgTicket: "1.35 Cr",
+        stage: "Ready to Move",
+        totalViews: 4210,
+        activeLeads: 9,
+        upcomingVisits: [
+            { id: "sky-up-1", visitDate: "2026-04-10", customerName: "Rohan Khanna", slot: "11:30 AM", source: "Website", visitedBy: "Rahul Mehta" },
+            { id: "sky-up-2", visitDate: "2026-04-13", customerName: "Aakash Jain", slot: "05:00 PM", source: "Broker", visitedBy: "Nisha Arora" },
+        ],
+        completedVisits: [
+            { id: "sky-done-1", visitDate: "2026-04-04", customerName: "Ananya Verma", outcome: "Followup", visitedBy: "Rahul Mehta" },
+            { id: "sky-done-2", visitDate: "2026-04-08", customerName: "Ritika Das", outcome: "Closed", visitedBy: "Nisha Arora" },
+        ],
+    },
+    {
+        id: "project-2",
+        name: "Marina Heights",
+        location: "Noida Extension, Greater Noida",
+        image: "/assets/images/project/project2.webp",
+        typology: "3 & 4 BHK",
+        inventory: "242 Units",
+        possession: "Mar 2027",
+        avgTicket: "1.9 Cr",
+        stage: "Under Construction",
+        totalViews: 3890,
+        activeLeads: 7,
+        upcomingVisits: [
+            { id: "mar-up-1", visitDate: "2026-04-12", customerName: "Meera S", slot: "04:00 PM", source: "Campaign", visitedBy: "Aditya Singh" },
+            { id: "mar-up-2", visitDate: "2026-04-15", customerName: "Dev Arora", slot: "02:15 PM", source: "Referral", visitedBy: "Priya Nair" },
+        ],
+        completedVisits: [
+            { id: "mar-done-1", visitDate: "2026-04-06", customerName: "Kunal Mehta", outcome: "Negotiation", visitedBy: "Aditya Singh" },
+            { id: "mar-done-2", visitDate: "2026-04-07", customerName: "Sara Khan", outcome: "Closed", visitedBy: "Priya Nair" },
+        ],
+    },
+    {
+        id: "project-3",
+        name: "Green Crest",
+        location: "Whitefield, Bengaluru",
+        image: "/assets/images/project/project3.webp",
+        typology: "2, 3 & 4 BHK",
+        inventory: "320 Units",
+        possession: "Sep 2027",
+        avgTicket: "2.1 Cr",
+        stage: "Pre Launch",
+        totalViews: 3660,
+        activeLeads: 5,
+        upcomingVisits: [
+            { id: "grn-up-1", visitDate: "2026-04-11", customerName: "Neha Sharma", slot: "01:00 PM", source: "Instagram", visitedBy: "Karan Dsouza" },
+            { id: "grn-up-2", visitDate: "2026-04-17", customerName: "Tarun Iyer", slot: "03:45 PM", source: "Website", visitedBy: "Sneha Kulkarni" },
+        ],
+        completedVisits: [
+            { id: "grn-done-1", visitDate: "2026-04-05", customerName: "Pooja Nair", outcome: "Followup", visitedBy: "Karan Dsouza" },
+            { id: "grn-done-2", visitDate: "2026-04-09", customerName: "Ishaan Paul", outcome: "Negotiation", visitedBy: "Sneha Kulkarni" },
+        ],
+    },
 ];
 
 const MONTHLY_ANALYTICS = [
@@ -37,55 +149,8 @@ const MONTHLY_ANALYTICS = [
     { month: "Jun", views: 2440, leads: 29, closed: 6 },
 ];
 
-const UPCOMING_VISITS = [
-    {
-        id: "visit-up-1",
-        visitDate: "2026-04-10",
-        customerName: "Rohan Khanna",
-        propertyName: "Skyline One",
-        slot: "11:30 AM",
-    },
-    {
-        id: "visit-up-2",
-        visitDate: "2026-04-12",
-        customerName: "Meera S",
-        propertyName: "Marina Heights",
-        slot: "04:00 PM",
-    },
-    {
-        id: "visit-up-3",
-        visitDate: "2026-04-15",
-        customerName: "Dev Arora",
-        propertyName: "Green Crest",
-        slot: "02:15 PM",
-    },
-];
-
-const COMPLETED_VISITS = [
-    {
-        id: "visit-done-1",
-        visitDate: "2026-04-04",
-        customerName: "Ananya Verma",
-        propertyName: "Sunrise Elite",
-        outcome: "Followup",
-    },
-    {
-        id: "visit-done-2",
-        visitDate: "2026-04-06",
-        customerName: "Kunal Mehta",
-        propertyName: "Palm Meadows",
-        outcome: "Negotiation",
-    },
-    {
-        id: "visit-done-3",
-        visitDate: "2026-04-07",
-        customerName: "Sara Khan",
-        propertyName: "Marina Heights",
-        outcome: "Closed",
-    },
-];
-
 export default function BuilderAnalyticsDashboard() {
+    const [selectedProject, setSelectedProject] = useState(null);
     const leads = INITIAL_LEADS;
 
     const maxViews = useMemo(() => Math.max(...MONTHLY_ANALYTICS.map((item) => item.views)), []);
@@ -97,9 +162,14 @@ export default function BuilderAnalyticsDashboard() {
         }, {});
     }, [leads]);
 
-    const closedDeals = statusCounts.Closed || 0;
+    const closedDeals = useMemo(() => {
+        return BUILDER_PROJECTS.reduce((sum, project) => {
+            return sum + project.completedVisits.filter((visit) => visit.outcome === "Closed").length;
+        }, 0);
+    }, []);
+
     const totalLeads = leads.length;
-    const totalVisits = MONTHLY_ANALYTICS.reduce((sum, item) => sum + item.views, 0);
+    const totalVisits = useMemo(() => BUILDER_PROJECTS.reduce((sum, project) => sum + project.totalViews, 0), []);
 
     const graphPoints = useMemo(() => {
         const width = 680;
@@ -125,6 +195,24 @@ export default function BuilderAnalyticsDashboard() {
         return `${linePath} L${width},${height} L0,${height} Z`;
     }, [linePath, graphPoints]);
 
+    useEffect(() => {
+        const onEscape = (event) => {
+            if (event.key === "Escape") {
+                setSelectedProject(null);
+            }
+        };
+
+        if (selectedProject) {
+            document.body.style.overflow = "hidden";
+            window.addEventListener("keydown", onEscape);
+        }
+
+        return () => {
+            document.body.style.overflow = "";
+            window.removeEventListener("keydown", onEscape);
+        };
+    }, [selectedProject]);
+
     return (
         <>
             <Header />
@@ -141,7 +229,7 @@ export default function BuilderAnalyticsDashboard() {
                         <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
                             <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Total Visits</p>
                             <p className="mt-2 text-3xl font-bold">{totalVisits}</p>
-                            <p className="text-xs text-[#F5EFE7]">Property profile views</p>
+                            <p className="text-xs text-[#F5EFE7]">Portfolio profile views</p>
                         </article>
                         <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
                             <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Active Leads</p>
@@ -155,8 +243,6 @@ export default function BuilderAnalyticsDashboard() {
                         </article>
                     </div>
 
-                    
-
                     <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
                         {STATUS_OPTIONS.map((status) => (
                             <div key={status} className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-4 py-3">
@@ -166,65 +252,70 @@ export default function BuilderAnalyticsDashboard() {
                         ))}
                     </div>
 
-                    <div className="grid gap-6 lg:grid-cols-2">
-                        <div className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                            <div className="mb-3 flex items-center justify-between">
-                                <h3 className="text-lg font-semibold">Upcoming Visits</h3>
-                                <span className="text-xs text-[#F5EFE7]">Next scheduled site visits</span>
-                            </div>
-                            <table className="w-full table-auto text-left text-sm">
-                                <thead>
-                                    <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]">
-                                        <th className="pb-3 pr-2">Visit Date</th>
-                                        <th className="pb-3 pr-2">Customer</th>
-                                        <th className="pb-3 pr-2">Property</th>
-                                        <th className="pb-3 pr-2">Time Slot</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {UPCOMING_VISITS.map((visit) => (
-                                        <tr key={visit.id} className="border-b border-[#F5EFE7]/5">
-                                            <td className="py-3 pr-2">{visit.visitDate}</td>
-                                            <td className="py-3 pr-2">{visit.customerName}</td>
-                                            <td className="py-3 pr-2">{visit.propertyName}</td>
-                                            <td className="py-3 pr-2">{visit.slot}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                    <section className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
+                        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                            <h2 className="text-xl font-semibold">Builder Project Portfolio</h2>
+                            <span className="rounded-full border border-[#C6A256]/35 bg-[#C6A256]/10 px-3 py-1 text-xs text-[#C6A256]">
+                                {BUILDER_PROJECTS.length} Active Projects
+                            </span>
                         </div>
 
-                        <div className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                            <div className="mb-3 flex items-center justify-between">
-                                <h3 className="text-lg font-semibold">Completed Visits</h3>
-                                <span className="text-xs text-[#F5EFE7]">Latest visit outcomes</span>
-                            </div>
-                            <table className="w-full table-auto text-left text-sm">
-                                <thead>
-                                    <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]">
-                                        <th className="pb-3 pr-2">Visit Date</th>
-                                        <th className="pb-3 pr-2">Customer</th>
-                                        <th className="pb-3 pr-2">Property</th>
-                                        <th className="pb-3 pr-2">Outcome</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {COMPLETED_VISITS.map((visit) => (
-                                        <tr key={visit.id} className="border-b border-[#F5EFE7]/5">
-                                            <td className="py-3 pr-2">{visit.visitDate}</td>
-                                            <td className="py-3 pr-2">{visit.customerName}</td>
-                                            <td className="py-3 pr-2">{visit.propertyName}</td>
-                                            <td className="py-3 pr-2">
-                                                <span className="rounded-full border border-[#C6A256]/30 bg-[#212121]/10 px-2 py-1 text-xs text-[#C6A256]">
-                                                    {visit.outcome}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                            {BUILDER_PROJECTS.map((project) => (
+                                <button
+                                    key={project.id}
+                                    type="button"
+                                    onClick={() => setSelectedProject(project)}
+                                    className="group overflow-hidden rounded-xl border border-[#F5EFE7]/10 bg-[#212121]/45 text-left transition-all duration-300 hover:-translate-y-1 hover:border-[#C6A256]/50 hover:shadow-[0_16px_40px_-25px_rgba(198,162,86,0.7)]"
+                                >
+                                    <div className="relative h-44 w-full overflow-hidden">
+                                        <Image
+                                            src={project.image}
+                                            alt={project.name}
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-0 bg-linear-to-t from-[#212121]/80 via-transparent to-transparent" />
+                                        <span className="absolute left-3 top-3 rounded-full border border-[#F5EFE7]/25 bg-[#212121]/70 px-2 py-1 text-xs">
+                                            {project.stage}
+                                        </span>
+                                    </div>
+
+                                    <div className="space-y-3 p-4">
+                                        <div>
+                                            <h3 className="text-lg font-semibold text-[#F5EFE7]">{project.name}</h3>
+                                            <p className="text-sm text-[#F5EFE7]/80">{project.location}</p>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-2 text-xs text-[#F5EFE7]/85">
+                                            <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-2 py-2">
+                                                <p className="text-[#F5EFE7]/65">Typology</p>
+                                                <p className="font-medium">{project.typology}</p>
+                                            </div>
+                                            <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-2 py-2">
+                                                <p className="text-[#F5EFE7]/65">Inventory</p>
+                                                <p className="font-medium">{project.inventory}</p>
+                                            </div>
+                                            <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-2 py-2">
+                                                <p className="text-[#F5EFE7]/65">Possession</p>
+                                                <p className="font-medium">{project.possession}</p>
+                                            </div>
+                                            <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-2 py-2">
+                                                <p className="text-[#F5EFE7]/65">Avg Ticket</p>
+                                                <p className="font-medium">{project.avgTicket}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-between border-t border-[#F5EFE7]/10 pt-3 text-sm text-[#C6A256]">
+                                            <span>{project.activeLeads} active leads</span>
+                                            <span className="font-medium">View details</span>
+                                        </div>
+                                    </div>
+                                </button>
+                            ))}
                         </div>
-                    </div>
+                    </section>
 
                     <div className="mb-6 mt-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
                         <div className="mb-4 flex items-center justify-between">
@@ -276,6 +367,129 @@ export default function BuilderAnalyticsDashboard() {
                         </div>
                     </div>
                 </section>
+
+                {selectedProject && (
+                    <div className="fixed inset-0 z-50">
+                        <button
+                            type="button"
+                            className="absolute inset-0 bg-[#111111]/70 backdrop-blur-sm"
+                            onClick={() => setSelectedProject(null)}
+                            aria-label="Close project details"
+                        />
+
+                        <aside className="absolute right-0 top-0 h-full w-full max-w-3xl overflow-y-auto border-l border-[#F5EFE7]/10 bg-[#1D1D1D] p-4 text-[#F5EFE7] shadow-[0_20px_60px_rgba(0,0,0,0.5)] sm:p-6">
+                            <div className="mb-5 flex items-center justify-between">
+                                <h3 className="text-2xl font-semibold">{selectedProject.name}</h3>
+                                <button
+                                    type="button"
+                                    onClick={() => setSelectedProject(null)}
+                                    className="rounded-lg border border-[#F5EFE7]/20 px-3 py-2 text-sm hover:bg-[#F5EFE7]/10"
+                                >
+                                    Close
+                                </button>
+                            </div>
+
+                            <div className="relative mb-4 h-52 w-full overflow-hidden rounded-xl border border-[#F5EFE7]/10">
+                                <Image
+                                    src={selectedProject.image}
+                                    alt={selectedProject.name}
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 960px"
+                                    className="object-cover"
+                                />
+                                <div className="absolute inset-0 bg-linear-to-t from-[#212121]/75 via-transparent to-transparent" />
+                                <div className="absolute bottom-3 left-3 rounded-full border border-[#C6A256]/40 bg-[#212121]/70 px-3 py-1 text-xs text-[#C6A256]">
+                                    {selectedProject.stage}
+                                </div>
+                            </div>
+
+                            <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                                <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-3">
+                                    <p className="text-xs text-[#F5EFE7]/70">Location</p>
+                                    <p className="text-sm font-medium">{selectedProject.location}</p>
+                                </div>
+                                <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-3">
+                                    <p className="text-xs text-[#F5EFE7]/70">Typology</p>
+                                    <p className="text-sm font-medium">{selectedProject.typology}</p>
+                                </div>
+                                <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-3">
+                                    <p className="text-xs text-[#F5EFE7]/70">Possession</p>
+                                    <p className="text-sm font-medium">{selectedProject.possession}</p>
+                                </div>
+                                <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-3">
+                                    <p className="text-xs text-[#F5EFE7]/70">Avg Ticket</p>
+                                    <p className="text-sm font-medium">{selectedProject.avgTicket}</p>
+                                </div>
+                            </div>
+
+                            <div className="space-y-4">
+                                <div className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                    <div className="mb-3 flex items-center justify-between">
+                                        <h4 className="text-base font-semibold">Upcoming Visits</h4>
+                                        <span className="text-xs text-[#F5EFE7]/75">{selectedProject.upcomingVisits.length} scheduled</span>
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left text-sm">
+                                            <thead>
+                                                <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]/80">
+                                                    <th className="pb-2 pr-2">Date</th>
+                                                    <th className="pb-2 pr-2">Customer</th>
+                                                    <th className="pb-2 pr-2">Slot</th>
+                                                    <th className="pb-2 pr-2">Source</th>
+                                                    <th className="pb-2 pr-2">Visited By</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {selectedProject.upcomingVisits.map((visit) => (
+                                                    <tr key={visit.id} className="border-b border-[#F5EFE7]/5">
+                                                        <td className="py-2 pr-2">{visit.visitDate}</td>
+                                                        <td className="py-2 pr-2">{visit.customerName}</td>
+                                                        <td className="py-2 pr-2">{visit.slot}</td>
+                                                        <td className="py-2 pr-2">{visit.source}</td>
+                                                        <td className="py-2 pr-2">{visit.visitedBy}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                    <div className="mb-3 flex items-center justify-between">
+                                        <h4 className="text-base font-semibold">Completed Visits</h4>
+                                        <span className="text-xs text-[#F5EFE7]/75">{selectedProject.completedVisits.length} outcomes</span>
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left text-sm">
+                                            <thead>
+                                                <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]/80">
+                                                    <th className="pb-2 pr-2">Date</th>
+                                                    <th className="pb-2 pr-2">Customer</th>
+                                                    <th className="pb-2 pr-2">Visited By</th>
+                                                    <th className="pb-2 pr-2">Outcome</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {selectedProject.completedVisits.map((visit) => (
+                                                    <tr key={visit.id} className="border-b border-[#F5EFE7]/5">
+                                                        <td className="py-2 pr-2">{visit.visitDate}</td>
+                                                        <td className="py-2 pr-2">{visit.customerName}</td>
+                                                        <td className="py-2 pr-2">{visit.visitedBy}</td>
+                                                        <td className="py-2 pr-2">
+                                                            <span className="rounded-full border border-[#C6A256]/30 bg-[#212121]/10 px-2 py-1 text-xs text-[#C6A256]">
+                                                                {visit.outcome}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                )}
             </main>
             <WhatsapBanner />
             <Footer />
