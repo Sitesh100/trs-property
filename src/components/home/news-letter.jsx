@@ -141,7 +141,7 @@ function NewsLetter() {
                                     whileTap={{ scale: 0.95 }}
                                     type="submit"
                                     disabled={isLoading}
-                                    className="bg-linear-to-r from-[#212121] to-[#212121] text-[#F5EFE7] px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#212121]/30"
+                                    className="bg-linear-to-r from-[#C6A256] to-[#B89248] text-[#1F1A12] px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#C6A256]/35"
                                 >
                                     {isLoading && submittingType === "email" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                                     {isLoading && submittingType === "email" ? "Subscribing..." : "Subscribe Email"}
@@ -167,7 +167,7 @@ function NewsLetter() {
                                     whileTap={{ scale: 0.95 }}
                                     type="submit"
                                     disabled={isLoading}
-                                    className="bg-linear-to-r from-[#212121] to-[#212121] text-[#F5EFE7] px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#212121]/30"
+                                    className="bg-linear-to-r from-[#C6A256] to-[#B89248] text-[#1F1A12] px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#C6A256]/35"
                                 >
                                     {isLoading && submittingType === "whatsapp" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                                     {isLoading && submittingType === "whatsapp" ? "Subscribing..." : "Subscribe WhatsApp"}

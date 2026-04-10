@@ -1,159 +1,43 @@
 "use client";
 
-import Header from "@/components/header";
 import Footer from "@/components/footer";
+import Header from "@/components/header";
 import WhatsapBanner from "@/components/home/whatsap-banner";
+import {
+    BUILDER_PROJECTS,
+    INITIAL_LEADS,
+    PORTFOLIO_ANALYTICS,
+    STATUS_OPTIONS,
+} from "@/components/builder/project-analytics-data";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-const STATUS_OPTIONS = ["New", "Followup", "Site Visit", "Negotiation", "Closed", "Cancelled"];
-
-const INITIAL_LEADS = [
-    {
-        id: "lead-1",
-        date: "2026-04-03",
-        customerName: "Rohan Khanna",
-        customerNumber: "9876543210",
-        propertyName: "Skyline One",
-        notes: "Requested weekend site visit",
-        status: "Followup",
-    },
-    {
-        id: "lead-2",
-        date: "2026-04-05",
-        customerName: "Meera S",
-        customerNumber: "9123456780",
-        propertyName: "Marina Heights",
-        notes: "Budget approval in progress",
-        status: "Negotiation",
-    },
-    {
-        id: "lead-3",
-        date: "2026-04-06",
-        customerName: "Kunal Mehta",
-        customerNumber: "9034567812",
-        propertyName: "Palm Meadows",
-        notes: "Requested payment plan breakup",
-        status: "New",
-    },
-    {
-        id: "lead-4",
-        date: "2026-04-07",
-        customerName: "Sara Khan",
-        customerNumber: "9981234567",
-        propertyName: "Marina Heights",
-        notes: "Follow-up post site visit",
-        status: "Followup",
-    },
-    {
-        id: "lead-5",
-        date: "2026-04-08",
-        customerName: "Aakash Jain",
-        customerNumber: "9872301456",
-        propertyName: "Skyline One",
-        notes: "Booked site visit for family",
-        status: "Site Visit",
-    },
-    {
-        id: "lead-6",
-        date: "2026-04-09",
-        customerName: "Ritika Das",
-        customerNumber: "9812345087",
-        propertyName: "Palm Meadows",
-        notes: "Commercial unit shortlisted",
-        status: "Closed",
-    },
-    {
-        id: "lead-7",
-        date: "2026-04-09",
-        customerName: "Aman Verma",
-        customerNumber: "9198123412",
-        propertyName: "Skyline One",
-        notes: "Loan declined by bank",
-        status: "Cancelled",
-    },
-];
-
-const BUILDER_PROJECTS = [
-    {
-        id: "project-1",
-        name: "Skyline One",
-        location: "Sector 102, Gurugram",
-        image: "/assets/images/project/project1.webp",
-        typology: "2 & 3 BHK",
-        inventory: "186 Units",
-        possession: "Dec 2026",
-        avgTicket: "1.35 Cr",
-        stage: "Ready to Move",
-        totalViews: 4210,
-        activeLeads: 9,
-        upcomingVisits: [
-            { id: "sky-up-1", visitDate: "2026-04-10", customerName: "Rohan Khanna", slot: "11:30 AM", source: "Website", visitedBy: "Rahul Mehta" },
-            { id: "sky-up-2", visitDate: "2026-04-13", customerName: "Aakash Jain", slot: "05:00 PM", source: "Broker", visitedBy: "Nisha Arora" },
-        ],
-        completedVisits: [
-            { id: "sky-done-1", visitDate: "2026-04-04", customerName: "Ananya Verma", outcome: "Followup", visitedBy: "Rahul Mehta" },
-            { id: "sky-done-2", visitDate: "2026-04-08", customerName: "Ritika Das", outcome: "Closed", visitedBy: "Nisha Arora" },
-        ],
-    },
-    {
-        id: "project-2",
-        name: "Marina Heights",
-        location: "Noida Extension, Greater Noida",
-        image: "/assets/images/project/project2.webp",
-        typology: "3 & 4 BHK",
-        inventory: "242 Units",
-        possession: "Mar 2027",
-        avgTicket: "1.9 Cr",
-        stage: "Under Construction",
-        totalViews: 3890,
-        activeLeads: 7,
-        upcomingVisits: [
-            { id: "mar-up-1", visitDate: "2026-04-12", customerName: "Meera S", slot: "04:00 PM", source: "Campaign", visitedBy: "Aditya Singh" },
-            { id: "mar-up-2", visitDate: "2026-04-15", customerName: "Dev Arora", slot: "02:15 PM", source: "Referral", visitedBy: "Priya Nair" },
-        ],
-        completedVisits: [
-            { id: "mar-done-1", visitDate: "2026-04-06", customerName: "Kunal Mehta", outcome: "Negotiation", visitedBy: "Aditya Singh" },
-            { id: "mar-done-2", visitDate: "2026-04-07", customerName: "Sara Khan", outcome: "Closed", visitedBy: "Priya Nair" },
-        ],
-    },
-    {
-        id: "project-3",
-        name: "Green Crest",
-        location: "Whitefield, Bengaluru",
-        image: "/assets/images/project/project3.webp",
-        typology: "2, 3 & 4 BHK",
-        inventory: "320 Units",
-        possession: "Sep 2027",
-        avgTicket: "2.1 Cr",
-        stage: "Pre Launch",
-        totalViews: 3660,
-        activeLeads: 5,
-        upcomingVisits: [
-            { id: "grn-up-1", visitDate: "2026-04-11", customerName: "Neha Sharma", slot: "01:00 PM", source: "Instagram", visitedBy: "Karan Dsouza" },
-            { id: "grn-up-2", visitDate: "2026-04-17", customerName: "Tarun Iyer", slot: "03:45 PM", source: "Website", visitedBy: "Sneha Kulkarni" },
-        ],
-        completedVisits: [
-            { id: "grn-done-1", visitDate: "2026-04-05", customerName: "Pooja Nair", outcome: "Followup", visitedBy: "Karan Dsouza" },
-            { id: "grn-done-2", visitDate: "2026-04-09", customerName: "Ishaan Paul", outcome: "Negotiation", visitedBy: "Sneha Kulkarni" },
-        ],
-    },
-];
-
-const MONTHLY_ANALYTICS = [
-    { month: "Jan", views: 1420, leads: 14, closed: 2 },
-    { month: "Feb", views: 1680, leads: 18, closed: 3 },
-    { month: "Mar", views: 1950, leads: 22, closed: 4 },
-    { month: "Apr", views: 2210, leads: 26, closed: 5 },
-    { month: "May", views: 2060, leads: 24, closed: 4 },
-    { month: "Jun", views: 2440, leads: 29, closed: 6 },
-];
+const NEW_PROJECT_INITIAL_STATE = {
+    name: "",
+    location: "",
+    typology: "",
+    inventory: "",
+    possession: "",
+    avgTicket: "",
+    stage: "Under Construction",
+    totalViews: "1200",
+    activeLeads: "3",
+    image: "/assets/images/project/project1.webp",
+};
 
 export default function BuilderAnalyticsDashboard() {
-    const [selectedProject, setSelectedProject] = useState(null);
     const leads = INITIAL_LEADS;
+    const [projects, setProjects] = useState(BUILDER_PROJECTS);
+    const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
+    const [newProject, setNewProject] = useState(NEW_PROJECT_INITIAL_STATE);
+    const builderProfile = {
+        name: "Aditya Singh",
+        email: "aditya.singh@trspropertymall.com",
+        image: "/assets/images/profile.png",
+    };
 
-    const maxViews = useMemo(() => Math.max(...MONTHLY_ANALYTICS.map((item) => item.views)), []);
+    const maxViews = useMemo(() => Math.max(...PORTFOLIO_ANALYTICS.map((item) => item.views)), []);
 
     const statusCounts = useMemo(() => {
         return STATUS_OPTIONS.reduce((acc, status) => {
@@ -163,20 +47,20 @@ export default function BuilderAnalyticsDashboard() {
     }, [leads]);
 
     const closedDeals = useMemo(() => {
-        return BUILDER_PROJECTS.reduce((sum, project) => {
+        return projects.reduce((sum, project) => {
             return sum + project.completedVisits.filter((visit) => visit.outcome === "Closed").length;
         }, 0);
-    }, []);
+    }, [projects]);
 
     const totalLeads = leads.length;
-    const totalVisits = useMemo(() => BUILDER_PROJECTS.reduce((sum, project) => sum + project.totalViews, 0), []);
+    const totalVisits = useMemo(() => projects.reduce((sum, project) => sum + project.totalViews, 0), [projects]);
 
     const graphPoints = useMemo(() => {
         const width = 680;
         const height = 220;
-        const step = width / (MONTHLY_ANALYTICS.length - 1);
+        const step = width / (PORTFOLIO_ANALYTICS.length - 1);
 
-        return MONTHLY_ANALYTICS.map((item, index) => {
+        return PORTFOLIO_ANALYTICS.map((item, index) => {
             const x = index * step;
             const y = height - (item.views / maxViews) * (height - 20) - 10;
             return { ...item, x, y };
@@ -196,22 +80,84 @@ export default function BuilderAnalyticsDashboard() {
     }, [linePath, graphPoints]);
 
     useEffect(() => {
+        if (!isAddProjectOpen) return undefined;
+
         const onEscape = (event) => {
             if (event.key === "Escape") {
-                setSelectedProject(null);
+                setIsAddProjectOpen(false);
             }
         };
 
-        if (selectedProject) {
-            document.body.style.overflow = "hidden";
-            window.addEventListener("keydown", onEscape);
-        }
+        document.body.style.overflow = "hidden";
+        window.addEventListener("keydown", onEscape);
 
         return () => {
             document.body.style.overflow = "";
             window.removeEventListener("keydown", onEscape);
         };
-    }, [selectedProject]);
+    }, [isAddProjectOpen]);
+
+    const handleProjectInputChange = (event) => {
+        const { name, value } = event.target;
+        setNewProject((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleProjectImageUpload = (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (typeof reader.result === "string") {
+                setNewProject((prev) => ({ ...prev, image: reader.result }));
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleAddProject = (event) => {
+        event.preventDefault();
+
+        const projectId = newProject.name
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
+
+        const viewsNumber = Number(newProject.totalViews) || 0;
+        const leadsNumber = Number(newProject.activeLeads) || 0;
+
+        const generatedMonthlyAnalytics = [
+            { month: "Jan", views: Math.round(viewsNumber * 0.14), leads: Math.max(1, Math.round(leadsNumber * 0.6)), closed: 0 },
+            { month: "Feb", views: Math.round(viewsNumber * 0.16), leads: Math.max(1, Math.round(leadsNumber * 0.7)), closed: 1 },
+            { month: "Mar", views: Math.round(viewsNumber * 0.17), leads: Math.max(1, Math.round(leadsNumber * 0.8)), closed: 1 },
+            { month: "Apr", views: Math.round(viewsNumber * 0.18), leads: Math.max(1, Math.round(leadsNumber * 0.9)), closed: 1 },
+            { month: "May", views: Math.round(viewsNumber * 0.17), leads: Math.max(1, Math.round(leadsNumber * 0.8)), closed: 1 },
+            { month: "Jun", views: Math.round(viewsNumber * 0.18), leads: Math.max(1, leadsNumber), closed: 1 },
+        ];
+
+        const createdProject = {
+            id: projectId || `project-${Date.now()}`,
+            name: newProject.name.trim(),
+            location: newProject.location.trim(),
+            image: newProject.image.trim() || "/assets/images/project/project1.webp",
+            typology: newProject.typology.trim(),
+            inventory: newProject.inventory.trim(),
+            possession: newProject.possession.trim(),
+            avgTicket: newProject.avgTicket.trim(),
+            stage: newProject.stage.trim(),
+            totalViews: viewsNumber,
+            activeLeads: leadsNumber,
+            monthlyAnalytics: generatedMonthlyAnalytics,
+            upcomingVisits: [],
+            completedVisits: [],
+            analyticsEnabled: false,
+        };
+
+        setProjects((prev) => [createdProject, ...prev]);
+        setNewProject(NEW_PROJECT_INITIAL_STATE);
+        setIsAddProjectOpen(false);
+    };
 
     return (
         <>
@@ -219,10 +165,40 @@ export default function BuilderAnalyticsDashboard() {
             <main className="min-h-screen bg-linear-to-b from-[#212121] via-[#212121] to-[#212121] px-4 py-8 text-[#F5EFE7] md:px-8">
                 <section className="mx-auto max-w-7xl">
                     <div className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
-                        <h1 className="text-2xl font-bold">Builder Analytics Dashboard</h1>
-                        <p className="mt-2 text-sm text-[#F5EFE7]">
-                            Personalised analytics for property views, lead tracking, and closed deals.
-                        </p>
+                        <div className="flex flex-wrap items-center gap-4">
+                            <div className="relative h-16 w-16 overflow-hidden rounded-full border border-[#C6A256]/40">
+                                <Image
+                                    src={builderProfile.image}
+                                    alt={builderProfile.name}
+                                    fill
+                                    sizes="64px"
+                                    className="object-cover"
+                                />
+                            </div>
+                            <div>
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Builder Profile</p>
+                                <h2 className="text-xl font-semibold text-[#F5EFE7]">{builderProfile.name}</h2>
+                                <p className="text-sm text-[#F5EFE7]/80">{builderProfile.email}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                            <div>
+                                <h1 className="text-2xl font-bold">Builder Analytics Dashboard</h1>
+                                <p className="mt-2 text-sm text-[#F5EFE7]">
+                                    Personalised analytics for property views, lead tracking, and closed deals.
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setIsAddProjectOpen(true)}
+                                className="rounded-lg border border-[#C6A256]/40 bg-[#C6A256]/15 px-3 py-2 text-sm font-medium text-[#E0C484] transition-colors hover:bg-[#C6A256]/25"
+                            >
+                                Add Project
+                            </button>
+                        </div>
                     </div>
 
                     <div className="mb-6 grid gap-4 md:grid-cols-3">
@@ -256,16 +232,14 @@ export default function BuilderAnalyticsDashboard() {
                         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                             <h2 className="text-xl font-semibold">Builder Project Portfolio</h2>
                             <span className="rounded-full border border-[#C6A256]/35 bg-[#C6A256]/10 px-3 py-1 text-xs text-[#C6A256]">
-                                {BUILDER_PROJECTS.length} Active Projects
+                                {projects.length} Active Projects
                             </span>
                         </div>
 
                         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                            {BUILDER_PROJECTS.map((project) => (
-                                <button
+                            {projects.map((project) => (
+                                <article
                                     key={project.id}
-                                    type="button"
-                                    onClick={() => setSelectedProject(project)}
                                     className="group overflow-hidden rounded-xl border border-[#F5EFE7]/10 bg-[#212121]/45 text-left transition-all duration-300 hover:-translate-y-1 hover:border-[#C6A256]/50 hover:shadow-[0_16px_40px_-25px_rgba(198,162,86,0.7)]"
                                 >
                                     <div className="relative h-44 w-full overflow-hidden">
@@ -309,26 +283,34 @@ export default function BuilderAnalyticsDashboard() {
 
                                         <div className="flex items-center justify-between border-t border-[#F5EFE7]/10 pt-3 text-sm text-[#C6A256]">
                                             <span>{project.activeLeads} active leads</span>
-                                            <span className="font-medium">View details</span>
+                                            {project.analyticsEnabled === false ? (
+                                                <span className="font-medium text-[#F5EFE7]/70">Analytics page pending</span>
+                                            ) : (
+                                                <Link href={`/builder/analytics/${project.id}`} className="font-medium hover:text-[#E0C484]">
+                                                    View full analytics
+                                                </Link>
+                                            )}
                                         </div>
                                     </div>
-                                </button>
+                                </article>
                             ))}
                         </div>
                     </section>
 
                     <div className="mb-6 mt-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
                         <div className="mb-4 flex items-center justify-between">
-                            <h2 className="text-lg font-semibold">Property Views Trend</h2>
+                            <h2 className="text-lg font-semibold">Portfolio Views Trend</h2>
                             <span className="text-xs text-[#F5EFE7]">Demo data - Last 6 months</span>
                         </div>
 
                         <div className="mb-4 grid gap-3 sm:grid-cols-3">
-                            {MONTHLY_ANALYTICS.slice(-3).map((item) => (
+                            {PORTFOLIO_ANALYTICS.slice(-3).map((item) => (
                                 <div key={`preview-${item.month}`} className="rounded-lg border border-[#F5EFE7]/10 bg-[#212121]/30 px-3 py-2">
                                     <p className="text-xs text-[#F5EFE7]">{item.month}</p>
                                     <p className="text-sm font-semibold">{item.views} views</p>
-                                    <p className="text-xs text-[#F5EFE7]">{item.leads} leads, {item.closed} closed</p>
+                                    <p className="text-xs text-[#F5EFE7]">
+                                        {item.leads} leads, {item.closed} closed
+                                    </p>
                                 </div>
                             ))}
                         </div>
@@ -368,125 +350,176 @@ export default function BuilderAnalyticsDashboard() {
                     </div>
                 </section>
 
-                {selectedProject && (
+                {isAddProjectOpen && (
                     <div className="fixed inset-0 z-50">
                         <button
                             type="button"
-                            className="absolute inset-0 bg-[#111111]/70 backdrop-blur-sm"
-                            onClick={() => setSelectedProject(null)}
-                            aria-label="Close project details"
+                            className="absolute inset-0 bg-[#0C0C0C]/75 backdrop-blur-sm"
+                            onClick={() => setIsAddProjectOpen(false)}
+                            aria-label="Close add project panel"
                         />
 
-                        <aside className="absolute right-0 top-0 h-full w-full max-w-3xl overflow-y-auto border-l border-[#F5EFE7]/10 bg-[#1D1D1D] p-4 text-[#F5EFE7] shadow-[0_20px_60px_rgba(0,0,0,0.5)] sm:p-6">
+                        <aside className="absolute right-0 top-0 h-full w-full max-w-3xl overflow-y-auto border-l border-[#F5EFE7]/10 bg-[#171717] p-5 text-[#F5EFE7] shadow-[0_20px_60px_rgba(0,0,0,0.5)] sm:p-6">
                             <div className="mb-5 flex items-center justify-between">
-                                <h3 className="text-2xl font-semibold">{selectedProject.name}</h3>
+                                <div>
+                                    <h3 className="text-2xl font-semibold">Add New Project</h3>
+                                    <p className="mt-1 text-sm text-[#F5EFE7]/75">Fill project details to add it to your portfolio.</p>
+                                </div>
                                 <button
                                     type="button"
-                                    onClick={() => setSelectedProject(null)}
+                                    onClick={() => setIsAddProjectOpen(false)}
                                     className="rounded-lg border border-[#F5EFE7]/20 px-3 py-2 text-sm hover:bg-[#F5EFE7]/10"
                                 >
                                     Close
                                 </button>
                             </div>
 
-                            <div className="relative mb-4 h-52 w-full overflow-hidden rounded-xl border border-[#F5EFE7]/10">
-                                <Image
-                                    src={selectedProject.image}
-                                    alt={selectedProject.name}
-                                    fill
-                                    sizes="(max-width: 1024px) 100vw, 960px"
-                                    className="object-cover"
-                                />
-                                <div className="absolute inset-0 bg-linear-to-t from-[#212121]/75 via-transparent to-transparent" />
-                                <div className="absolute bottom-3 left-3 rounded-full border border-[#C6A256]/40 bg-[#212121]/70 px-3 py-1 text-xs text-[#C6A256]">
-                                    {selectedProject.stage}
+                            <form onSubmit={handleAddProject} className="space-y-4">
+                                <div className="grid gap-4 sm:grid-cols-2">
+                                    <label className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Project Name</span>
+                                        <input
+                                            required
+                                            name="name"
+                                            value={newProject.name}
+                                            onChange={handleProjectInputChange}
+                                            className="w-full rounded-lg border border-[#F5EFE7]/15 bg-[#0F0F0F] px-3 py-2 text-sm outline-none ring-[#C6A256]/50 focus:ring-2"
+                                            placeholder="e.g. Riverfront Residences"
+                                        />
+                                    </label>
+                                    <label className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Location</span>
+                                        <input
+                                            required
+                                            name="location"
+                                            value={newProject.location}
+                                            onChange={handleProjectInputChange}
+                                            className="w-full rounded-lg border border-[#F5EFE7]/15 bg-[#0F0F0F] px-3 py-2 text-sm outline-none ring-[#C6A256]/50 focus:ring-2"
+                                            placeholder="e.g. Sector 89, Gurugram"
+                                        />
+                                    </label>
+                                    <label className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Typology</span>
+                                        <input
+                                            required
+                                            name="typology"
+                                            value={newProject.typology}
+                                            onChange={handleProjectInputChange}
+                                            className="w-full rounded-lg border border-[#F5EFE7]/15 bg-[#0F0F0F] px-3 py-2 text-sm outline-none ring-[#C6A256]/50 focus:ring-2"
+                                            placeholder="e.g. 2, 3 & 4 BHK"
+                                        />
+                                    </label>
+                                    <label className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Inventory</span>
+                                        <input
+                                            required
+                                            name="inventory"
+                                            value={newProject.inventory}
+                                            onChange={handleProjectInputChange}
+                                            className="w-full rounded-lg border border-[#F5EFE7]/15 bg-[#0F0F0F] px-3 py-2 text-sm outline-none ring-[#C6A256]/50 focus:ring-2"
+                                            placeholder="e.g. 240 Units"
+                                        />
+                                    </label>
+                                    <label className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Possession</span>
+                                        <input
+                                            required
+                                            name="possession"
+                                            value={newProject.possession}
+                                            onChange={handleProjectInputChange}
+                                            className="w-full rounded-lg border border-[#F5EFE7]/15 bg-[#0F0F0F] px-3 py-2 text-sm outline-none ring-[#C6A256]/50 focus:ring-2"
+                                            placeholder="e.g. Nov 2028"
+                                        />
+                                    </label>
+                                    <label className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Avg Ticket</span>
+                                        <input
+                                            required
+                                            name="avgTicket"
+                                            value={newProject.avgTicket}
+                                            onChange={handleProjectInputChange}
+                                            className="w-full rounded-lg border border-[#F5EFE7]/15 bg-[#0F0F0F] px-3 py-2 text-sm outline-none ring-[#C6A256]/50 focus:ring-2"
+                                            placeholder="e.g. 1.75 Cr"
+                                        />
+                                    </label>
+                                    <label className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Construction Stage</span>
+                                        <select
+                                            name="stage"
+                                            value={newProject.stage}
+                                            onChange={handleProjectInputChange}
+                                            className="w-full rounded-lg border border-[#F5EFE7]/15 bg-[#0F0F0F] px-3 py-2 text-sm outline-none ring-[#C6A256]/50 focus:ring-2"
+                                        >
+                                            <option>Pre Launch</option>
+                                            <option>Under Construction</option>
+                                            <option>Ready to Move</option>
+                                        </select>
+                                    </label>
+                                    <div className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Project Image</span>
+                                        <label className="flex h-28 cursor-pointer items-center justify-center rounded-lg border border-dashed border-[#F5EFE7]/25 bg-[#0F0F0F] px-3 text-center text-xs text-[#F5EFE7]/75 hover:border-[#C6A256]/45">
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleProjectImageUpload}
+                                                className="hidden"
+                                            />
+                                            Click to upload image
+                                        </label>
+                                        <p className="text-[11px] text-[#F5EFE7]/55">Supported: JPG, PNG, WEBP. This is local preview data for now.</p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                                <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-3">
-                                    <p className="text-xs text-[#F5EFE7]/70">Location</p>
-                                    <p className="text-sm font-medium">{selectedProject.location}</p>
-                                </div>
-                                <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-3">
-                                    <p className="text-xs text-[#F5EFE7]/70">Typology</p>
-                                    <p className="text-sm font-medium">{selectedProject.typology}</p>
-                                </div>
-                                <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-3">
-                                    <p className="text-xs text-[#F5EFE7]/70">Possession</p>
-                                    <p className="text-sm font-medium">{selectedProject.possession}</p>
-                                </div>
-                                <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-3">
-                                    <p className="text-xs text-[#F5EFE7]/70">Avg Ticket</p>
-                                    <p className="text-sm font-medium">{selectedProject.avgTicket}</p>
-                                </div>
-                            </div>
-
-                            <div className="space-y-4">
-                                <div className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                                    <div className="mb-3 flex items-center justify-between">
-                                        <h4 className="text-base font-semibold">Upcoming Visits</h4>
-                                        <span className="text-xs text-[#F5EFE7]/75">{selectedProject.upcomingVisits.length} scheduled</span>
-                                    </div>
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full text-left text-sm">
-                                            <thead>
-                                                <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]/80">
-                                                    <th className="pb-2 pr-2">Date</th>
-                                                    <th className="pb-2 pr-2">Customer</th>
-                                                    <th className="pb-2 pr-2">Slot</th>
-                                                    <th className="pb-2 pr-2">Source</th>
-                                                    <th className="pb-2 pr-2">Visited By</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {selectedProject.upcomingVisits.map((visit) => (
-                                                    <tr key={visit.id} className="border-b border-[#F5EFE7]/5">
-                                                        <td className="py-2 pr-2">{visit.visitDate}</td>
-                                                        <td className="py-2 pr-2">{visit.customerName}</td>
-                                                        <td className="py-2 pr-2">{visit.slot}</td>
-                                                        <td className="py-2 pr-2">{visit.source}</td>
-                                                        <td className="py-2 pr-2">{visit.visitedBy}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
+                                <div className="overflow-hidden rounded-lg border border-[#F5EFE7]/10 bg-[#101010]">
+                                    <p className="border-b border-[#F5EFE7]/10 px-3 py-2 text-xs text-[#F5EFE7]/75">Image Preview</p>
+                                    <div className="relative h-40 w-full">
+                                        <Image src={newProject.image} alt="Project preview" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" />
                                     </div>
                                 </div>
 
-                                <div className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                                    <div className="mb-3 flex items-center justify-between">
-                                        <h4 className="text-base font-semibold">Completed Visits</h4>
-                                        <span className="text-xs text-[#F5EFE7]/75">{selectedProject.completedVisits.length} outcomes</span>
-                                    </div>
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full text-left text-sm">
-                                            <thead>
-                                                <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]/80">
-                                                    <th className="pb-2 pr-2">Date</th>
-                                                    <th className="pb-2 pr-2">Customer</th>
-                                                    <th className="pb-2 pr-2">Visited By</th>
-                                                    <th className="pb-2 pr-2">Outcome</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {selectedProject.completedVisits.map((visit) => (
-                                                    <tr key={visit.id} className="border-b border-[#F5EFE7]/5">
-                                                        <td className="py-2 pr-2">{visit.visitDate}</td>
-                                                        <td className="py-2 pr-2">{visit.customerName}</td>
-                                                        <td className="py-2 pr-2">{visit.visitedBy}</td>
-                                                        <td className="py-2 pr-2">
-                                                            <span className="rounded-full border border-[#C6A256]/30 bg-[#212121]/10 px-2 py-1 text-xs text-[#C6A256]">
-                                                                {visit.outcome}
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div className="grid gap-4 sm:grid-cols-2">
+                                    <label className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Expected Total Views</span>
+                                        <input
+                                            required
+                                            type="number"
+                                            min="0"
+                                            name="totalViews"
+                                            value={newProject.totalViews}
+                                            onChange={handleProjectInputChange}
+                                            className="w-full rounded-lg border border-[#F5EFE7]/15 bg-[#0F0F0F] px-3 py-2 text-sm outline-none ring-[#C6A256]/50 focus:ring-2"
+                                        />
+                                    </label>
+                                    <label className="space-y-2 text-sm">
+                                        <span className="text-[#F5EFE7]/80">Active Leads</span>
+                                        <input
+                                            required
+                                            type="number"
+                                            min="0"
+                                            name="activeLeads"
+                                            value={newProject.activeLeads}
+                                            onChange={handleProjectInputChange}
+                                            className="w-full rounded-lg border border-[#F5EFE7]/15 bg-[#0F0F0F] px-3 py-2 text-sm outline-none ring-[#C6A256]/50 focus:ring-2"
+                                        />
+                                    </label>
                                 </div>
-                            </div>
+
+                                <div className="flex items-center justify-end gap-3 border-t border-[#F5EFE7]/10 pt-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsAddProjectOpen(false)}
+                                        className="rounded-lg border border-[#F5EFE7]/20 px-4 py-2 text-sm hover:bg-[#F5EFE7]/10"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="rounded-lg border border-[#C6A256]/40 bg-[#C6A256]/20 px-4 py-2 text-sm font-semibold text-[#E0C484] hover:bg-[#C6A256]/30"
+                                    >
+                                        Add Project
+                                    </button>
+                                </div>
+                            </form>
                         </aside>
                     </div>
                 )}

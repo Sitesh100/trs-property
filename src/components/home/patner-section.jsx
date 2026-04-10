@@ -53,7 +53,7 @@ function PatnerSection() {
     const duplicatedImages = [...builderLogos, ...builderLogos, ...builderLogos, ...builderLogos];
 
     return (
-        <section className="py-20 md:py-28 bg-gradient-to-br from-[#212121] via-[#212121] to-[#212121] overflow-hidden relative">
+        <section className="py-20 md:py-28 bg-linear-to-br from-[#212121] via-[#212121] to-[#212121] overflow-hidden relative">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-10 left-1/4 w-64 h-64 bg-[#212121]/8 rounded-full blur-3xl"></div>
@@ -100,15 +100,15 @@ function PatnerSection() {
                             key={index}
                             whileHover={{ scale: 1.1 }}
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                            className="flex-shrink-0 group cursor-pointer"
+                            className="shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-40 h-40 md:w-44 md:h-44 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className="relative w-32 h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 p-2 lg:p-3 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}
                                     width={160}
                                     height={160}
-                                    className="object-contain transition-transform duration-300 group-hover:scale-110"
+                                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110"
                                 />
                             </div>
                         </motion.div>
@@ -134,15 +134,15 @@ function PatnerSection() {
                             key={`row2-${index}`}
                             whileHover={{ scale: 1.1 }}
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                            className="flex-shrink-0 group cursor-pointer"
+                            className="shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-40 h-40 md:w-44 md:h-44 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className="relative w-32 h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 p-2 lg:p-3 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}
                                     width={160}
                                     height={160}
-                                    className=" object-contain transition-transform duration-300 group-hover:scale-110"
+                                    className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110"
                                 />
                             </div>
                         </motion.div>
@@ -152,7 +152,7 @@ function PatnerSection() {
 
             {/* Bottom accent line */}
             <div className="container mx-auto px-4 mt-12">
-                <div className="h-px bg-gradient-to-r from-transparent via-[#C6A256]/30 to-transparent"></div>
+                <div className="h-px bg-linear-to-r from-transparent via-[#C6A256]/30 to-transparent"></div>
             </div>
         </section>
     )

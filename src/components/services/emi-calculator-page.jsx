@@ -160,10 +160,7 @@ function EmiCalculatorPage() {
                 </div>
 
                 <div className="flex items-center justify-start md:justify-end gap-3">
-                  <button className="hidden sm:flex items-center gap-1 text-[11px] text-[#212121] hover:text-[#212121] transition-colors">
-                    <Mail className="h-3.5 w-3.5" />
-                    Email me this deal
-                  </button>
+                  
                   <button
                     onClick={() => openDealPopup(offer.bank)}
                     className="rounded-xl bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] text-sm font-semibold px-5 py-2.5 transition-colors"

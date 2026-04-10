@@ -1,0 +1,170 @@
+export const STATUS_OPTIONS = ["New", "Followup", "Site Visit", "Negotiation", "Closed", "Cancelled"];
+
+export const INITIAL_LEADS = [
+    {
+        id: "lead-1",
+        date: "2026-04-03",
+        customerName: "Rohan Khanna",
+        customerNumber: "9876543210",
+        propertyName: "Skyline One",
+        notes: "Requested weekend site visit",
+        status: "Followup",
+    },
+    {
+        id: "lead-2",
+        date: "2026-04-05",
+        customerName: "Meera S",
+        customerNumber: "9123456780",
+        propertyName: "Marina Heights",
+        notes: "Budget approval in progress",
+        status: "Negotiation",
+    },
+    {
+        id: "lead-3",
+        date: "2026-04-06",
+        customerName: "Kunal Mehta",
+        customerNumber: "9034567812",
+        propertyName: "Green Crest",
+        notes: "Requested payment plan breakup",
+        status: "New",
+    },
+    {
+        id: "lead-4",
+        date: "2026-04-07",
+        customerName: "Sara Khan",
+        customerNumber: "9981234567",
+        propertyName: "Marina Heights",
+        notes: "Follow-up post site visit",
+        status: "Followup",
+    },
+    {
+        id: "lead-5",
+        date: "2026-04-08",
+        customerName: "Aakash Jain",
+        customerNumber: "9872301456",
+        propertyName: "Skyline One",
+        notes: "Booked site visit for family",
+        status: "Site Visit",
+    },
+    {
+        id: "lead-6",
+        date: "2026-04-09",
+        customerName: "Ritika Das",
+        customerNumber: "9812345087",
+        propertyName: "Green Crest",
+        notes: "Commercial unit shortlisted",
+        status: "Closed",
+    },
+    {
+        id: "lead-7",
+        date: "2026-04-09",
+        customerName: "Aman Verma",
+        customerNumber: "9198123412",
+        propertyName: "Skyline One",
+        notes: "Loan declined by bank",
+        status: "Cancelled",
+    },
+];
+
+export const BUILDER_PROJECTS = [
+    {
+        id: "skyline-one",
+        name: "Skyline One",
+        location: "Sector 102, Gurugram",
+        image: "/assets/images/project/project1.webp",
+        typology: "2 & 3 BHK",
+        inventory: "186 Units",
+        possession: "Dec 2026",
+        avgTicket: "1.35 Cr",
+        stage: "Ready to Move",
+        totalViews: 4210,
+        activeLeads: 9,
+        monthlyAnalytics: [
+            { month: "Jan", views: 610, leads: 8, closed: 1 },
+            { month: "Feb", views: 680, leads: 10, closed: 1 },
+            { month: "Mar", views: 740, leads: 12, closed: 2 },
+            { month: "Apr", views: 790, leads: 13, closed: 2 },
+            { month: "May", views: 680, leads: 11, closed: 1 },
+            { month: "Jun", views: 710, leads: 14, closed: 2 },
+        ],
+        upcomingVisits: [
+            { id: "sky-up-1", visitDate: "2026-04-10", customerName: "Rohan Khanna", slot: "11:30 AM", source: "Website", visitedBy: "Rahul Mehta" },
+            { id: "sky-up-2", visitDate: "2026-04-13", customerName: "Aakash Jain", slot: "05:00 PM", source: "Broker", visitedBy: "Nisha Arora" },
+        ],
+        completedVisits: [
+            { id: "sky-done-1", visitDate: "2026-04-04", customerName: "Ananya Verma", outcome: "Followup", visitedBy: "Rahul Mehta" },
+            { id: "sky-done-2", visitDate: "2026-04-08", customerName: "Ritika Das", outcome: "Closed", visitedBy: "Nisha Arora" },
+        ],
+    },
+    {
+        id: "marina-heights",
+        name: "Marina Heights",
+        location: "Noida Extension, Greater Noida",
+        image: "/assets/images/project/project2.webp",
+        typology: "3 & 4 BHK",
+        inventory: "242 Units",
+        possession: "Mar 2027",
+        avgTicket: "1.9 Cr",
+        stage: "Under Construction",
+        totalViews: 3890,
+        activeLeads: 7,
+        monthlyAnalytics: [
+            { month: "Jan", views: 520, leads: 7, closed: 1 },
+            { month: "Feb", views: 590, leads: 9, closed: 1 },
+            { month: "Mar", views: 660, leads: 11, closed: 2 },
+            { month: "Apr", views: 740, leads: 12, closed: 2 },
+            { month: "May", views: 670, leads: 10, closed: 1 },
+            { month: "Jun", views: 710, leads: 12, closed: 2 },
+        ],
+        upcomingVisits: [
+            { id: "mar-up-1", visitDate: "2026-04-12", customerName: "Meera S", slot: "04:00 PM", source: "Campaign", visitedBy: "Aditya Singh" },
+            { id: "mar-up-2", visitDate: "2026-04-15", customerName: "Dev Arora", slot: "02:15 PM", source: "Referral", visitedBy: "Priya Nair" },
+        ],
+        completedVisits: [
+            { id: "mar-done-1", visitDate: "2026-04-06", customerName: "Kunal Mehta", outcome: "Negotiation", visitedBy: "Aditya Singh" },
+            { id: "mar-done-2", visitDate: "2026-04-07", customerName: "Sara Khan", outcome: "Closed", visitedBy: "Priya Nair" },
+        ],
+    },
+    {
+        id: "green-crest",
+        name: "Green Crest",
+        location: "Whitefield, Bengaluru",
+        image: "/assets/images/project/project3.webp",
+        typology: "2, 3 & 4 BHK",
+        inventory: "320 Units",
+        possession: "Sep 2027",
+        avgTicket: "2.1 Cr",
+        stage: "Pre Launch",
+        totalViews: 3660,
+        activeLeads: 5,
+        monthlyAnalytics: [
+            { month: "Jan", views: 470, leads: 6, closed: 0 },
+            { month: "Feb", views: 530, leads: 7, closed: 1 },
+            { month: "Mar", views: 610, leads: 8, closed: 1 },
+            { month: "Apr", views: 680, leads: 9, closed: 1 },
+            { month: "May", views: 640, leads: 8, closed: 1 },
+            { month: "Jun", views: 730, leads: 10, closed: 2 },
+        ],
+        upcomingVisits: [
+            { id: "grn-up-1", visitDate: "2026-04-11", customerName: "Neha Sharma", slot: "01:00 PM", source: "Instagram", visitedBy: "Karan Dsouza" },
+            { id: "grn-up-2", visitDate: "2026-04-17", customerName: "Tarun Iyer", slot: "03:45 PM", source: "Website", visitedBy: "Sneha Kulkarni" },
+        ],
+        completedVisits: [
+            { id: "grn-done-1", visitDate: "2026-04-05", customerName: "Pooja Nair", outcome: "Followup", visitedBy: "Karan Dsouza" },
+            { id: "grn-done-2", visitDate: "2026-04-09", customerName: "Ishaan Paul", outcome: "Negotiation", visitedBy: "Sneha Kulkarni" },
+        ],
+    },
+];
+
+export const PORTFOLIO_ANALYTICS = [
+    { month: "Jan", views: 1600, leads: 21, closed: 2 },
+    { month: "Feb", views: 1800, leads: 26, closed: 3 },
+    { month: "Mar", views: 2010, leads: 31, closed: 5 },
+    { month: "Apr", views: 2210, leads: 34, closed: 5 },
+    { month: "May", views: 1990, leads: 29, closed: 3 },
+    { month: "Jun", views: 2150, leads: 36, closed: 6 },
+];
+
+export function getProjectById(projectId) {
+    return BUILDER_PROJECTS.find((project) => project.id === projectId);
+}
