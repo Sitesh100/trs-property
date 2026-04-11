@@ -24,7 +24,6 @@ export const realStateAPI = createApi({
     endpoints: () => ({}),
 });
 
-// New API instance for new backend endpoints
 export const newRealStateAPI = createApi({
     reducerPath: "newRealStateAPI",
     baseQuery: fetchBaseQuery({

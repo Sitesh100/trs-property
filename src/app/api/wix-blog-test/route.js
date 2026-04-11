@@ -8,8 +8,6 @@ const IMAGE_EXT_RE = /\.(png|jpe?g|webp|avif|gif|svg)([?#].*)?$/i;
 function normalizeWixImageUrl(value) {
   if (typeof value !== "string" || !value) return "";
 
-  // Wix may return image pointers like:
-  // wix:image://v1/<mediaId>/<fileName>#originWidth=...
   if (value.startsWith("wix:image://")) {
     const match = value.match(/^wix:image:\/\/v1\/([^/]+)\/?([^#?]*)/i);
     if (!match) return "";

@@ -38,12 +38,12 @@ const SquareCard = ({ cards }) => {
     return (
         <>
             {/* Desktop: grid layout */}
-            <div className="hidden md:grid container mx-auto md:grid-cols-3 gap-10 md:px-10 px-5">
+            <div className="hidden md:grid container mx-auto md:grid-cols-5 gap-6 md:px-10 px-5">
                 {cards.map((card, index) => (
                     <Link
                         href="/property-search"
                         key={index}
-                        className="w-full h-80 flex flex-col items-center"
+                        className="w-full h-72 flex flex-col items-center"
                     >
                         <div className="w-full h-full relative overflow-hidden cursor-pointer rounded-2xl">
                             <Image
@@ -74,7 +74,7 @@ const SquareCard = ({ cards }) => {
                             <Link
                                 href="/property-search"
                                 key={index}
-                                className="w-full flex-shrink-0 flex flex-col items-center"
+                                className="w-full shrink-0 flex flex-col items-center"
                             >
                                 <div className="w-full h-56 relative overflow-hidden rounded-2xl">
                                     <Image

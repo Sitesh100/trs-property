@@ -32,9 +32,11 @@ export default function BuilderAnalyticsDashboard() {
     const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
     const [newProject, setNewProject] = useState(NEW_PROJECT_INITIAL_STATE);
     const builderProfile = {
+        companyName: "TRS Property Mall",
         name: "Aditya Singh",
         email: "aditya.singh@trspropertymall.com",
-        image: "/assets/images/profile.png",
+        description: "Personalised analytics for property views, lead tracking, and closed deals.",
+        image: "/assets/logo/logo1.png",
     };
 
     const maxViews = useMemo(() => Math.max(...PORTFOLIO_ANALYTICS.map((item) => item.views)), []);
@@ -164,42 +166,47 @@ export default function BuilderAnalyticsDashboard() {
             <Header />
             <main className="min-h-screen bg-linear-to-b from-[#212121] via-[#212121] to-[#212121] px-4 py-8 text-[#F5EFE7] md:px-8">
                 <section className="mx-auto max-w-7xl">
-                    <div className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
-                        <div className="flex flex-wrap items-center gap-4">
-                            <div className="relative h-16 w-16 overflow-hidden rounded-full border border-[#C6A256]/40">
+                    <section className="mb-6 rounded-2xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4 md:p-4">
+                        <div className="flex flex-col gap-4 md:flex-row md:items-stretch">
+                            <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-xl border border-[#C6A256]/40 bg-[#212121]/70 md:h-44 md:w-44">
                                 <Image
                                     src={builderProfile.image}
-                                    alt={builderProfile.name}
+                                    alt={builderProfile.companyName || builderProfile.name}
                                     fill
-                                    sizes="64px"
+                                    sizes="(max-width: 768px) 160px, 208px"
                                     className="object-cover"
                                 />
                             </div>
-                            <div>
-                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Builder Profile</p>
-                                <h2 className="text-xl font-semibold text-[#F5EFE7]">{builderProfile.name}</h2>
-                                <p className="text-sm text-[#F5EFE7]/80">{builderProfile.email}</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
-                        <div className="flex flex-wrap items-start justify-between gap-3">
-                            <div>
-                                <h1 className="text-2xl font-bold">Builder Analytics Dashboard</h1>
-                                <p className="mt-2 text-sm text-[#F5EFE7]">
-                                    Personalised analytics for property views, lead tracking, and closed deals.
-                                </p>
+                            <div className="flex flex-1 flex-col justify-between gap-3">
+                                <div>
+                                    <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Builder Profile</p>
+                                    <h1 className="mt-1 text-2xl font-bold leading-tight text-[#F5EFE7]">
+                                        {builderProfile.companyName || builderProfile.name}
+                                    </h1>
+                                    <p className="text-sm text-[#F5EFE7]/85">{builderProfile.name}</p>
+                                    <p className="mt-1 text-sm text-[#F5EFE7]/85">{builderProfile.email}</p>
+                                    <p className="mt-2 max-w-2xl text-sm text-[#F5EFE7]/80">{builderProfile.description}</p>
+                                </div>
+
+                                <div className="flex w-full flex-wrap gap-3 md:w-auto">
+                                    <Link
+                                        href="/builder/profile"
+                                        className="inline-flex items-center justify-center rounded-lg border border-[#F5EFE7]/20 bg-[#F5EFE7]/8 px-4 py-2 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/15"
+                                    >
+                                        Edit Profile
+                                    </Link>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsAddProjectOpen(true)}
+                                        className="inline-flex items-center justify-center rounded-lg border border-[#C6A256]/40 bg-[#C6A256]/15 px-4 py-2 text-sm font-medium text-[#E0C484] transition-colors hover:bg-[#C6A256]/25"
+                                    >
+                                        Add Project
+                                    </button>
+                                </div>
                             </div>
-                            <button
-                                type="button"
-                                onClick={() => setIsAddProjectOpen(true)}
-                                className="rounded-lg border border-[#C6A256]/40 bg-[#C6A256]/15 px-3 py-2 text-sm font-medium text-[#E0C484] transition-colors hover:bg-[#C6A256]/25"
-                            >
-                                Add Project
-                            </button>
                         </div>
-                    </div>
+                    </section>
 
                     <div className="mb-6 grid gap-4 md:grid-cols-3">
                         <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">

@@ -18,7 +18,7 @@ function WhatsapBanner() {
                     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
                         <a
                             href="tel:9111655111"
-                            className="bg-[#121212] text-[#F5EFE7] px-4 py-2 rounded-md border border-[#C6A256]/60 shadow-md shadow-black/35 hover:border-[#C6A256] hover:shadow-lg hover:shadow-black/50 transition-all duration-300 flex items-center cursor-pointer"
+                            className="bg-linear-to-r from-[#B08D3E] via-[#C6A256] to-[#E0C676] text-[#1C1506] px-4 py-2 rounded-md border border-[#E6D29A]/70 shadow-md shadow-black/35 hover:brightness-105 hover:shadow-lg hover:shadow-black/50 transition-all duration-300 flex items-center cursor-pointer"
                         >
                             <Phone className="w-4 h-4 mr-2" />
                             9111655111
@@ -27,7 +27,7 @@ function WhatsapBanner() {
                             href="https://api.whatsapp.com/send/?phone=9111655111&text=Hello%2C+I+am+interested+in+your+property%3A+Kalpataru+Grandeur&type=phone_number&app_absent=0"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-[#121212] text-[#F5EFE7] px-4 py-2 rounded-md border border-[#25D366]/60 shadow-md shadow-black/35 hover:border-[#25D366] hover:shadow-lg hover:shadow-black/50 transition-all duration-300 flex items-center cursor-pointer"
+                            className="bg-[#25D366] text-white px-4 py-2 rounded-md border border-[#86E7A9]/70 shadow-md shadow-black/35 hover:bg-[#1EBE5A] hover:shadow-lg hover:shadow-black/50 transition-all duration-300 flex items-center cursor-pointer"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

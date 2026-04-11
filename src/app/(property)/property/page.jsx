@@ -12,6 +12,8 @@ export default function Property() {
         { image: '/assets/images/property/square1.jpg', title: 'LUXURY VILLAS' },
         { image: '/assets/images/property/square2.jpg', title: 'COMMERCIAL' },
         { image: '/assets/images/property/square3.jpg', title: 'RESIDENTIAL' },
+        { image: '/assets/images/property/city1.jpg', title: 'FARM / AGRICULTURAL LAND' },
+        { image: '/assets/images/property/city2.jpg', title: 'PROJECT LANDS' },
     ];
 
     // const cities = [

@@ -1,7 +1,7 @@
 import { realStateAPI, newRealStateAPI } from "@/redux/createAPI";
 
 // ========================================
-// 📝 OLD OTP-BASED API (COMMENTED OUT)
+// OLD OTP-BASED API (COMMENTED OUT)
 // ========================================
 /*
 const authApiOld = realStateAPI.injectEndpoints({
@@ -126,15 +126,14 @@ const authApiNew = newRealStateAPI.injectEndpoints({
             },
         }),
 
-        // Login - Get Access Token (OAuth2 Password Grant)
+
         // POST /login
-        // Content-Type: application/x-www-form-urlencoded
         login: build.mutation({
             query: (formValues) => {
                 // Create form-urlencoded body
                 const formBody = new URLSearchParams({
                     grant_type: "password",
-                    username: formValues.username, // email address
+                    username: formValues.username, 
                     password: formValues.password,
                     scope: formValues.scope || "",
                     client_id: formValues.client_id || "",
