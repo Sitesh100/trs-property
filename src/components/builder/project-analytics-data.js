@@ -88,12 +88,12 @@ export const BUILDER_PROJECTS = [
             { month: "Jun", views: 710, leads: 14, closed: 2 },
         ],
         upcomingVisits: [
-            { id: "sky-up-1", visitDate: "2026-04-10", customerName: "Rohan Khanna", slot: "11:30 AM", source: "Website", visitedBy: "Rahul Mehta" },
-            { id: "sky-up-2", visitDate: "2026-04-13", customerName: "Aakash Jain", slot: "05:00 PM", source: "Broker", visitedBy: "Nisha Arora" },
+            { id: "sky-up-1", visitDate: "2026-04-10", customerName: "Rohan Khanna", slot: "11:30 AM", source: "Website", builderTeam: "Rahul Mehta", trsTeam: "TRS - Kavya" },
+            { id: "sky-up-2", visitDate: "2026-04-13", customerName: "Aakash Jain", slot: "05:00 PM", source: "Broker", builderTeam: "Nisha Arora", trsTeam: "TRS - Arjun" },
         ],
         completedVisits: [
-            { id: "sky-done-1", visitDate: "2026-04-04", customerName: "Ananya Verma", outcome: "Followup", visitedBy: "Rahul Mehta" },
-            { id: "sky-done-2", visitDate: "2026-04-08", customerName: "Ritika Das", outcome: "Closed", visitedBy: "Nisha Arora" },
+            { id: "sky-done-1", visitDate: "2026-04-04", customerName: "Ananya Verma", outcome: "Followup", builderTeam: "Rahul Mehta", trsTeam: "TRS - Kavya" },
+            { id: "sky-done-2", visitDate: "2026-04-08", customerName: "Ritika Das", outcome: "Closed", builderTeam: "Nisha Arora", trsTeam: "TRS - Arjun" },
         ],
     },
     {
@@ -117,12 +117,12 @@ export const BUILDER_PROJECTS = [
             { month: "Jun", views: 710, leads: 12, closed: 2 },
         ],
         upcomingVisits: [
-            { id: "mar-up-1", visitDate: "2026-04-12", customerName: "Meera S", slot: "04:00 PM", source: "Campaign", visitedBy: "Aditya Singh" },
-            { id: "mar-up-2", visitDate: "2026-04-15", customerName: "Dev Arora", slot: "02:15 PM", source: "Referral", visitedBy: "Priya Nair" },
+            { id: "mar-up-1", visitDate: "2026-04-12", customerName: "Meera S", slot: "04:00 PM", source: "Campaign", builderTeam: "Aditya Singh", trsTeam: "TRS - Neha" },
+            { id: "mar-up-2", visitDate: "2026-04-15", customerName: "Dev Arora", slot: "02:15 PM", source: "Referral", builderTeam: "Priya Nair", trsTeam: "TRS - Rohit" },
         ],
         completedVisits: [
-            { id: "mar-done-1", visitDate: "2026-04-06", customerName: "Kunal Mehta", outcome: "Negotiation", visitedBy: "Aditya Singh" },
-            { id: "mar-done-2", visitDate: "2026-04-07", customerName: "Sara Khan", outcome: "Closed", visitedBy: "Priya Nair" },
+            { id: "mar-done-1", visitDate: "2026-04-06", customerName: "Kunal Mehta", outcome: "Negotiation", builderTeam: "Aditya Singh", trsTeam: "TRS - Neha" },
+            { id: "mar-done-2", visitDate: "2026-04-07", customerName: "Sara Khan", outcome: "Closed", builderTeam: "Priya Nair", trsTeam: "TRS - Rohit" },
         ],
     },
     {
@@ -146,12 +146,12 @@ export const BUILDER_PROJECTS = [
             { month: "Jun", views: 730, leads: 10, closed: 2 },
         ],
         upcomingVisits: [
-            { id: "grn-up-1", visitDate: "2026-04-11", customerName: "Neha Sharma", slot: "01:00 PM", source: "Instagram", visitedBy: "Karan Dsouza" },
-            { id: "grn-up-2", visitDate: "2026-04-17", customerName: "Tarun Iyer", slot: "03:45 PM", source: "Website", visitedBy: "Sneha Kulkarni" },
+            { id: "grn-up-1", visitDate: "2026-04-11", customerName: "Neha Sharma", slot: "01:00 PM", source: "Instagram", builderTeam: "Karan Dsouza", trsTeam: "TRS - Isha" },
+            { id: "grn-up-2", visitDate: "2026-04-17", customerName: "Tarun Iyer", slot: "03:45 PM", source: "Website", builderTeam: "Sneha Kulkarni", trsTeam: "TRS - Manav" },
         ],
         completedVisits: [
-            { id: "grn-done-1", visitDate: "2026-04-05", customerName: "Pooja Nair", outcome: "Followup", visitedBy: "Karan Dsouza" },
-            { id: "grn-done-2", visitDate: "2026-04-09", customerName: "Ishaan Paul", outcome: "Negotiation", visitedBy: "Sneha Kulkarni" },
+            { id: "grn-done-1", visitDate: "2026-04-05", customerName: "Pooja Nair", outcome: "Followup", builderTeam: "Karan Dsouza", trsTeam: "TRS - Isha" },
+            { id: "grn-done-2", visitDate: "2026-04-09", customerName: "Ishaan Paul", outcome: "Negotiation", builderTeam: "Sneha Kulkarni", trsTeam: "TRS - Manav" },
         ],
     },
 ];

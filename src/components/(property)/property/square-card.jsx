@@ -41,7 +41,7 @@ const SquareCard = ({ cards }) => {
             <div className="hidden md:grid container mx-auto md:grid-cols-5 gap-6 md:px-10 px-5">
                 {cards.map((card, index) => (
                     <Link
-                        href="/property-search"
+                        href="/property"
                         key={index}
                         className="w-full h-72 flex flex-col items-center"
                     >
@@ -72,7 +72,7 @@ const SquareCard = ({ cards }) => {
                     >
                         {cards.map((card, index) => (
                             <Link
-                                href="/property-search"
+                                href="/property"
                                 key={index}
                                 className="w-full shrink-0 flex flex-col items-center"
                             >

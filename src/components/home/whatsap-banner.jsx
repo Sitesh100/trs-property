@@ -13,7 +13,7 @@ function WhatsapBanner() {
                                 <Image src="/assets/logo/logo1.png" alt="Logo" width={100} height={100} />
                             </Link>
                         </div>
-                        <h3 className="md:text-2xl text-xl font-bold text-[#F5EFE7]">Book a Call for Professional Real Estate Advisory</h3>
+                        <h3 className="md:text-2xl text-xl font-bold text-[#F5EFE7]">Call for Professional Real Estate Advisory</h3>
                     </div>
                     <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
                         <a

@@ -170,7 +170,7 @@ function FeaturedProjects() {
                     className="text-center mb-16"
                 >
                     <h2 className="hero-title text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 text-[#F5EFE7]">
-                        Handpicked Featured Projects
+                        Featured Projects
                     </h2>
                     <p className="text-[#F5EFE7]/60 max-w-2xl mx-auto text-base md:text-lg">
                         Discover our exclusive selection of premium properties, carefully chosen to match your lifestyle and investment goals.

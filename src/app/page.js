@@ -196,22 +196,20 @@ export default function Home() {
         <main className="grow">
           <HeroSection />
           <FeaturedProjects />
-          {/* <FounderSection /> */}
+         
+          <VideoTestimonialsSection />
           
-          <PatnerSection />
           
           <FounderAwardSection />
-          {/* <AiRevolutionSection features={features} /> */}
-          {/* <DeveloperBanner /> */}
-          {/* <Testimonials testimonials={testimonials} /> */}
-          <VideoTestimonialsSection />
-          <ServicesToolsSection />
           
+          
+          <ServicesToolsSection />
+          <PatnerSection />
           <BlogSection />
-          {/* <FAQSection faqs={faqs} /> */}
+        
           <NewsLetter />
         </main>
-        {/* <WhatsapBanner /> */}
+     
         <Footer />
       </div>
     </>

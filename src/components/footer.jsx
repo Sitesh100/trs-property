@@ -1,9 +1,9 @@
 "use client"
-import { Phone, Mail, MapPin, ArrowRight, Facebook, Twitter, Instagram, Linkedin, Youtube, ChevronRight, Building2, Play, MessageSquare } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowUp, ArrowDown, Facebook, Twitter, Instagram, Linkedin, Youtube, ChevronRight, Building2, Play, MessageSquare, Scale } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 function Footer() {
         const buildPropertySearchHref = ({
@@ -15,16 +15,30 @@ function Footer() {
             if (city) query.set("city", city);
             if (propertyType) query.set("property_type", propertyType);
             if (status) query.set("status", status);
-            return `/property-search?${query.toString()}`;
+            return `/property?${query.toString()}`;
         };
 
     const currentYear = new Date().getFullYear()
     const [isVideoOpen, setIsVideoOpen] = useState(false)
+    const [showScrollDown, setShowScrollDown] = useState(true)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const footerProximityOffset = 260
+            const reachedFooterZone = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - footerProximityOffset
+            setShowScrollDown(!reachedFooterZone)
+        }
+
+        handleScroll()
+        window.addEventListener("scroll", handleScroll, { passive: true })
+        return () => window.removeEventListener("scroll", handleScroll)
+    }, [])
 
     // Corporate Office Info
     const corporateOffice = {
         title: "Corporate Office",
         address: [
+            "TRS Property Mall,",
             "Scheme No 140, 1, The Row Eight, opp.",
             "Grande Exotica, Pipliyahana,",
             "Bicholi Mardana, Indore - 452016"
@@ -36,6 +50,7 @@ function Footer() {
     const rLounge = {
         title: "R - Lounge",
         address: [
+            "Total Realty Solutions (India) Pvt Ltd",
             "MZ-11, Bansi Trade Centre, 581, Mahatma",
             "Gandhi Rd, Opp. Jaipur Jewels, Race Course",
             "Road, Indore, Madhya Pradesh 452003"
@@ -82,10 +97,10 @@ function Footer() {
     ]
 
     const socialLinks = [
-        { icon: Instagram, href: "https://www.instagram.com/trspropertymall/?hl=en", label: "Instagram" },
-        { icon: Facebook, href: "https://www.facebook.com/totalrealtyind/", label: "Facebook" },
-        { icon: Linkedin, href: "https://www.linkedin.com/showcase/trs-property-mall/posts/?feedView=all", label: "LinkedIn" },
-        { icon: Youtube, href: "https://www.youtube.com/@TRS_PropertyMall", label: "YouTube" },
+        { icon: Instagram, href: "https://www.instagram.com/trspropertymall/?hl=en", label: "Instagram", iconClass: "text-[#E1306C]" },
+        { icon: Facebook, href: "https://www.facebook.com/totalrealtyind/", label: "Facebook", iconClass: "text-[#1877F2]" },
+        { icon: Linkedin, href: "https://www.linkedin.com/showcase/trs-property-mall/posts/?feedView=all", label: "LinkedIn", iconClass: "text-[#0A66C2]" },
+        { icon: Youtube, href: "https://www.youtube.com/@TRS_PropertyMall", label: "YouTube", iconClass: "text-[#FF0000]" },
         // { icon: Twitter, href: "#", label: "Twitter" },
     ]
 
@@ -120,7 +135,37 @@ function Footer() {
             {/* Top gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-[#121212]/80 to-transparent pointer-events-none"></div>
             
-            {/* Fixed Contact Buttons - Right Side */}
+            {/* Top Service Buttons */}
+            <div className="fixed right-4 top-32 z-50 flex flex-col gap-3">
+                <motion.a
+                    href="tel:9111655111"
+                    aria-label="Call for Home Loans"
+                    title="Home Loans"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-14 h-14 rounded-full bg-white border border-[#1E5EFF]/25 flex items-center justify-center shadow-lg shadow-[#1E5EFF]/30"
+                >
+                    <Image
+                        src="/assets/icons/home-loan.svg"
+                        alt="Home loan"
+                        width={34}
+                        height={34}
+                        className="h-8 w-8"
+                    />
+                </motion.a>
+                <motion.a
+                    href="tel:9111655111"
+                    aria-label="Call for Legal Services"
+                    title="Legal Services"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-14 h-14 rounded-full bg-white border border-[#121212]/20 flex items-center justify-center shadow-lg mb-5"
+                >
+                    <Scale className="w-7 h-7 text-[#121212]" />
+                </motion.a>
+            </div>
+
+            {/* Center Contact Buttons (Old 4) */}
             <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
                 <motion.a
                     href="tel:9111655111"
@@ -157,6 +202,58 @@ function Footer() {
                     className="w-12 h-12 rounded-full bg-[#C6A256] flex items-center justify-center shadow-lg"
                 >
                     <MessageSquare className="w-5 h-5 text-[#121212]" />
+                </motion.a>
+            </div>
+
+            {/* Social Media Buttons */}
+            <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+                <motion.a
+                    href="https://www.instagram.com/trspropertymall/?hl=en"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                    title="Instagram"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-12 h-12 rounded-full bg-linear-to-br from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center shadow-lg"
+                >
+                    <Instagram className="w-5 h-5 text-white" />
+                </motion.a>
+                <motion.a
+                    href="https://www.facebook.com/totalrealtyind/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    title="Facebook"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-12 h-12 rounded-full bg-[#1877F2] flex items-center justify-center shadow-lg"
+                >
+                    <Facebook className="w-5 h-5 text-white" />
+                </motion.a>
+                <motion.a
+                    href="https://www.linkedin.com/showcase/trs-property-mall/posts/?feedView=all"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    title="LinkedIn"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-12 h-12 rounded-full bg-[#0A66C2] flex items-center justify-center shadow-lg"
+                >
+                    <Linkedin className="w-5 h-5 text-white" />
+                </motion.a>
+                <motion.a
+                    href="https://www.youtube.com/@TRS_PropertyMall"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube"
+                    title="YouTube"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-12 h-12 rounded-full bg-[#FF0000] flex items-center justify-center shadow-lg"
+                >
+                    <Youtube className="w-5 h-5 text-white" />
                 </motion.a>
             </div>
             
@@ -328,9 +425,9 @@ function Footer() {
                                     className="h-24 w-auto"
                                 />
                             </Link>
-                            {/* <p className="text-[#F3EFE7]/60 text-xs text-center">
+                            <p className="text-[#C6A256] text-sm text-center">
                                 MEGA CHOICES | MEGA OFFERS | MEGA HOMES
-                            </p> */}
+                            </p>
                             <p className="text-[#F3EFE7]/40 text-xs text-center mt-4">
                                 © {currentYear} | By Total Realty Solutions Pvt. Ltd.
                             </p>
@@ -342,7 +439,7 @@ function Footer() {
                                 About Us
                             </h4>
                             <p className="text-[#F3EFE7]/70 text-sm leading-relaxed">
-                                TRS Property Mall – Indore, an initiative by Total Realty Solutions Pvt. Ltd., is a trusted real estate consultancy in Indore offering end-to-end property solutions. We specialize in buying, selling, leasing, and investing in residential, commercial, and plotted properties.
+                                TRS Property Mall – Indore, an initiative by Total Realty Solutions (India) Pvt. Ltd., is a trusted real estate consultancy in Indore offering end-to-end property solutions. We specialize in buying, selling, leasing, and investing in residential, commercial, and plotted properties.
                             </p>
                             <p className="text-[#F3EFE7]/70 text-sm leading-relaxed mt-3">
                                 Our commitment to delivering exceptional client service forms the backbone of our company.
@@ -377,7 +474,7 @@ function Footer() {
                                         whileTap={{ scale: 0.95 }}
                                         className="w-10 h-10 rounded-full bg-[#F3EFE7]/5 border border-[#F3EFE7]/10 flex items-center justify-center text-[#F3EFE7]/60 hover:bg-[#C6A256] hover:border-[#C6A256] hover:text-[#121212] transition-all duration-300"
                                     >
-                                        <social.icon className="w-4 h-4" />
+                                        <social.icon className={`w-4 h-4 ${social.iconClass}`} />
                                     </motion.a>
                                 ))}
                             </div>
@@ -386,14 +483,21 @@ function Footer() {
                 </div>
             </div>
 
-            {/* Back to top button */}
+            {/* Dynamic scroll button */}
             <motion.button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                onClick={() => {
+                    if (showScrollDown) {
+                        window.scrollBy({ top: window.innerHeight * 0.9, behavior: "smooth" })
+                        return
+                    }
+                    window.scrollTo({ top: 0, behavior: "smooth" })
+                }}
+                aria-label={showScrollDown ? "Scroll down" : "Scroll up"}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-[#C6A256] text-[#121212] flex items-center justify-center shadow-lg shadow-[#C6A256]/30 hover:bg-[#d4b366] transition-colors duration-300 z-40"
             >
-                <ArrowRight className="w-5 h-5 -rotate-90" />
+                {showScrollDown ? <ArrowDown className="w-5 h-5" /> : <ArrowUp className="w-5 h-5" />}
             </motion.button>
 
             {/* YouTube Video Popup Modal */}

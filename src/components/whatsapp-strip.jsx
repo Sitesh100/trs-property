@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import { MessageCircle, Phone } from 'lucide-react';
 
 const WhatsappStrip = ({ phoneNumber = "9111655111", message = "Hello Team TRS, I would like to get a call back. I am looking for properties." }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -19,6 +19,10 @@ const WhatsappStrip = ({ phoneNumber = "9111655111", message = "Hello Team TRS, 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${encodedMessage}&type=phone_number&app_absent=0`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  const handleCallClick = () => {
+    window.location.href = `tel:${phoneNumber}`;
   };
 
   if (!isVisible) return null;
@@ -60,6 +64,18 @@ const WhatsappStrip = ({ phoneNumber = "9111655111", message = "Hello Team TRS, 
 
             {/* Right side - CTA Button */}
             <div className="flex items-center gap-2">
+              <button
+                onClick={handleCallClick}
+                className="group relative px-4 md:px-6 py-2 bg-[#C6A256] rounded-full font-semibold text-[#212121] text-sm md:text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"
+              >
+                <div className="absolute cursor-pointer inset-0 bg-gradient-to-r from-transparent via-[#F5EFE7]/25 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+
+                <span className="relative flex items-center gap-2">
+                  <Phone className="w-4 h-4 cursor-pointer" />
+                  <span className="hidden md:inline cursor-pointer">Call</span>
+                </span>
+              </button>
+
               <button
                 onClick={handleWhatsAppClick}
                 className="group relative px-4 md:px-6 py-2 bg-[#F5EFE7] rounded-full font-semibold text-[#212121] text-sm md:text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden"

@@ -31,13 +31,13 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
 
     const formik = useFormik({
         initialValues: {
-            username: sendOtpInfo?.email || "", // email address pre-filled from registration
+            username: sendOtpInfo?.phone || sendOtpInfo?.email || "",
             password: "",
         },
         validationSchema: Yup.object({
             username: Yup.string()
-                .email("Please enter a valid email address")
-                .required("Email is required"),
+                .matches(/^\d{10}$/, "Please enter a valid 10-digit mobile number")
+                .required("Mobile number is required"),
             password: Yup.string()
                 .min(6, "Password must be at least 6 characters")
                 .required("Password is required"),
@@ -45,7 +45,8 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
         onSubmit: async (values) => {
             try {
                 const response = await login({ 
-                    username: values.username, // phone number
+                    username: values.username,
+                    phone: values.username,
                     password: values.password 
                 }).unwrap();
                 
@@ -62,7 +63,7 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                     
                     // Create user object with available data
                     const user = {
-                        email: values.username,
+                        phone: values.username,
                         role: resolvedRole || "customer",
                     };
                     
@@ -113,6 +114,7 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                 const lowerError = errorDetail.toLowerCase();
                 const isCredentialError =
                     lowerError.includes('invalid email') ||
+                    lowerError.includes('invalid username') ||
                     lowerError.includes('invalid phone') ||
                     lowerError.includes('not found') ||
                     lowerError.includes('not registered') ||
@@ -144,16 +146,18 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
             
             <form onSubmit={formik.handleSubmit}>
                 <div className="space-y-4">
-                    {/* Email Field */}
+                    {/* Mobile Number Field */}
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium text-[#F5EFE7] mb-1">
-                            Email<span className="text-[#C6A256]">*</span>
+                            Mobile Number<span className="text-[#C6A256]">*</span>
                         </label>
                         <input
-                            type="email"
+                            type="tel"
                             id="username"
                             className="w-full px-3 py-2 bg-[#212121]/95 border border-[#F5EFE7]/25 rounded-md text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:outline-none focus:ring-2 focus:ring-[#C6A256]/60 focus:border-[#C6A256]"
-                            placeholder="Enter your email address"
+                            placeholder="Enter your 10-digit mobile number"
+                            inputMode="numeric"
+                            maxLength={10}
                             {...formik.getFieldProps("username")}
                         />
                         {formik.touched.username && formik.errors.username && (

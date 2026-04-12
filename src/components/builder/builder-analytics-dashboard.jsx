@@ -11,7 +11,18 @@ import {
 } from "@/components/builder/project-analytics-data";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import {
+    CartesianGrid,
+    Legend,
+    Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
 
 const NEW_PROJECT_INITIAL_STATE = {
     name: "",
@@ -27,19 +38,18 @@ const NEW_PROJECT_INITIAL_STATE = {
 };
 
 export default function BuilderAnalyticsDashboard() {
+    const router = useRouter();
     const leads = INITIAL_LEADS;
     const [projects, setProjects] = useState(BUILDER_PROJECTS);
     const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
     const [newProject, setNewProject] = useState(NEW_PROJECT_INITIAL_STATE);
     const builderProfile = {
-        companyName: "TRS Property Mall",
+        companyName: "Emerald",
         name: "Aditya Singh",
         email: "aditya.singh@trspropertymall.com",
         description: "Personalised analytics for property views, lead tracking, and closed deals.",
-        image: "/assets/logo/logo1.png",
+        image: "/assets/images/builderLogo/emerald.webp",
     };
-
-    const maxViews = useMemo(() => Math.max(...PORTFOLIO_ANALYTICS.map((item) => item.views)), []);
 
     const statusCounts = useMemo(() => {
         return STATUS_OPTIONS.reduce((acc, status) => {
@@ -57,29 +67,25 @@ export default function BuilderAnalyticsDashboard() {
     const totalLeads = leads.length;
     const totalVisits = useMemo(() => projects.reduce((sum, project) => sum + project.totalViews, 0), [projects]);
 
-    const graphPoints = useMemo(() => {
-        const width = 680;
-        const height = 220;
-        const step = width / (PORTFOLIO_ANALYTICS.length - 1);
+    const comparisonProjects = useMemo(() => BUILDER_PROJECTS.slice(0, 3), []);
 
+    const chartData = useMemo(() => {
         return PORTFOLIO_ANALYTICS.map((item, index) => {
-            const x = index * step;
-            const y = height - (item.views / maxViews) * (height - 20) - 10;
-            return { ...item, x, y };
+            const row = { month: item.month };
+
+            comparisonProjects.forEach((project) => {
+                row[project.id] = project.monthlyAnalytics?.[index]?.views || 0;
+            });
+
+            return row;
         });
-    }, [maxViews]);
+    }, [comparisonProjects]);
 
-    const linePath = useMemo(() => {
-        if (graphPoints.length === 0) return "";
-        return graphPoints.map((point, index) => `${index === 0 ? "M" : "L"}${point.x},${point.y}`).join(" ");
-    }, [graphPoints]);
-
-    const areaPath = useMemo(() => {
-        if (graphPoints.length === 0) return "";
-        const width = 680;
-        const height = 220;
-        return `${linePath} L${width},${height} L0,${height} Z`;
-    }, [linePath, graphPoints]);
+    const projectLineStyles = [
+        { stroke: "#C6A256", opacity: 1 },
+        { stroke: "#56D3A7", opacity: 0.95 },
+        { stroke: "#7AB8FF", opacity: 0.95 },
+    ];
 
     useEffect(() => {
         if (!isAddProjectOpen) return undefined;
@@ -208,32 +214,34 @@ export default function BuilderAnalyticsDashboard() {
                         </div>
                     </section>
 
-                    <div className="mb-6 grid gap-4 md:grid-cols-3">
-                        <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Total Visits</p>
-                            <p className="mt-2 text-3xl font-bold">{totalVisits}</p>
-                            <p className="text-xs text-[#F5EFE7]">Portfolio profile views</p>
-                        </article>
-                        <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Active Leads</p>
-                            <p className="mt-2 text-3xl font-bold">{totalLeads}</p>
-                            <p className="text-xs text-[#F5EFE7]">All pipeline leads</p>
-                        </article>
-                        <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Closed Deals</p>
-                            <p className="mt-2 text-3xl font-bold">{closedDeals}</p>
-                            <p className="text-xs text-[#F5EFE7]">Successful conversions</p>
-                        </article>
-                    </div>
+                    <section className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4 sm:p-5">
+                        <div className="grid gap-4 md:grid-cols-3">
+                            <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Total Visits</p>
+                                <p className="mt-2 text-3xl font-bold">{totalVisits}</p>
+                                {/* <p className="text-xs text-[#F5EFE7]">Portfolio profile views</p> */}
+                            </article>
+                            <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Active Leads</p>
+                                <p className="mt-2 text-3xl font-bold">{totalLeads}</p>
+                                <p className="text-xs text-[#F5EFE7]">All pipeline leads</p>
+                            </article>
+                            <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Closed Deals</p>
+                                <p className="mt-2 text-3xl font-bold">{closedDeals}</p>
+                                <p className="text-xs text-[#F5EFE7]">Successful conversions</p>
+                            </article>
+                        </div>
 
-                    <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-                        {STATUS_OPTIONS.map((status) => (
-                            <div key={status} className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-4 py-3">
-                                <p className="text-xs text-[#F5EFE7]">{status}</p>
-                                <p className="text-xl font-bold">{statusCounts[status] || 0}</p>
-                            </div>
-                        ))}
-                    </div>
+                        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                            {STATUS_OPTIONS.filter((status) => status !== "New" && status !== "Negotiation").map((status) => (
+                                <div key={status} className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-4 py-3">
+                                    <p className="text-xs text-[#F5EFE7]">{status}</p>
+                                    <p className="text-xl font-bold">{statusCounts[status] || 0}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
 
                     <section className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
                         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
@@ -247,7 +255,22 @@ export default function BuilderAnalyticsDashboard() {
                             {projects.map((project) => (
                                 <article
                                     key={project.id}
-                                    className="group overflow-hidden rounded-xl border border-[#F5EFE7]/10 bg-[#212121]/45 text-left transition-all duration-300 hover:-translate-y-1 hover:border-[#C6A256]/50 hover:shadow-[0_16px_40px_-25px_rgba(198,162,86,0.7)]"
+                                    role="button"
+                                    tabIndex={0}
+                                    onClick={() => {
+                                        if (project.analyticsEnabled === false) return;
+                                        router.push(`/builder/analytics/${project.id}`);
+                                    }}
+                                    onKeyDown={(event) => {
+                                        if (event.key === "Enter" || event.key === " ") {
+                                            event.preventDefault();
+                                            if (project.analyticsEnabled === false) return;
+                                            router.push(`/builder/analytics/${project.id}`);
+                                        }
+                                    }}
+                                    className={`group overflow-hidden rounded-xl border border-[#F5EFE7]/10 bg-[#212121]/45 text-left transition-all duration-300 hover:-translate-y-1 hover:border-[#C6A256]/50 hover:shadow-[0_16px_40px_-25px_rgba(198,162,86,0.7)] ${
+                                        project.analyticsEnabled === false ? "cursor-not-allowed" : "cursor-pointer"
+                                    }`}
                                 >
                                     <div className="relative h-44 w-full overflow-hidden">
                                         <Image
@@ -323,36 +346,39 @@ export default function BuilderAnalyticsDashboard() {
                         </div>
 
                         <div className="rounded-lg border border-[#F5EFE7]/10 bg-[#212121]/30 p-3">
-                            <svg viewBox="0 0 680 240" className="h-56 w-full">
-                                <defs>
-                                    <linearGradient id="viewsArea" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stopColor="#C6A256" stopOpacity="0.45" />
-                                        <stop offset="100%" stopColor="#C6A256" stopOpacity="0.02" />
-                                    </linearGradient>
-                                </defs>
+                            <div className="h-56 w-full">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart data={chartData} margin={{ top: 8, right: 14, left: 0, bottom: 4 }}>
+                                        <CartesianGrid stroke="#F5EFE7" strokeOpacity={0.08} vertical={false} />
+                                        <XAxis dataKey="month" tick={{ fill: "#F5EFE7", fontSize: 11 }} tickLine={false} axisLine={false} />
+                                        <YAxis tick={{ fill: "#F5EFE7", fontSize: 11 }} tickLine={false} axisLine={false} width={42} />
+                                        <Tooltip
+                                            contentStyle={{
+                                                backgroundColor: "#171717",
+                                                border: "1px solid rgba(198, 162, 86, 0.4)",
+                                                borderRadius: "10px",
+                                                color: "#F5EFE7",
+                                            }}
+                                            labelStyle={{ color: "#E0C484" }}
+                                        />
+                                        <Legend wrapperStyle={{ fontSize: "12px", color: "#F5EFE7" }} />
 
-                                <g stroke="#212121" strokeWidth="1">
-                                    <line x1="0" y1="220" x2="680" y2="220" />
-                                    <line x1="0" y1="165" x2="680" y2="165" />
-                                    <line x1="0" y1="110" x2="680" y2="110" />
-                                    <line x1="0" y1="55" x2="680" y2="55" />
-                                </g>
-
-                                <path d={areaPath} fill="url(#viewsArea)" />
-                                <path d={linePath} fill="none" stroke="#C6A256" strokeWidth="3" strokeLinecap="round" />
-
-                                {graphPoints.map((point) => (
-                                    <g key={`point-${point.month}`}>
-                                        <circle cx={point.x} cy={point.y} r="4" fill="#C6A256" />
-                                        <text x={point.x} y={point.y - 10} textAnchor="middle" fontSize="10" fill="#F5EFE7">
-                                            {point.views}
-                                        </text>
-                                        <text x={point.x} y="236" textAnchor="middle" fontSize="10" fill="#F5EFE7">
-                                            {point.month}
-                                        </text>
-                                    </g>
-                                ))}
-                            </svg>
+                                        {comparisonProjects.map((project, index) => (
+                                            <Line
+                                                key={project.id}
+                                                type="monotone"
+                                                dataKey={project.id}
+                                                name={project.name}
+                                                stroke={projectLineStyles[index]?.stroke || "#C6A256"}
+                                                strokeOpacity={projectLineStyles[index]?.opacity || 1}
+                                                strokeWidth={2.5}
+                                                dot={{ r: 3 }}
+                                                activeDot={{ r: 5 }}
+                                            />
+                                        ))}
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
                         </div>
                     </div>
                 </section>

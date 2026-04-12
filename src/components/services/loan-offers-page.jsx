@@ -17,15 +17,7 @@ import {
 } from "recharts";
 
 const loanOffers = [
-  {
-    bank: "Kotak Mahindra Bank",
-    rate: "7.40%",
-    emi: "10,000",
-    amount: "35,689",
-    ltv: "90%",
-    initials: "/assets/logo/1.png",
-    accent: "bg-[#212121] text-[#C6A256]",
-  },
+  
   {
     bank: "HDFC Bank",
     rate: "7.15%",
@@ -33,6 +25,24 @@ const loanOffers = [
     amount: "37,195",
     ltv: "90%",
     initials: "/assets/logo/2.png",
+    accent: "bg-[#212121] text-[#C6A256]",
+  },
+  {
+    bank: "Axis Bank",
+    rate: "7.25%",
+    emi: "10,000",
+    amount: "34,678",
+    ltv: "90%",
+    initials: "/assets/logo/5.png",
+    accent: "bg-[#212121] text-[#C6A256]",
+  },
+  {
+    bank: "Kotak Mahindra Bank",
+    rate: "7.40%",
+    emi: "10,000",
+    amount: "35,689",
+    ltv: "90%",
+    initials: "/assets/logo/1.png",
     accent: "bg-[#212121] text-[#C6A256]",
   },
   {
@@ -53,15 +63,7 @@ const loanOffers = [
     initials: "/assets/logo/4.png",
     accent: "bg-[#212121] text-[#C6A256]",
   },
-  {
-    bank: "Axis Bank",
-    rate: "7.25%",
-    emi: "10,000",
-    amount: "34,678",
-    ltv: "90%",
-    initials: "/assets/logo/5.png",
-    accent: "bg-[#212121] text-[#C6A256]",
-  },
+  
   {
     bank: "ICICI Bank",
     rate: "7.20%",

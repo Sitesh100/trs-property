@@ -56,7 +56,7 @@ function NewsLetter() {
     }
 
     return (
-        <section className="py-20 bg-linear-to-br from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
+        <section className="py-12 bg-linear-to-br from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-10 left-1/4 w-72 h-72 bg-[#212121]/5 rounded-full blur-3xl"></div>

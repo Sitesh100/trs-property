@@ -11,10 +11,8 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState, useRef } from "react";
 import { debounce } from "lodash";
-import { useRouter } from "next/navigation";
 
 function PropertySearchBar({ onSearch }) {
-  const router = useRouter();
   const [propertyType, setPropertyType] = useState("Any");
   const [activeTab, setActiveTab] = useState(""); // Default to empty (ALL)
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,6 +31,15 @@ function PropertySearchBar({ onSearch }) {
     { value: "rent", label: "RENT", icon: Key },
     { value: "project", label: "PROJECT", icon: Layers },
     { value: "reset", label: "RESET", icon: RotateCcw },
+  ];
+
+  const propertyTypeOptions = [
+    { value: "flat", label: "Apartment" },
+    { value: "villa", label: "Villa" },
+    { value: "plot", label: "Plot" },
+    { value: "showroom", label: "Showroom" },
+    { value: "office", label: "Office" },
+    { value: "farmhouse", label: "Farm House" },
   ];
 
   // Fetch city suggestions from API
@@ -148,18 +155,9 @@ function PropertySearchBar({ onSearch }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleSearch = () => {
-    hasUserInteractedRef.current = true;
-    if (onSearch) {
-      onSearch(searchQuery, propertyType, activeTab);
-      router.push("/property-search");
-    }
-    setShowSuggestions(false);
-  };
-
   // const handleKeyPress = (e) => {
   //   if (e.key === "Enter") {
-  //     handleSearch();
+  //     // Search is auto-applied via debounced onSearch; button click is disabled.
   //   }
   //   if (e.key === "Escape") {
   //     setShowSuggestions(false);
@@ -265,21 +263,11 @@ function PropertySearchBar({ onSearch }) {
                   <option value="Any" className="bg-white text-gray-900">
                     Choose Property Type
                   </option>
-                  <option
-                    value="flat_apartment"
-                    className="bg-white text-gray-900"
-                  >
-                    Flat Apartment
-                  </option>
-                  <option value="villa" className="bg-white text-gray-900">
-                    House Villa
-                  </option>
-                  <option value="builder" className="bg-white text-gray-900">
-                    Builder Floor
-                  </option>
-                  <option value="plot" className="bg-white text-gray-900">
-                    Plot
-                  </option>
+                  {propertyTypeOptions.map((option) => (
+                    <option key={option.value} value={option.value} className="bg-white text-gray-900">
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
                 <ChevronDown className="absolute right-7 top-3.5 h-4 w-4 text-gray-600 pointer-events-none" />
               </div>
@@ -357,7 +345,11 @@ function PropertySearchBar({ onSearch }) {
             {/* Search Button with Gradient Hover */}
             <div className="w-auto flex-shrink-0">
               <button
-                onClick={handleSearch}
+                type="button"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }}
                 aria-label="Search properties"
                 className="group relative overflow-hidden md:w-14 md:h-14 w-10 h-10 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] rounded-2xl flex items-center justify-center transition-all duration-300 cursor-pointer hover:shadow-[0_0_20px_rgba(198, 162, 86, 0.5)] hover:scale-105"
               >
@@ -390,16 +382,15 @@ function PropertySearchBar({ onSearch }) {
 
           {/* Quick Filter Tags with Gradient Hover */}
           <div className="flex flex-wrap gap-2 mt-4 md:pl-2">
-            {["Apartment", "Villa", "Plot", "Commercial"].map((tag) => {
-              const isActive =
-                propertyType === tag.toLowerCase().replace(" ", "_");
+            {propertyTypeOptions.map((option) => {
+              const isActive = propertyType === option.value;
               return (
                 <button
-                  key={tag}
+                  key={option.value}
                   onClick={() =>
                     {
                       hasUserInteractedRef.current = true;
-                      setPropertyType(tag.toLowerCase().replace(" ", "_"));
+                      setPropertyType(option.value);
                     }
                   }
                   className={`group relative overflow-hidden px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border ${
@@ -416,7 +407,7 @@ function PropertySearchBar({ onSearch }) {
                   <span
                     className={`relative z-10 ${!isActive ? "group-hover:text-gray-900" : ""}`}
                   >
-                    {tag}
+                    {option.label}
                   </span>
                 </button>
               );

@@ -15,10 +15,10 @@ import { clearAuthCookies } from "@/utils/authCookies";
 
 const links = [
   { href: "/", label: "HOME" },
-  { href: "/about", label: "ABOUT US" },
   { href: "/property", label: "PROPERTIES" },
   { href: "/consultant-lounge", label: "CONSULTANT LOUNGE" },
   { href: "/builder-lounge", label: "BUILDER LOUNGE" },
+  { href: "/about", label: "ABOUT US" },
   { href: "/contact", label: "CONTACT US" },
 ];
 

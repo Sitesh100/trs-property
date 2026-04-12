@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Send, Facebook, Youtube, Instagram, CheckCircle, Clock, Users, Globe } from 'lucide-react'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
+import WhatsapBanner from '@/components/home/whatsap-banner'
 import toast from 'react-hot-toast'
 import { useSubmitLeadMutation } from '@/service/leadsApi'
 
@@ -71,9 +72,21 @@ const ContactPage = () => {
   ]
 
   const socialLinks = [
-    { icon: Facebook, href: "https://www.facebook.com/totalrealtyind/", label: "Facebook" },
-    { icon: Youtube, href: "https://www.youtube.com/@TRS_PropertyMall", label: "YouTube" },
-    { icon: Instagram, href: "https://www.instagram.com/trspropertymall/?hl=en", label: "Instagram" },
+    {
+      icon: Facebook,
+      href: "https://www.facebook.com/totalrealtyind/",
+      label: "Facebook",
+    },
+    {
+      icon: Youtube,
+      href: "https://www.youtube.com/@TRS_PropertyMall",
+      label: "YouTube",
+    },
+    {
+      icon: Instagram,
+      href: "https://www.instagram.com/trspropertymall/?hl=en",
+      label: "Instagram",
+    },
   ]
 
   return (
@@ -134,6 +147,8 @@ const ContactPage = () => {
             </div>
           </motion.div>
         </section>
+
+        <WhatsapBanner />
 
         {/* Main Contact Section */}
         <section className="py-4 md:py-12 bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
@@ -318,7 +333,7 @@ const ContactPage = () => {
         </section>
 
         {/* Contact Info Bar */}
-        <section className="relative py-16 overflow-hidden">
+        <section className="relative py-10 overflow-hidden">
           <div className="absolute inset-0">
             <Image
               src="/assets/images/bgimage.jpg"
@@ -335,9 +350,9 @@ const ContactPage = () => {
               whileInView="visible"
               viewport={{ once: false, amount: 0.3 }}
               variants={containerVariants}
-              className="bg-[#212121]/90 backdrop-blur-xl border border-[#F5EFE7]/10 rounded-3xl p-8 md:p-12"
+              className="bg-[#212121]/90 backdrop-blur-xl border border-[#F5EFE7]/10 rounded-2xl p-4 md:p-5"
             >
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
                 <motion.div variants={itemVariants} className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#212121] to-[#212121] rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Phone className="w-7 h-7 text-[#F5EFE7]" />
@@ -368,8 +383,8 @@ const ContactPage = () => {
                   <div className="w-16 h-16 bg-gradient-to-br from-[#212121] to-[#212121] rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Users className="w-7 h-7 text-[#F5EFE7]" />
                   </div>
-                  <h3 className="text-[#F5EFE7] font-semibold text-xl mb-4">Follow</h3>
-                  <div className="flex items-center justify-center gap-4">
+                  <h3 className="text-[#F5EFE7] font-semibold text-xl mb-3">Follow</h3>
+                  <div className="flex items-center justify-center gap-2">
                     {socialLinks.map((social, index) => (
                       <motion.a
                         key={index}
@@ -377,9 +392,9 @@ const ContactPage = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={social.label}
-                        whileHover={{ scale: 1.2, y: -3 }}
+                        whileHover={{ scale: 1.05, y: -1 }}
                         whileTap={{ scale: 0.95 }}
-                        className="w-10 h-10 rounded-full bg-[#F5EFE7]/10 border border-[#F5EFE7]/20 flex items-center justify-center text-[#F5EFE7] hover:bg-[#C6A256] hover:border-[#C6A256] hover:text-[#212121] transition-all duration-300"
+                        className="w-10 h-10 rounded-full border border-[#C6A256]/60 bg-[#C6A256]/10 flex items-center justify-center transition-all duration-300 text-[#C6A256] hover:bg-[#C6A256]/20"
                       >
                         <social.icon className="w-4 h-4" />
                       </motion.a>
@@ -422,6 +437,7 @@ const ContactPage = () => {
                 </div>
                 <h3 className="text-xl font-bold text-[#F5EFE7] mb-3">Corporate Office</h3>
                 <p className="text-[#F5EFE7]/60 leading-relaxed">
+                  TRS Property Mall,<br />
                   Scheme No 140, 1, The Row Eight,<br />
                   opp. Grande Exotica, Pipliyahana,<br />
                   Bicholi Mardana, Indore - 452016
@@ -438,6 +454,7 @@ const ContactPage = () => {
                 </div>
                 <h3 className="text-xl font-bold text-[#F5EFE7] mb-3">R - Lounge</h3>
                 <p className="text-[#F5EFE7]/60 leading-relaxed">
+                  Total Realty Solutions (India) Pvt Ltd<br />
                   MZ-11, Bansi Trade Centre, 581,<br />
                   Mahatma Gandhi Rd, Opp. Jaipur Jewels,<br />
                   Race Course Road, Indore - 452003

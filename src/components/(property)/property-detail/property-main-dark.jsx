@@ -1,5 +1,5 @@
 "use client";
-import { useGetPropertyByIdQuery } from "@/service/propertyApi"
+import { useGetPropertyByIdQuery, useGetSimilarPropertiesQuery } from "@/service/propertyApi"
 import Footer from "../../footer"
 import Header from "../../header"
 import WhatsapBanner from "../../home/whatsap-banner"
@@ -11,6 +11,11 @@ import PropertyDetailSimilarProperties from "./property-detail-similar-propertie
 
 function PropertyMainDark({ id }) {
     const { data, isLoading } = useGetPropertyByIdQuery(id);
+    const {
+        data: similarApiResponse = [],
+        isLoading: isSimilarLoading,
+        isError: isSimilarError,
+    } = useGetSimilarPropertiesQuery(id, { skip: !id });
     // New API returns property data directly
     const apiProperty = data;
     const normalizedProperty = apiProperty
@@ -78,44 +83,17 @@ function PropertyMainDark({ id }) {
         ? apiProperty.facilities 
         : [];
 
-    const similarProperties = [
-        {
-            name: "Parc Clementi",
-            type: "Clementi | Condominium",
-            price: "25L",
-            beds: 3,
-            baths: 2,
-            area: "1, 250",
-            image: "/assets/images/detail/image1.jpg"
-        },
-        {
-            name: "Haus of Clementi",
-            type: "Clementi | Condominium",
-            price: "25L",
-            beds: 3,
-            baths: 2,
-            area: "1, 220",
-            image: "/assets/images/detail/image2.jpg"
-        },
-        {
-            name: "Clemon",
-            type: "Clementi | Condominium",
-            price: "25L",
-            beds: 3,
-            baths: 2,
-            area: "1, 220",
-            image: "/assets/images/detail/image3.jpg"
-        },
-        {
-            name: "The Lucent",
-            type: "Clementi | Condominium",
-            price: "25L",
-            beds: 3,
-            baths: 2,
-            area: "1, 220",
-            image: "/assets/images/detail/image4.jpg"
-        }
-    ]
+    const similarProperties = (Array.isArray(similarApiResponse) ? similarApiResponse : []).map((property) => ({
+        ...property,
+        id: property?.id,
+        name: property?.title || property?.name || "Untitled Property",
+        type: [property?.city, property?.property_type].filter(Boolean).join(" | "),
+        price: property?.expected_price ?? property?.booking_amount ?? property?.price,
+        beds: property?.bedrooms,
+        baths: property?.bathrooms,
+        area: property?.super_area || property?.carpet_area,
+        image: property?.image,
+    }));
 
     if (isLoading) return <>loading...</>
 
@@ -123,11 +101,15 @@ function PropertyMainDark({ id }) {
         <>
             <Header />
             <div className={`flex flex-col min-h-screen text-[#F5EFE7]`}>
-                <main className={`flex-grow property-search-gradient`}>
+                <main className={`grow property-search-gradient`}>
                     <PropertyDetailHeader property={normalizedProperty} isDark={true} />
                     <PropertyDetailImages property={normalizedProperty} />
                     <PropertyPropertyDetail property={normalizedProperty} rawProperty={apiProperty} propertyFeatures={propertyFeatures} facilities={facilities} />
-                    <PropertyDetailSimilarProperties similarProperties={similarProperties} />
+                    <PropertyDetailSimilarProperties
+                        similarProperties={similarProperties}
+                        isLoading={isSimilarLoading}
+                        isError={isSimilarError}
+                    />
                     <PropertyDetailBanner />
                 </main>
                 <WhatsapBanner />

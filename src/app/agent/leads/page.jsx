@@ -3,6 +3,8 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import WhatsapBanner from "@/components/home/whatsap-banner";
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 const STORAGE_KEY = "agent-mini-crm-leads";
@@ -13,6 +15,7 @@ const initialForm = {
     customerName: "",
     customerNumber: "",
     propertyName: "",
+    builderTeam: "",
     notes: "",
     status: "Followup",
 };
@@ -21,6 +24,13 @@ export default function AgentLeadsPage() {
     const [form, setForm] = useState(initialForm);
     const [leads, setLeads] = useState([]);
     const [isAddLeadModalOpen, setIsAddLeadModalOpen] = useState(false);
+    const agentProfile = {
+        companyName: "TRS Property Advisor",
+        name: "Rohit Malhotra",
+        email: "rohit.malhotra@trspropertymall.com",
+        description: "Track followups, close deals faster, and manage all customer conversations from one dashboard.",
+        image: "/assets/images/agent1.png",
+    };
 
     useEffect(() => {
         try {
@@ -45,6 +55,12 @@ export default function AgentLeadsPage() {
             return acc;
         }, {});
     }, [leads]);
+
+    const totalLeads = leads.length;
+    const activeLeads = useMemo(() => {
+        return (statusCounts.Followup || 0) + (statusCounts.Postponed || 0);
+    }, [statusCounts]);
+    const closedDeals = statusCounts.Closed || 0;
 
     const onChange = (key, value) => {
         setForm((prev) => ({ ...prev, [key]: value }));
@@ -76,35 +92,84 @@ export default function AgentLeadsPage() {
         <>
             <Header />
             <main className="min-h-screen bg-linear-to-b from-[#212121] via-[#212121] to-[#212121] px-4 py-8 text-[#F5EFE7] md:px-8">
-                <section className="mx-auto max-w-6xl">
-                    <div className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-5">
-                        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                            <div>
-                                <h1 className="text-2xl font-bold">Mini CRM - Leads</h1>
-                                <p className="mt-2 text-sm text-[#F5EFE7]">
-                                    Add leads, track status, and keep property interest notes in one place.
-                                </p>
+                <section className="mx-auto max-w-7xl">
+                    <section className="mb-6 rounded-2xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4 md:p-4">
+                        <div className="flex flex-col gap-4 md:flex-row md:items-stretch">
+                            <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-xl border border-[#C6A256]/40 bg-[#212121]/70 md:h-44 md:w-44">
+                                <Image
+                                    src={agentProfile.image}
+                                    alt={agentProfile.companyName || agentProfile.name}
+                                    fill
+                                    sizes="(max-width: 768px) 160px, 208px"
+                                    className="object-cover"
+                                />
                             </div>
-                            <button
-                                type="button"
-                                onClick={() => setIsAddLeadModalOpen(true)}
-                                className="rounded-md cursor-pointer bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] px-5 py-2 font-semibold text-[#212121]"
-                            >
-                                Add Lead
-                            </button>
-                        </div>
-                    </div>
 
-                    <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                        {STATUS_OPTIONS.map((status) => (
-                            <div key={status} className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-4 py-3">
-                                <p className="text-sm text-[#F5EFE7]">{status}</p>
-                                <p className="text-xl font-bold">{statusCounts[status] || 0}</p>
+                            <div className="flex flex-1 flex-col justify-between gap-3">
+                                <div>
+                                    <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Agent Profile</p>
+                                    <h1 className="mt-1 text-2xl font-bold leading-tight text-[#F5EFE7]">
+                                        {agentProfile.companyName || agentProfile.name}
+                                    </h1>
+                                    <p className="text-sm text-[#F5EFE7]/85">{agentProfile.name}</p>
+                                    <p className="mt-1 text-sm text-[#F5EFE7]/85">{agentProfile.email}</p>
+                                    <p className="mt-2 max-w-2xl text-sm text-[#F5EFE7]/80">{agentProfile.description}</p>
+                                </div>
+
+                                <div className="flex w-full flex-wrap gap-3 md:w-auto">
+                                    <Link
+                                        href="/agent/profile"
+                                        className="inline-flex items-center justify-center rounded-lg border border-[#F5EFE7]/20 bg-[#F5EFE7]/8 px-4 py-2 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/15"
+                                    >
+                                        Edit Profile
+                                    </Link>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsAddLeadModalOpen(true)}
+                                        className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-[#C6A256]/40 bg-[#C6A256]/15 px-4 py-2 text-sm font-medium text-[#E0C484] transition-colors hover:bg-[#C6A256]/25"
+                                    >
+                                        Add Lead
+                                    </button>
+                                </div>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    </section>
+
+                    <section className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4 sm:p-5">
+                        <div className="grid gap-4 md:grid-cols-3">
+                            <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Total Leads</p>
+                                <p className="mt-2 text-3xl font-bold">{totalLeads}</p>
+                            </article>
+                            <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Active Leads</p>
+                                <p className="mt-2 text-3xl font-bold">{activeLeads}</p>
+                                <p className="text-xs text-[#F5EFE7]">Followup and postponed leads</p>
+                            </article>
+                            <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Closed Deals</p>
+                                <p className="mt-2 text-3xl font-bold">{closedDeals}</p>
+                                <p className="text-xs text-[#F5EFE7]">Successful conversions</p>
+                            </article>
+                        </div>
+
+                        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                            {STATUS_OPTIONS.map((status) => (
+                                <div key={status} className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-4 py-3">
+                                    <p className="text-xs text-[#F5EFE7]">{status}</p>
+                                    <p className="text-xl font-bold">{statusCounts[status] || 0}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
 
                     <div className="overflow-x-auto rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                        <div className="mb-3 flex items-center justify-between gap-3">
+                            <h2 className="text-xl font-semibold">Lead Pipeline</h2>
+                            <span className="rounded-full border border-[#C6A256]/35 bg-[#C6A256]/10 px-3 py-1 text-xs text-[#C6A256]">
+                                {totalLeads} Total Leads
+                            </span>
+                        </div>
                         <table className="w-full min-w-190 text-left text-sm">
                             <thead>
                                 <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]">
@@ -112,6 +177,7 @@ export default function AgentLeadsPage() {
                                     <th className="pb-3 pr-3">Lead Name</th>
                                     <th className="pb-3 pr-3">Customer Number</th>
                                     <th className="pb-3 pr-3">Property Name</th>
+                                    <th className="pb-3 pr-3">Builder Team</th>
                                     <th className="pb-3 pr-3">Notes</th>
                                     <th className="pb-3 pr-3">Status</th>
                                 </tr>
@@ -119,7 +185,7 @@ export default function AgentLeadsPage() {
                             <tbody>
                                 {leads.length === 0 && (
                                     <tr>
-                                        <td className="py-4 text-[#F5EFE7]" colSpan={6}>
+                                        <td className="py-4 text-[#F5EFE7]" colSpan={7}>
                                             No leads added yet.
                                         </td>
                                     </tr>
@@ -130,6 +196,7 @@ export default function AgentLeadsPage() {
                                         <td className="py-3 pr-3">{lead.customerName}</td>
                                         <td className="py-3 pr-3">{lead.customerNumber}</td>
                                         <td className="py-3 pr-3">{lead.propertyName}</td>
+                                        <td className="py-3 pr-3">{lead.builderTeam || "-"}</td>
                                         <td className="py-3 pr-3 text-[#F5EFE7]">{lead.notes || "-"}</td>
                                         <td className="py-3 pr-3">
                                             <select
@@ -214,6 +281,17 @@ export default function AgentLeadsPage() {
                                         placeholder="Project or property name"
                                         className="mt-1 w-full rounded-md border border-[#F5EFE7]/35 bg-[#0f172a]/75 px-3 py-2 text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:border-[#C6A256] outline-none"
                                         required
+                                    />
+                                </label>
+
+                                <label className="text-sm">
+                                    Builder Team
+                                    <input
+                                        type="text"
+                                        value={form.builderTeam}
+                                        onChange={(e) => onChange("builderTeam", e.target.value)}
+                                        placeholder="Enter builder team"
+                                        className="mt-1 w-full rounded-md border border-[#F5EFE7]/35 bg-[#0f172a]/75 px-3 py-2 text-[#F5EFE7] placeholder:text-[#F5EFE7]/55 focus:border-[#C6A256] outline-none"
                                     />
                                 </label>
 

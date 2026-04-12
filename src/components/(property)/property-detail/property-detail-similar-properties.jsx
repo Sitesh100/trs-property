@@ -1,24 +1,36 @@
-import { ChevronRight } from "lucide-react"
-import Link from "next/link"
 import DetailCard from "../../ui/detail-card"
 
-function PropertyDetailSimilarProperties({ similarProperties }) {
+function PropertyDetailSimilarProperties({ similarProperties = [], isLoading = false, isError = false }) {
+    const loadingCards = Array.from({ length: 4 });
+
     return (
         <>
-            <div className="bg-gradient-to-b from-[#212121] to-[#212121] py-12">
+            <div className="bg-linear-to-b from-[#212121] to-[#212121] py-14">
                 <div className="container mx-auto px-4">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-2xl font-bold text-[#F5EFE7]">Similar Properties</h2>
-                        <Link href="/properties" className="text-[#C6A256] flex items-center">
-                            View more <ChevronRight className="h-4 w-4 ml-1" />
-                        </Link>
+                    <div className="mb-7 flex items-end justify-between">
+                        <div>
+                            <h2 className="text-3xl font-semibold text-[#F5EFE7] tracking-tight">Similar Properties</h2>
+                            <p className="mt-1 text-sm text-[#F5EFE7]/65">Curated matches based on this property.</p>
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                        {similarProperties.map((property, index) => (
-                            <DetailCard property={property} key={index} />
-                        ))}
-                    </div>
+                    {isLoading ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                            {loadingCards.map((_, index) => (
+                                <div key={index} className="h-90 rounded-2xl bg-[#F5EFE7]/8 border border-[#F5EFE7]/10 animate-pulse" />
+                            ))}
+                        </div>
+                    ) : isError ? (
+                        <div className="text-[#F5EFE7]/80">Unable to load similar properties right now.</div>
+                    ) : similarProperties.length === 0 ? (
+                        <div className="text-[#F5EFE7]/80">No similar properties found.</div>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                            {similarProperties.map((property) => (
+                                <DetailCard property={property} key={property?.id || property?.name} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </>

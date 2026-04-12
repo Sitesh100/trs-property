@@ -335,23 +335,28 @@ const AboutPage = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8 }}
-              className="max-w-5xl mx-auto text-center"
+              className="max-w-7xl mx-auto text-center"
             >
               <motion.h1
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={heroInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-4xl md:text-6xl font-bold mb-8 leading-tight"
+                className="mx-auto max-w-[1950px] text-3xl md:text-5xl lg:text-[56px] font-bold mb-8 leading-tight"
               >
-                <span className="text-[#F5EFE7]">Total Realty Solutions</span> is a{" "}
-               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256]">
-                  PAN-India
-                </span>{" "}
-                consulting company with a legacy of over{" "}
+                <span className="text-[#F5EFE7]">TRS Property Mall</span> is a venture of Total Realty Solutions (India) Pvt Ltd,
+                {/* <br className="hidden md:block" /> */}
+                a trusted{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256]">
-                  20+ years
+                  PAN India
                 </span>{" "}
-                in delivering comprehensive real estate services.
+                real estate consultancy with{" "}
+                {/* <br className="hidden md:block" /> */}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256]">
+                   20+ years
+                </span>{" "}
+                of legacy, offering end to end property solutions{" "}
+                {/* <br className="hidden md:block" /> */}
+                in residential, commercial, leasing, and investment segments.
               </motion.h1>
 
               {/* Mission & Vision Cards */}
@@ -384,50 +389,7 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Core Values Section */}
-        <section ref={valuesRef} className="py-10 md:py-16 relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#212121] via-[#212121]/15 to-[#212121]" />
-          
-          <div className="container mx-auto px-4 relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={valuesInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5EFE7] via-[#C6A256] to-[#C6A256]">Values</span>
-              </h2>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {coreValues.map((value, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={valuesInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group relative"
-                >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${value.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                  <div className="relative bg-gradient-to-br from-[#212121] to-[#212121] md:p-8 p-4 rounded-2xl border border-[#C6A256]/20 hover:border-[#C6A256]/50 transition-all duration-300 h-full">
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className="p-3 bg-gradient-to-br from-[#212121]/20 to-[#C6A256]/20 rounded-xl">
-                        <value.icon className="w-6 h-6 text-[#C6A256]" />
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold mb-3 text-[#F5EFE7] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#212121] group-hover:to-[#C6A256] transition-all duration-300">
-                      {value.title}
-                    </h3>
-                    <p className="text-[#F5EFE7] leading-tight">
-                      {value.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+       
 
         {/* Founder's Desk Section */}
         <section ref={founderRef} className="py-20 md:py-28 relative overflow-hidden">
@@ -551,6 +513,51 @@ const AboutPage = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/70 to-transparent" />
                 </div>
               </motion.div>
+            </div>
+          </div>
+        </section>
+
+                       {/* Core Values Section */}
+        <section ref={valuesRef} className="py-10 md:py-16 relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#212121] via-[#212121]/15 to-[#212121]" />
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={valuesInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7 }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                Core <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5EFE7] via-[#C6A256] to-[#C6A256]">Values</span>
+              </h2>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {coreValues.map((value, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={valuesInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="group relative"
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${value.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <div className="relative bg-gradient-to-br from-[#212121] to-[#212121] md:p-8 p-4 rounded-2xl border border-[#C6A256]/20 hover:border-[#C6A256]/50 transition-all duration-300 h-full">
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="p-3 bg-gradient-to-br from-[#212121]/20 to-[#C6A256]/20 rounded-xl">
+                        <value.icon className="w-6 h-6 text-[#C6A256]" />
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-[#F5EFE7] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#212121] group-hover:to-[#C6A256] transition-all duration-300">
+                      {value.title}
+                    </h3>
+                    <p className="text-[#F5EFE7] leading-tight">
+                      {value.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>

@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const serviceSections = [
   {
     title: "For Clients",
-    image: "/assets/images/service/service-one.avif",
+    image: "/assets/images/client1.png",
     points: [
       "Title Verification",
       "Property due diligence",
@@ -20,7 +20,7 @@ const serviceSections = [
   },
   {
     title: "For Agents",
-    image: "/assets/images/service/service-two.avif",
+    image: "/assets/images/agent1.png",
     points: [
       "RERA Registration for agents",
       "Sale agreements & Deeds",
@@ -33,7 +33,7 @@ const serviceSections = [
   },
   {
     title: "For Builders",
-    image: "/assets/images/service/service-three.avif",
+    image: "/assets/images/builder1.png",
     points: [
       "RERA Compliances",
       "Land title verification",

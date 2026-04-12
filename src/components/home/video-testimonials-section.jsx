@@ -1,7 +1,7 @@
 "use client"
 
 import { AnimatePresence, motion } from "framer-motion"
-import { Play, Volume2, VolumeX } from "lucide-react"
+import { Play, Volume2, VolumeX, ChevronLeft, ChevronRight, Quote } from "lucide-react"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 const VIDEO_TESTIMONIALS = [
@@ -97,6 +97,13 @@ const VIDEO_TESTIMONIALS = [
   },
 ]
 
+const STATS = [
+  { value: "500+", label: "Happy Clients" },
+  { value: "20+", label: "Years Experience" },
+  { value: "1000+", label: "Properties Sold" },
+  { value: "98%", label: "Satisfaction Rate" },
+]
+
 const canPlayMediaType = (mediaType) => {
   if (!mediaType || typeof document === "undefined") return true
   const el = document.createElement("video")
@@ -107,25 +114,16 @@ const getPlayableSource = (testimonial) => {
   return testimonial.sources.find((source) => canPlayMediaType(source.type)) || null
 }
 
-const UnsupportedVideoCard = ({ compact = false }) => {
-  return (
-    <div
-      className={`relative w-full aspect-9/16 rounded-2xl border border-[#C6A256]/30 bg-[#212121] overflow-hidden ${compact ? "" : "max-w-md"}`}
-    >
-      <div className="absolute inset-0 bg-linear-to-br from-[#212121]/80 to-[#212121]" />
-      <div className="absolute inset-0 flex items-center justify-center p-4 text-center">
-        <div>
-          <p className="text-[#F5EFE7] text-sm md:text-base font-semibold">Video format not supported</p>
-          {!compact && (
-            <p className="text-[#F5EFE7]/70 text-xs md:text-sm mt-2">
-              Please upload H.264 (avc1) MP4 or WebM versions for browser playback.
-            </p>
-          )}
-        </div>
-      </div>
+const UnsupportedVideoCard = ({ compact = false }) => (
+  <div className="absolute inset-0 flex items-center justify-center p-4 text-center bg-[#212121]">
+    <div>
+      <p className="text-[#F5EFE7] text-sm font-semibold">Video format not supported</p>
+      {!compact && (
+        <p className="text-[#F5EFE7]/60 text-xs mt-1">Please use H.264 MP4 for browser playback.</p>
+      )}
     </div>
-  )
-}
+  </div>
+)
 
 const VideoTestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -137,20 +135,18 @@ const VideoTestimonialsSection = () => {
 
   const activeVideo = VIDEO_TESTIMONIALS[activeIndex]
   const activeSource = useMemo(() => getPlayableSource(activeVideo), [activeVideo])
+  const isErrored = erroredIds.includes(activeVideo.id)
 
   useEffect(() => {
     const player = activeVideoRef.current
     if (!player || !activeSource) return
-
     const playPromise = player.play()
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {})
-    }
+    if (playPromise?.catch) playPromise.catch(() => {})
   }, [activeIndex, isMuted, activeSource])
 
   const miniCards = useMemo(() => {
     const order = []
-    for (let step = 1; step <= VIDEO_TESTIMONIALS.length - 1; step += 1) {
+    for (let step = 1; step <= VIDEO_TESTIMONIALS.length - 1; step++) {
       order.push((activeIndex + step) % VIDEO_TESTIMONIALS.length)
     }
     return order
@@ -161,78 +157,113 @@ const VideoTestimonialsSection = () => {
     setIsMuted(false)
   }
 
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev - 1 + VIDEO_TESTIMONIALS.length) % VIDEO_TESTIMONIALS.length)
+    setIsMuted(true)
+  }
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % VIDEO_TESTIMONIALS.length)
+    setIsMuted(true)
+  }
+
   const handleActiveVideoEnded = () => {
     setActiveIndex((prev) => (prev + 1) % VIDEO_TESTIMONIALS.length)
     setIsMuted(true)
   }
 
-  const isErrored = erroredIds.includes(activeVideo.id)
-
   useEffect(() => {
     const slider = miniSliderRef.current
-    if (!slider) return undefined
-
+    if (!slider) return
     let frameId = null
     let lastTime = 0
-    const speed = 20
+    const speed = 22
 
     const drift = (time) => {
       if (!lastTime) lastTime = time
       const delta = time - lastTime
       lastTime = time
-
       if (!isMiniRailPaused) {
         const maxScroll = slider.scrollWidth - slider.clientWidth
         if (maxScroll > 2) {
           slider.scrollLeft += (speed * delta) / 1000
-          if (slider.scrollLeft >= maxScroll - 1) {
-            slider.scrollLeft = 0
-          }
+          if (slider.scrollLeft >= maxScroll - 1) slider.scrollLeft = 0
         }
       }
-
       frameId = window.requestAnimationFrame(drift)
     }
-
     frameId = window.requestAnimationFrame(drift)
-    return () => {
-      if (frameId) window.cancelAnimationFrame(frameId)
-    }
+    return () => { if (frameId) window.cancelAnimationFrame(frameId) }
   }, [miniCards.length, isMiniRailPaused])
 
   return (
-    <section className="py-16 md:py-24 relative overflow-hidden bg-linear-to-br from-[#212121] via-[#1B1B1B] to-[#2A2318]">
-      <div className="pointer-events-none absolute inset-0 hidden xl:block">
+    <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-[#1A1A1A] via-[#1E1B16] to-[#211E17]">
+
+      {/* Decorative background elements */}
+      <div className="pointer-events-none absolute inset-0">
+        {/* Dot grid right */}
         <div
-          className="absolute right-12 top-24 opacity-40"
+          className="absolute right-0 top-0 bottom-0 w-1/2 opacity-[0.06]"
           style={{
-            width: "640px",
-            height: "440px",
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(198, 162, 86, 0.38) 1px, transparent 1px)",
-            backgroundSize: "22px 22px",
-            maskImage: "linear-gradient(to left, black 50%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to left, black 50%, transparent 100%)",
+            backgroundImage: "radial-gradient(circle at 1px 1px, #C6A256 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
           }}
         />
-        <div className="absolute right-14 top-20 h-px w-80 bg-linear-to-r from-transparent via-[#C6A256]/55 to-transparent" />
-        <div className="absolute right-16 top-28 h-px w-96 bg-linear-to-r from-transparent via-[#C6A256]/35 to-transparent" />
+        {/* Top accent lines */}
+        <div className="absolute top-0 left-1/4 right-0 h-px bg-gradient-to-r from-transparent via-[#C6A256]/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-1/4 h-px bg-gradient-to-r from-transparent via-[#C6A256]/20 to-transparent" />
+        {/* Large faint circle */}
+        <div className="absolute right-[-10%] top-[-20%] w-[600px] h-[600px] rounded-full border border-[#C6A256]/8" />
+        <div className="absolute right-[5%] top-[-5%] w-[360px] h-[360px] rounded-full border border-[#C6A256]/5" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-3xl md:text-5xl font-bold text-[#F5EFE7] mb-6">
-          Client <span className="text-[#C6A256]">Video Testimonials</span>
-        </h2>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        <div className="grid grid-cols-1 xl:grid-cols-[max-content_minmax(0,1fr)] gap-0 xl:gap-25 items-start xl:items-end">
-          <div className="flex justify-center xl:justify-start">
-            <div className="relative w-full max-w-84 md:max-w-88 xl:max-w-88 aspect-9/16 rounded-2xl overflow-hidden border border-[#C6A256]/35 bg-[#212121]">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 md:mb-14">
+          <div>
+            <p className="text-[#C6A256] text-sm font-medium tracking-[0.2em] uppercase mb-3">
+              What Our Clients Say
+            </p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#F5EFE7] leading-tight">
+              
+              <span className="text-[#C6A256]">Video Testimonials</span>
+            </h2>
+          </div>
+          {/* Navigation arrows */}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="w-11 h-11 rounded-full border border-[#C6A256]/30 flex items-center justify-center text-[#C6A256] hover:bg-[#C6A256]/10 hover:border-[#C6A256]/60 transition-all duration-200"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <span className="text-[#F5EFE7]/40 text-sm tabular-nums">
+              {String(activeIndex + 1).padStart(2, "0")} / {String(VIDEO_TESTIMONIALS.length).padStart(2, "0")}
+            </span>
+            <button
+              type="button"
+              onClick={handleNext}
+              className="w-11 h-11 rounded-full border border-[#C6A256]/30 flex items-center justify-center text-[#C6A256] hover:bg-[#C6A256]/10 hover:border-[#C6A256]/60 transition-all duration-200"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="grid grid-cols-1 xl:grid-cols-[380px_1fr] gap-8 xl:gap-14">
+
+          {/* Left: Active Video */}
+          <div className="flex flex-col items-center xl:items-start gap-5">
+            <div className="relative w-full max-w-[360px] xl:max-w-none aspect-[9/16] rounded-2xl overflow-hidden border border-[#C6A256]/25 bg-[#1A1A1A] shadow-[0_0_60px_rgba(198,162,86,0.08)]">
               <AnimatePresence mode="wait" initial={false}>
                 {activeSource && !isErrored ? (
                   <motion.video
                     key={`${activeVideo.id}-${activeSource.src}`}
                     ref={activeVideoRef}
-                    className="w-full h-full object-cover rounded-2xl"
+                    className="w-full h-full object-cover"
                     controls
                     playsInline
                     muted={isMuted}
@@ -240,106 +271,157 @@ const VideoTestimonialsSection = () => {
                     preload="metadata"
                     onEnded={handleActiveVideoEnded}
                     onError={() => setErroredIds((prev) => [...new Set([...prev, activeVideo.id])])}
-                    initial={{ opacity: 0, x: 18, scale: 0.985 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: -18, scale: 0.985 }}
-                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <source src={activeSource.src} type={activeSource.type} />
                   </motion.video>
                 ) : (
                   <motion.div
                     key={`unsupported-${activeVideo.id}`}
+                    className="absolute inset-0"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.25 }}
                   >
                     <UnsupportedVideoCard />
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center">
-                <div>
-                  <p className="text-sm text-[#F5EFE7]/70">Now Playing</p>
-                  {/* <h3 className="text-[#F5EFE7] font-semibold">{activeVideo.name}</h3> */}
+              {/* Bottom bar */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-4 flex items-center justify-between pointer-events-none">
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#C6A256] animate-pulse" />
+                  <p className="text-[#F5EFE7]/70 text-xs tracking-wide">Now Playing</p>
                 </div>
-
                 <button
                   type="button"
-                  onClick={() => setIsMuted((prev) => !prev)}
-                  className="bg-black/60 px-3 py-2 rounded-full text-[#F5EFE7] text-sm"
+                  onClick={() => setIsMuted((p) => !p)}
+                  className="pointer-events-auto bg-black/50 border border-white/10 px-3 py-1.5 rounded-full text-[#F5EFE7] hover:bg-black/70 transition-colors"
                 >
-                  {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                  {isMuted ? <VolumeX size={14} /> : <Volume2 size={14} />}
                 </button>
+              </div>
+
+              {/* Progress dots */}
+              <div className="absolute top-4 left-0 right-0 flex justify-center gap-1 pointer-events-none">
+                {VIDEO_TESTIMONIALS.map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-0.5 rounded-full transition-all duration-300 ${
+                      i === activeIndex ? "w-5 bg-[#C6A256]" : "w-1.5 bg-white/30"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </div>
 
-          <div className="relative min-h-55 xl:min-h-130 flex items-end overflow-hidden rounded-3xl">
-            <div className="pointer-events-none absolute inset-0">
-              <div className="absolute -right-20 -top-15 h-72 w-72 rounded-full bg-black/35 blur-3xl" />
-              <div className="absolute right-24 top-20 h-60 w-60 rounded-full border border-[#0f0f0f]/90" />
-              <div className="absolute -right-10 top-28 h-96 w-96 rounded-full border border-[#171717]/80" />
+          {/* Right: Content */}
+          <div className="flex flex-col justify-between gap-8">
+
+            {/* Stats grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-2 gap-3">
+              {STATS.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="bg-[#1E1B14]/80 border border-[#C6A256]/15 rounded-xl px-5 py-4 hover:border-[#C6A256]/35 transition-colors duration-200"
+                >
+                  <p className="text-[#C6A256] text-2xl font-bold leading-none mb-1">{stat.value}</p>
+                  <p className="text-[#F5EFE7]/50 text-xs tracking-wide">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Quote block */}
+            <div className="relative bg-[#1E1B14]/60 border border-[#C6A256]/12 rounded-2xl p-6 xl:p-8">
+              <Quote size={32} className="text-[#C6A256]/20 absolute top-5 left-5" />
+              <p className="text-[#F5EFE7]/75 text-sm md:text-base leading-relaxed pl-6 pt-2">
+                Our clients trust us to find not just a property, but a place they can call home. Every testimonial represents a family whose dream we helped turn into reality.
+              </p>
+              <div className="mt-5 pt-4 border-t border-[#C6A256]/10 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#C6A256]/15 border border-[#C6A256]/30 flex items-center justify-center">
+                  <span className="text-[#C6A256] text-xs font-bold">TR</span>
+                </div>
+                <div>
+                  <p className="text-[#F5EFE7] text-sm font-medium">TRS Property Mall</p>
+                  <p className="text-[#F5EFE7]/40 text-xs">Trusted Real Estate Partner</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Mini thumbnail rail */}
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <p className="text-[#F5EFE7]/50 text-xs uppercase tracking-[0.15em]">All Testimonials</p>
+                <div className="flex gap-1">
+                  <div className="w-4 h-0.5 rounded-full bg-[#C6A256]" />
+                  <div className="w-2 h-0.5 rounded-full bg-[#C6A256]/30" />
+                  <div className="w-2 h-0.5 rounded-full bg-[#C6A256]/30" />
+                </div>
+              </div>
+
               <div
-                className="absolute inset-y-0 right-0 w-[85%] opacity-40"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 1px 1px, rgba(26, 26, 26, 0.95) 1px, transparent 1px)",
-                  backgroundSize: "18px 18px",
-                  maskImage: "radial-gradient(circle at 78% 52%, black 0%, black 42%, transparent 80%)",
-                  WebkitMaskImage:
-                    "radial-gradient(circle at 78% 52%, black 0%, black 42%, transparent 80%)",
-                }}
-              />
+                ref={miniSliderRef}
+                className="flex gap-2.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-1"
+                onMouseEnter={() => setIsMiniRailPaused(true)}
+                onMouseLeave={() => setIsMiniRailPaused(false)}
+                onTouchStart={() => setIsMiniRailPaused(true)}
+                onTouchEnd={() => setIsMiniRailPaused(false)}
+              >
+                {miniCards.map((videoIndex) => {
+                  const video = VIDEO_TESTIMONIALS[videoIndex]
+                  const source = getPlayableSource(video)
+
+                  return (
+                    <motion.button
+                      key={video.id}
+                      type="button"
+                      onClick={() => handleMiniClick(videoIndex)}
+                      layout
+                      transition={{ type: "spring", stiffness: 110, damping: 26, mass: 0.8 }}
+                      className="relative shrink-0 w-[88px] aspect-[9/16] rounded-xl overflow-hidden border border-[#F5EFE7]/10 hover:border-[#C6A256]/50 transition-colors duration-200 group"
+                    >
+                      {source ? (
+                        <video
+                          className="w-full h-full object-cover"
+                          muted
+                          playsInline
+                          autoPlay
+                          loop
+                          preload="metadata"
+                        >
+                          <source src={source.src} type={source.type} />
+                        </video>
+                      ) : (
+                        <div className="w-full h-full bg-[#212121] flex items-center justify-center">
+                          <p className="text-[#F5EFE7]/40 text-[10px] text-center px-1">Not supported</p>
+                        </div>
+                      )}
+
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <div className="w-7 h-7 rounded-full bg-[#C6A256]/90 flex items-center justify-center">
+                          <Play size={12} className="text-black ml-0.5" fill="black" />
+                        </div>
+                      </div>
+
+                      {/* Index label */}
+                      <div className="absolute bottom-1.5 left-1.5 right-1.5 flex justify-between items-end pointer-events-none">
+                        <span className="text-[#F5EFE7]/60 text-[9px] font-medium bg-black/40 px-1 py-0.5 rounded">
+                          {String(video.id).padStart(2, "0")}
+                        </span>
+                        <Play size={10} className="text-[#C6A256]" />
+                      </div>
+                    </motion.button>
+                  )
+                })}
+              </div>
             </div>
 
-            <div
-              ref={miniSliderRef}
-              className="relative z-10 flex gap-2 md:gap-3 overflow-x-auto pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:self-end"
-              onMouseEnter={() => setIsMiniRailPaused(true)}
-              onMouseLeave={() => setIsMiniRailPaused(false)}
-              onTouchStart={() => setIsMiniRailPaused(true)}
-              onTouchEnd={() => setIsMiniRailPaused(false)}
-            >
-              {miniCards.map((videoIndex) => {
-                const video = VIDEO_TESTIMONIALS[videoIndex]
-                const source = getPlayableSource(video)
-
-                return (
-                  <motion.button
-                    key={video.id}
-                    type="button"
-                    onClick={() => handleMiniClick(videoIndex)}
-                    data-mini-card="true"
-                    layout
-                    transition={{ type: "spring", stiffness: 110, damping: 26, mass: 0.8 }}
-                    className="relative shrink-0 w-28 md:w-32 aspect-9/16 rounded-xl overflow-hidden border border-[#F5EFE7]/20"
-                  >
-                    {source ? (
-                      <video
-                        className="w-full h-full object-cover"
-                        muted
-                        playsInline
-                        autoPlay
-                        loop
-                        preload="metadata"
-                      >
-                        <source src={source.src} type={source.type} />
-                      </video>
-                    ) : (
-                      <UnsupportedVideoCard compact />
-                    )}
-
-                    <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center pointer-events-none">
-                      <p className="text-[#F5EFE7] text-xs">{video.name}</p>
-                      <Play size={14} className="text-[#C6A256]" />
-                    </div>
-                  </motion.button>
-                )
-              })}
-            </div>
           </div>
         </div>
       </div>

@@ -18,6 +18,7 @@ const BuilderLounge = () => {
     reraRegistrationNumber: "",
     companyAddress: "",
     phone: "",
+    whatsappNumber: "",
     email: "",
     password: "",
     city: "",
@@ -38,9 +39,15 @@ const BuilderLounge = () => {
     e.preventDefault();
 
     const sanitizedPhone = formData.phone.replace(/\D/g, "").trim();
+    const sanitizedWhatsapp = formData.whatsappNumber.replace(/\D/g, "").trim();
     const normalizedPhone = sanitizedPhone.startsWith("91") && sanitizedPhone.length > 10
       ? `+${sanitizedPhone}`
       : `+91${sanitizedPhone}`;
+    const normalizedWhatsapp = sanitizedWhatsapp
+      ? (sanitizedWhatsapp.startsWith("91") && sanitizedWhatsapp.length > 10
+          ? `+${sanitizedWhatsapp}`
+          : `+91${sanitizedWhatsapp}`)
+      : "";
 
     try {
       const response = await registerBuilder({
@@ -49,6 +56,7 @@ const BuilderLounge = () => {
         reraRegistrationNumber: formData.reraRegistrationNumber.trim(),
         companyAddress: formData.companyAddress.trim(),
         phone: normalizedPhone,
+        whatsappNumber: normalizedWhatsapp || undefined,
         email: formData.email.trim(),
         password: formData.password,
         city: formData.city.trim(),
@@ -74,6 +82,7 @@ const BuilderLounge = () => {
         reraRegistrationNumber: "",
         companyAddress: "",
         phone: "",
+        whatsappNumber: "",
         email: "",
         password: "",
         city: "",
@@ -214,7 +223,7 @@ const BuilderLounge = () => {
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Company Name <span className="text-[#C6A256]">*</span>
+                          Company Name
                         </label>
                         <input
                           type="text"
@@ -223,13 +232,12 @@ const BuilderLounge = () => {
                           onChange={handleChange}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Enter company name"
-                          required
                         />
                       </div>
 
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Contact Person Name <span className="text-[#C6A256]">*</span>
+                          Contact Person Name
                         </label>
                         <input
                           type="text"
@@ -238,13 +246,12 @@ const BuilderLounge = () => {
                           onChange={handleChange}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Enter contact person name"
-                          required
                         />
                       </div>
 
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          RERA Registration Number <span className="text-[#C6A256]">*</span>
+                          RERA Registration Number
                         </label>
                         <input
                           type="text"
@@ -253,13 +260,12 @@ const BuilderLounge = () => {
                           onChange={handleChange}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Enter RERA registration number"
-                          required
                         />
                       </div>
 
                       <div className="col-span-2">
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Company Address <span className="text-[#C6A256]">*</span>
+                          Company Address
                         </label>
                         <textarea
                           name="companyAddress"
@@ -268,7 +274,6 @@ const BuilderLounge = () => {
                           rows={2}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition resize-none"
                           placeholder="Enter company address"
-                          required
                         />
                       </div>
                     </div>
@@ -282,7 +287,7 @@ const BuilderLounge = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Phone <span className="text-[#C6A256]">*</span>
+                          Phone
                         </label>
                         <div className="flex gap-2">
                           <div className="px-2.5 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-xs flex items-center shrink-0">
@@ -295,14 +300,32 @@ const BuilderLounge = () => {
                             onChange={handleChange}
                             className="flex-1 px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                             placeholder="Phone Number"
-                            required
                           />
                         </div>
                       </div>
 
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Email <span className="text-[#C6A256]">*</span>
+                          WhatsApp Number
+                        </label>
+                        <div className="flex gap-2">
+                          <div className="px-2.5 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-xs flex items-center shrink-0">
+                            IN +91
+                          </div>
+                          <input
+                            type="tel"
+                            name="whatsappNumber"
+                            value={formData.whatsappNumber}
+                            onChange={handleChange}
+                            className="flex-1 px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
+                            placeholder="WhatsApp Number"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
+                          Email
                         </label>
                         <input
                           type="email"
@@ -311,13 +334,12 @@ const BuilderLounge = () => {
                           onChange={handleChange}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Email Address"
-                          required
                         />
                       </div>
 
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Password <span className="text-[#C6A256]">*</span>
+                          Password
                         </label>
                         <input
                           type="password"
@@ -327,13 +349,12 @@ const BuilderLounge = () => {
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Enter password"
                           minLength={6}
-                          required
                         />
                       </div>
 
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          City <span className="text-[#C6A256]">*</span>
+                          City
                         </label>
                         <input
                           type="text"
@@ -342,7 +363,6 @@ const BuilderLounge = () => {
                           onChange={handleChange}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Enter your city"
-                          required
                         />
                       </div>
                     </div>
@@ -354,7 +374,6 @@ const BuilderLounge = () => {
                         checked={formData.agreeTerms}
                         onChange={handleChange}
                         className="mt-0.5 w-4 h-4 rounded border-[#F5EFE7] text-[#C6A256] focus:ring-[#C6A256] bg-[#212121]"
-                        required
                       />
                       <label className="text-[#F5EFE7] text-xs leading-relaxed">
                         I agree to the{" "}

@@ -94,6 +94,7 @@ const authApiNew = newRealStateAPI.injectEndpoints({
                 if (formValues.reraNumber) formData.append('rera_number', formValues.reraNumber);
                 if (formValues.agencyName) formData.append('agency_name', formValues.agencyName);
                 if (formValues.officeAddress) formData.append('office_address', formValues.officeAddress);
+                if (formValues.whatsappNumber) formData.append('whatsapp_number', formValues.whatsappNumber);
 
                 return {
                     url: `/register/agent`,
@@ -117,6 +118,7 @@ const authApiNew = newRealStateAPI.injectEndpoints({
                 if (formValues.reraRegistrationNumber) formData.append('rera_number', formValues.reraRegistrationNumber);
                 if (formValues.city) formData.append('city', formValues.city);
                 if (formValues.companyAddress) formData.append('company_address', formValues.companyAddress);
+                if (formValues.whatsappNumber) formData.append('whatsapp_number', formValues.whatsappNumber);
 
                 return {
                     url: `/register/builder`,
@@ -130,10 +132,16 @@ const authApiNew = newRealStateAPI.injectEndpoints({
         // POST /login
         login: build.mutation({
             query: (formValues) => {
+                const username =
+                    formValues.phone ||
+                    formValues.mobile_no ||
+                    formValues.username ||
+                    "";
+
                 // Create form-urlencoded body
                 const formBody = new URLSearchParams({
                     grant_type: "password",
-                    username: formValues.username, 
+                    username,
                     password: formValues.password,
                     scope: formValues.scope || "",
                     client_id: formValues.client_id || "",

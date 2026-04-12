@@ -181,7 +181,8 @@ export default function ProjectAnalyticsPage({ project }) {
                                             <th className="pb-2 pr-2">Customer</th>
                                             <th className="pb-2 pr-2">Slot</th>
                                             <th className="pb-2 pr-2">Source</th>
-                                            <th className="pb-2 pr-2">Visited By</th>
+                                            <th className="pb-2 pr-2">Builder Team</th>
+                                            <th className="pb-2 pr-2">TRS Team</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -191,7 +192,8 @@ export default function ProjectAnalyticsPage({ project }) {
                                                 <td className="py-2 pr-2">{visit.customerName}</td>
                                                 <td className="py-2 pr-2">{visit.slot}</td>
                                                 <td className="py-2 pr-2">{visit.source}</td>
-                                                <td className="py-2 pr-2">{visit.visitedBy}</td>
+                                                <td className="py-2 pr-2">{visit.builderTeam}</td>
+                                                <td className="py-2 pr-2">{visit.trsTeam}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -210,7 +212,8 @@ export default function ProjectAnalyticsPage({ project }) {
                                         <tr className="border-b border-[#F5EFE7]/10 text-[#F5EFE7]/80">
                                             <th className="pb-2 pr-2">Date</th>
                                             <th className="pb-2 pr-2">Customer</th>
-                                            <th className="pb-2 pr-2">Visited By</th>
+                                            <th className="pb-2 pr-2">Builder Team</th>
+                                            <th className="pb-2 pr-2">TRS Team</th>
                                             <th className="pb-2 pr-2">Outcome</th>
                                         </tr>
                                     </thead>
@@ -219,7 +222,8 @@ export default function ProjectAnalyticsPage({ project }) {
                                             <tr key={visit.id} className="border-b border-[#F5EFE7]/5">
                                                 <td className="py-2 pr-2">{visit.visitDate}</td>
                                                 <td className="py-2 pr-2">{visit.customerName}</td>
-                                                <td className="py-2 pr-2">{visit.visitedBy}</td>
+                                                <td className="py-2 pr-2">{visit.builderTeam}</td>
+                                                <td className="py-2 pr-2">{visit.trsTeam}</td>
                                                 <td className="py-2 pr-2">
                                                     <span className="rounded-full border border-[#C6A256]/30 bg-[#212121]/10 px-2 py-1 text-xs text-[#C6A256]">
                                                         {visit.outcome}

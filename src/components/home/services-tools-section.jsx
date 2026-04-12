@@ -17,7 +17,7 @@ const servicesData = [
         id: 2,
         title: "Professional Legal Services",
         description: "Ensure every transaction is legally sound, compliant, and risk-free.",
-        image: "/assets/images/detail/detail2.jpg",
+        image: "/assets/images/legal1.png",
         href: "/services/property-valuation"
     },
     {

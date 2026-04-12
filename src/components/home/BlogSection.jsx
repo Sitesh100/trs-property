@@ -137,7 +137,7 @@ const BlogSection = () => {
   }
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
+    <section className="py-8 bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] relative overflow-hidden">
       {/* Background decorative elements - subtle purple */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#212121]/30 to-transparent"></div>

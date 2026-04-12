@@ -36,13 +36,47 @@ const PropertyCard = ({ cards }) => {
         is_price_negotiable: "Any",
     });
 
+    const normalizeTabStatus = (value) => {
+        if (!value) return "";
+        const normalized = String(value).trim().toLowerCase();
+        if (normalized === "buy" || normalized === "sell") return "sell";
+        if (normalized === "rent") return "rent";
+        if (normalized === "project") return "project";
+        return normalized;
+    };
+
+    const extractProperties = (payload) => {
+        if (!payload) return [];
+        if (Array.isArray(payload)) return payload;
+        if (Array.isArray(payload?.data?.properties)) return payload.data.properties;
+        if (Array.isArray(payload?.properties)) return payload.properties;
+        if (Array.isArray(payload?.data)) return payload.data;
+        if (Array.isArray(payload?.results)) return payload.results;
+        if (Array.isArray(payload?.items)) return payload.items;
+        return [];
+    };
+
     // Hydrate initial filters from hero-page redirect query params.
     useEffect(() => {
         const query = searchParams.get('query') || searchParams.get('location') || "";
-        const paramPropertyType = searchParams.get('propertyType') || "Any";
-        const paramActiveTab = searchParams.get('activeTab') || "";
+        const paramPropertyType = searchParams.get('propertyType') || searchParams.get('property_type') || "Any";
+        const paramActiveTab = searchParams.get('activeTab') || searchParams.get('status') || "";
+        const paramPriceMinPct = Number(searchParams.get('priceMinPct'));
+        const paramPriceMaxPct = Number(searchParams.get('priceMaxPct'));
+        const paramBedrooms = searchParams.get('bedrooms') || "Any";
+        const paramBathrooms = searchParams.get('bathrooms') || "Any";
+        const paramPossessionStatus = searchParams.get('possession_status') || "Any";
+        const paramNegotiable = searchParams.get('is_price_negotiable') || "Any";
 
-        if (!query && paramPropertyType === "Any" && !paramActiveTab) return;
+        const hasPriceRangeParams = Number.isFinite(paramPriceMinPct) && Number.isFinite(paramPriceMaxPct);
+        const hasAdvancedParams =
+            hasPriceRangeParams ||
+            paramBedrooms !== "Any" ||
+            paramBathrooms !== "Any" ||
+            paramPossessionStatus !== "Any" ||
+            paramNegotiable !== "Any";
+
+        if (!query && paramPropertyType === "Any" && !paramActiveTab && !hasAdvancedParams) return;
 
         // PropertySearchBar emits an initial empty onSearch on mount.
         // Preserve URL-applied filters by skipping that first empty callback.
@@ -59,6 +93,20 @@ const PropertyCard = ({ cards }) => {
             setSidebarFilters((prev) => ({
                 ...prev,
                 property_type: paramPropertyType,
+                priceRange: hasPriceRangeParams ? [paramPriceMinPct, paramPriceMaxPct] : prev.priceRange,
+                bedrooms: paramBedrooms,
+                bathrooms: paramBathrooms,
+                possession_status: paramPossessionStatus,
+                is_price_negotiable: paramNegotiable,
+            }));
+        } else if (hasAdvancedParams) {
+            setSidebarFilters((prev) => ({
+                ...prev,
+                priceRange: hasPriceRangeParams ? [paramPriceMinPct, paramPriceMaxPct] : prev.priceRange,
+                bedrooms: paramBedrooms,
+                bathrooms: paramBathrooms,
+                possession_status: paramPossessionStatus,
+                is_price_negotiable: paramNegotiable,
             }));
         }
     }, [searchParams]);
@@ -69,8 +117,9 @@ const PropertyCard = ({ cards }) => {
 
     // Apply filters when data arrives or filters change
     useEffect(() => {
-        if (currentData?.data?.properties) {
-            console.log("📦 Properties received:", currentData.data.properties.length, "| Has filters:", hasActiveFilters);
+        const properties = extractProperties(currentData);
+        if (properties.length > 0 || currentData) {
+            console.log("📦 Properties received:", properties.length, "| Has filters:", hasActiveFilters);
             applyClientSideFilters();
         }
     }, [currentData, searchFilters, sidebarFilters, hasActiveFilters]);
@@ -151,7 +200,12 @@ const PropertyCard = ({ cards }) => {
 
         // Listing status (Sell/Rent)
         if (searchFilters.activeTab && searchFilters.activeTab !== "reset") {
-            apiFilters.status = searchFilters.activeTab;
+            const normalizedStatus = normalizeTabStatus(searchFilters.activeTab);
+            apiFilters.status = normalizedStatus === "sell"
+                ? "Sell"
+                : normalizedStatus === "rent"
+                    ? "Rent"
+                    : searchFilters.activeTab;
             hasAPIFilters = true;
         }
 
@@ -176,14 +230,24 @@ const PropertyCard = ({ cards }) => {
 
     // Apply client-side filters (for filters not supported by API)
     const applyClientSideFilters = () => {
-        if (!currentData?.data?.properties) return;
-        
-        let result = [...currentData.data.properties];
+        const sourceProperties = extractProperties(currentData);
+        if (!sourceProperties.length) {
+            setFilteredProperties([]);
+            return;
+        }
+
+        let result = [...sourceProperties];
         console.log("📊 Starting with:", result.length, "properties");
 
         // Active tab (buy/rent/project) - client-side only
         if (searchFilters.activeTab && searchFilters.activeTab !== "" && searchFilters.activeTab !== "reset") {
-            result = result.filter((property) => property?.property_post_status === searchFilters.activeTab);
+            const expectedStatus = normalizeTabStatus(searchFilters.activeTab);
+            result = result.filter((property) => {
+                const propertyStatus = normalizeTabStatus(
+                    property?.status ?? property?.property_for ?? property?.property_post_status
+                );
+                return propertyStatus ? propertyStatus === expectedStatus : true;
+            });
             console.log("After activeTab filter:", result.length, "| Tab:", searchFilters.activeTab);
         }
 

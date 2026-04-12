@@ -26,6 +26,7 @@ const ConsultantLoungePage = () => {
     reraNumber: "",
     officeAddress: "",
     phone: "",
+    whatsappNumber: "",
     email: "",
     password: "",
     city: "",
@@ -47,9 +48,15 @@ const ConsultantLoungePage = () => {
     e.preventDefault();
 
     const sanitizedPhone = formData.phone.replace(/\D/g, "").trim();
+    const sanitizedWhatsapp = formData.whatsappNumber.replace(/\D/g, "").trim();
     const normalizedPhone = sanitizedPhone.startsWith("91") && sanitizedPhone.length > 10
       ? `+${sanitizedPhone}`
       : `+91${sanitizedPhone}`;
+    const normalizedWhatsapp = sanitizedWhatsapp
+      ? (sanitizedWhatsapp.startsWith("91") && sanitizedWhatsapp.length > 10
+          ? `+${sanitizedWhatsapp}`
+          : `+91${sanitizedWhatsapp}`)
+      : "";
 
     try {
       const response = await registerAgent({
@@ -58,6 +65,7 @@ const ConsultantLoungePage = () => {
         reraNumber: formData.reraNumber.trim() || undefined,
         officeAddress: formData.officeAddress.trim(),
         phone: normalizedPhone,
+        whatsappNumber: normalizedWhatsapp || undefined,
         email: formData.email.trim(),
         password: formData.password,
         city: formData.city.trim(),
@@ -83,6 +91,7 @@ const ConsultantLoungePage = () => {
         reraNumber: "",
         officeAddress: "",
         phone: "",
+        whatsappNumber: "",
         email: "",
         password: "",
         city: "",
@@ -283,12 +292,12 @@ const ConsultantLoungePage = () => {
                   </span>
 
                   <h2 className="text-2xl md:text-3xl font-bold text-[#F5EFE7] mb-4">
-                    Network with leading consultants in real estate
+                    Match Your Real Estate Requirements To Close Deals
                   </h2>
 
                   <p className="text-[#F5EFE7] text-sm md:text-base leading-relaxed">
                     TRS Property Mall brings together trusted agents and
-                    verified property listings to help you close deals with
+                   property listings to help you close deals with
                     speed, clarity, and confidence. Making every real estate
                     decision smooth and reliable.
                   </p>
@@ -369,7 +378,7 @@ const ConsultantLoungePage = () => {
                     <div className="grid grid-cols-2 gap-3">
                       <div className="col-span-2">
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Full Name <span className="text-[#C6A256]">*</span>
+                          Full Name
                         </label>
                         <input
                           type="text"
@@ -378,13 +387,12 @@ const ConsultantLoungePage = () => {
                           onChange={handleChange}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Enter your full name"
-                          required
                         />
                       </div>
 
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Agency Name <span className="text-[#C6A256]">*</span>
+                          Agency Name
                         </label>
                         <input
                           type="text"
@@ -393,7 +401,6 @@ const ConsultantLoungePage = () => {
                           onChange={handleChange}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Enter agency name"
-                          required
                         />
                       </div>
 
@@ -413,7 +420,7 @@ const ConsultantLoungePage = () => {
 
                       <div className="col-span-2">
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Office Address <span className="text-[#C6A256]">*</span>
+                          Office Address
                         </label>
                         <textarea
                           name="officeAddress"
@@ -422,7 +429,6 @@ const ConsultantLoungePage = () => {
                           rows={2}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition resize-none"
                           placeholder="Enter office address"
-                          required
                         />
                       </div>
                     </div>
@@ -436,7 +442,7 @@ const ConsultantLoungePage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Phone <span className="text-[#C6A256]">*</span>
+                          Phone
                         </label>
                         <div className="flex gap-2">
                           <div className="px-2.5 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-xs flex items-center shrink-0">
@@ -449,14 +455,32 @@ const ConsultantLoungePage = () => {
                             onChange={handleChange}
                             className="flex-1 px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                             placeholder="Phone Number"
-                            required
                           />
                         </div>
                       </div>
 
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Email <span className="text-[#C6A256]">*</span>
+                          WhatsApp Number
+                        </label>
+                        <div className="flex gap-2">
+                          <div className="px-2.5 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-xs flex items-center shrink-0">
+                            🇮🇳 +91
+                          </div>
+                          <input
+                            type="tel"
+                            name="whatsappNumber"
+                            value={formData.whatsappNumber}
+                            onChange={handleChange}
+                            className="flex-1 px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
+                            placeholder="WhatsApp Number"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
+                          Email
                         </label>
                         <input
                           type="email"
@@ -465,13 +489,12 @@ const ConsultantLoungePage = () => {
                           onChange={handleChange}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Email Address"
-                          required
                         />
                       </div>
 
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Password <span className="text-[#C6A256]">*</span>
+                          Password
                         </label>
                         <input
                           type="password"
@@ -481,13 +504,12 @@ const ConsultantLoungePage = () => {
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Enter password"
                           minLength={6}
-                          required
                         />
                       </div>
 
                       <div>
                         <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          City <span className="text-[#C6A256]">*</span>
+                          City
                         </label>
                         <input
                           type="text"
@@ -496,7 +518,6 @@ const ConsultantLoungePage = () => {
                           onChange={handleChange}
                           className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
                           placeholder="Enter your city"
-                          required
                         />
                       </div>
                     </div>
@@ -508,7 +529,6 @@ const ConsultantLoungePage = () => {
                         checked={formData.agreeTerms}
                         onChange={handleChange}
                         className="mt-0.5 w-4 h-4 rounded border-[#F5EFE7] text-[#C6A256] focus:ring-[#C6A256] bg-[#212121]"
-                        required
                       />
                       <label className="text-[#F5EFE7] text-xs leading-relaxed">
                         I agree to the{" "}
@@ -538,46 +558,6 @@ const ConsultantLoungePage = () => {
             </div>
           </div>
         </section>
-
-        {/* Stats Section */}
-        {/* 🔥 STATS SECTION - COMPACT */}
-       <section className="py-0">
-  <div className="px-4">
-
-    <div className="relative w-full overflow-hidden rounded-md">
-
-      {/* BACKGROUND IMAGE */}
-      <Image
-        src="/assets/images/Group 1321314989.avif"
-        alt="Stats Banner"
-        width={1600}
-        height={150}
-        className="w-full max-h-[110px] object-contain"
-        priority
-      />
-
-      {/* CENTER MICRO GIF */}
-      <div className="absolute inset-0 flex items-center justify-center">
-
-        <div
-          onClick={() => setShowVideoModal(true)}
-          className="relative w-24 h-16 ml-55 md:w-75 md:h-44 cursor-pointer rotate-90"
-        >
-          <Image
-            src="/assets/images/client.gif"
-            alt="Video Preview"
-            fill
-            unoptimized
-            className="object-contain"
-          />
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-</section>
 
 
 

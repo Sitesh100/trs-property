@@ -133,6 +133,20 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
             providesTags: (result, error, id) => [{ type: 'properties', id }],
         }),
 
+        // Get Similar Properties
+        // GET /properties/{property_id}/similar
+        getSimilarProperties: build.query({
+            query: (propertyId) => `/api/properties/${propertyId}/similar`,
+            providesTags: (result, error, propertyId) => [{ type: 'properties', id: `similar-${propertyId}` }],
+            transformResponse: (response) => {
+                if (Array.isArray(response)) return response;
+                if (Array.isArray(response?.data)) return response.data;
+                if (Array.isArray(response?.results)) return response.results;
+                if (Array.isArray(response?.properties)) return response.properties;
+                return [];
+            },
+        }),
+
         // Get My Properties (Auth Required)
         // GET /my-properties?skip=0&limit=100
         getMyProperties: build.query({
@@ -187,6 +201,7 @@ export const {
     useLazySearchPropertiesQuery,
     useDownloadPropertyImagesMutation,
     useGetPropertyByIdQuery,
+    useGetSimilarPropertiesQuery,
     useGetMyPropertiesQuery,
     useUpdatePropertyMutation,
     useDeletePropertyMutation,
