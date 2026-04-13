@@ -504,7 +504,7 @@ const AboutPage = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-[#C6A256]/30 to-[#212121]/30 rounded-2xl lg:rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative h-[400px] md:h-[500px] lg:h-[550px] rounded-2xl lg:rounded-3xl overflow-hidden border border-[#C6A256]/30">
                   <Image
-                    src="/assets/images/femal.jpg"
+                    src="/assets/images/femal.jpeg"
                     alt="Growth Leader"
                     fill
                     className="object-cover"

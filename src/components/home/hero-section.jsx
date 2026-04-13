@@ -245,6 +245,7 @@ function HeroSection() {
                     loop
                     playsInline
                 >
+                    <source media="(max-width: 767px)" src="/assets/video/herosection.mp4" type="video/mp4" />
                     <source src="/assets/video/bg_new_video.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
