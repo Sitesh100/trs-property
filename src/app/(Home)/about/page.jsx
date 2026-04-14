@@ -7,6 +7,7 @@ import { Award, Users, Globe, Target, Handshake, TrendingUp, Play, Instagram, Li
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import FounderAwardSection from '@/components/home/founder-award-section'
+import TrsOfficeSection from '@/components/about/trs-office-section'
 // import VideoTestimonialsSection from '@/components/home/video-testimonials-section'
 
 const AboutPage = () => {
@@ -616,6 +617,8 @@ const AboutPage = () => {
             </div>
           </div>
         </section>
+
+        <TrsOfficeSection />
 
         {/* Recent Podcasts & Video Highlights */}
         <section className="py-20 md:py-28 relative overflow-hidden">

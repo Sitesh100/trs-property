@@ -143,14 +143,14 @@ function Footer() {
                     title="Home Loans"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-16 h-16 rounded-full bg-white border flex items-center justify-center"
+                    className="w-14 h-14 rounded-full bg-white border flex items-center justify-center"
                 >
                     <Image
                         src="/assets/icons/Pasted image.png"
                         alt="Home loan"
                         width={34}
                         height={34}
-                        className="h-9 w-12"
+                        className="h-8 w-10"
                     />
                 </motion.a>
                 <motion.a
