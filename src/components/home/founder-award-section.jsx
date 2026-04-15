@@ -8,7 +8,7 @@ import Autoplay from 'embla-carousel-autoplay'
 
 const awardImages = [
   { id: 1, src: '/assets/images/awards/Pasted image.png', alt: 'Award Ceremony 1', label: 'Excellence Award 2024' },
-  // { id: 2, src: '/assets/images/awards/Pasted image (2).png', alt: 'Award Ceremony 2', label: 'Best Developer 2024' },
+  { id: 2, src: '/assets/images/awards/Pasted image (2).png', alt: 'Award Ceremony 2', label: 'Best Developer 2024' },
   { id: 3, src: '/assets/images/awards/Pasted image (3).png', alt: 'Award Ceremony 3', label: 'Industry Leader' },
   { id: 4, src: '/assets/images/awards/Pasted image (4).png', alt: 'Award Ceremony 4', label: 'Innovation Award' },
   { id: 5, src: '/assets/images/awards/Pasted image (5).png', alt: 'Award Ceremony 5', label: 'Top Performer' },
@@ -129,11 +129,16 @@ const FounderAwardSection = () => {
                   className="relative rounded-2xl overflow-hidden cursor-pointer group border border-[#C6A256]/10 hover:border-[#C6A256]/40 transition-colors duration-300"
                   style={{ aspectRatio: '4/3' }}
                 >
-                  <Image
+                  
+                 <Image
                     src={image.src}
                     alt={image.alt}
                     fill
-                    className="object-cover transition-transform duration-600 group-hover:scale-105"
+                    className={`transition-transform duration-600 group-hover:scale-105 ${
+                      image.id === 5 || image.id === 2
+                        ? 'object-contain bg-[#0d0d0d]'
+                        : 'object-cover object-center'
+                    }`}
                   />
 
                   {/* Overlay */}

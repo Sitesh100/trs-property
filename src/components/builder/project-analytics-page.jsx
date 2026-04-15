@@ -147,17 +147,35 @@ export default function ProjectAnalyticsPage({ project }) {
                         </div>
                     </div>
 
-                    <div className="mb-6 grid gap-3 sm:grid-cols-3">
+                   <div className="mb-6 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
                         <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
                             <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Total Views</p>
                             <p className="mt-2 text-2xl font-bold">{project.totalViews}</p>
                         </article>
                         <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Active Leads</p>
+                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Total Leads</p>
                             <p className="mt-2 text-2xl font-bold">{project.activeLeads}</p>
                         </article>
                         <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Closed Visits</p>
+                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Active Leads</p>
+                            <p className="mt-2 text-2xl font-bold">
+                                {project.completedVisits.filter((v) => v.outcome === "Followup").length}
+                            </p>
+                        </article>
+                        <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Not Interested</p>
+                            <p className="mt-2 text-2xl font-bold">
+                                {project.completedVisits.filter((v) => v.outcome === "Cancelled").length}
+                            </p>
+                        </article>
+                        <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Site Visits</p>
+                            <p className="mt-2 text-2xl font-bold">
+                                {project.completedVisits.filter((v) => v.outcome === "Site Visit").length}
+                            </p>
+                        </article>
+                        <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                            <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Closed Deals</p>
                             <p className="mt-2 text-2xl font-bold">{closedCount}</p>
                         </article>
                     </div>

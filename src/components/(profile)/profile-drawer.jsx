@@ -19,20 +19,21 @@ export default function ProfileDrawer({ onLogout, user }) {
     const customerMenuItems = [
         { name: "Profile", url: '/profile' },
         { name: "Post Property Free", url: '/post-property' },
+        { name: "Post Requirement Free", url: '/post-buy-requirement' },
         { name: "Post Buy Requirement", url: '/post-buy-requirement' },
         { name: "My Buy Requirements", url: '/my-buy-requirement' },
-        { name: "My Property", url: '/my-property' },
+        { name: "My Properties", url: '/my-property' },
         { name: "My Matches", url: '/property-matches' },
         { name: "Cart", url: '/property-favourite' },
     ];
 
     const agentMenuItems = [
         { name: "Profile", url: '/agent/profile' },
-        { name: "Post Property Free", url: '/agent/post-property' },
-        { name: "Post Buy Requirement", url: '/agent/post-buy-requirement' },
-        { name: "My Buy Requirements", url: '/agent/my-buy-requirements' },
-        { name: "My Property", url: '/agent/my-property' },
-        { name: "Match Making", url: '/agent/match-making' },
+        // { name: "Post Property Free", url: '/agent/post-property' },
+        // { name: "Post Buy Requirement", url: '/agent/post-buy-requirement' },
+        // { name: "My Buy Requirements", url: '/agent/my-buy-requirements' },
+        // { name: "My Properties", url: '/agent/my-property' },
+        // { name: "Match Making", url: '/agent/match-making' },
         { name: "Leads", url: '/agent/leads' },
     ];
 

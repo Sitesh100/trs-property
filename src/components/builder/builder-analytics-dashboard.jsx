@@ -209,37 +209,43 @@ export default function BuilderAnalyticsDashboard() {
                                     >
                                         Add Project
                                     </button>
+                                     <Link
+                                        href="/builder/post-property"
+                                        className="inline-flex items-center justify-center rounded-lg border border-[#F5EFE7]/20 bg-[#F5EFE7]/8 px-4 py-2 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/15"
+                                    >
+                                        post property
+                                    </Link>
                                 </div>
                             </div>
                         </div>
                     </section>
 
                     <section className="mb-6 rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4 sm:p-5">
-                        <div className="grid gap-4 md:grid-cols-3">
+                        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
                             <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Total Visits</p>
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Total Views</p>
                                 <p className="mt-2 text-3xl font-bold">{totalVisits}</p>
-                                {/* <p className="text-xs text-[#F5EFE7]">Portfolio profile views</p> */}
                             </article>
                             <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Active Leads</p>
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Total Leads</p>
                                 <p className="mt-2 text-3xl font-bold">{totalLeads}</p>
-                                <p className="text-xs text-[#F5EFE7]">All pipeline leads</p>
                             </article>
                             <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
-                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]">Closed Deals</p>
-                                <p className="mt-2 text-3xl font-bold">{closedDeals}</p>
-                                <p className="text-xs text-[#F5EFE7]">Successful conversions</p>
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Active Leads</p>
+                                <p className="mt-2 text-3xl font-bold">{statusCounts["Followup"] || 0}</p>
                             </article>
-                        </div>
-
-                        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                            {STATUS_OPTIONS.filter((status) => status !== "New" && status !== "Negotiation").map((status) => (
-                                <div key={status} className="rounded-lg border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 px-4 py-3">
-                                    <p className="text-xs text-[#F5EFE7]">{status}</p>
-                                    <p className="text-xl font-bold">{statusCounts[status] || 0}</p>
-                                </div>
-                            ))}
+                            <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Not Interested</p>
+                                <p className="mt-2 text-3xl font-bold">{statusCounts["Cancelled"] || 0}</p>
+                            </article>
+                            <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Site Visits</p>
+                                <p className="mt-2 text-3xl font-bold">{statusCounts["Site Visit"] || 0}</p>
+                            </article>
+                            <article className="rounded-xl border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4">
+                                <p className="text-xs uppercase tracking-wider text-[#F5EFE7]/70">Closed Deals</p>
+                                <p className="mt-2 text-3xl font-bold">{closedDeals}</p>
+                            </article>
                         </div>
                     </section>
 

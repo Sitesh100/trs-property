@@ -325,7 +325,7 @@ const BuilderLounge = () => {
                             value={formData.phone}
                             onChange={handleChange}
                             className="flex-1 px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
-                            placeholder="Phone Number"
+                            placeholder="Phone Number/ WhatsApp Number"
                           />
                         </div>
                       </div>

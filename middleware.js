@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { AUTH_TOKEN_COOKIE, USER_ROLE_COOKIE, getRoleBucket } from "./src/utils/authCookies";
 
 const AGENT_ONLY_PREFIXES = ["/agent"];
-const BUILDER_ONLY_PREFIXES = ["/builder-panel", "/builder"];
+const BUILDER_ONLY_PREFIXES = ["/builder/analytics", "/builder"];
 const CUSTOMER_ONLY_PREFIXES = [
     "/profile",
     "/post-property",

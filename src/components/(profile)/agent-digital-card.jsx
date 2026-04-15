@@ -4,24 +4,36 @@ import { Dialog } from "@headlessui/react";
 import { Fragment, useMemo, useRef, useState } from "react";
 import {
     Copy, ExternalLink, Mail, Phone, Share2, UserRound, X,
-    MapPin, Instagram, Facebook, Linkedin
+    MapPin, Instagram, Facebook, Linkedin, Building2
 } from "lucide-react";
-import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 // ─── Brand tokens ────────────────────────────────────────────────
-const GOLD      = "#B8972E";
+const GOLD       = "#B8972E";
 const GOLD_LIGHT = "#D4AF5A";
-const GOLD_PALE  = "#F0E0A0";
-const CHARCOAL  = "#1A1A2E";      // midnight-blue-charcoal
-const CHARCOAL2 = "#16213E";
-const CHARCOAL3 = "#0F3460";      // midnight blue accent
-const OFF_WHITE = "#F8F3E8";
-const MUTED     = "rgba(248,243,232,0.6)";
+const CHARCOAL   = "#1A1A2E";
+const CHARCOAL2  = "#16213E";
+const CHARCOAL3  = "#0F3460";
+const OFF_WHITE  = "#F8F3E8";
+const MUTED      = "rgba(248,243,232,0.6)";
+
+// ─── Dummy Data (replacing all API related data) ─────────────────
+const DUMMY_PROFILE = {
+    fullName:  "Rahul Kapoor",
+    roleName:  "Senior Property Consultant",
+    company:   "PRIME ESTATES REALTY PVT. LTD.",
+    address:   "Bandra West, Mumbai, Maharashtra",
+    phone:     "+91 98765 43210",
+    email:     "rahul.kapoor@primeestates.in",
+    imageUrl:  "",
+    linkedin:  "https://linkedin.com/in/rahul-kapoor",
+    instagram: "https://instagram.com/rahul.kapoor",
+    facebook:  "https://facebook.com/rahul.kapoor",
+};
 
 // ─── Helpers ─────────────────────────────────────────────────────
 const getInitials = (name = "") =>
-    name.split(" ").filter(Boolean).slice(0, 2).map((p) => p[0]?.toUpperCase()).join("") || "AG";
+    name.split(" ").filter(Boolean).slice(0, 2).map((p) => p[0]?.toUpperCase()).join("") || "RK";
 
 const getWhatsAppLink = (phone = "") => {
     const d = String(phone).replace(/\D/g, "");
@@ -45,58 +57,46 @@ const GoldDivider = () => (
     </div>
 );
 
-// ─── Card face (also used for html2canvas screenshot) ─────────────
-function DigitalCardFace({ profile, compact = false }) {
+// ─── Card face (updated with address, email, and company) ─────────
+function DigitalCardFace({ profile }) {
     const initials = getInitials(profile.fullName);
-    const sz = compact ? 0.85 : 1;
 
     return (
         <div style={{
             background: `linear-gradient(160deg, ${CHARCOAL2} 0%, ${CHARCOAL} 55%, ${CHARCOAL3} 100%)`,
             borderRadius: 20,
-            padding: compact ? "24px 20px" : "28px 24px",
+            padding: "28px 24px 20px",
             color: OFF_WHITE,
             fontFamily: "Georgia, serif",
             position: "relative",
             overflow: "hidden",
-            minWidth: compact ? 260 : 340,
         }}>
-            {/* corner ornament */}
+            {/* corner ornaments */}
             <div style={{
-                position: "absolute", top: 0, right: 0, width: 120, height: 120,
+                position: "absolute", top: 0, right: 0, width: 140, height: 140,
                 background: `radial-gradient(circle at top right, ${GOLD}22 0%, transparent 70%)`,
                 pointerEvents: "none",
             }} />
             <div style={{
-                position: "absolute", bottom: 0, left: 0, width: 100, height: 100,
+                position: "absolute", bottom: 0, left: 0, width: 110, height: 110,
                 background: `radial-gradient(circle at bottom left, ${CHARCOAL3}88 0%, transparent 70%)`,
                 pointerEvents: "none",
             }} />
 
-            {/* logo row */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-                <div style={{ fontSize: 11 * sz, letterSpacing: 2, color: GOLD, textTransform: "uppercase", fontFamily: "sans-serif" }}>
-                    TRS Property Mall
-                </div>
+            {/* avatar + name + role */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative", zIndex: 1 }}>
+                {/* Large avatar (size unchanged) */}
                 <div style={{
-                    width: 36 * sz, height: 36 * sz, borderRadius: "50%",
-                    border: `2px solid ${GOLD}`,
-                    background: `${GOLD}22`,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 11 * sz, fontWeight: 700, color: GOLD, fontFamily: "sans-serif",
-                }}>TRS</div>
-            </div>
-
-            {/* avatar + name */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 16 }}>
-                <div style={{
-                    width: 84 * sz, height: 84 * sz, borderRadius: "50%",
-                    border: `3px solid ${GOLD}`,
+                    width: 140,
+                    height: 140,
+                    borderRadius: "50%",
+                    border: `4px solid ${GOLD}`,
+                    boxShadow: `0 0 0 6px ${GOLD}1A`,
                     background: profile.imageUrl ? "transparent" : `${GOLD}22`,
                     overflow: "hidden",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 26 * sz, fontWeight: 600, color: GOLD, fontFamily: "sans-serif",
-                    marginBottom: 12,
+                    fontSize: 44, fontWeight: 600, color: GOLD, fontFamily: "sans-serif",
+                    marginBottom: 16,
                     flexShrink: 0,
                 }}>
                     {profile.imageUrl
@@ -104,75 +104,27 @@ function DigitalCardFace({ profile, compact = false }) {
                         : initials}
                 </div>
 
-                <p style={{ margin: 0, fontSize: 22 * sz, color: OFF_WHITE, fontStyle: "italic", letterSpacing: 0.5 }}>
+                <p style={{ margin: "0 0 4px", fontSize: 22, color: OFF_WHITE, fontStyle: "italic", letterSpacing: 0.5, textAlign: "center" }}>
                     {profile.fullName}
                 </p>
-
-                <div style={{
-                    marginTop: 6, padding: "3px 14px",
-                    border: `1px solid ${GOLD}`,
-                    borderRadius: 20,
-                    fontSize: 10 * sz, letterSpacing: 2,
-                    color: GOLD, textTransform: "uppercase", fontFamily: "sans-serif",
-                }}>
-                    {profile.roleName}
-                </div>
+               
             </div>
 
-            <GoldDivider />
+           
 
-            {/* contact rows */}
-            <div style={{ fontFamily: "sans-serif", fontSize: 12 * sz, display: "flex", flexDirection: "column", gap: 7 }}>
-                {profile.phone && (
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <Phone size={13} color={GOLD} />
-                        <span style={{ color: MUTED }}>{profile.phone} &nbsp;<span style={{ color: `${GOLD}99`, fontSize: 10 }}>CELL</span></span>
-                    </div>
-                )}
-                {profile.email && (
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <Mail size={13} color={GOLD} />
-                        <span style={{ color: MUTED }}>{profile.email}</span>
-                    </div>
-                )}
-                {profile.city && (
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <MapPin size={13} color={GOLD} />
-                        <span style={{ color: MUTED }}>{profile.city}</span>
-                    </div>
-                )}
-            </div>
-
-            {/* social icons */}
-            {(profile.instagram || profile.facebook || profile.linkedin) && (
-                <>
-                    <GoldDivider />
-                    <div style={{ display: "flex", justifyContent: "center", gap: 16, fontFamily: "sans-serif" }}>
-                        {profile.facebook && (
-                            <a href={profile.facebook} target="_blank" rel="noreferrer" style={{ color: GOLD_LIGHT, display: "flex" }}>
-                                <Facebook size={16} />
-                            </a>
-                        )}
-                        {profile.instagram && (
-                            <a href={profile.instagram} target="_blank" rel="noreferrer" style={{ color: GOLD_LIGHT, display: "flex" }}>
-                                <Instagram size={16} />
-                            </a>
-                        )}
-                        {profile.linkedin && (
-                            <a href={profile.linkedin} target="_blank" rel="noreferrer" style={{ color: GOLD_LIGHT, display: "flex" }}>
-                                <Linkedin size={16} />
-                            </a>
-                        )}
-                    </div>
-                </>
-            )}
-
-            {/* brokerage footer */}
+            {/* company footer (updated with dummy company) */}
             <div style={{
-                marginTop: 16, borderTop: `1px solid ${GOLD}44`,
-                paddingTop: 10, textAlign: "center",
-                fontSize: 10 * sz, letterSpacing: 3, color: `${GOLD}BB`,
-                textTransform: "uppercase", fontFamily: "sans-serif",
+                marginTop: 16,
+                borderTop: `1px solid ${GOLD}44`,
+                paddingTop: 10,
+                textAlign: "center",
+                fontSize: 10,
+                letterSpacing: 2,
+                color: `${GOLD}BB`,
+                textTransform: "uppercase",
+                fontFamily: "sans-serif",
+                position: "relative",
+                zIndex: 1,
             }}>
                 {profile.company}
             </div>
@@ -180,34 +132,22 @@ function DigitalCardFace({ profile, compact = false }) {
     );
 }
 
-// ─── Main component ───────────────────────────────────────────────
+// ─── Main component (using dummy data only, no API) ──────────────
 export default function AgentDigitalCard() {
     const [open, setOpen] = useState(false);
-    const { user } = useSelector((state) => state.auth);
     const cardRef = useRef(null);
 
-    const profile = useMemo(() => ({
-        fullName:  user?.full_name         || "Agent Name",
-        roleName:  user?.designation       || user?.role || "Property Consultant",
-        company:   user?.company_name      || "TRS Property Mall",
-        city:      user?.city              || "",
-        phone:     user?.phone             || "",
-        email:     user?.email             || "",
-        imageUrl:  user?.profile_image_url || "",
-        linkedin:  user?.linkedin_url      || user?.linkedin   || "",
-        instagram: user?.instagram_url     || user?.instagram  || "",
-        facebook:  user?.facebook_url      || user?.facebook   || "",
-    }), [user]);
+    // Using only dummy data - no Redux/API dependencies
+    const profile = DUMMY_PROFILE;
 
-    // Share as text or use native share API
     const shareCard = async () => {
         const cardText = [
             `🏠 ${profile.fullName}`,
             `${profile.roleName} | ${profile.company}`,
             profile.phone ? `📞 ${profile.phone}` : "",
             profile.email ? `✉️  ${profile.email}` : "",
-            profile.city  ? `📍 ${profile.city}`  : "",
-            profile.linkedin  ? `🔗 LinkedIn: ${profile.linkedin}`  : "",
+            profile.address ? `📍 ${profile.address}` : "",
+            profile.linkedin  ? `🔗 LinkedIn: ${profile.linkedin}` : "",
             profile.instagram ? `📸 Instagram: ${profile.instagram}` : "",
         ].filter(Boolean).join("\n");
 
@@ -227,7 +167,6 @@ export default function AgentDigitalCard() {
         }
     };
 
-    // Share as image using html2canvas
     const shareAsImage = async () => {
         try {
             const html2canvas = (await import("html2canvas")).default;
@@ -306,8 +245,8 @@ export default function AgentDigitalCard() {
                         onClick={() => setOpen(false)}
                     />
 
-                    <div style={{ position: "fixed", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}>
-                        <div style={{ width: "100%", maxWidth: 400, display: "flex", flexDirection: "column", gap: 16, position: "relative", zIndex: 1 }}>
+                    <div style={{ position: "fixed", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: "16px", overflowY: "auto" }}>
+                        <div style={{ width: "100%", maxWidth: 400, display: "flex", flexDirection: "column", gap: 12, position: "relative", zIndex: 1 }}>
 
                             {/* close */}
                             <button type="button" onClick={() => setOpen(false)} style={{
@@ -320,21 +259,21 @@ export default function AgentDigitalCard() {
                                 <X size={14} />
                             </button>
 
-                            {/* ── card face ── */}
+                            {/* ── card face (avatar + name + role + email + address + socials + company) ── */}
                             <div ref={cardRef}>
                                 <DigitalCardFace profile={profile} />
                             </div>
 
-                            {/* ── quick-link rows ── */}
+                            {/* ── quick-link rows (all contact details) ── */}
                             <div style={{
                                 background: `${CHARCOAL2}F0`,
                                 border: `1px solid ${GOLD}33`,
-                                borderRadius: 14, padding: "12px 14px",
-                                display: "flex", flexDirection: "column", gap: 4,
+                                borderRadius: 14, padding: "10px 12px",
+                                display: "flex", flexDirection: "column", gap: 2,
                                 fontFamily: "sans-serif", fontSize: 13,
                             }}>
                                 {profile.phone && (
-                                    <a href={`tel:${profile.phone}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 8px", borderRadius: 8, color: OFF_WHITE, textDecoration: "none" }}
+                                    <a href={`tel:${profile.phone}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 8px", borderRadius: 8, color: OFF_WHITE, textDecoration: "none" }}
                                         onMouseEnter={e => e.currentTarget.style.background = `${GOLD}11`}
                                         onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
                                         <span style={{ display: "flex", alignItems: "center", gap: 8 }}><Phone size={13} color={GOLD} /> {profile.phone}</span>
@@ -342,75 +281,55 @@ export default function AgentDigitalCard() {
                                     </a>
                                 )}
                                 {profile.email && (
-                                    <a href={`mailto:${profile.email}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 8px", borderRadius: 8, color: OFF_WHITE, textDecoration: "none" }}
+                                    <a href={`mailto:${profile.email}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 8px", borderRadius: 8, color: OFF_WHITE, textDecoration: "none" }}
                                         onMouseEnter={e => e.currentTarget.style.background = `${GOLD}11`}
                                         onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
                                         <span style={{ display: "flex", alignItems: "center", gap: 8 }}><Mail size={13} color={GOLD} /> {profile.email}</span>
                                         <ExternalLink size={12} color={GOLD} />
                                     </a>
                                 )}
-                                {getWhatsAppLink(profile.phone) && (
-                                    <a href={getWhatsAppLink(profile.phone)} target="_blank" rel="noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 8px", borderRadius: 8, color: OFF_WHITE, textDecoration: "none" }}
-                                        onMouseEnter={e => e.currentTarget.style.background = `${GOLD}11`}
-                                        onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                                        <span style={{ display: "flex", alignItems: "center", gap: 8 }}><WhatsAppIcon /> WhatsApp</span>
-                                        <ExternalLink size={12} color={GOLD} />
-                                    </a>
-                                )}
-                                {profile.linkedin && (
-                                    <a href={profile.linkedin} target="_blank" rel="noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 8px", borderRadius: 8, color: OFF_WHITE, textDecoration: "none" }}
-                                        onMouseEnter={e => e.currentTarget.style.background = `${GOLD}11`}
-                                        onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                                        <span style={{ display: "flex", alignItems: "center", gap: 8 }}><Linkedin size={13} color={GOLD} /> LinkedIn</span>
-                                        <ExternalLink size={12} color={GOLD} />
-                                    </a>
-                                )}
-                                {profile.instagram && (
-                                    <a href={profile.instagram} target="_blank" rel="noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 8px", borderRadius: 8, color: OFF_WHITE, textDecoration: "none" }}
-                                        onMouseEnter={e => e.currentTarget.style.background = `${GOLD}11`}
-                                        onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                                        <span style={{ display: "flex", alignItems: "center", gap: 8 }}><Instagram size={13} color={GOLD} /> Instagram</span>
-                                        <ExternalLink size={12} color={GOLD} />
-                                    </a>
-                                )}
-                                {profile.facebook && (
-                                    <a href={profile.facebook} target="_blank" rel="noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 8px", borderRadius: 8, color: OFF_WHITE, textDecoration: "none" }}
-                                        onMouseEnter={e => e.currentTarget.style.background = `${GOLD}11`}
-                                        onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                                        <span style={{ display: "flex", alignItems: "center", gap: 8 }}><Facebook size={13} color={GOLD} /> Facebook</span>
-                                        <ExternalLink size={12} color={GOLD} />
-                                    </a>
+                                {profile.address && (
+                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 8px", borderRadius: 8, color: OFF_WHITE }}>
+                                        <span style={{ display: "flex", alignItems: "center", gap: 8 }}><MapPin size={13} color={GOLD} /> {profile.address}</span>
+                                    </div>
                                 )}
                             </div>
 
                             {/* ── action buttons ── */}
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
                                 <button type="button" onClick={copyPhone} style={{
-                                    ...btnBase, flexDirection: "column", gap: 4, padding: "10px 8px",
+                                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                                    gap: 5, padding: "10px 8px",
                                     background: `${CHARCOAL2}F0`, border: `1px solid ${GOLD}33`,
                                     borderRadius: 10, color: OFF_WHITE, fontSize: 11,
+                                    fontFamily: "sans-serif", cursor: "pointer",
                                 }}>
                                     <Copy size={15} color={GOLD} />
                                     Copy Phone
                                 </button>
                                 <button type="button" onClick={shareCard} style={{
-                                    ...btnBase, flexDirection: "column", gap: 4, padding: "10px 8px",
+                                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                                    gap: 5, padding: "10px 8px",
                                     background: `${CHARCOAL2}F0`, border: `1px solid ${GOLD}33`,
                                     borderRadius: 10, color: OFF_WHITE, fontSize: 11,
+                                    fontFamily: "sans-serif", cursor: "pointer",
                                 }}>
                                     <Share2 size={15} color={GOLD} />
                                     Share Text
                                 </button>
                                 <button type="button" onClick={shareAsImage} style={{
-                                    ...btnBase, flexDirection: "column", gap: 4, padding: "10px 8px",
+                                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                                    gap: 5, padding: "10px 8px",
                                     background: `linear-gradient(135deg, ${GOLD}, ${GOLD_LIGHT})`,
                                     border: "none", borderRadius: 10,
                                     color: CHARCOAL, fontWeight: 600, fontSize: 11,
+                                    fontFamily: "sans-serif", cursor: "pointer",
                                 }}>
                                     <UserRound size={15} />
                                     Share Image
                                 </button>
                             </div>
+
                         </div>
                     </div>
                 </div>

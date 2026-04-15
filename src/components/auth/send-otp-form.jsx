@@ -18,7 +18,7 @@ const normalizeUserRole = (roleValue) => {
 
 const getRoleDashboardRoute = (roleValue) => {
     const role = normalizeUserRole(roleValue);
-    if (role.includes("builder")) return "/builder-panel";
+    if (role.includes("builder")) return "/builder/analytics";
     if (role.includes("agent") || role.includes("consultant")) return "/";
     return "";
 };

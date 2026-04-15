@@ -342,7 +342,7 @@ const AboutPage = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={heroInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mx-auto max-w-[1950px] text-3xl md:text-5xl lg:text-[56px] font-bold mb-8 leading-tight"
+                className="mx-auto max-w-[1950px] text-3xl md:text-4xl lg:text-5xl font-bold mb-8 leading-tight"
               >
                 <span className="text-[#F5EFE7]">TRS Property Mall</span> is a venture of Total Realty Solutions (India) Pvt Ltd,
                 {/* <br className="hidden md:block" /> */}

@@ -97,10 +97,10 @@ const ContactPage = () => {
         <section className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image
-              src="/assets/images/bgimage.jpg"
+              src="/assets/images/bg12.jpeg"
               alt="Contact Background"
               fill
-              className="object-cover"
+              className="object-cover object-[center_75%]"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-b from-[#212121]/70 via-[#212121]/50 to-[#212121]"></div>
@@ -118,7 +118,7 @@ const ContactPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                Need help? <span className="text-[#C6A256]">Talk to our expert.</span>
+                Need help? <span className="text-[#C6A256]">Talk to our experts.</span>
               </motion.h1>
               <motion.p
                 className="text-[#F5EFE7]/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
