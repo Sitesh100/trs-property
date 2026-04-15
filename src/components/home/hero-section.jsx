@@ -2,9 +2,13 @@
 import { motion, useMotionValue, useTransform, animate, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
-import { Bed, IndianRupee, MapPin, Search } from "lucide-react";
+import { Bed, IndianRupee, Loader, MapPin, Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Slider } from "@/components/ui/slider";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+
+const HERO_LEAD_POPUP_SEEN_KEY = "trs-hero-lead-popup-seen";
 
 function AnimatedCounter({ target }) {
     const count = useMotionValue(0);
@@ -86,6 +90,7 @@ function AnimatedText({ text, className }) {
 
 function HeroSection() {
     const router = useRouter();
+    const { token } = useSelector((state) => state.auth);
     const { ref, inView } = useInView({
         triggerOnce: false,
         threshold: 0.2,
@@ -101,6 +106,16 @@ function HeroSection() {
         super_area: "Any",
         possession_status: "Any",
         is_price_negotiable: "Any",
+    });
+    const [hasSeenLeadPopup, setHasSeenLeadPopup] = useState(false);
+    const [isLeadPopupOpen, setIsLeadPopupOpen] = useState(false);
+    const [isSubmittingLead, setIsSubmittingLead] = useState(false);
+    const [pendingHeroSearch, setPendingHeroSearch] = useState(false);
+    const [leadForm, setLeadForm] = useState({
+        customerName: "",
+        customerEmail: "",
+        customerNumber: "",
+        notes: "",
     });
 
     const filters = [
@@ -196,7 +211,20 @@ function HeroSection() {
         return `Rs ${valueInCr.toFixed(1)}Cr`;
     };
 
-    const handleHeroSearch = () => {
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+
+        const popupSeen = window.localStorage.getItem(HERO_LEAD_POPUP_SEEN_KEY) === "true";
+        setHasSeenLeadPopup(popupSeen);
+    }, []);
+
+    const markLeadPopupSeen = () => {
+        if (typeof window === "undefined") return;
+        window.localStorage.setItem(HERO_LEAD_POPUP_SEEN_KEY, "true");
+        setHasSeenLeadPopup(true);
+    };
+
+    const runHeroSearch = () => {
         const params = new URLSearchParams();
         const trimmedQuery = searchQuery.trim();
 
@@ -232,6 +260,78 @@ function HeroSection() {
         if (heroFilters.is_price_negotiable !== "Any") params.set("is_price_negotiable", heroFilters.is_price_negotiable);
 
         router.push(`/property${params.toString() ? `?${params.toString()}` : ""}`);
+    };
+
+    const closeLeadPopupAndContinue = () => {
+        setIsLeadPopupOpen(false);
+        markLeadPopupSeen();
+
+        if (pendingHeroSearch) {
+            setPendingHeroSearch(false);
+            runHeroSearch();
+        }
+    };
+
+    const handleHeroSearch = () => {
+        if (!token && !hasSeenLeadPopup) {
+            setPendingHeroSearch(true);
+            setIsLeadPopupOpen(true);
+            return;
+        }
+
+        runHeroSearch();
+    };
+
+    const updateLeadForm = (field, value) => {
+        setLeadForm((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const handleLeadSubmit = async (event) => {
+        event.preventDefault();
+
+        if (
+            !leadForm.customerName.trim() ||
+            !leadForm.customerNumber.trim()
+        ) {
+            toast.error("Please fill all required details.");
+            return;
+        }
+
+        setIsSubmittingLead(true);
+
+        try {
+            const response = await fetch("/api/sell-do/leads", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    customerName: leadForm.customerName.trim(),
+                    customerEmail: leadForm.customerEmail.trim() || "na@trspropertymall.com",
+                    customerNumber: leadForm.customerNumber.trim(),
+                    notes: leadForm.notes.trim(),
+                }),
+            });
+
+            const payload = await response.json();
+
+            if (!response.ok) {
+                throw new Error(payload?.message || "Failed to submit lead.");
+            }
+
+            toast.success("Thanks! Your details have been submitted.");
+            setLeadForm({
+                customerName: "",
+                customerEmail: "",
+                customerNumber: "",
+                notes: "",
+            });
+            closeLeadPopupAndContinue();
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Unable to submit lead right now.");
+        } finally {
+            setIsSubmittingLead(false);
+        }
     };
 
     return (
@@ -553,6 +653,114 @@ function HeroSection() {
                     </motion.div>
                 </motion.div>
             </div>
+
+            <AnimatePresence>
+                {isLeadPopupOpen && (
+                    <div className="fixed inset-0 z-[140] flex items-center justify-center px-4">
+                        <motion.div
+                            className="absolute inset-0 bg-[#020814]/80 backdrop-blur-[2px]"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={closeLeadPopupAndContinue}
+                        />
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 12, scale: 0.98 }}
+                            transition={{ duration: 0.22, ease: "easeOut" }}
+                            className="relative z-10 w-full max-w-3xl rounded-[28px] border border-[#F5EFE7]/15 bg-[linear-gradient(135deg,rgba(5,18,44,0.95),rgba(9,24,52,0.96))] p-5 sm:p-6 shadow-2xl"
+                        >
+                            <button
+                                type="button"
+                                onClick={closeLeadPopupAndContinue}
+                                className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#F5EFE7]/20 bg-[#F5EFE7]/6 text-[#F5EFE7]/70 transition-colors hover:text-[#F5EFE7]"
+                                aria-label="Close lead form"
+                            >
+                                <X className="h-5 w-5" />
+                            </button>
+
+                            <h2 className="text-2xl font-bold text-[#F5EFE7]">Contact Us</h2>
+                            <p className="mt-1 text-sm text-[#F5EFE7]/70">
+                                Share your details to help us show better property matches.
+                            </p>
+
+                            <form onSubmit={handleLeadSubmit} className="mt-6">
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    <div>
+                                        <label className="text-sm text-[#F5EFE7]/90">Customer Name *</label>
+                                        <input
+                                            type="text"
+                                            value={leadForm.customerName}
+                                            onChange={(e) => updateLeadForm("customerName", e.target.value)}
+                                            placeholder="Enter customer name"
+                                            className="mt-2 w-full rounded-2xl border border-[#F5EFE7]/12 bg-[#0F172A]/55 px-4 py-3 text-sm text-[#F5EFE7] placeholder:text-[#F5EFE7]/35 outline-none transition-all duration-200 focus:border-[#C6A256]/55 focus:bg-[#0F172A]/80"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="text-sm text-[#F5EFE7]/90">Customer Email </label>
+                                        <input
+                                            type="email"
+                                            value={leadForm.customerEmail}
+                                            onChange={(e) => updateLeadForm("customerEmail", e.target.value)}
+                                            placeholder="customer@example.com"
+                                            className="mt-2 w-full rounded-2xl border border-[#F5EFE7]/12 bg-[#0F172A]/55 px-4 py-3 text-sm text-[#F5EFE7] placeholder:text-[#F5EFE7]/35 outline-none transition-all duration-200 focus:border-[#C6A256]/55 focus:bg-[#0F172A]/80"
+                                        />
+                                    </div>
+
+                                    <div className="md:col-span-1">
+                                        <label className="text-sm text-[#F5EFE7]/90">Customer Number *</label>
+                                        <input
+                                            type="tel"
+                                            value={leadForm.customerNumber}
+                                            onChange={(e) => updateLeadForm("customerNumber", e.target.value)}
+                                            placeholder="Enter phone number"
+                                            className="mt-2 w-full rounded-2xl border border-[#F5EFE7]/12 bg-[#0F172A]/55 px-4 py-3 text-sm text-[#F5EFE7] placeholder:text-[#F5EFE7]/35 outline-none transition-all duration-200 focus:border-[#C6A256]/55 focus:bg-[#0F172A]/80"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="mt-4">
+                                    <label className="text-sm text-[#F5EFE7]/90">Content / Notes</label>
+                                    <textarea
+                                        rows={4}
+                                        value={leadForm.notes}
+                                        onChange={(e) => updateLeadForm("notes", e.target.value)}
+                                        placeholder="Add notes"
+                                        className="mt-2 w-full rounded-2xl border border-[#F5EFE7]/12 bg-[#0F172A]/55 px-4 py-3 text-sm text-[#F5EFE7] placeholder:text-[#F5EFE7]/35 outline-none transition-all duration-200 focus:border-[#C6A256]/55 focus:bg-[#0F172A]/80"
+                                    />
+                                </div>
+
+                                <div className="mt-5 flex flex-wrap gap-3">
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmittingLead}
+                                        className="inline-flex min-w-28 items-center justify-center rounded-2xl border border-[#C6A256]/45 bg-[#C6A256] px-5 py-3 font-semibold text-[#212121] transition-colors hover:bg-[#d2b36d] disabled:cursor-not-allowed disabled:opacity-75"
+                                    >
+                                        {isSubmittingLead ? (
+                                            <span className="animate-spin">
+                                                <Loader className="h-4 w-4" />
+                                            </span>
+                                        ) : (
+                                            "Add Lead"
+                                        )}
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={closeLeadPopupAndContinue}
+                                        className="inline-flex min-w-28 items-center justify-center rounded-2xl border border-[#F5EFE7]/20 bg-[#F5EFE7]/5 px-5 py-3 font-semibold text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/10"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </section>
     );
 }
