@@ -18,7 +18,7 @@ export default function ProfileDrawer({ onLogout, user }) {
 
     const customerMenuItems = [
         { name: "Profile", url: '/profile' },
-        { name: "Post Property", url: '/post-property' },
+        { name: "Post Property Free", url: '/post-property' },
         { name: "Post Buy Requirement", url: '/post-buy-requirement' },
         { name: "My Buy Requirements", url: '/my-buy-requirement' },
         { name: "My Property", url: '/my-property' },
@@ -28,7 +28,7 @@ export default function ProfileDrawer({ onLogout, user }) {
 
     const agentMenuItems = [
         { name: "Profile", url: '/agent/profile' },
-        { name: "Post Property", url: '/agent/post-property' },
+        { name: "Post Property Free", url: '/agent/post-property' },
         { name: "Post Buy Requirement", url: '/agent/post-buy-requirement' },
         { name: "My Buy Requirements", url: '/agent/my-buy-requirements' },
         { name: "My Property", url: '/agent/my-property' },

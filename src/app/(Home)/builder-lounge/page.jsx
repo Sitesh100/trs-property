@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Loader2, Send } from "lucide-react";
+import { motion, AnimatePresence } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
+import { Loader2, Send, Play, } from "lucide-react";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import WhatsappStrip from "@/components/whatsapp-strip";
@@ -26,6 +27,12 @@ const BuilderLounge = () => {
   });
 
   const [registerBuilder, { isLoading: isSubmitting }] = useRegisterBuilderMutation();
+
+   const { ref: founderRef, inView: founderInView } = useInView({
+      triggerOnce: false,
+      threshold: 0.2,
+    })
+  
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -144,11 +151,10 @@ const BuilderLounge = () => {
 
       <main className="min-h-screen bg-gradient-to-b from-[#212121] via-[#212121] to-[#212121] text-[#F5EFE7]">
 
-        {/* ================= HERO SECTION ================= */}
         <section className="relative overflow-hidden">
 
           {/* Full-width background image */}
-          {/* <div className="absolute inset-0 w-full h-full">
+          <div className="absolute inset-0 w-full h-full">
             <Image
               src="/assets/images/detail/banner.jpg"
               alt="builder background"
@@ -157,7 +163,7 @@ const BuilderLounge = () => {
               className="object-top object-center"
             />
             <div className="absolute inset-0 bg-[#212121]/60" />
-          </div> */}
+          </div>
 
           <div className="relative z-10 container mx-auto px-4 py-16 md:py-20">
             <div className="grid lg:grid-cols-[45%_55%] gap-8 xl:gap-12 items-start">
@@ -168,7 +174,7 @@ const BuilderLounge = () => {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <div className="bg-[#212121]/90 border border-[#C6A256]/30 p-8 md:p-10 rounded-2xl backdrop-blur-sm">
+                <div className="bg-[#212121]/90 border border-[#C6A256]/30 p-5 md:p-5 rounded-2xl backdrop-blur-sm">
                   <span className="inline-block px-3 py-1.5 rounded-full bg-[#C6A256]/10 text-[#C6A256] text-xs font-medium mb-4 uppercase tracking-wider">
                     Builder Network
                   </span>
@@ -179,7 +185,7 @@ const BuilderLounge = () => {
                     <span className="text-[#C6A256]">Who Think Long-Term.</span>
                   </h1>
 
-                  <p className="text-[#F5EFE7] text-sm md:text-base leading-relaxed mb-6">
+                  <p className="text-[#F5EFE7] text-sm md:text-base leading-tight mb-6">
                     TRS Property Mall is not just a marketplace. It is a strategic ecosystem designed to empower builders at every stage of growth. From brand presence to sales enablement, we bring technology and marketing under one roof.
                   </p>
 
@@ -190,6 +196,33 @@ const BuilderLounge = () => {
                     Explore Builder Benefits
                   </a>
                 </div>
+                 <motion.div
+                                initial={{ opacity: 0, x: -50 }}
+                                ref={founderRef}
+                                animate={founderInView ? { opacity: 1, x: 0 } : {}}
+                                transition={{ duration: 0.8, delay: 0.2 }}
+                                className="relative group"
+                              >
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#212121]/30 to-[#C6A256]/30 rounded-2xl lg:rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="relative aspect-video rounded-2xl lg:rounded-3xl overflow-hidden border border-[#C6A256]/30 cursor-pointer"
+                                  onClick={() => setShowFounderVideo(true)}
+                                >
+                                  <video
+                                    src="/assets/video/trs.mp4"
+                                    className="w-full h-full object-cover"
+                                    muted
+                                    loop
+                                    playsInline
+                                    autoPlay
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-[#212121]/70 to-transparent" />
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-16 h-16 md:w-20 md:h-20 bg-[#212121]/40 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-[#C6A256]/30">
+                                      <Play className="w-6 h-6 md:w-8 md:h-8 text-[#C6A256] ml-1" fill="currentColor" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </motion.div>
               </motion.div>
 
               <motion.div
@@ -216,9 +249,6 @@ const BuilderLounge = () => {
                   </p>
 
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <label className="block text-xs font-semibold text-[#F5EFE7] mb-1 uppercase tracking-wide">
-                      Company Information
-                    </label>
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
@@ -278,11 +308,7 @@ const BuilderLounge = () => {
                       </div>
                     </div>
 
-                    <div className="border-t border-[#F5EFE7]/15 pt-2">
-                      <label className="block text-xs font-semibold text-[#F5EFE7] mb-1 uppercase tracking-wide">
-                        Contact & Login Details
-                      </label>
-                    </div>
+                    
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
@@ -302,39 +328,6 @@ const BuilderLounge = () => {
                             placeholder="Phone Number"
                           />
                         </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          WhatsApp Number
-                        </label>
-                        <div className="flex gap-2">
-                          <div className="px-2.5 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-xs flex items-center shrink-0">
-                            IN +91
-                          </div>
-                          <input
-                            type="tel"
-                            name="whatsappNumber"
-                            value={formData.whatsappNumber}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
-                            placeholder="WhatsApp Number"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Email
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
-                          placeholder="Email Address"
-                        />
                       </div>
 
                       <div>

@@ -313,7 +313,7 @@ export default function AgentLeadsPage() {
               <div className="w-full max-w-2xl rounded-[28px] border border-[#F5EFE7]/14 bg-[linear-gradient(145deg,rgba(17,24,39,0.98),rgba(10,15,28,0.98))] p-5 shadow-[0_30px_100px_rgba(0,0,0,0.65)] md:p-6">
                 <div className="mb-5 flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-[#F5EFE7]">Add New Lead</h2>
+                    <h2 className="text-2xl font-bold text-[#F5EFE7]">Agent New Lead</h2>
                     <p className="mt-2 text-sm text-[#F5EFE7]/65">
                       Simple lead entry for your agent panel.
                     </p>
@@ -342,14 +342,13 @@ export default function AgentLeadsPage() {
                   </label>
 
                   <label className="text-sm text-[#F5EFE7]/80">
-                    Customer Email *
+                    Customer Email
                     <input
                       type="email"
                       value={form.customerEmail}
                       onChange={(e) => onChange("customerEmail", e.target.value)}
                       placeholder="customer@example.com"
                       className={fieldBaseClass}
-                      required
                     />
                   </label>
 

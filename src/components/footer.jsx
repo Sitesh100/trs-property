@@ -136,7 +136,7 @@ function Footer() {
             <div className="absolute inset-0 bg-gradient-to-b from-[#121212]/80 to-transparent pointer-events-none"></div>
             
             {/* Top Service Buttons */}
-            <div className="fixed right-4 top-24 z-50 flex flex-col gap-3">
+            <div className="fixed hidden right-4 top-24 z-50 md:flex flex-col gap-3">
                 <motion.a
                     href="tel:9111655111"
                     aria-label="Call for Home Loans"
@@ -206,7 +206,7 @@ function Footer() {
             </div>
 
             {/* Social Media Buttons */}
-            <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+            <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-3">
                 <motion.a
                     href="https://www.instagram.com/trspropertymall/?hl=en"
                     target="_blank"
@@ -495,7 +495,7 @@ function Footer() {
                 aria-label={showScrollDown ? "Scroll down" : "Scroll up"}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-[#C6A256] text-[#121212] flex items-center justify-center shadow-lg shadow-[#C6A256]/30 hover:bg-[#d4b366] transition-colors duration-300 z-40"
+                className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-[#C6A256] text-[#121212] hidden md:flex items-center justify-center shadow-lg shadow-[#C6A256]/30 hover:bg-[#d4b366] transition-colors duration-300 z-40"
             >
                 {showScrollDown ? <ArrowDown className="w-5 h-5" /> : <ArrowUp className="w-5 h-5" />}
             </motion.button>

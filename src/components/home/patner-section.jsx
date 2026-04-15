@@ -5,7 +5,7 @@ import { lufga } from '@/fonts';
 
 // Builder Logo Images
 import AdaniRealty from "../../../public/assets/images/builderLogo/adani.jpg";
-import AdityaBirla from "../../../public/assets/images/builderLogo/aditya.jpeg";
+// import AdityaBirla from "../../../public/assets/images/builderLogo/aditya.jpeg";
 import Azizi from "../../../public/assets/images/builderLogo/AZIZI.png";
 import BhartiyaCity from "../../../public/assets/images/builderLogo/BHARTIYA CITY.png";
 import Bhutani from "../../../public/assets/images/builderLogo/BHUTANI.png";
@@ -13,7 +13,7 @@ import Damac from "../../../public/assets/images/builderLogo/DAMAC.png";
 import Dlf from "../../../public/assets/images/builderLogo/DLF.png";
 import GodrejProperties from "../../../public/assets/images/builderLogo/GODREJ PROPERTIES.png";
 import HarshitaSmart from "../../../public/assets/images/builderLogo/HARSHITA SMART.png";
-import HdfcLife from "../../../public/assets/images/builderLogo/HDFC LIFE.png";
+// import HdfcLife from "../../../public/assets/images/builderLogo/HDFC LIFE.png";
 import HighwayInfrastructure from "../../../public/assets/images/builderLogo/HIGHWAY INFRASTRUCTURE.png";
 import Kalpataru from "../../../public/assets/images/builderLogo/KALPATARU.png";
 import LTRealty from "../../../public/assets/images/builderLogo/L T REALTY.jpeg";
@@ -27,7 +27,7 @@ import SobhaRealty from "../../../public/assets/images/builderLogo/SOBHA REALTY.
 
 const builderLogos = [
     { src: AdaniRealty, name: "Adani Realty" },
-    { src: AdityaBirla, name: "Aditya Birla" },
+    // { src: AdityaBirla, name: "Aditya Birla" },
     { src: Azizi, name: "Azizi" },
     { src: BhartiyaCity, name: "Bhartiya City" },
     { src: Bhutani, name: "Bhutani" },
@@ -35,7 +35,7 @@ const builderLogos = [
     { src: Dlf, name: "DLF" },
     { src: GodrejProperties, name: "Godrej Properties" },
     { src: HarshitaSmart, name: "Harshita Smart" },
-    { src: HdfcLife, name: "HDFC Life" },
+    // { src: HdfcLife, name: "HDFC Life" },
     { src: HighwayInfrastructure, name: "Highway Infrastructure" },
     { src: Kalpataru, name: "Kalpataru" },
     { src: LTRealty, name: "L&T Realty" },

@@ -21,7 +21,7 @@ export default function GlobalBackButton() {
       onClick={handleBack}
       aria-label="Go back"
       title="Go back"
-      className="fixed left-4 bottom-6 z-50 w-12 h-12 rounded-full bg-[#C6A256] text-[#121212] flex items-center justify-center shadow-lg shadow-[#C6A256]/30 hover:bg-[#d4b366] transition-colors duration-300"
+      className="fixed left-4 bottom-6 z-50 w-12 h-12 rounded-full bg-[#C6A256] text-[#121212] hidden md:flex items-center justify-center shadow-lg shadow-[#C6A256]/30 hover:bg-[#d4b366] transition-colors duration-300"
     >
       <ArrowLeft className="w-5 h-5" />
     </button>

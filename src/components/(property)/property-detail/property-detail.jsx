@@ -1,19 +1,17 @@
 "use client";
 import { getImageUrl } from "@/utils/getImageUrl";
-import { useSendNotificationMutation } from "@/service/notificationApi";
-import { useRequestTourMutation } from "@/service/tourApi";
+import { useGetCustomerProfileQuery } from "@/service/profileApi";
 import PropertyMap from "@/components/PropertyMap";
 import {
   ArrowDownRight,
   Bath,
   Bed,
-  Calendar,
   Download,
   Loader,
   Square,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
@@ -26,13 +24,15 @@ function PropertyPropertyDetail({
   const STATIC_CALL_NUMBER = "9111655111";
   const STATIC_WHATSAPP_URL =
     "https://api.whatsapp.com/send/?phone=9111655111&text=Hello%2C+I+am+interested+in+your+property%3A+Kalpataru+Grandeur&type=phone_number&app_absent=0";
-  const [tourType, setTourType] = useState("in-person");
-  const { user } = useSelector((state) => state.auth);
-  const [requestTour, { isLoading }] = useRequestTourMutation();
-  const [sendNotification, { isLoading: isLoadingNotification }] =
-    useSendNotificationMutation();
-  const [date, setDate] = useState("");
+  const { token, user } = useSelector((state) => state.auth);
+  const { data: customerProfile } = useGetCustomerProfileQuery(undefined, {
+    skip: !token,
+  });
+  const [isSubmittingTourLead, setIsSubmittingTourLead] = useState(false);
+  const [pendingTourRequest, setPendingTourRequest] = useState(false);
   const sourceProperty = rawProperty || property || {};
+
+  const profileSource = customerProfile || user || {};
 
   const isValueMissing = (value) => {
     if (value === null || value === undefined) return true;
@@ -89,33 +89,18 @@ function PropertyPropertyDetail({
   ];
 
   const requiredDetails = [
-    // { label: "Title", value: sourceProperty?.title },
-    // { label: "Property Type", value: sourceProperty?.property_type },
-    // { label: "Expected Price", value: sourceProperty?.expected_price },
-    // { label: "Status", value: sourceProperty?.status },
-    // { label: "Possession Status", value: sourceProperty?.possession_status },
     { label: "Price Negotiable", value: sourceProperty?.is_price_negotiable },
-    // { label: "Bedrooms", value: sourceProperty?.bedrooms },
-    // { label: "Bathrooms", value: sourceProperty?.bathrooms },
     { label: "Balconies", value: sourceProperty?.balconies },
     { label: "Floor Number", value: sourceProperty?.floor_number },
     { label: "Total Floors", value: sourceProperty?.total_floors },
     { label: "Parking Spaces", value: sourceProperty?.parking_spaces },
-    // { label: "Carpet Area", value: sourceProperty?.carpet_area },
-    // { label: "Super Area", value: sourceProperty?.super_area },
-    // { label: "Booking Amount", value: sourceProperty?.booking_amount },
     { label: "City", value: sourceProperty?.city },
-    // { label: "Map Address", value: sourceProperty?.map_address },
-    // { label: "Project Name", value: sourceProperty?.project_name },
     { label: "Builder Name", value: sourceProperty?.builder_name },
-    // { label: "RERA ID", value: sourceProperty?.rera_id },
     { label: "Facing", value: sourceProperty?.facing },
     { label: "Furnished Status", value: sourceProperty?.furnished_status },
     { label: "Property Age", value: sourceProperty?.property_age },
     { label: "Owner", value: sourceProperty?.owner },
     { label: "Agent Name", value: sourceProperty?.agent_name },
-    // { label: "Agent Email", value: sourceProperty?.agent_email },
-    // { label: "Agent Phone", value: sourceProperty?.agent_phone },
   ];
   const handleDownload = () => {
     if (property?.documents?.length > 0) {
@@ -125,32 +110,115 @@ function PropertyPropertyDetail({
     }
   };
 
-  const handleRequestTour = async () => {
-    if (!date) return toast.error("Please select a date");
+  const getLeadField = (...values) => {
+    const selectedValue = values.find((value) => {
+      if (typeof value === "string") return value.trim();
+      return value !== null && value !== undefined;
+    });
+
+    return typeof selectedValue === "string"
+      ? selectedValue.trim()
+      : selectedValue || "";
+  };
+
+  const customerName = getLeadField(
+    profileSource?.full_name,
+    profileSource?.name,
+    profileSource?.first_name,
+    user?.full_name,
+    user?.name
+  );
+  const customerEmail = getLeadField(
+    profileSource?.email,
+    user?.email
+  );
+  const customerNumber = getLeadField(
+    profileSource?.phone,
+    profileSource?.mobile_no,
+    user?.phone,
+    user?.mobile_no
+  );
+
+  const submitTourLead = async () => {
+    const propertyUrl =
+      typeof window !== "undefined" ? window.location.href : "";
+
+    if (!customerName || !customerEmail || !customerNumber) {
+      toast.error("Please complete your profile details before requesting a tour.");
+      return;
+    }
+
+    setIsSubmittingTourLead(true);
+
     try {
-      const formData = new FormData();
-      formData.append("property", property?.id);
-      formData.append("user", user?.id);
-      const response = await requestTour(formData).unwrap();
-      toast.success(response?.message);
+      const response = await fetch("/api/sell-do/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customerName,
+          customerEmail,
+          customerNumber,
+          notes: propertyUrl,
+        }),
+      });
+
+      const payload = await response.json();
+
+      if (!response.ok) {
+        throw new Error(payload?.message || "Failed to submit tour request.");
+      }
+
+      setPendingTourRequest(false);
+      toast.success("Our team will get back to you in the next 24 hours.");
     } catch (err) {
-      toast.error(err?.data?.message);
-      console.log("Tour request failed", err);
+      toast.error(err instanceof Error ? err.message : "Unable to submit your request right now.");
+      console.log("Sell.do lead submission failed", err);
+    } finally {
+      setIsSubmittingTourLead(false);
     }
   };
 
-  const handleSendNotification = async (id, name) => {
-    try {
-      const response = await sendNotification({
-        property_id: id,
-        property_name: name,
-      }).unwrap();
-      toast.success(response?.message);
-    } catch (err) {
-      toast.error(err?.data?.message);
-      console.log("Delete failed:", err);
-    }
+  const openAuthModal = () => {
+    if (typeof window === "undefined") return;
+
+    window.dispatchEvent(
+      new CustomEvent("open-auth-modal", {
+        detail: {
+          tab: "sendOtp",
+        },
+      })
+    );
   };
+
+  const handleRequestTour = async () => {
+    if (!token) {
+      setPendingTourRequest(true);
+      openAuthModal();
+      return;
+    }
+
+    await submitTourLead();
+  };
+
+  useEffect(() => {
+    const handleResumeSubmit = () => {
+      setPendingTourRequest(true);
+    };
+
+    window.addEventListener("resume-form-submit", handleResumeSubmit);
+
+    return () => {
+      window.removeEventListener("resume-form-submit", handleResumeSubmit);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!pendingTourRequest || !token || isSubmittingTourLead) return;
+    if (!customerProfile && (!customerName || !customerEmail || !customerNumber)) return;
+    submitTourLead();
+  }, [pendingTourRequest, token, customerProfile, customerName, customerEmail, customerNumber, isSubmittingTourLead]);
 
   return (
     <>
@@ -276,62 +344,34 @@ function PropertyPropertyDetail({
 
           <div>
             <div className="bg-[#F5EFE7] text-[#212121] rounded-lg p-6 sticky top-24">
-              <div className="mb-6">
-                <p className="text-[#F5EFE7] text-sm mb-1">SALE PRICE</p>
+              <div className="mb-5 rounded-2xl border border-[#212121]/10 bg-white/55 p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#212121]/55">
+                  Pricing
+                </p>
                 <h3 className="text-2xl font-bold text-[#212121]">
                   ₹ {formatValue(property?.price ?? property?.expected_price)}
                 </h3>
               </div>
 
               <button
-                className="w-full bg-[#212121] text-[#F5EFE7] py-3 rounded mb-6 flex items-center justify-center cursor-pointer"
+                className="w-full bg-[#212121] text-[#F5EFE7] py-3 rounded mb-5 flex items-center justify-center cursor-pointer"
                 onClick={handleDownload}
               >
                 <Download className="h-4 w-4 mr-2" />
                 Download Brochure
               </button>
 
-              <div className="mb-6">
-                <h4 className="font-bold mb-4">Request Home Tour</h4>
-                <div className="flex mb-4">
-                  <button
-                    className={`flex-1 py-2 text-center cursor-pointer ${
-                      tourType === "in-person"
-                        ? "bg-[#212121] text-[#F5EFE7]"
-                        : "bg-[#212121] text-[#F5EFE7]"
-                    }`}
-                    onClick={() => setTourType("in-person")}
-                  >
-                    In person
-                  </button>
-                  <button
-                    className={`flex-1 py-2 text-center cursor-pointer ${
-                      tourType === "virtual"
-                        ? "bg-[#212121] text-[#F5EFE7]"
-                        : "bg-[#212121] text-[#F5EFE7]"
-                    }`}
-                    onClick={() => setTourType("virtual")}
-                  >
-                    Virtual
-                  </button>
-                </div>
-
-                <div className="relative mb-4">
-                  <input
-                    type="date"
-                    className="w-full border border-[#F5EFE7] rounded p-2 pl-10"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                  />
-                  <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-[#F5EFE7]" />
-                </div>
-
+              <div className="rounded-2xl border border-[#212121]/10 bg-white/40 p-4">
+                <h4 className="text-lg font-bold text-[#212121]">Request a Tour</h4>
+                <p className="mt-2 text-sm leading-6 text-[#212121]/70">
+                  Share your interest and our team will connect with you for the next step.
+                </p>
                 <button
                   onClick={handleRequestTour}
-                  disabled={isLoading}
-                  className="w-full bg-[#212121] text-[#F5EFE7] py-3 rounded cursor-pointer flex justify-center items-center"
+                  disabled={isSubmittingTourLead}
+                  className="mt-4 w-full bg-[#212121] text-[#F5EFE7] py-3 rounded cursor-pointer flex justify-center items-center disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {isLoading ? (
+                  {isSubmittingTourLead ? (
                     <div className="animate-spin">
                       <Loader className="w-5 h-5" />
                     </div>

@@ -60,7 +60,7 @@ function Header() {
             /> */}
             <div className="relative w-40 h-8 xs:w-44 xs:h-9 sm:w-52 sm:h-10 md:w-60 md:h-11 lg:w-76 lg:h-14">
               <Image
-                src="/assets/logo/TPM Logo.png"
+                src="/assets/logo/logo4.png"
                 alt="Logo"
                 fill
                 className="object-contain"
@@ -87,8 +87,8 @@ function Header() {
                 <span
                   className={`absolute -bottom-1 left-0 h-0.5 bg-[#212121] transition-all duration-300
                     ${pathname === href
-                      ? "w-full"                          // active → full underline
-                      : "w-0 group-hover:w-full"          // hover → animate in
+                      ? "w-full"                         
+                      : "w-0 group-hover:w-full"          
                     }`}
                 />
               </Link>
@@ -110,7 +110,7 @@ function Header() {
                   className=" group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(198, 162, 86, 0.5)] border border-[#C6A256]/50 whitespace-nowrap"
                 >
                   <span className="relative z-10 transition-colors duration-300 group-hover:text-[#F5EFE7]">
-                    Post Property
+                    Post Property Free
                   </span>
                   <div className="absolute inset-0 bg-linear-to-r from-[#212121] via-[#212121] to-[#212121] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </button>

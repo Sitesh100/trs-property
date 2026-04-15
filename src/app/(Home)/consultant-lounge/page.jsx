@@ -178,19 +178,23 @@ const ConsultantLoungePage = () => {
       title: "100% Transparency",
       description: "Complete transparency in all transactions",
       icon: (
-        <svg
-          className="w-10 h-10"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-          />
-        </svg>
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <path d="M12 3L20 7V12C20 17 16.5 20.5 12 22C7.5 20.5 4 17 4 12V7L12 3Z"
+        stroke="#C9A96E"
+        stroke-width="1.8"
+        stroke-linejoin="round"/>
+
+ 
+  <text x="12" y="13.5"
+        text-anchor="middle"
+        font-size="5"
+        font-weight="600"
+        fill="#C9A96E"
+        font-family="Arial, sans-serif">
+    100%
+  </text>
+</svg>
       ),
     },
     {
@@ -433,11 +437,7 @@ const ConsultantLoungePage = () => {
                       </div>
                     </div>
 
-                    <div className="border-t border-[#F5EFE7]/15 pt-2">
-                      <label className="block text-xs font-semibold text-[#F5EFE7] mb-1 uppercase tracking-wide">
-                        Contact & Login Details
-                      </label>
-                    </div>
+                    
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
@@ -457,39 +457,6 @@ const ConsultantLoungePage = () => {
                             placeholder="Phone Number"
                           />
                         </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          WhatsApp Number
-                        </label>
-                        <div className="flex gap-2">
-                          <div className="px-2.5 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-xs flex items-center shrink-0">
-                            🇮🇳 +91
-                          </div>
-                          <input
-                            type="tel"
-                            name="whatsappNumber"
-                            value={formData.whatsappNumber}
-                            onChange={handleChange}
-                            className="flex-1 px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
-                            placeholder="WhatsApp Number"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-[#F5EFE7] text-xs font-medium mb-1.5 uppercase tracking-wider">
-                          Email
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="w-full px-3 py-2.5 bg-[#212121] border border-[#F5EFE7] rounded-xl text-[#F5EFE7] text-sm placeholder-[#F5EFE7] focus:border-[#C6A256] focus:outline-none transition"
-                          placeholder="Email Address"
-                        />
                       </div>
 
                       <div>

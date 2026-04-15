@@ -550,7 +550,7 @@ const AboutPage = () => {
                         <value.icon className="w-6 h-6 text-[#C6A256]" />
                       </div>
                     </div>
-                    <h3 className="text-xl font-bold mb-3 text-[#F5EFE7] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#212121] group-hover:to-[#C6A256] transition-all duration-300">
+                    <h3 className="text-xl font-bold mb-3 text-[#F5EFE7] transition-all duration-300">
                       {value.title}
                     </h3>
                     <p className="text-[#F5EFE7] leading-tight">
