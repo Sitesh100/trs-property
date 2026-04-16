@@ -8,8 +8,6 @@ import { Slider } from "@/components/ui/slider";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
-const HERO_LEAD_POPUP_SEEN_KEY = "trs-hero-lead-popup-seen";
-
 function AnimatedCounter({ target }) {
     const count = useMotionValue(0);
     const rounded = useTransform(count, (latest) => Math.floor(latest));
@@ -107,7 +105,6 @@ function HeroSection() {
         possession_status: "Any",
         is_price_negotiable: "Any",
     });
-    const [hasSeenLeadPopup, setHasSeenLeadPopup] = useState(false);
     const [isLeadPopupOpen, setIsLeadPopupOpen] = useState(false);
     const [isSubmittingLead, setIsSubmittingLead] = useState(false);
     const [pendingHeroSearch, setPendingHeroSearch] = useState(false);
@@ -211,19 +208,6 @@ function HeroSection() {
         return `Rs ${valueInCr.toFixed(1)}Cr`;
     };
 
-    useEffect(() => {
-        if (typeof window === "undefined") return;
-
-        const popupSeen = window.localStorage.getItem(HERO_LEAD_POPUP_SEEN_KEY) === "true";
-        setHasSeenLeadPopup(popupSeen);
-    }, []);
-
-    const markLeadPopupSeen = () => {
-        if (typeof window === "undefined") return;
-        window.localStorage.setItem(HERO_LEAD_POPUP_SEEN_KEY, "true");
-        setHasSeenLeadPopup(true);
-    };
-
     const runHeroSearch = () => {
         const params = new URLSearchParams();
         const trimmedQuery = searchQuery.trim();
@@ -264,7 +248,6 @@ function HeroSection() {
 
     const closeLeadPopupAndContinue = () => {
         setIsLeadPopupOpen(false);
-        markLeadPopupSeen();
 
         if (pendingHeroSearch) {
             setPendingHeroSearch(false);
@@ -273,7 +256,7 @@ function HeroSection() {
     };
 
     const handleHeroSearch = () => {
-        if (!token && !hasSeenLeadPopup) {
+        if (!token) {
             setPendingHeroSearch(true);
             setIsLeadPopupOpen(true);
             return;
@@ -753,7 +736,7 @@ function HeroSection() {
                                         onClick={closeLeadPopupAndContinue}
                                         className="inline-flex min-w-28 items-center justify-center rounded-2xl border border-[#F5EFE7]/20 bg-[#F5EFE7]/5 px-5 py-3 font-semibold text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/10"
                                     >
-                                        Cancel
+                                        Skip
                                     </button>
                                 </div>
                             </form>
