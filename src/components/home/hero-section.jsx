@@ -290,7 +290,7 @@ function HeroSection() {
                 },
                 body: JSON.stringify({
                     customerName: leadForm.customerName.trim(),
-                    customerEmail: leadForm.customerEmail.trim() || "na@trspropertymall.com",
+                    customerEmail: leadForm.customerEmail.trim(),
                     customerNumber: leadForm.customerNumber.trim(),
                     notes: leadForm.notes.trim(),
                 }),
