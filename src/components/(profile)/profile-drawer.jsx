@@ -34,7 +34,6 @@ export default function ProfileDrawer({ onLogout, user }) {
         // { name: "My Buy Requirements", url: '/agent/my-buy-requirements' },
         // { name: "My Properties", url: '/agent/my-property' },
         // { name: "Match Making", url: '/agent/match-making' },
-            { name: "Edit profile", url: '/agent/profile' },
         { name: "my dashboard", url: '/agent/leads' },
     ];
 

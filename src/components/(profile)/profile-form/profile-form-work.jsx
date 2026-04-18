@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-const ProfileFormWork = () => {
+const ProfileFormWork = ({ isEditing, setIsEditing, registerSubmit, setIsSubmitting }) => {
     const validationSchema = Yup.object().shape({
         locations: Yup.string().required('Locations are required'),
         zoomOptions: Yup.string().required('Zoom options are required'),
@@ -18,14 +18,12 @@ const ProfileFormWork = () => {
         }).test(
             'at-least-one-category',
             'Select at least one category',
-            (value) => {
-                return (
-                    value.residential.primary ||
-                    value.residential.rebelle ||
-                    value.commercial.primary ||
-                    value.commercial.rebelle
-                );
-            }
+            (value) => (
+                value.residential.primary ||
+                value.residential.rebelle ||
+                value.commercial.primary ||
+                value.commercial.rebelle
+            )
         ),
         categories: Yup.array().min(1, 'Select at least one category'),
         officeAddress: Yup.string().required('Office address is required')
@@ -36,35 +34,40 @@ const ProfileFormWork = () => {
             locations: '',
             zoomOptions: '',
             dealIn: {
-                residential: {
-                    primary: false,
-                    rebelle: false
-                },
-                commercial: {
-                    primary: false,
-                    rebelle: false
-                }
+                residential: { primary: false, rebelle: false },
+                commercial: { primary: false, rebelle: false }
             },
             categories: [],
             officeAddress: 'amd'
         },
         validationSchema,
-        onSubmit: (values) => {
-            console.log('Form submitted:', values);
-            // Handle form submission here
+        onSubmit: async (values) => {
+            try {
+                if (setIsSubmitting) setIsSubmitting(true);
+                console.log('Form submitted:', values);
+                // TODO: call your API mutation here
+                if (setIsEditing) setIsEditing(false);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                if (setIsSubmitting) setIsSubmitting(false);
+            }
         }
     });
 
-    const handleCategoryChange = (e) => {
-        const { value, checked } = e.target;
-        let newCategories = [...formik.values.categories];
-
-        if (checked) {
-            newCategories.push(value);
-        } else {
-            newCategories = newCategories.filter(item => item !== value);
+    // Register this form's submit so the top-level button can trigger it
+    useEffect(() => {
+        if (registerSubmit) {
+            registerSubmit(() => formik.submitForm());
         }
+    }, [registerSubmit]);
 
+    const handleCategoryChange = (e) => {
+        if (!isEditing) return;
+        const { value, checked } = e.target;
+        const newCategories = checked
+            ? [...formik.values.categories, value]
+            : formik.values.categories.filter(item => item !== value);
         formik.setFieldValue('categories', newCategories);
     };
 
@@ -76,7 +79,9 @@ const ProfileFormWork = () => {
                     type="text"
                     name="locations"
                     placeholder="Search Locations"
-                    className="w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/85 text-[#1f2937] focus:outline-none focus:border-[#C6A256]"
+                    disabled={!isEditing}
+                    className={`w-full px-3 py-2 border border-[#d1d5db] rounded-lg text-[#1f2937] focus:outline-none transition-colors
+                        ${isEditing ? 'bg-white/85 focus:border-[#C6A256] cursor-text' : 'bg-[#f3f4f6] text-[#6b7280] cursor-not-allowed'}`}
                     onChange={formik.handleChange}
                     value={formik.values.locations}
                 />
@@ -90,7 +95,9 @@ const ProfileFormWork = () => {
                 <input
                     type="text"
                     name="zoomOptions"
-                    className="w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/85 text-[#1f2937] focus:outline-none focus:border-[#C6A256]"
+                    disabled={!isEditing}
+                    className={`w-full px-3 py-2 border border-[#d1d5db] rounded-lg text-[#1f2937] focus:outline-none transition-colors
+                        ${isEditing ? 'bg-white/85 focus:border-[#C6A256] cursor-text' : 'bg-[#f3f4f6] text-[#6b7280] cursor-not-allowed'}`}
                     onChange={formik.handleChange}
                     value={formik.values.zoomOptions}
                 />
@@ -105,63 +112,47 @@ const ProfileFormWork = () => {
                     <div className="space-y-2">
                         <h4 className="text-sm font-medium">Residential</h4>
                         <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    id="residential-primary"
-                                    className="h-4 w-4 accent-[#C6A256]"
-                                    checked={formik.values.dealIn.residential.primary}
-                                    onChange={() => formik.setFieldValue(
-                                        'dealIn.residential.primary',
-                                        !formik.values.dealIn.residential.primary
-                                    )}
-                                />
-                                <label htmlFor="residential-primary">Primary</label>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    id="residential-rebelle"
-                                    className="h-4 w-4 accent-[#C6A256]"
-                                    checked={formik.values.dealIn.residential.rebelle}
-                                    onChange={() => formik.setFieldValue(
-                                        'dealIn.residential.rebelle',
-                                        !formik.values.dealIn.residential.rebelle
-                                    )}
-                                />
-                                <label htmlFor="residential-rebelle">Rebelle</label>
-                            </div>
+                            {['primary', 'rebelle'].map((type) => (
+                                <div key={type} className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        id={`residential-${type}`}
+                                        className="h-4 w-4 accent-[#C6A256]"
+                                        disabled={!isEditing}
+                                        checked={formik.values.dealIn.residential[type]}
+                                        onChange={() => isEditing && formik.setFieldValue(
+                                            `dealIn.residential.${type}`,
+                                            !formik.values.dealIn.residential[type]
+                                        )}
+                                    />
+                                    <label htmlFor={`residential-${type}`} className={!isEditing ? 'text-[#6b7280]' : ''}>
+                                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                                    </label>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div className="space-y-2">
                         <h4 className="text-sm font-medium">Commercial</h4>
                         <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    id="commercial-primary"
-                                    className="h-4 w-4 accent-[#C6A256]"
-                                    checked={formik.values.dealIn.commercial.primary}
-                                    onChange={() => formik.setFieldValue(
-                                        'dealIn.commercial.primary',
-                                        !formik.values.dealIn.commercial.primary
-                                    )}
-                                />
-                                <label htmlFor="commercial-primary">Primary</label>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    id="commercial-rebelle"
-                                    className="h-4 w-4 accent-[#C6A256]"
-                                    checked={formik.values.dealIn.commercial.rebelle}
-                                    onChange={() => formik.setFieldValue(
-                                        'dealIn.commercial.rebelle',
-                                        !formik.values.dealIn.commercial.rebelle
-                                    )}
-                                />
-                                <label htmlFor="commercial-rebelle">Rebelle</label>
-                            </div>
+                            {['primary', 'rebelle'].map((type) => (
+                                <div key={type} className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        id={`commercial-${type}`}
+                                        className="h-4 w-4 accent-[#C6A256]"
+                                        disabled={!isEditing}
+                                        checked={formik.values.dealIn.commercial[type]}
+                                        onChange={() => isEditing && formik.setFieldValue(
+                                            `dealIn.commercial.${type}`,
+                                            !formik.values.dealIn.commercial[type]
+                                        )}
+                                    />
+                                    <label htmlFor={`commercial-${type}`} className={!isEditing ? 'text-[#6b7280]' : ''}>
+                                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                                    </label>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -180,10 +171,13 @@ const ProfileFormWork = () => {
                                 id={`category-${category.toLowerCase()}`}
                                 className="h-4 w-4 accent-[#C6A256]"
                                 value={category}
+                                disabled={!isEditing}
                                 checked={formik.values.categories.includes(category)}
                                 onChange={handleCategoryChange}
                             />
-                            <label htmlFor={`category-${category.toLowerCase()}`}>{category}</label>
+                            <label htmlFor={`category-${category.toLowerCase()}`} className={!isEditing ? 'text-[#6b7280]' : ''}>
+                                {category}
+                            </label>
                         </div>
                     ))}
                 </div>
@@ -197,7 +191,9 @@ const ProfileFormWork = () => {
                 <input
                     type="text"
                     name="officeAddress"
-                    className="w-full px-3 py-2 border border-[#d1d5db] rounded-lg bg-white/85 text-[#1f2937] focus:outline-none focus:border-[#C6A256]"
+                    disabled={!isEditing}
+                    className={`w-full px-3 py-2 border border-[#d1d5db] rounded-lg text-[#1f2937] focus:outline-none transition-colors
+                        ${isEditing ? 'bg-white/85 focus:border-[#C6A256] cursor-text' : 'bg-[#f3f4f6] text-[#6b7280] cursor-not-allowed'}`}
                     onChange={formik.handleChange}
                     value={formik.values.officeAddress}
                 />
@@ -205,18 +201,8 @@ const ProfileFormWork = () => {
                     <div className="text-[#C6A256] text-xs mt-1">{formik.errors.officeAddress}</div>
                 )}
             </div>
-
-            <div className="flex justify-end items-end">
-                <button
-                    type="submit"
-                    className="w-36 bg-[#1f2937] hover:bg-[#111827] text-[#F5EFE7] font-medium py-2 rounded-lg transition-colors h-10 flex items-center justify-center cursor-pointer"
-                >
-                    Save Changes
-                </button>
-            </div>
         </form>
     );
 };
 
 export default ProfileFormWork;
-

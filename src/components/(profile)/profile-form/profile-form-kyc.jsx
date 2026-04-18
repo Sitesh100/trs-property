@@ -4,9 +4,10 @@ import { Loader } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
-const ProfileFormKyc = () => {
+const ProfileFormKyc = ({ isEditing, setIsEditing, registerSubmit, setIsSubmitting }) => {
     const { data, isLoading: isLoadingKYC } = useGetProfileKYCQuery();
     const [profileKYC, { isLoading }] = useProfileKYCMutation();
+
     const [files, setFiles] = useState({
         govt_id: '',
         visiting_card: '',
@@ -19,8 +20,8 @@ const ProfileFormKyc = () => {
         rera_certificate: null,
     });
 
-
     const handleFileChange = (e, type) => {
+        if (!isEditing) return;
         const file = e.target.files[0];
         if (file) {
             setFiles(prev => ({ ...prev, [type]: file }));
@@ -34,19 +35,26 @@ const ProfileFormKyc = () => {
 
     const handleSubmit = async () => {
         try {
+            if (setIsSubmitting) setIsSubmitting(true);
             const response = await profileKYC({ ...files }).unwrap();
             if (response?.status) {
                 toast.success(response?.message);
-                setFiles({
-                    govt_id: null,
-                    visiting_card: null,
-                    rera_certificate: null
-                });
+                setFiles({ govt_id: null, visiting_card: null, rera_certificate: null });
+                if (setIsEditing) setIsEditing(false);
             }
         } catch (err) {
             toast.error(err?.data?.message || "Something went wrong");
+        } finally {
+            if (setIsSubmitting) setIsSubmitting(false);
         }
     };
+
+    // Register this form's submit so the top-level button can trigger it
+    useEffect(() => {
+        if (registerSubmit) {
+            registerSubmit(handleSubmit);
+        }
+    }, [registerSubmit, files]); // re-register when files change so submit always has latest files
 
     useEffect(() => {
         if (data?.data) {
@@ -60,6 +68,12 @@ const ProfileFormKyc = () => {
 
     if (isLoadingKYC) return <>loading...</>
 
+    const docFields = [
+        { key: 'govt_id', label: 'Govt. ID', uploadLabel: 'Upload Govt ID', previewAlt: 'Govt ID Preview' },
+        { key: 'visiting_card', label: 'Visiting Card', uploadLabel: 'Upload Visiting Card', previewAlt: 'Visiting Card Preview' },
+        { key: 'rera_certificate', label: 'RERA', uploadLabel: 'Upload RERA', previewAlt: 'RERA Preview' },
+    ];
+
     return (
         <div className="mb-6">
             <div className="space-y-4 mb-6">
@@ -67,119 +81,48 @@ const ProfileFormKyc = () => {
                     <span className="text-[#374151] font-medium">Phone Number Verified</span>
                     <span className="text-[#C6A256]">Verified</span>
                 </div>
-                <div className="py-3 px-3 rounded-xl border border-[#d1d5db] bg-white/70">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#374151] font-medium">Govt. ID</span>
-                        <span className={files.govt_id ? "text-[#C6A256]" : "text-[#C6A256]"}>
-                            {files.govt_id ? "Uploaded" : "Pending"}
-                        </span>
-                    </div>
-                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-                        <label className="cursor-pointer">
-                            <input
-                                type="file"
-                                className="hidden"
-                                accept="image/*,.pdf"
-                                onChange={(e) => handleFileChange(e, 'govt_id')}
-                            />
-                            <div className="w-48 text-center px-4 py-2 bg-[#1f2937] text-[#F5EFE7] rounded-lg hover:bg-[#111827] transition-colors">
-                                Upload Govt ID
-                            </div>
-                        </label>
-                        {previews.govt_id && (
-                            <div className="mt-2 md:mt-0">
-                                <img
-                                    src={previews.govt_id}
-                                    alt="Govt ID Preview"
-                                    className="h-16 w-16 object-cover border border-[#d1d5db] rounded-lg"
-                                />
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div className="py-3 px-3 rounded-xl border border-[#d1d5db] bg-white/70">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#374151] font-medium">Visiting Card</span>
-                        <span className={files.visiting_card ? "text-[#C6A256]" : "text-[#C6A256]"}>
-                            {files.visiting_card ? "Uploaded" : "Pending"}
-                        </span>
-                    </div>
-                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-                        <label className="cursor-pointer">
-                            <input
-                                type="file"
-                                className="hidden"
-                                accept="image/*,.pdf"
-                                onChange={(e) => handleFileChange(e, 'visiting_card')}
-                            />
-                            <div className="w-48 text-center px-4 py-2 bg-[#1f2937] text-[#F5EFE7] rounded-lg hover:bg-[#111827] transition-colors">
-                                Upload Visiting Card
-                            </div>
-                        </label>
-                        {previews.visiting_card && (
-                            <div className="mt-2 md:mt-0">
-                                <img
-                                    src={previews.visiting_card}
-                                    alt="Visiting Card Preview"
-                                    className="h-16 w-16 object-cover border border-[#d1d5db] rounded-lg"
-                                />
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div className="py-3 px-3 rounded-xl border border-[#d1d5db] bg-white/70">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-[#374151] font-medium">RERA</span>
-                        <span className={files.rera_certificate ? "text-[#C6A256]" : "text-[#C6A256]"}>
-                            {files.rera_certificate ? "Uploaded" : "Pending"}
-                        </span>
-                    </div>
-                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-                        <label className="cursor-pointer">
-                            <input
-                                type="file"
-                                className="hidden"
-                                accept="image/*,.pdf"
-                                onChange={(e) => handleFileChange(e, 'rera_certificate')}
-                            />
-                            <div className="w-48 text-center px-4 py-2 bg-[#1f2937] text-[#F5EFE7] rounded-lg hover:bg-[#111827] transition-colors">
-                                Upload RERA
-                            </div>
-                        </label>
-                        {previews.rera_certificate && (
-                            <div className="mt-2 md:mt-0">
-                                <img
-                                    src={previews.rera_certificate}
-                                    alt="RERA Preview"
-                                    className="h-16 w-16 object-cover border border-[#d1d5db] rounded-lg"
-                                />
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
 
-            <div className="flex md:flex-row flex-col gap-4">
-                <button
-                    onClick={handleSubmit}
-                    disabled={isLoading}
-                    className="w-36 px-6 py-2 flex justify-center items-center bg-[#1f2937] text-[#F5EFE7] rounded-lg hover:bg-[#111827] transition-colors cursor-pointer"
-                >
-                    {isLoading ? (
-                        <div className="animate-spin">
-                            <Loader />
+                {docFields.map(({ key, label, uploadLabel, previewAlt }) => (
+                    <div key={key} className="py-3 px-3 rounded-xl border border-[#d1d5db] bg-white/70">
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="text-[#374151] font-medium">{label}</span>
+                            <span className="text-[#C6A256]">
+                                {files[key] ? "Uploaded" : "Pending"}
+                            </span>
                         </div>
-                    ) : (
-                        "Update KYC"
-                    )}
-                </button>
-                <button className="w-36 px-6 py-2 flex justify-center items-center bg-[#374151] text-[#F5EFE7] rounded-lg hover:bg-[#1f2937] transition-colors cursor-pointer">
-                    View Profile
-                </button>
+                        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+                            {isEditing && (
+                                <label className="cursor-pointer">
+                                    <input
+                                        type="file"
+                                        className="hidden"
+                                        accept="image/*,.pdf"
+                                        onChange={(e) => handleFileChange(e, key)}
+                                    />
+                                    <div className="w-48 text-center px-4 py-2 bg-[#1f2937] text-[#F5EFE7] rounded-lg hover:bg-[#111827] transition-colors">
+                                        {uploadLabel}
+                                    </div>
+                                </label>
+                            )}
+                            {previews[key] ? (
+                                <div className="mt-2 md:mt-0">
+                                    <img
+                                        src={previews[key]}
+                                        alt={previewAlt}
+                                        className="h-16 w-16 object-cover border border-[#d1d5db] rounded-lg"
+                                    />
+                                </div>
+                            ) : (
+                                !isEditing && (
+                                    <span className="text-sm text-[#6b7280] italic">No document uploaded</span>
+                                )
+                            )}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );
 };
 
 export default ProfileFormKyc;
-
