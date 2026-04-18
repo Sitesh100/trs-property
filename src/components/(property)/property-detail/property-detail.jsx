@@ -6,6 +6,8 @@ import {
   ArrowDownRight,
   Bath,
   Bed,
+  ChevronDown,
+  ChevronUp,
   Download,
   Loader,
   Square,
@@ -30,6 +32,7 @@ function PropertyPropertyDetail({
   });
   const [isSubmittingTourLead, setIsSubmittingTourLead] = useState(false);
   const [pendingTourRequest, setPendingTourRequest] = useState(false);
+  const [showAllDetails, setShowAllDetails] = useState(false);
   const sourceProperty = rawProperty || property || {};
 
   const profileSource = customerProfile || user || {};
@@ -90,18 +93,20 @@ function PropertyPropertyDetail({
 
   const requiredDetails = [
     { label: "Price Negotiable", value: sourceProperty?.is_price_negotiable },
+    { label: "City", value: sourceProperty?.city },
     { label: "Balconies", value: sourceProperty?.balconies },
+    { label: "Parking Spaces", value: sourceProperty?.parking_spaces },
+    { label: "Furnished Status", value: sourceProperty?.furnished_status },
     { label: "Floor Number", value: sourceProperty?.floor_number },
     { label: "Total Floors", value: sourceProperty?.total_floors },
-    { label: "Parking Spaces", value: sourceProperty?.parking_spaces },
-    { label: "City", value: sourceProperty?.city },
     { label: "Builder Name", value: sourceProperty?.builder_name },
     { label: "Facing", value: sourceProperty?.facing },
-    { label: "Furnished Status", value: sourceProperty?.furnished_status },
     { label: "Property Age", value: sourceProperty?.property_age },
     { label: "Owner", value: sourceProperty?.owner },
     { label: "Agent Name", value: sourceProperty?.agent_name },
   ];
+  const initialRequiredDetails = requiredDetails.slice(0, 6);
+  const additionalRequiredDetails = requiredDetails.slice(6);
   const handleDownload = () => {
     if (property?.documents?.length > 0) {
       property?.documents.forEach((docUrl) => {
@@ -222,19 +227,19 @@ function PropertyPropertyDetail({
 
   return (
     <>
-      <div className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="container mx-auto px-3 sm:px-4 py-5 sm:py-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
           <div className="md:col-span-2">
-            <div className="bg-[#F5EFE7] rounded-lg p-4 mb-8">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            <div className="bg-[#F5EFE7] rounded-lg p-3 sm:p-4 mb-6 sm:mb-8">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
                 {detailStats.map((item) => {
                   const Icon = item.icon;
                   return (
                     <div key={item.label} className="flex flex-col items-center text-center">
-                      <div className="text-[#F5EFE7] mb-2">{item.label}</div>
+                      <div className="text-[#212121]/70 text-xs sm:text-sm mb-1.5 sm:mb-2">{item.label}</div>
                       <div className="flex items-center justify-center">
-                        <Icon className="h-5 w-5 mr-1 text-[#212121]" />
-                        <span className="font-bold text-[#212121]">{item.value}</span>
+                        <Icon className="h-4 w-4 sm:h-5 sm:w-5 mr-1 text-[#212121]" />
+                        <span className="font-bold text-sm sm:text-base text-[#212121]">{item.value}</span>
                       </div>
                     </div>
                   );
@@ -242,15 +247,15 @@ function PropertyPropertyDetail({
               </div>
             </div>
 
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-4">About this home</h2>
-              <p className="mb-4">{formatValue(property?.description || property?.nearby_landmarks)}</p>
+            <div className="mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">About this home</h2>
+              <p className="mb-4 text-sm sm:text-base leading-7">{formatValue(property?.description || property?.nearby_landmarks)}</p>
             </div>
 
-            <div className="bg-[#F5EFE7] rounded-lg p-6 mb-8">
-              <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="bg-[#F5EFE7] rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
+              <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-6">
                 {/* Logo */}
-                <div className="w-28 h-28 flex-shrink-0">
+                <div className="w-20 h-20 sm:w-28 sm:h-28 flex-shrink-0">
                   <Image
                     src="/assets/logo/logo1.png"
                     alt="Total Realty Solutions"
@@ -262,23 +267,23 @@ function PropertyPropertyDetail({
 
                 {/* Company Info */}
                 <div className="flex-grow text-center md:text-left">
-                  <h3 className="font-bold text-xl text-[#212121]">
+                  <h3 className="font-bold text-lg sm:text-xl text-[#212121]">
                     Total Realty Solutions
                   </h3>
-                  <p className="text-sm text-[#F5EFE7]">
+                  <p className="text-xs sm:text-sm text-[#212121]/70">
                     RERA REGISTERED BNO
                   </p>
-                  <p className="text-sm text-[#F5EFE7]">
+                  <p className="text-xs sm:text-sm text-[#212121]/70">
                     Indore, Madhya Pradesh
                   </p>
                 </div>
 
                 {/* Buttons */}
-                <div className="flex gap-3 mt-4 md:mt-0 md:ml-auto">
+                <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-2 sm:gap-3 mt-3 md:mt-0 md:ml-auto">
                   {/* Call Button */}
                   <a
                     href={`tel:${STATIC_CALL_NUMBER}`}
-                    className="px-5 py-2 rounded-md text-sm flex items-center justify-center bg-[#212121] text-[#F5EFE7]"
+                    className="px-4 py-2.5 rounded-md text-sm flex items-center justify-center bg-[#212121] text-[#F5EFE7]"
                   >
                     CALL NOW
                   </a>
@@ -288,7 +293,7 @@ function PropertyPropertyDetail({
                     href={STATIC_WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-5 py-2 rounded-md text-sm flex items-center justify-center bg-[#212121] text-[#F5EFE7]"
+                    className="px-4 py-2.5 rounded-md text-sm flex items-center justify-center bg-[#212121] text-[#F5EFE7]"
                   >
                     WHATSAPP
                   </a>
@@ -296,31 +301,31 @@ function PropertyPropertyDetail({
               </div>
             </div>
 
-            <div className="mb-8">
-              <h2 className="text-xl font-bold mb-4">Amenities & Features</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="mb-6 sm:mb-8">
+              <h2 className="text-xl font-bold mb-3 sm:mb-4">Amenities & Features</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
                 <div>
-                  <h3 className="font-bold mb-4">Property Features</h3>
-                  <ul className="space-y-3">
+                  <h3 className="font-bold mb-3 sm:mb-4">Property Features</h3>
+                  <ul className="space-y-2.5 sm:space-y-3">
                     {(propertyFeatures?.length > 0 ? propertyFeatures : ["N/A"]).map((feature, index) => (
                       <li key={index} className="flex items-center">
-                        <div className="h-5 w-5 rounded-full border border-[#F5EFE7] flex items-center justify-center mr-2">
+                        <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full border border-[#F5EFE7] flex items-center justify-center mr-2">
                           <div className="h-2 w-2 bg-[#212121] rounded-full"></div>
                         </div>
-                        <span>{formatValue(feature)}</span>
+                        <span className="text-sm sm:text-base">{formatValue(feature)}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 <div>
-                  <h3 className="font-bold mb-4">Facilities</h3>
-                  <ul className="space-y-3">
+                  <h3 className="font-bold mb-3 sm:mb-4">Facilities</h3>
+                  <ul className="space-y-2.5 sm:space-y-3">
                     {(facilities?.length > 0 ? facilities : ["N/A"]).map((facility, index) => (
                       <li key={index} className="flex items-center">
-                        <div className="h-5 w-5 rounded-full border border-[#F5EFE7] flex items-center justify-center mr-2">
+                        <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full border border-[#F5EFE7] flex items-center justify-center mr-2">
                           <div className="h-2 w-2 bg-[#212121] rounded-full"></div>
                         </div>
-                        <span>{formatValue(facility)}</span>
+                        <span className="text-sm sm:text-base">{formatValue(facility)}</span>
                       </li>
                     ))}
                   </ul>
@@ -328,48 +333,74 @@ function PropertyPropertyDetail({
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#F5EFE7]/20 bg-[#F5EFE7]/5 backdrop-blur-sm p-6 mb-8">
-              <h2 className="text-2xl font-bold mb-4 text-[#F5EFE7]">Required Details</h2>
+            <div className="rounded-2xl border border-[#F5EFE7]/20 bg-[#F5EFE7]/5 backdrop-blur-sm p-4 sm:p-6 mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-[#F5EFE7]">Property Details</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {requiredDetails.map((item) => (
+                {initialRequiredDetails.map((item) => (
                   <div key={item.label} className="rounded-xl border border-[#F5EFE7]/15 bg-[#212121]/15 p-3">
                     <p className="text-xs text-[#F5EFE7]/60 mb-1">{item.label}</p>
                     <p className="text-sm font-semibold text-[#F5EFE7] break-words">{formatValue(item.value)}</p>
                   </div>
                 ))}
               </div>
+
+              {showAllDetails && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                  {additionalRequiredDetails.map((item) => (
+                    <div key={item.label} className="rounded-xl border border-[#F5EFE7]/15 bg-[#212121]/15 p-3">
+                      <p className="text-xs text-[#F5EFE7]/60 mb-1">{item.label}</p>
+                      <p className="text-sm font-semibold text-[#F5EFE7] break-words">{formatValue(item.value)}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <button
+                onClick={() => setShowAllDetails((prev) => !prev)}
+                className="mt-4 w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-[#F5EFE7]/20 bg-[#212121]/20 text-sm font-medium text-[#F5EFE7] hover:bg-[#212121]/35 transition-colors cursor-pointer"
+              >
+                {showAllDetails ? (
+                  <>
+                    Show Less Details <ChevronUp className="h-4 w-4" />
+                  </>
+                ) : (
+                  <>
+                    Show More Details <ChevronDown className="h-4 w-4" />
+                  </>
+                )}
+              </button>
             </div>
 
           </div>
 
           <div>
-            <div className="bg-[#F5EFE7] text-[#212121] rounded-lg p-6 sticky top-24">
-              <div className="mb-5 rounded-2xl border border-[#212121]/10 bg-white/55 p-4">
+            <div className="bg-[#F5EFE7] text-[#212121] rounded-lg p-4 sm:p-6 lg:sticky lg:top-24">
+              <div className="mb-4 sm:mb-5 rounded-2xl border border-[#212121]/10 bg-white/55 p-3 sm:p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#212121]/55">
                   Pricing
                 </p>
-                <h3 className="text-2xl font-bold text-[#212121]">
+                <h3 className="text-xl sm:text-2xl font-bold text-[#212121]">
                   ₹ {formatValue(property?.price ?? property?.expected_price)}
                 </h3>
               </div>
 
               <button
-                className="w-full bg-[#212121] text-[#F5EFE7] py-3 rounded mb-5 flex items-center justify-center cursor-pointer"
+                className="w-full bg-[#212121] text-[#F5EFE7] py-2.5 sm:py-3 rounded mb-4 sm:mb-5 flex items-center justify-center cursor-pointer text-sm sm:text-base"
                 onClick={handleDownload}
               >
                 <Download className="h-4 w-4 mr-2" />
                 Download Brochure
               </button>
 
-              <div className="rounded-2xl border border-[#212121]/10 bg-white/40 p-4">
-                <h4 className="text-lg font-bold text-[#212121]">Request a Tour</h4>
+              <div className="rounded-2xl border border-[#212121]/10 bg-white/40 p-3 sm:p-4">
+                <h4 className="text-base sm:text-lg font-bold text-[#212121]">Request a Tour</h4>
                 <p className="mt-2 text-sm leading-6 text-[#212121]/70">
                   Share your interest and our team will connect with you for the next step.
                 </p>
                 <button
                   onClick={handleRequestTour}
                   disabled={isSubmittingTourLead}
-                  className="mt-4 w-full bg-[#212121] text-[#F5EFE7] py-3 rounded cursor-pointer flex justify-center items-center disabled:cursor-not-allowed disabled:opacity-70"
+                  className="mt-4 w-full bg-[#212121] text-[#F5EFE7] py-2.5 sm:py-3 rounded cursor-pointer flex justify-center items-center disabled:cursor-not-allowed disabled:opacity-70 text-sm sm:text-base"
                 >
                   {isSubmittingTourLead ? (
                     <div className="animate-spin">
@@ -383,8 +414,8 @@ function PropertyPropertyDetail({
             </div>
           </div>
 
-          <div className="md:col-span-3 mb-8">
-            <h2 className="text-2xl font-bold mb-4">Map Location</h2>
+          <div className="md:col-span-3 mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Map Location</h2>
             {property?.latitude !== null && property?.latitude !== undefined &&
             property?.longitude !== null && property?.longitude !== undefined ? (
               <PropertyMap
@@ -393,7 +424,7 @@ function PropertyPropertyDetail({
                   address={property?.map_address || property?.map_location || property?.city || "N/A"}
               />
             ) : (
-              <div className="relative rounded-lg h-[400px] overflow-hidden border border-[#F5EFE7]/20">
+              <div className="relative rounded-lg h-64 sm:h-[400px] overflow-hidden border border-[#F5EFE7]/20">
                 <Image
                   src="/assets/images/property/map-placeholder.svg"
                   alt="Map placeholder"

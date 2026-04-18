@@ -70,7 +70,7 @@ const BlogSection = () => {
         {/* Blog Grid */}
         <div
           key={currentPage}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6"
         >
           {isLoading && (
             <p className="col-span-full text-center text-[#F5EFE7]/70">Loading blogs...</p>
@@ -89,10 +89,10 @@ const BlogSection = () => {
           {currentPosts.map((post) => (
             <div
               key={post.id ?? post.title}
-              className="group w-full max-w-95 mx-auto sm:max-w-none"
+              className="group w-full max-w-[320px] mx-auto sm:max-w-none"
             >
               <Link href={`/blog/${post.id}`}>
-                <div className="relative h-64 sm:h-72 rounded-lg sm:rounded-xl overflow-hidden bg-[#212121] border border-[#F5EFE7]/10">
+                <div className="relative h-52 sm:h-72 rounded-lg sm:rounded-xl overflow-hidden bg-[#212121] border border-[#F5EFE7]/10">
                   <img
                     src={post.image_url || "/assets/images/project/project1.webp"}
                     alt={post.title || "Blog image"}
@@ -107,14 +107,14 @@ const BlogSection = () => {
                     </span>
                   </div>
 
-                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
-                    <h3 className="text-[#F5EFE7] font-medium text-xs sm:text-sm md:text-base leading-tight mb-2 sm:mb-3 line-clamp-2 group-hover:text-[#C6A256] transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-4">
+                    <h3 className="text-[#F5EFE7] font-medium text-[11px] sm:text-sm md:text-base leading-tight mb-1.5 sm:mb-3 line-clamp-2 group-hover:text-[#C6A256] transition-colors duration-300">
                       {post.title}
                     </h3>
 
                     
 
-                    <div className="w-full h-px bg-[#F5EFE7]/20 mb-2 sm:mb-3"></div>
+                    <div className="w-full h-px bg-[#F5EFE7]/20 mb-1.5 sm:mb-3"></div>
 
                     <div className="flex items-center gap-1.5 text-[#F5EFE7]/60">
                       <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />

@@ -124,9 +124,9 @@ function NewsLetter() {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                             <form
                                 onSubmit={handleEmailSubscribe}
-                                className="flex flex-col sm:flex-row gap-3 p-3 bg-[#F5EFE7]/5 backdrop-blur-md border border-[#F5EFE7]/10 rounded-full"
+                                className="flex flex-col sm:flex-row gap-2 sm:gap-3 p-2 sm:p-3 bg-[#F5EFE7]/5 backdrop-blur-md border border-[#F5EFE7]/10 rounded-2xl sm:rounded-full"
                             >
-                                <div className="flex-1 flex items-center gap-3 px-4 py-3 min-h-14">
+                                <div className="flex-1 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 min-h-12 sm:min-h-14">
                                     <Mail className="w-5 h-5 text-[#F5EFE7]/40" />
                                     <input
                                         type="email"
@@ -134,14 +134,14 @@ function NewsLetter() {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
-                                        className="w-full bg-transparent text-[#F5EFE7] placeholder-[#F5EFE7]/40 focus:outline-none text-lg"
+                                        className="w-full bg-transparent text-[#F5EFE7] placeholder-[#F5EFE7]/40 focus:outline-none text-sm sm:text-base"
                                     />
                                 </div>
                                 <motion.button
                                     whileTap={{ scale: 0.95 }}
                                     type="submit"
                                     disabled={isLoading}
-                                    className="bg-linear-to-r from-[#C6A256] to-[#B89248] text-[#1F1A12] px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#C6A256]/35"
+                                    className="w-full sm:w-auto bg-linear-to-r from-[#C6A256] to-[#B89248] text-[#1F1A12] px-5 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-full text-sm sm:text-base font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#C6A256]/35"
                                 >
                                     {isLoading && submittingType === "email" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                                     {isLoading && submittingType === "email" ? "Subscribing..." : "Subscribe Email"}
@@ -150,9 +150,9 @@ function NewsLetter() {
 
                             <form
                                 onSubmit={handleWhatsAppSubscribe}
-                                className="flex flex-col sm:flex-row gap-3 p-3 bg-[#F5EFE7]/5 backdrop-blur-md border border-[#F5EFE7]/10 rounded-full"
+                                className="flex flex-col sm:flex-row gap-2 sm:gap-3 p-2 sm:p-3 bg-[#F5EFE7]/5 backdrop-blur-md border border-[#F5EFE7]/10 rounded-2xl sm:rounded-full"
                             >
-                                <div className="flex-1 flex items-center gap-3 px-4 py-3 min-h-14">
+                                <div className="flex-1 flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 min-h-12 sm:min-h-14">
                                     <MessageCircle className="w-5 h-5 text-[#F5EFE7]/40" />
                                     <input
                                         type="tel"
@@ -160,14 +160,14 @@ function NewsLetter() {
                                         value={phoneNumber}
                                         onChange={(e) => setPhoneNumber(e.target.value)}
                                         required
-                                        className="w-full bg-transparent text-[#F5EFE7] placeholder-[#F5EFE7]/40 focus:outline-none text-lg"
+                                        className="w-full bg-transparent text-[#F5EFE7] placeholder-[#F5EFE7]/40 focus:outline-none text-sm sm:text-base"
                                     />
                                 </div>
                                 <motion.button
                                     whileTap={{ scale: 0.95 }}
                                     type="submit"
                                     disabled={isLoading}
-                                    className="bg-linear-to-r from-[#C6A256] to-[#B89248] text-[#1F1A12] px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#C6A256]/35"
+                                    className="w-full sm:w-auto bg-linear-to-r from-[#C6A256] to-[#B89248] text-[#1F1A12] px-5 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-full text-sm sm:text-base font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-[#C6A256]/35"
                                 >
                                     {isLoading && submittingType === "whatsapp" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                                     {isLoading && submittingType === "whatsapp" ? "Subscribing..." : "Subscribe WhatsApp"}
