@@ -20,6 +20,7 @@ const PropertyCard = ({ cards }) => {
     const [filteredProperties, setFilteredProperties] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [hasActiveFilters, setHasActiveFilters] = useState(false);
+    const [sortOrder, setSortOrder] = useState("newest");
     const itemsPerPage = 50; // Show 50 properties per page
 
     const [searchFilters, setSearchFilters] = useState({
@@ -54,6 +55,63 @@ const PropertyCard = ({ cards }) => {
         if (Array.isArray(payload?.results)) return payload.results;
         if (Array.isArray(payload?.items)) return payload.items;
         return [];
+    };
+
+    const toNumber = (value) => {
+        if (value === null || value === undefined || value === "") return 0;
+        if (typeof value === "number") return Number.isFinite(value) ? value : 0;
+        const normalized = String(value).replace(/,/g, "").trim();
+        const parsed = Number(normalized);
+        return Number.isFinite(parsed) ? parsed : 0;
+    };
+
+    const getPropertyPrice = (property) => {
+        return toNumber(property?.expected_price ?? property?.price ?? property?.amount);
+    };
+
+    const getPropertyArea = (property) => {
+        return toNumber(property?.super_area ?? property?.carpet_area ?? property?.size);
+    };
+
+    const getPropertyCreatedTime = (property) => {
+        const dateCandidates = [
+            property?.created_at,
+            property?.published_date,
+            property?.updated_at,
+            property?.createdAt,
+            property?.posted_on,
+        ];
+
+        for (const candidate of dateCandidates) {
+            if (!candidate) continue;
+            const time = new Date(candidate).getTime();
+            if (Number.isFinite(time) && time > 0) return time;
+        }
+
+        // Fallback to id so latest ids still appear first when date is missing.
+        return toNumber(property?.id ?? property?._id);
+    };
+
+    const sortProperties = (properties, order) => {
+        const sorted = [...properties];
+
+        switch (order) {
+            case "price_low":
+                sorted.sort((a, b) => getPropertyPrice(a) - getPropertyPrice(b));
+                break;
+            case "price_high":
+                sorted.sort((a, b) => getPropertyPrice(b) - getPropertyPrice(a));
+                break;
+            case "area":
+                sorted.sort((a, b) => getPropertyArea(b) - getPropertyArea(a));
+                break;
+            case "newest":
+            default:
+                sorted.sort((a, b) => getPropertyCreatedTime(b) - getPropertyCreatedTime(a));
+                break;
+        }
+
+        return sorted;
     };
 
     // Hydrate initial filters from hero-page redirect query params.
@@ -122,12 +180,12 @@ const PropertyCard = ({ cards }) => {
             console.log("📦 Properties received:", properties.length, "| Has filters:", hasActiveFilters);
             applyClientSideFilters();
         }
-    }, [currentData, searchFilters, sidebarFilters, hasActiveFilters]);
+    }, [currentData, searchFilters, sidebarFilters, hasActiveFilters, sortOrder]);
 
     // Reset to page 1 when filters change
     useEffect(() => {
         setCurrentPage(1);
-    }, [searchFilters, sidebarFilters]);
+    }, [searchFilters, sidebarFilters, sortOrder]);
 
     // Check if filters should trigger API call
     useEffect(() => {
@@ -290,6 +348,9 @@ const PropertyCard = ({ cards }) => {
             console.log("After additional search filter:", result.length);
         }
 
+        result = sortProperties(result, sortOrder);
+        console.log("After sorting:", result.length, "| Order:", sortOrder);
+
         console.log("✨ Final filtered count:", result.length);
         setFilteredProperties(result);
     };
@@ -433,7 +494,11 @@ const PropertyCard = ({ cards }) => {
 
                     {/* Sort Options */}
                     <div className="flex items-center gap-3">
-                        <select className="bg-[#F5EFE7]/10 border border-[#F5EFE7]/20 rounded-xl px-4 py-2.5 text-sm font-medium text-[#F5EFE7] focus:outline-none focus:border-[#C6A256] cursor-pointer backdrop-blur-sm">
+                        <select
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                            className="bg-[#F5EFE7]/10 border border-[#F5EFE7]/20 rounded-xl px-4 py-2.5 text-sm font-medium text-[#F5EFE7] focus:outline-none focus:border-[#C6A256] cursor-pointer backdrop-blur-sm"
+                        >
                             <option value="newest" className="bg-[#212121]">Newest First</option>
                             <option value="price_low" className="bg-[#212121]">Price: Low to High</option>
                             <option value="price_high" className="bg-[#212121]">Price: High to Low</option>
