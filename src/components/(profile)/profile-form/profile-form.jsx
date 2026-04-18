@@ -41,7 +41,7 @@ const ProfileForm = () => {
     };
 
     const updateLabel = activeTab === 'personal'
-        ? 'Update Profile'
+        ? 'save'
         : activeTab === 'work'
             ? 'Save Changes'
             : 'Update KYC';
