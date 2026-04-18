@@ -196,13 +196,8 @@ export default function Home() {
         <main className="grow">
           <HeroSection />
           <FeaturedProjects />
-         
+         <FounderAwardSection />
           <VideoTestimonialsSection />
-          
-          
-          <FounderAwardSection />
-          
-          
           <ServicesToolsSection />
           <PatnerSection />
           <BlogSection />

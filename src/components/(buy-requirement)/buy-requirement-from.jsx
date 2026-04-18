@@ -10,7 +10,21 @@ import { useSelector } from "react-redux"
 import AuthModal from "@/components/auth/auth-modal"
 
 const validationSchema = Yup.object({
+    requirement_type: Yup.string()
+        .oneOf(["BUY", "RENT"], "Select Buy or Rent")
+        .required("Buy/Rent is required"),
     city: Yup.string().required("City is required"),
+    property_type: Yup.string().required("Property type is required"),
+    bhk: Yup.number()
+        .transform((value, originalValue) => (originalValue === "" ? null : value))
+        .nullable()
+        .integer("BHK must be a whole number")
+        .min(1, "BHK must be at least 1")
+        .when("property_type", {
+            is: (value) => value === "flat" || value === "villa",
+            then: (schema) => schema,
+            otherwise: (schema) => schema.nullable(),
+        }),
     min_price: Yup.number()
         .typeError("Min price must be a number")
         .positive("Min price must be positive")
@@ -32,7 +46,17 @@ const validationSchema = Yup.object({
         .required("Max carpet area is required"),
 });
 
-export default function BuyRequirementForm({ property_type }) {
+const propertyTypeOptions = [
+    { label: "Flat/Apartment", value: "flat" },
+    { label: "Villa", value: "villa" },
+    { label: "Plot", value: "plot" },
+    { label: "Office Space", value: "office_space" },
+    { label: "Shop", value: "shop" },
+    { label: "Showroom", value: "showroom" },
+    { label: "Warehouse", value: "warehouse" },
+]
+
+export default function BuyRequirementForm() {
     const router = useRouter();
     const token = useSelector((state) => state.auth.token);
     const isAuthenticated = !!token;
@@ -43,7 +67,10 @@ export default function BuyRequirementForm({ property_type }) {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            city: "",
+            requirement_type: "BUY",
+            city: "Indore",
+            property_type: "",
+            bhk: "",
             min_price: "",
             max_price: "",
             possession_status: "",
@@ -60,7 +87,19 @@ export default function BuyRequirementForm({ property_type }) {
             }
 
             try {
-                await addBuyRequirement({ ...values, property_type }).unwrap();
+                const payload = {
+                    requirement_type: values.requirement_type,
+                    city: values.city,
+                    property_type: values.property_type,
+                    bhk: values.bhk ? Number(values.bhk) : null,
+                    min_price: Number(values.min_price),
+                    max_price: Number(values.max_price),
+                    min_carpet_area: Number(values.min_carpet_area),
+                    max_carpet_area: Number(values.max_carpet_area),
+                    possession_status: values.possession_status,
+                };
+
+                await addBuyRequirement(payload).unwrap();
                 toast.success("Buy requirement submitted successfully!");
                 formik.resetForm();
                 router.push("/my-buy-requirement");
@@ -89,15 +128,49 @@ export default function BuyRequirementForm({ property_type }) {
         return () => window.removeEventListener("resume-form-submit", handleResumeSubmit);
     }, [pendingSubmit, isAuthenticated]);
 
+    const showBhkField = formik.values.property_type === "flat" || formik.values.property_type === "villa";
+
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="max-w-4xl mx-auto bg-gradient-to-b from-[#212121] to-[#212121] rounded-lg shadow-lg p-6">
+        <div className="bg-black">
+        <div className="container mx-auto px-4 py-8 bg-black">
+            <div className="max-w-4xl mx-auto bg-[#212121] rounded-lg shadow-lg p-6">
                 <form onSubmit={formik.handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
 
                         <div className="md:col-span-12">
-                            <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#212121]">Basic Information</h2>
+                            <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D]">Basic Information</h2>
+                        </div>
+
+                        <div className="md:col-span-12">
+                            <p className="block text-sm font-medium text-[#F5EFE7] mb-2">Requirement For*</p>
+                            <div className="flex flex-wrap gap-6">
+                                <label className="inline-flex items-center gap-2 text-[#F5EFE7]">
+                                    <input
+                                        type="radio"
+                                        name="requirement_type"
+                                        value="BUY"
+                                        checked={formik.values.requirement_type === "BUY"}
+                                        onChange={formik.handleChange}
+                                        className="accent-[#C6A256]"
+                                    />
+                                    Buy
+                                </label>
+                                <label className="inline-flex items-center gap-2 text-[#F5EFE7]">
+                                    <input
+                                        type="radio"
+                                        name="requirement_type"
+                                        value="RENT"
+                                        checked={formik.values.requirement_type === "RENT"}
+                                        onChange={formik.handleChange}
+                                        className="accent-[#C6A256]"
+                                    />
+                                    Rent
+                                </label>
+                            </div>
+                            {formik.touched.requirement_type && formik.errors.requirement_type && (
+                                <div className="text-[#C6A256] text-xs mt-1">{formik.errors.requirement_type}</div>
+                            )}
                         </div>
 
                         <div className="md:col-span-6">
@@ -108,7 +181,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="text"
                                 id="city"
                                 name="city"
-                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.city && formik.errors.city ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${formik.touched.city && formik.errors.city ? "border-[#C6A256]" : "border-[#3A3A3D]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter city name"
                                 {...formik.getFieldProps("city")}
@@ -119,16 +192,48 @@ export default function BuyRequirementForm({ property_type }) {
                         </div>
 
                         <div className="md:col-span-6">
-                            <label htmlFor="propertyType" className="block text-sm font-medium text-[#F5EFE7] mb-1">
+                            <label htmlFor="property_type" className="block text-sm font-medium text-[#F5EFE7] mb-1">
                                 Property Type*
                             </label>
-                            <input
-                                type="text"
-                                className={`w-full px-3 py-2 bg-[#504e4e] border border-[#212121] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
-                                disabled
-                                value={property_type}
-                            />
+                            <select
+                                id="property_type"
+                                name="property_type"
+                                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${formik.touched.property_type && formik.errors.property_type ? "border-[#C6A256]" : "border-[#3A3A3D]"
+                                    } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
+                                {...formik.getFieldProps("property_type")}
+                            >
+                                <option value="">Select property type</option>
+                                {propertyTypeOptions.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                            {formik.touched.property_type && formik.errors.property_type && (
+                                <div className="text-[#C6A256] text-xs mt-1">{formik.errors.property_type}</div>
+                            )}
                         </div>
+
+                        {showBhkField && (
+                            <div className="md:col-span-6">
+                                <label htmlFor="bhk" className="block text-sm font-medium text-[#F5EFE7] mb-1">
+                                    BHK (Optional)
+                                </label>
+                                <input
+                                    type="number"
+                                    id="bhk"
+                                    name="bhk"
+                                    min="1"
+                                    className={`w-full px-3 py-2 bg-[#1A1A1C] border ${formik.touched.bhk && formik.errors.bhk ? "border-[#C6A256]" : "border-[#3A3A3D]"
+                                        } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
+                                    placeholder="Enter BHK"
+                                    {...formik.getFieldProps("bhk")}
+                                />
+                                {formik.touched.bhk && formik.errors.bhk && (
+                                    <div className="text-[#C6A256] text-xs mt-1">{formik.errors.bhk}</div>
+                                )}
+                            </div>
+                        )}
 
                         <div className="md:col-span-6">
                             <label htmlFor="min_price" className="block text-sm font-medium text-[#F5EFE7] mb-1">
@@ -138,7 +243,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="number"
                                 id="min_price"
                                 name="min_price"
-                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.min_price && formik.errors.min_price ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${formik.touched.min_price && formik.errors.min_price ? "border-[#C6A256]" : "border-[#3A3A3D]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter minimum price"
                                 {...formik.getFieldProps("min_price")}
@@ -156,7 +261,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="number"
                                 id="max_price"
                                 name="max_price"
-                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.max_price && formik.errors.max_price ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${formik.touched.max_price && formik.errors.max_price ? "border-[#C6A256]" : "border-[#3A3A3D]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter maximum price"
                                 {...formik.getFieldProps("max_price")}
@@ -174,7 +279,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="number"
                                 id="min_carpet_area"
                                 name="min_carpet_area"
-                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.min_carpet_area && formik.errors.min_carpet_area ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${formik.touched.min_carpet_area && formik.errors.min_carpet_area ? "border-[#C6A256]" : "border-[#3A3A3D]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter minimum carpet area"
                                 {...formik.getFieldProps("min_carpet_area")}
@@ -192,7 +297,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="number"
                                 id="max_carpet_area"
                                 name="max_carpet_area"
-                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.max_carpet_area && formik.errors.max_carpet_area ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${formik.touched.max_carpet_area && formik.errors.max_carpet_area ? "border-[#C6A256]" : "border-[#3A3A3D]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter maximum carpet area"
                                 {...formik.getFieldProps("max_carpet_area")}
@@ -209,15 +314,15 @@ export default function BuyRequirementForm({ property_type }) {
                             <select
                                 id="possession_status"
                                 name="possession_status"
-                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.possession_status && formik.errors.possession_status
+                                className={`w-full px-3 py-2 bg-[#1A1A1C] border ${formik.touched.possession_status && formik.errors.possession_status
                                     ? "border-[#C6A256]"
-                                    : "border-[#212121]"
+                                    : "border-[#3A3A3D]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 {...formik.getFieldProps("possession_status")}
                             >
                                 <option value="">Select Status</option>
-                                <option value="ready-to-move">Ready to Move</option>
-                                <option value="under_construction">Under Construction</option>
+                                <option value="READY_TO_MOVE">Ready to Move</option>
+                                <option value="UNDER_CONSTRUCTION">Under Construction</option>
                             </select>
                             {formik.touched.possession_status && formik.errors.possession_status && (
                                 <div className="text-[#C6A256] text-xs mt-1">{formik.errors.possession_status}</div>
@@ -229,7 +334,7 @@ export default function BuyRequirementForm({ property_type }) {
                             <button
                                 disabled={isLoading}
                                 type="submit"
-                                className="w-full bg-[#5f5d5d] hover:bg-[#8f8e8e] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
+                                className="w-full bg-[#1A1A1C] hover:bg-[#27272a] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isLoading ? (
                                     <div className="animate-spin">
@@ -248,6 +353,7 @@ export default function BuyRequirementForm({ property_type }) {
                 onClose={() => setShowAuthModal(false)}
                 initialTab="sendOtp"
             />
+        </div>
         </div>
     )
 }

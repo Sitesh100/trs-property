@@ -5,7 +5,6 @@ import ProfileFormKyc from "./profile-form-kyc";
 import ProfileFormWork from "./profile-form-work";
 import { useSelector } from "react-redux";
 import AgentDigitalCard from "../agent-digital-card";
-import BuilderDigitalCard from "../builder-digital-card";
 import { Edit2, X, Save } from "lucide-react";
 
 const ProfileForm = () => {
@@ -20,7 +19,6 @@ const ProfileForm = () => {
     const role = (user?.role || '').toLowerCase();
     const canViewExtraSections = role === 'agent' || role === 'builder';
     const isAgent = role === 'agent';
-    const isBuilder = role === 'builder';
 
     useEffect(() => {
         if (!canViewExtraSections && activeTab !== 'personal') {
@@ -89,7 +87,6 @@ const ProfileForm = () => {
                 </div>
 
                 {isAgent && <AgentDigitalCard />}
-                {isBuilder && <BuilderDigitalCard />}
 
                 <div className="flex flex-wrap gap-2 border-b border-[#212121]/15 mb-6 pb-2">
                     <button

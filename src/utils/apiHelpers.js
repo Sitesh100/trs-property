@@ -140,7 +140,6 @@ export const formatPriceShort = (price) => {
 export const PROPERTY_TYPES = {
     flat: 'Flat',
     villa: 'Villa',
-    builder_floor: 'Builder Floor',
     plot: 'Plot',
     office: 'Office',
     shop: 'Shop',

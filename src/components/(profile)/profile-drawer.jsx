@@ -29,17 +29,12 @@ export default function ProfileDrawer({ onLogout, user }) {
 
     const agentMenuItems = [
         { name: "Profile", url: '/agent/profile' },
-        // { name: "Post Property Free", url: '/agent/post-property' },
-        // { name: "Post Buy Requirement", url: '/agent/post-buy-requirement' },
-        // { name: "My Buy Requirements", url: '/agent/my-buy-requirements' },
-        // { name: "My Properties", url: '/agent/my-property' },
-        // { name: "Match Making", url: '/agent/match-making' },
         { name: "my dashboard", url: '/agent/leads' },
     ];
 
     const builderMenuItems = [
         { name: "Profile", url: '/builder/profile' },
-        { name: "Analytics", url: '/builder/analytics' },
+        { name: "My Dashboard", url: '/builder/analytics' },
     ];
 
     const menuItems = isBuilderRole ? builderMenuItems : isAgentRole ? agentMenuItems : customerMenuItems;

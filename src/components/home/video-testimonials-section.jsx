@@ -99,7 +99,7 @@ const VIDEO_TESTIMONIALS = [
 
 const STATS = [
   { value: "500+", label: "Happy Clients" },
-  { value: "20+", label: "Years Experience" },
+  { value: "25+", label: "Years Experience" },
   { value: "1000+", label: "Properties Sold" },
   { value: "98%", label: "Satisfaction Rate" },
 ]

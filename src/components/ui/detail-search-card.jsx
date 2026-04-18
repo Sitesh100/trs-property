@@ -1,5 +1,5 @@
 "use client";
-import { Bath, Bed, Heart, MapPin, Square, Edit, Trash, Loader, Phone } from 'lucide-react';
+import { Heart, MapPin, Square, Edit, Trash, Loader, Phone } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import { motion } from "framer-motion";
@@ -37,6 +37,12 @@ function DetailSearchCard({ property, action = false }) {
     };
 
     const isFavorite = property?.is_favorited === true || property?.is_favorite === true;
+    const locationText = (property?.map_address || property?.map_location || property?.city)
+        ? (property?.map_address || property?.map_location || property?.city)
+        : 'N/A';
+    const areaText = isValueMissing(property?.super_area || property?.carpet_area)
+        ? 'N/A'
+        : `${property?.super_area || property?.carpet_area} sq ft`;
 
     // Support both old API (images/image_ids array) and new API (image string with comma-separated URLs)
     const firstImage = property?.image || property?.image_ids?.[0] || property?.images?.[0];
@@ -107,10 +113,10 @@ function DetailSearchCard({ property, action = false }) {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="group bg-white rounded-2xl overflow-hidden p-2 md:p-3 shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-[#C6A256]/40"
+            className="group bg-white rounded-2xl overflow-hidden p-3 shadow-[0_8px_30px_rgba(15,23,42,0.08)] hover:shadow-[0_14px_40px_rgba(15,23,42,0.14)] transition-all duration-300 border border-[#E7EBF2] hover:border-[#C6A256]/35"
         >
             <div className="relative">
-                <div className="relative w-full h-[200px] rounded-2xl overflow-hidden">
+                <div className="relative w-full h-52 rounded-xl overflow-hidden">
                     <Image
                         src={imgSrc}
                         alt={property?.title || "Property"}
@@ -118,11 +124,11 @@ function DetailSearchCard({ property, action = false }) {
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                         onError={() => setImgSrc("/assets/images/detail/image4.jpg")}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent z-10" />
                 </div>
 
                 <div className="absolute top-3 left-3 z-20">
-                    <span className="bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
+                    <span className="bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
                         {formatValue(property?.possession_status)?.replace(/_/g, ' ')?.replace(/\b\w/g, (c) => c.toUpperCase())}
                     </span>
                 </div>
@@ -138,33 +144,34 @@ function DetailSearchCard({ property, action = false }) {
                 </button>
             </div>
 
-            <div className="p-4 md:p-4">
+            <div className="p-3 md:p-4">
                 <Link href={`/property-detail-dark/${property?._id || property?.id}`} className="block">
                     <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-xl md:text-lg font-bold text-gray-900 line-clamp-1 group-hover:text-[#C6A256] transition-colors">
+                        <h3 className="text-lg md:text-lg font-semibold text-[#0F172A] line-clamp-1 group-hover:text-[#C6A256] transition-colors">
                             {property?.title ? property?.title?.split(' ')?.slice(0, 4)?.join(' ') : 'N/A'}
                         </h3>
-                        <p className="text-xl md:text-lg font-bold text-gray-900 text-nowrap">
+                        <p className="text-lg md:text-lg font-bold text-[#111827] text-nowrap bg-[#F8FAFC] border border-[#E5E7EB] px-3 py-1 rounded-lg">
                             ₹ {formatIndianPrice(property?.expected_price ?? property?.price)} <span className="text-sm text-gray-500"></span>
                         </p>
                     </div>
                 </Link>
 
-                <div className="flex items-center justify-between gap-2 md:gap-3 mb-2">
+                <div className="flex items-center justify-between gap-2 md:gap-3 mb-1">
                     <div className="flex items-center text-gray-600 text-sm md:text-sm min-w-0 flex-1">
                         <MapPin className="h-4 w-4 mr-1.5 text-[#C6A256] shrink-0" />
-                        <span className="truncate">
-                            {(property?.map_address || property?.map_location || property?.city)
-                                ? (property?.map_address || property?.map_location || property?.city)?.split(' ')?.slice(0, 4)?.join(' ')
-                                : 'N/A'}
+                        <span className="truncate text-[#475569]">
+                            {locationText}
                         </span>
+                        <span className="mx-2 text-[#CBD5E1]">|</span>
+                        <Square className="h-3.5 w-3.5 mr-1 text-[#C6A256] shrink-0" />
+                        <span className="text-[#334155] font-medium whitespace-nowrap">{areaText}</span>
                     </div>
 
                     {!action ? (
                         <button
                             onClick={(e) => handleSendNotification(e, property?.id, property?.title)}
                             disabled={isLoading}
-                            className="group/btn cursor-pointer relative overflow-hidden flex justify-center items-center gap-1.5 md:gap-1.5 min-w-24 md:min-w-24 bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-xs md:text-xs font-semibold px-4 md:px-4 py-2 md:py-2 text-nowrap rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(198,162,86,0.5)]"
+                            className="group/btn cursor-pointer relative overflow-hidden flex justify-center items-center gap-1.5 md:gap-1.5 min-w-24 md:min-w-24 bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-xs md:text-xs font-semibold px-4 md:px-4 py-2 md:py-2 text-nowrap rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(198,162,86,0.5)]"
                         >
                             {isLoading ? (
                                 <Loader size={16} className="animate-spin relative z-10" />
@@ -174,15 +181,14 @@ function DetailSearchCard({ property, action = false }) {
                                     <span className="relative z-10 transition-colors duration-300 group-hover/btn:text-white">CALL NOW</span>
                                 </>
                             )}
-                            <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 rounded-full"></div>
+                            <div className="absolute inset-0 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 rounded-full"></div>
                         </button>
                     ) : (
                         <div className="flex space-x-2 relative shrink-0">
                             <Link
                                 href={{
-                                    pathname: "/post-property/residential/apartment",
+                                    pathname: "/post-property",
                                     query: {
-                                        edit: "true",
                                         id: property?.id,
                                     },
                                 }}
@@ -227,35 +233,6 @@ function DetailSearchCard({ property, action = false }) {
                         </div>
                     )}
                 </div>
-
-                <div className="border-t border-gray-100 pt-3 md:pt-3 mt-1">
-                    <div className="flex items-center space-x-4 md:space-x-4 text-sm md:text-sm">
-                        <div className="flex items-center gap-1">
-                            <div className="w-7 h-7 bg-[#C6A256]/10 rounded-lg flex items-center justify-center">
-                                <Bed className="h-3.5 w-3.5 text-[#C6A256]" />
-                            </div>
-                            <span className="text-gray-700 font-medium">{formatValue(property?.bedrooms)} Beds</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <div className="w-7 h-7 bg-[#C6A256]/10 rounded-lg flex items-center justify-center">
-                                <Bath className="h-3.5 w-3.5 text-[#C6A256]" />
-                            </div>
-                            <span className="text-gray-700 font-medium">{formatValue(property?.bathrooms)} Baths</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <div className="w-7 h-7 bg-[#C6A256]/10 rounded-lg flex items-center justify-center">
-                                <Square className="h-3.5 w-3.5 text-[#C6A256]" />
-                            </div>
-                            <span className="text-gray-700 font-medium">
-                                {isValueMissing(property?.super_area || property?.carpet_area)
-                                    ? 'N/A'
-                                    : `${property?.super_area || property?.carpet_area} sqft`}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-               
             </div>
         </motion.div>
     );

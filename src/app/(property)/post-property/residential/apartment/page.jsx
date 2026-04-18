@@ -1,11 +1,6 @@
-import ResidentialForm from "@/components/(property)/(post-property)/residential-form"
+import { redirect } from "next/navigation";
 
-export default function ResidentialApartmentPage() {
-  return (
-    <div className="bg-[#212121] text-[#F5EFE7] min-h-screen">
-      <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center">
-        <ResidentialForm property_type="flat" />
-      </div>
-    </div>
-  )
+export default function ResidentialApartmentPage({ searchParams }) {
+  const id = searchParams?.id;
+  redirect(id ? `/post-property?id=${id}` : "/post-property");
 }

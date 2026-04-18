@@ -353,7 +353,7 @@ const AboutPage = () => {
                 real estate consultancy with{" "}
                 {/* <br className="hidden md:block" /> */}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256]">
-                   20+ years
+                   25+ years
                 </span>{" "}
                 of legacy, offering end to end property solutions{" "}
                 {/* <br className="hidden md:block" /> */}

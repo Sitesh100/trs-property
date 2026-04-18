@@ -65,7 +65,7 @@ const ContactPage = () => {
   }
 
   const stats = [
-    { icon: Clock, value: "20+", label: "Years Experience" },
+    { icon: Clock, value: "25+", label: "Years Experience" },
     { icon: Users, value: "1000+", label: "Happy Clients" },
     { icon: Globe, value: "Pan India", label: "Consulting" },
     { icon: CheckCircle, value: "500+", label: "Projects Completed" },

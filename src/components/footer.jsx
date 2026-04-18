@@ -134,36 +134,6 @@ function Footer() {
         <footer className="bg-[url('/assets/images/bg-black.png')] relative overflow-hidden">
             {/* Top gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-[#121212]/80 to-transparent pointer-events-none"></div>
-            
-            {/* Top Service Buttons */}
-            <div className="fixed hidden right-4 top-24 z-50 md:flex flex-col gap-3">
-                <motion.a
-                    href="tel:9111655111"
-                    aria-label="Call for Home Loans"
-                    title="Home Loans"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-14 h-14 rounded-full bg-white border flex items-center justify-center"
-                >
-                    <Image
-                        src="/assets/icons/Pasted image.png"
-                        alt="Home loan"
-                        width={34}
-                        height={34}
-                        className="h-8 w-10"
-                    />
-                </motion.a>
-                <motion.a
-                    href="tel:9111655111"
-                    aria-label="Call for Legal Services"
-                    title="Legal Services"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-14 h-14 rounded-full bg-white border border-[#121212]/20 flex items-center justify-center shadow-lg mb-5"
-                >
-                    <Scale className="w-7 h-7 text-[#121212]" />
-                </motion.a>
-            </div>
 
             {/* Center Contact Buttons (Old 4) */}
             <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">

@@ -1,11 +1,6 @@
-import CommercialForm from "@/components/(property)/(post-property)/commercial-form"
+import { redirect } from "next/navigation";
 
-export default function CommercialOfficeSpacePage() {
-  return (
-    <div className="bg-[#212121] text-[#F5EFE7] min-h-screen">
-      <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center">
-        <CommercialForm property_type="office" />
-      </div>
-    </div>
-  )
+export default function CommercialOfficeSpacePage({ searchParams }) {
+  const id = searchParams?.id;
+  redirect(id ? `/post-property?id=${id}` : "/post-property");
 }

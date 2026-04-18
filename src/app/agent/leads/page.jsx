@@ -180,14 +180,14 @@ export default function AgentLeadsPage() {
 
                 <div className="flex w-full flex-wrap gap-3 md:w-auto">
                  
-                  <button
+                  {/* <button
                     type="button"
                     onClick={() => setIsAddLeadModalOpen(true)}
                     className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#C6A256]/35 bg-[#C6A256]/18 px-4 py-2.5 text-sm font-medium text-[#E7CB87] transition-colors hover:bg-[#C6A256]/26"
                   >
                     <Plus className="h-4 w-4" />
                     Add Lead
-                  </button>
+                  </button> */}
                   <Link
                     href="/agent/post-property"
                     className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-[#F5EFE7]/18 bg-[#F5EFE7]/7 px-4 py-2.5 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/13"
@@ -198,7 +198,7 @@ export default function AgentLeadsPage() {
                     href="/agent/post-buy-requirements"
                     className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-[#F5EFE7]/18 bg-[#F5EFE7]/7 px-4 py-2.5 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/13"
                   >
-                    Post Buy Requirements
+                    Post Requirements
                   </Link>
                   <Link
                     href="/agent/my-property"

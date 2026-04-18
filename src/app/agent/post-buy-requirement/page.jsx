@@ -1,5 +1,5 @@
-import BuyRequirementMain from "@/components/(buy-requirement)/buy-requirement-main";
+import BuyRequirementForm from "@/components/(buy-requirement)/buy-requirement-from";
 
 export default function AgentPostBuyRequirementPage() {
-    return <BuyRequirementMain />;
+    return <BuyRequirementForm />;
 }
