@@ -1,10 +1,13 @@
 "use client"
+import { useEffect, useState } from "react"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { Loader } from "lucide-react"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { useAddBuyRequirementMutation } from "@/service/buyRequirementApi"
+import { useSelector } from "react-redux"
+import AuthModal from "@/components/auth/auth-modal"
 
 const validationSchema = Yup.object({
     city: Yup.string().required("City is required"),
@@ -31,6 +34,10 @@ const validationSchema = Yup.object({
 
 export default function BuyRequirementForm({ property_type }) {
     const router = useRouter();
+    const token = useSelector((state) => state.auth.token);
+    const isAuthenticated = !!token;
+    const [showAuthModal, setShowAuthModal] = useState(false);
+    const [pendingSubmit, setPendingSubmit] = useState(false);
     const [addBuyRequirement, { isLoading }] = useAddBuyRequirementMutation();
 
     const formik = useFormik({
@@ -45,17 +52,42 @@ export default function BuyRequirementForm({ property_type }) {
         },
         validationSchema,
         onSubmit: async (values) => {
+            if (!isAuthenticated) {
+                toast.error("Please login to submit buy requirement");
+                setPendingSubmit(true);
+                setShowAuthModal(true);
+                return;
+            }
+
             try {
-                const response = await addBuyRequirement({ ...values, property_type }).unwrap();
+                await addBuyRequirement({ ...values, property_type }).unwrap();
                 toast.success("Buy requirement submitted successfully!");
                 formik.resetForm();
                 router.push("/my-buy-requirement");
             } catch (err) {
                 console.error("Buy requirement error:", err);
-                toast.error(err?.data?.detail || err?.data?.message || "Failed to submit buy requirement");
+                if (err?.status === 401 || err?.originalStatus === 401) {
+                    toast.error("Session expired. Please login again.");
+                    setPendingSubmit(true);
+                    setShowAuthModal(true);
+                } else {
+                    toast.error(err?.data?.detail || err?.data?.message || "Failed to submit buy requirement");
+                }
             }
         }
     });
+
+    useEffect(() => {
+        const handleResumeSubmit = () => {
+            if (pendingSubmit && isAuthenticated) {
+                setPendingSubmit(false);
+                formik.handleSubmit();
+            }
+        };
+
+        window.addEventListener("resume-form-submit", handleResumeSubmit);
+        return () => window.removeEventListener("resume-form-submit", handleResumeSubmit);
+    }, [pendingSubmit, isAuthenticated]);
 
 
     return (
@@ -76,7 +108,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="text"
                                 id="city"
                                 name="city"
-                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.city && formik.errors.city ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.city && formik.errors.city ? "border-[#C6A256]" : "border-[#212121]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter city name"
                                 {...formik.getFieldProps("city")}
@@ -92,7 +124,7 @@ export default function BuyRequirementForm({ property_type }) {
                             </label>
                             <input
                                 type="text"
-                                className={`w-full px-3 py-2 bg-[#212121] border border-[#212121] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
+                                className={`w-full px-3 py-2 bg-[#504e4e] border border-[#212121] rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 disabled
                                 value={property_type}
                             />
@@ -106,7 +138,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="number"
                                 id="min_price"
                                 name="min_price"
-                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.min_price && formik.errors.min_price ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.min_price && formik.errors.min_price ? "border-[#C6A256]" : "border-[#212121]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter minimum price"
                                 {...formik.getFieldProps("min_price")}
@@ -124,7 +156,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="number"
                                 id="max_price"
                                 name="max_price"
-                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.max_price && formik.errors.max_price ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.max_price && formik.errors.max_price ? "border-[#C6A256]" : "border-[#212121]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter maximum price"
                                 {...formik.getFieldProps("max_price")}
@@ -142,7 +174,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="number"
                                 id="min_carpet_area"
                                 name="min_carpet_area"
-                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.min_carpet_area && formik.errors.min_carpet_area ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.min_carpet_area && formik.errors.min_carpet_area ? "border-[#C6A256]" : "border-[#212121]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter minimum carpet area"
                                 {...formik.getFieldProps("min_carpet_area")}
@@ -160,7 +192,7 @@ export default function BuyRequirementForm({ property_type }) {
                                 type="number"
                                 id="max_carpet_area"
                                 name="max_carpet_area"
-                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.max_carpet_area && formik.errors.max_carpet_area ? "border-[#C6A256]" : "border-[#212121]"
+                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.max_carpet_area && formik.errors.max_carpet_area ? "border-[#C6A256]" : "border-[#212121]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                                 placeholder="Enter maximum carpet area"
                                 {...formik.getFieldProps("max_carpet_area")}
@@ -177,7 +209,7 @@ export default function BuyRequirementForm({ property_type }) {
                             <select
                                 id="possession_status"
                                 name="possession_status"
-                                className={`w-full px-3 py-2 bg-[#212121] border ${formik.touched.possession_status && formik.errors.possession_status
+                                className={`w-full px-3 py-2 bg-[#504e4e] border ${formik.touched.possession_status && formik.errors.possession_status
                                     ? "border-[#C6A256]"
                                     : "border-[#212121]"
                                     } rounded text-[#F5EFE7] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
@@ -197,7 +229,7 @@ export default function BuyRequirementForm({ property_type }) {
                             <button
                                 disabled={isLoading}
                                 type="submit"
-                                className="w-full bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
+                                className="w-full bg-[#5f5d5d] hover:bg-[#8f8e8e] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-10 flex items-center justify-center cursor-pointer"
                             >
                                 {isLoading ? (
                                     <div className="animate-spin">
@@ -211,6 +243,11 @@ export default function BuyRequirementForm({ property_type }) {
                     </div>
                 </form>
             </div>
+            <AuthModal
+                isOpen={showAuthModal}
+                onClose={() => setShowAuthModal(false)}
+                initialTab="sendOtp"
+            />
         </div>
     )
 }
