@@ -47,6 +47,7 @@ export const newRealStateAPI = createApi({
         'customerProfile',
         'favorites',
         'buyRequirements',
+        'requirementMatches',
     ],
     endpoints: () => ({}),
 });

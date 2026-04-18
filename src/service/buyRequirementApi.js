@@ -70,13 +70,67 @@ const buyRequirementApi = newRealStateAPI.injectEndpoints({
 
         // GET /api/customer/buy-requirements/{req_id}/matches - Get matches for a requirement
         getRequirementMatches: build.query({
-            query: (req_id) => `/api/customer/buy-requirements/${req_id}/matches`,
+            async queryFn(req_id, _api, _extraOptions, baseQuery) {
+                const normalizeMatches = (responseData) => {
+                    if (Array.isArray(responseData)) return responseData;
+                    if (Array.isArray(responseData?.data)) return responseData.data;
+                    if (Array.isArray(responseData?.results)) return responseData.results;
+                    if (Array.isArray(responseData?.items)) return responseData.items;
+                    if (Array.isArray(responseData?.matches)) return responseData.matches;
+                    if (Array.isArray(responseData?.matched_properties)) return responseData.matched_properties;
+                    if (Array.isArray(responseData?.data?.results)) return responseData.data.results;
+                    if (Array.isArray(responseData?.data?.items)) return responseData.data.items;
+                    return [];
+                };
+
+                const specificResponse = await baseQuery(`/api/customer/buy-requirements/${req_id}/matches`);
+                if (!specificResponse?.error) {
+                    return { data: normalizeMatches(specificResponse.data) };
+                }
+
+                const errorDetail = specificResponse?.error?.data?.detail;
+                const shouldFallbackToAllMatches =
+                    typeof errorDetail === "string" && errorDetail.includes("min_budget");
+
+                if (!shouldFallbackToAllMatches) {
+                    return specificResponse;
+                }
+
+                const allMatchesResponse = await baseQuery(`/api/customer/buy-requirements/matches/all`);
+                if (allMatchesResponse?.error) {
+                    return specificResponse;
+                }
+
+                const allMatches = normalizeMatches(allMatchesResponse.data);
+                const filteredMatches = allMatches.filter((item) => {
+                    const requirementId =
+                        item?.req_id ??
+                        item?.requirement_id ??
+                        item?.buy_requirement_id ??
+                        item?.requirement?.id;
+
+                    return Number(requirementId) === Number(req_id);
+                });
+
+                return { data: filteredMatches };
+            },
             providesTags: (result, error, req_id) => [{ type: 'requirementMatches', id: req_id }],
         }),
 
         // GET /api/customer/buy-requirements/matches/all - Get all matches for the customer
         getAllRequirementMatches: build.query({
             query: () => `/api/customer/buy-requirements/matches/all`,
+            transformResponse: (response) => {
+                if (Array.isArray(response)) return response;
+                if (Array.isArray(response?.data)) return response.data;
+                if (Array.isArray(response?.results)) return response.results;
+                if (Array.isArray(response?.items)) return response.items;
+                if (Array.isArray(response?.matches)) return response.matches;
+                if (Array.isArray(response?.matched_properties)) return response.matched_properties;
+                if (Array.isArray(response?.data?.results)) return response.data.results;
+                if (Array.isArray(response?.data?.items)) return response.data.items;
+                return [];
+            },
             providesTags: ['requirementMatches'],
         }),
     }),

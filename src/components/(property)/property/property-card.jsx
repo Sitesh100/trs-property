@@ -334,19 +334,10 @@ const PropertyCard = ({ cards }) => {
             console.log("After negotiable filter:", result.length);
         }
 
-        // Additional search query matching (title, project, builder) - since API only searches city
-        if (searchFilters.query?.trim()) {
-            const lowerQuery = searchFilters.query.toLowerCase();
-            result = result.filter((property) =>
-                property?.title?.toLowerCase().includes(lowerQuery) ||
-                property?.city?.toLowerCase().includes(lowerQuery) ||
-                property?.map_location?.toLowerCase().includes(lowerQuery) ||
-                property?.map_address?.toLowerCase().includes(lowerQuery) ||
-                property?.project_name?.toLowerCase().includes(lowerQuery) ||
-                property?.builder_name?.toLowerCase().includes(lowerQuery)
-            );
-            console.log("After additional search filter:", result.length);
-        }
+        // Do not apply a second strict text filter here.
+        // The backend `/properties/search` already handles `search_query` and can match fields
+        // that are not represented in this card (for example description/structured fields).
+        // Re-filtering client-side was hiding valid API results (e.g. "3bhk").
 
         result = sortProperties(result, sortOrder);
         console.log("After sorting:", result.length, "| Order:", sortOrder);

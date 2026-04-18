@@ -2,17 +2,21 @@
 import DetailSearchCard from '../../ui/detail-search-card'
 import PropertySearchBar from '../../ui/property-search-bar';
 import { useGetRequirementMatchesQuery, useGetAllRequirementMatchesQuery } from '@/service/buyRequirementApi';
-import { Loader } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 const PropertyMatchesCard = ({ reqId }) => {
+    const { token } = useSelector((state) => state.auth);
+
     // If reqId is provided, fetch matches for that specific requirement
     // Otherwise, fetch all matches for the customer
     const { data: specificMatchesData, isLoading: isLoadingSpecific, isError: isErrorSpecific } = useGetRequirementMatchesQuery(reqId, {
-        skip: !reqId,
+        skip: !reqId || !token,
+        refetchOnMountOrArgChange: true,
     });
     const { data: allMatchesData, isLoading: isLoadingAll, isError: isErrorAll } = useGetAllRequirementMatchesQuery(undefined, {
-        skip: !!reqId,
+        skip: !!reqId || !token,
+        refetchOnMountOrArgChange: true,
     });
 
     const rawMatchesData = reqId ? specificMatchesData : allMatchesData;
@@ -27,6 +31,10 @@ const PropertyMatchesCard = ({ reqId }) => {
         if (Array.isArray(payload?.data)) return payload.data;
         if (Array.isArray(payload?.results)) return payload.results;
         if (Array.isArray(payload?.items)) return payload.items;
+        if (Array.isArray(payload?.matches)) return payload.matches;
+        if (Array.isArray(payload?.matched_properties)) return payload.matched_properties;
+        if (Array.isArray(payload?.data?.results)) return payload.data.results;
+        if (Array.isArray(payload?.data?.items)) return payload.data.items;
         return [];
     }, []);
 
