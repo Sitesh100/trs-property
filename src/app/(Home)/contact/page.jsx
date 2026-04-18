@@ -100,7 +100,7 @@ const ContactPage = () => {
               src="/assets/images/bg12.jpeg"
               alt="Contact Background"
               fill
-              className="object-cover object-[center_75%]"
+              className="object-cover object-[center_96%]"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-b from-[#212121]/70 via-[#212121]/50 to-[#212121]"></div>
@@ -113,7 +113,7 @@ const ContactPage = () => {
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <motion.h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#F5EFE7] mb-6"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#F5EFE7] mb-6 md:mt-50 mt-10"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}

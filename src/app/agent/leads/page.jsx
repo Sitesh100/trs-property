@@ -179,12 +179,7 @@ export default function AgentLeadsPage() {
                 </div>
 
                 <div className="flex w-full flex-wrap gap-3 md:w-auto">
-                  <Link
-                    href="/agent/profile"
-                    className="inline-flex items-center justify-center rounded-xl border border-[#F5EFE7]/18 bg-[#F5EFE7]/7 px-4 py-2.5 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/13"
-                  >
-                    Edit Profile
-                  </Link>
+                 
                   <button
                     type="button"
                     onClick={() => setIsAddLeadModalOpen(true)}

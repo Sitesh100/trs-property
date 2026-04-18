@@ -196,12 +196,12 @@ export default function BuilderAnalyticsDashboard() {
                                 </div>
 
                                 <div className="flex w-full flex-wrap gap-3 md:w-auto">
-                                    <Link
+                                    {/* <Link
                                         href="/builder/profile"
                                         className="inline-flex items-center justify-center rounded-lg border border-[#F5EFE7]/20 bg-[#F5EFE7]/8 px-4 py-2 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/15"
                                     >
                                         Edit Profile
-                                    </Link>
+                                    </Link> */}
                                     <button
                                         type="button"
                                         onClick={() => setIsAddProjectOpen(true)}
