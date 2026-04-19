@@ -39,8 +39,14 @@ function PropertySearchBar({ onSearch }) {
     { value: "plot", label: "Plot" },
     { value: "showroom", label: "Showroom" },
     { value: "office", label: "Office" },
-    { value: "farmhouse", label: "Farm House" },
+    { value: "farm_house", label: "Farm House" },
+    { value: "project_land", label: "Project Land" },
   ];
+
+  const handlePropertyTypeChange = (e) => {
+    hasUserInteractedRef.current = true;
+    setPropertyType(e.target.value);
+  };
 
   // Fetch city suggestions from API
   const fetchCities = async (query) => {
@@ -258,7 +264,7 @@ function PropertySearchBar({ onSearch }) {
                 <select
                   className="w-full p-3 bg-gray-50 text-gray-900 border border-gray-200 outline-0 rounded-xl appearance-none cursor-pointer hover:bg-gray-100 hover:border-gray-300 transition-all duration-300 focus:bg-gray-100 focus:border-[#C6A256]"
                   value={propertyType}
-                  onChange={(e) => setPropertyType(e.target.value)}
+                  onChange={handlePropertyTypeChange}
                 >
                   <option value="Any" className="bg-white text-gray-900">
                     Choose Property Type

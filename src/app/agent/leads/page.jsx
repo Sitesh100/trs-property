@@ -189,25 +189,25 @@ export default function AgentLeadsPage() {
                     Add Lead
                   </button> */}
                   <Link
-                    href="/agent/post-property"
+                    href="/post-property"
                     className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-[#F5EFE7]/18 bg-[#F5EFE7]/7 px-4 py-2.5 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/13"
                   >
                     Post Property
                   </Link>
                   <Link
-                    href="/agent/post-buy-requirements"
+                    href="/post-buy-requirement"
                     className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-[#F5EFE7]/18 bg-[#F5EFE7]/7 px-4 py-2.5 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/13"
                   >
                     Post Requirements
                   </Link>
                   <Link
-                    href="/agent/my-property"
+                    href="/my-property"
                     className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-[#F5EFE7]/18 bg-[#F5EFE7]/7 px-4 py-2.5 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/13"
                   >
                     My Properties
                   </Link>
                   <Link
-                    href="/agent/match-making"
+                    href="/property-matches"
                     className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-[#F5EFE7]/18 bg-[#F5EFE7]/7 px-4 py-2.5 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/13"
                   >
                     Match Making

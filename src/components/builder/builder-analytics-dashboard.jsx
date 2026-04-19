@@ -204,19 +204,19 @@ export default function BuilderAnalyticsDashboard() {
                                         Add Project
                                     </button>
                                      <Link
-                                        href="/builder/post-property"
+                                        href="/post-property"
                                         className="inline-flex items-center justify-center rounded-lg border border-[#F5EFE7]/20 bg-[#F5EFE7]/8 px-4 py-2 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/15"
                                     >
                                         post property
                                     </Link>
                                      <Link
-                                              href="/agent/post-buy-requirements"
+                                              href="/post-buy-requirement"
                                               className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-[#F5EFE7]/18 bg-[#F5EFE7]/7 px-4 py-2.5 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/13"
                                     >
                                         Post Requirements
                                   </Link>
                                    <Link
-                                          href="/agent/my-property"
+                                          href="/my-property"
                                          className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-[#F5EFE7]/18 bg-[#F5EFE7]/7 px-4 py-2.5 text-sm font-medium text-[#F5EFE7] transition-colors hover:bg-[#F5EFE7]/13"
                                      >
                                        My Properties

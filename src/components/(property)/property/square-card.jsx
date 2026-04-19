@@ -1,9 +1,8 @@
 'use client';
 import Image from 'next/image';
-import Link from 'next/link';
 import React, { useState, useRef, useEffect } from 'react';
 
-const SquareCard = ({ cards }) => {
+const SquareCard = ({ cards, onCardSelect, activeCardTitle = "" }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
@@ -40,12 +39,13 @@ const SquareCard = ({ cards }) => {
             {/* Desktop: grid layout */}
             <div className="hidden md:grid container mx-auto md:grid-cols-5 gap-6 md:px-10 px-5">
                 {cards.map((card, index) => (
-                    <Link
-                        href="/property"
+                    <button
+                        type="button"
+                        onClick={() => onCardSelect?.(card)}
                         key={index}
                         className="w-full h-72 flex flex-col items-center"
                     >
-                        <div className="w-full h-full relative overflow-hidden cursor-pointer rounded-2xl">
+                        <div className={`w-full h-full relative overflow-hidden cursor-pointer rounded-2xl border-2 transition-all duration-300 ${activeCardTitle === card.title ? 'border-[#C6A256] shadow-[0_0_20px_rgba(198,162,86,0.35)]' : 'border-transparent'}`}>
                             <Image
                                 src={card.image}
                                 alt={card.title}
@@ -53,8 +53,8 @@ const SquareCard = ({ cards }) => {
                                 className="object-cover transition-all hover:scale-125 duration-300"
                             />
                         </div>
-                        <h3 className="text-center text-xl font-medium my-5">{card.title}</h3>
-                    </Link>
+                        <h3 className={`text-center text-xl font-medium my-5 transition-colors duration-300 ${activeCardTitle === card.title ? 'text-[#C6A256]' : ''}`}>{card.title}</h3>
+                    </button>
                 ))}
             </div>
 
@@ -71,12 +71,13 @@ const SquareCard = ({ cards }) => {
                         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                     >
                         {cards.map((card, index) => (
-                            <Link
-                                href="/property"
+                            <button
+                                type="button"
+                                onClick={() => onCardSelect?.(card)}
                                 key={index}
                                 className="w-full shrink-0 flex flex-col items-center"
                             >
-                                <div className="w-full h-56 relative overflow-hidden rounded-2xl">
+                                <div className={`w-full h-56 relative overflow-hidden rounded-2xl border-2 transition-all duration-300 ${activeCardTitle === card.title ? 'border-[#C6A256] shadow-[0_0_20px_rgba(198,162,86,0.35)]' : 'border-transparent'}`}>
                                     <Image
                                         src={card.image}
                                         alt={card.title}
@@ -84,8 +85,8 @@ const SquareCard = ({ cards }) => {
                                         className="object-cover"
                                     />
                                 </div>
-                                <h3 className="text-center text-xl font-medium my-4">{card.title}</h3>
-                            </Link>
+                                <h3 className={`text-center text-xl font-medium my-4 transition-colors duration-300 ${activeCardTitle === card.title ? 'text-[#C6A256]' : ''}`}>{card.title}</h3>
+                            </button>
                         ))}
                     </div>
                 </div>

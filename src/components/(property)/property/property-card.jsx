@@ -21,6 +21,8 @@ const PropertyCard = ({ cards }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [hasActiveFilters, setHasActiveFilters] = useState(false);
     const [sortOrder, setSortOrder] = useState("newest");
+    const [selectedCardTitle, setSelectedCardTitle] = useState("");
+    const [cardSelectedTypes, setCardSelectedTypes] = useState([]);
     const itemsPerPage = 50; // Show 50 properties per page
 
     const [searchFilters, setSearchFilters] = useState({
@@ -44,6 +46,51 @@ const PropertyCard = ({ cards }) => {
         if (normalized === "rent") return "rent";
         if (normalized === "project") return "project";
         return normalized;
+    };
+
+    const supportsBedBathFilters = (propertyType) => {
+        const normalizedType = String(propertyType || "").trim().toLowerCase();
+        return normalizedType === "flat" || normalizedType === "villa";
+    };
+
+    const normalizePropertyTypeKey = (value) => {
+        const normalized = String(value || "")
+            .trim()
+            .toLowerCase()
+            .replace(/&/g, "and")
+            .replace(/[^a-z0-9]+/g, "_")
+            .replace(/^_+|_+$/g, "");
+
+        if (normalized === "apartment") return "flat";
+        if (normalized === "apartments") return "flat";
+        if (normalized === "flats") return "flat";
+        if (normalized === "flat_apartment") return "flat";
+        if (normalized === "apartment_flat") return "flat";
+        if (normalized === "farmhouse") return "farm_house";
+        if (normalized === "farm_house_land") return "farm_house";
+        if (normalized === "project_lands") return "project_land";
+        if (normalized === "projectland") return "project_land";
+        if (normalized === "villas") return "villa";
+        if (normalized === "villa_house") return "villa";
+        if (normalized === "house_villa") return "villa";
+        if (normalized === "offices") return "office";
+        if (normalized === "show_room") return "showroom";
+
+        if (normalized.includes("villa")) return "villa";
+        return normalized;
+    };
+
+    const getEffectivePropertyTypes = () => {
+        if (sidebarFilters.property_type !== "Any") {
+            return [normalizePropertyTypeKey(sidebarFilters.property_type)];
+        }
+        if (searchFilters.propertyType !== "Any") {
+            return [normalizePropertyTypeKey(searchFilters.propertyType)];
+        }
+        if (cardSelectedTypes.length) {
+            return cardSelectedTypes.map((type) => normalizePropertyTypeKey(type));
+        }
+        return [];
     };
 
     const extractProperties = (payload) => {
@@ -125,12 +172,13 @@ const PropertyCard = ({ cards }) => {
         const paramBathrooms = searchParams.get('bathrooms') || "Any";
         const paramPossessionStatus = searchParams.get('possession_status') || "Any";
         const paramNegotiable = searchParams.get('is_price_negotiable') || "Any";
+        const allowBedBathFromParams = supportsBedBathFilters(paramPropertyType);
 
         const hasPriceRangeParams = Number.isFinite(paramPriceMinPct) && Number.isFinite(paramPriceMaxPct);
         const hasAdvancedParams =
             hasPriceRangeParams ||
-            paramBedrooms !== "Any" ||
-            paramBathrooms !== "Any" ||
+            (allowBedBathFromParams && paramBedrooms !== "Any") ||
+            (allowBedBathFromParams && paramBathrooms !== "Any") ||
             paramPossessionStatus !== "Any" ||
             paramNegotiable !== "Any";
 
@@ -152,8 +200,8 @@ const PropertyCard = ({ cards }) => {
                 ...prev,
                 property_type: paramPropertyType,
                 priceRange: hasPriceRangeParams ? [paramPriceMinPct, paramPriceMaxPct] : prev.priceRange,
-                bedrooms: paramBedrooms,
-                bathrooms: paramBathrooms,
+                bedrooms: allowBedBathFromParams ? paramBedrooms : "Any",
+                bathrooms: allowBedBathFromParams ? paramBathrooms : "Any",
                 possession_status: paramPossessionStatus,
                 is_price_negotiable: paramNegotiable,
             }));
@@ -161,8 +209,8 @@ const PropertyCard = ({ cards }) => {
             setSidebarFilters((prev) => ({
                 ...prev,
                 priceRange: hasPriceRangeParams ? [paramPriceMinPct, paramPriceMaxPct] : prev.priceRange,
-                bedrooms: paramBedrooms,
-                bathrooms: paramBathrooms,
+                bedrooms: "Any",
+                bathrooms: "Any",
                 possession_status: paramPossessionStatus,
                 is_price_negotiable: paramNegotiable,
             }));
@@ -208,14 +256,11 @@ const PropertyCard = ({ cards }) => {
         }
 
         // Property type - prioritize sidebar filter over search bar filter
-        const propertyType = sidebarFilters.property_type !== "Any" 
-            ? sidebarFilters.property_type 
-            : searchFilters.propertyType !== "Any" 
-            ? searchFilters.propertyType 
-            : null;
+        const effectivePropertyTypes = getEffectivePropertyTypes();
+        const canApplyBedBathFilters = effectivePropertyTypes.length === 1 && supportsBedBathFilters(effectivePropertyTypes[0]);
 
-        if (propertyType) {
-            apiFilters.property_type = propertyType;
+        if (effectivePropertyTypes.length === 1) {
+            apiFilters.property_type = effectivePropertyTypes[0];
             hasAPIFilters = true;
         }
 
@@ -231,14 +276,14 @@ const PropertyCard = ({ cards }) => {
         }
 
         // Bedrooms filter
-        if (sidebarFilters.bedrooms && sidebarFilters.bedrooms !== "Any") {
+        if (canApplyBedBathFilters && sidebarFilters.bedrooms && sidebarFilters.bedrooms !== "Any") {
             const bedroomValue = sidebarFilters.bedrooms === "5+" ? 5 : parseInt(sidebarFilters.bedrooms);
             apiFilters.bedrooms = bedroomValue;
             hasAPIFilters = true;
         }
 
         // Bathrooms filter
-        if (sidebarFilters.bathrooms && sidebarFilters.bathrooms !== "Any") {
+        if (canApplyBedBathFilters && sidebarFilters.bathrooms && sidebarFilters.bathrooms !== "Any") {
             const bathroomValue = sidebarFilters.bathrooms === "5+" ? 5 : parseInt(sidebarFilters.bathrooms);
             apiFilters.bathrooms = bathroomValue;
             hasAPIFilters = true;
@@ -296,6 +341,26 @@ const PropertyCard = ({ cards }) => {
 
         let result = [...sourceProperties];
         console.log("📊 Starting with:", result.length, "properties");
+        const effectivePropertyTypes = getEffectivePropertyTypes();
+        const canApplyBedBathFilters = effectivePropertyTypes.length === 1 && supportsBedBathFilters(effectivePropertyTypes[0]);
+
+        if (effectivePropertyTypes.length) {
+            const allowedTypes = new Set(effectivePropertyTypes);
+            result = result.filter((property) => {
+                const propertyTypeCandidates = [
+                    property?.property_type,
+                    property?.type,
+                    property?.propertyType,
+                    property?.category,
+                    property?.sub_type,
+                ];
+                return propertyTypeCandidates.some((candidate) => {
+                    const normalizedCandidate = normalizePropertyTypeKey(candidate);
+                    return normalizedCandidate && allowedTypes.has(normalizedCandidate);
+                });
+            });
+            console.log("After card/property type filter:", result.length, "| Types:", effectivePropertyTypes.join(","));
+        }
 
         // Active tab (buy/rent/project) - client-side only
         if (searchFilters.activeTab && searchFilters.activeTab !== "" && searchFilters.activeTab !== "reset") {
@@ -310,13 +375,13 @@ const PropertyCard = ({ cards }) => {
         }
 
         // Apply 5+ filter logic for bedrooms (API gives >=5, we need to show all)
-        if (sidebarFilters.bedrooms === "5+") {
+        if (canApplyBedBathFilters && sidebarFilters.bedrooms === "5+") {
             result = result.filter((property) => property?.bedrooms >= 5);
             console.log("After 5+ bedrooms filter:", result.length);
         }
 
         // Apply 5+ filter logic for bathrooms
-        if (sidebarFilters.bathrooms === "5+") {
+        if (canApplyBedBathFilters && sidebarFilters.bathrooms === "5+") {
             result = result.filter((property) => property?.bathrooms >= 5);
             console.log("After 5+ bathrooms filter:", result.length);
         }
@@ -360,6 +425,11 @@ const PropertyCard = ({ cards }) => {
 
         skipInitialEmptySearchRef.current = false;
 
+        if (propertyType !== "Any") {
+            setSelectedCardTitle("");
+            setCardSelectedTypes([]);
+        }
+
         setSearchFilters({
             query,
             propertyType,
@@ -369,7 +439,33 @@ const PropertyCard = ({ cards }) => {
 
     // Handle sidebar filter changes
     const handleSidebarFilterChange = (filters) => {
+        if (filters.property_type !== "Any") {
+            setSelectedCardTitle("");
+            setCardSelectedTypes([]);
+        }
         setSidebarFilters(filters);
+    };
+
+    const handleSquareCardSelect = (card) => {
+        const cardTypes = Array.isArray(card?.filterTypes) ? card.filterTypes : [];
+        const normalizedCardTypes = cardTypes.map((type) => normalizePropertyTypeKey(type));
+
+        setSelectedCardTitle(card?.title || "");
+        setCardSelectedTypes(normalizedCardTypes);
+
+        setSearchFilters((prev) => ({
+            ...prev,
+            propertyType: normalizedCardTypes.length === 1 ? normalizedCardTypes[0] : "Any",
+        }));
+
+        setSidebarFilters((prev) => ({
+            ...prev,
+            property_type: normalizedCardTypes.length === 1 ? normalizedCardTypes[0] : "Any",
+            bedrooms: normalizedCardTypes.length === 1 && supportsBedBathFilters(normalizedCardTypes[0]) ? prev.bedrooms : "Any",
+            bathrooms: normalizedCardTypes.length === 1 && supportsBedBathFilters(normalizedCardTypes[0]) ? prev.bathrooms : "Any",
+        }));
+
+        setCurrentPage(1);
     };
 
     // Get active filter count
@@ -379,8 +475,11 @@ const PropertyCard = ({ cards }) => {
         if (searchFilters.propertyType !== "Any") count++;
         if (searchFilters.activeTab && searchFilters.activeTab !== "" && searchFilters.activeTab !== "reset") count++;
         if (sidebarFilters.property_type !== "Any") count++;
-        if (sidebarFilters.bedrooms !== "Any") count++;
-        if (sidebarFilters.bathrooms !== "Any") count++;
+        if (cardSelectedTypes.length > 0 && searchFilters.propertyType === "Any" && sidebarFilters.property_type === "Any") count++;
+        const effectivePropertyTypes = getEffectivePropertyTypes();
+        const supportsBedBath = effectivePropertyTypes.length === 1 && supportsBedBathFilters(effectivePropertyTypes[0]);
+        if (supportsBedBath && sidebarFilters.bedrooms !== "Any") count++;
+        if (supportsBedBath && sidebarFilters.bathrooms !== "Any") count++;
         if (sidebarFilters.possession_status !== "Any") count++;
         if (sidebarFilters.is_price_negotiable !== "Any") count++;
         if (sidebarFilters.priceRange[0] > 0 || sidebarFilters.priceRange[1] < 100) count++;
@@ -390,6 +489,8 @@ const PropertyCard = ({ cards }) => {
     // Clear all filters
     const clearAllFilters = () => {
         setSearchFilters({ query: "", propertyType: "Any", activeTab: "" });
+        setSelectedCardTitle("");
+        setCardSelectedTypes([]);
         setSidebarFilters({
             property_type: "Any",
             priceRange: [0, 100],
@@ -449,7 +550,7 @@ const PropertyCard = ({ cards }) => {
             <PropertySearchBar onSearch={handleSearchAndFilter} />
             
             {/* Square Cards */}
-            <SquareCard cards={cards} />
+            <SquareCard cards={cards} onCardSelect={handleSquareCardSelect} activeCardTitle={selectedCardTitle} />
             
             {/* Filter Sidebar */}
             <PropertySearchFilterSidebar onFilterChange={handleSidebarFilterChange} />

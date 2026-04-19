@@ -24,6 +24,13 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
 
   const dropdownRef = useRef(null);
 
+  const supportsBedBathFilters = (propertyType) => {
+    const normalizedType = String(propertyType || "").trim().toLowerCase();
+    return normalizedType === "flat" || normalizedType === "villa";
+  };
+
+  const shouldShowBedBathFilters = supportsBedBathFilters(filters.property_type);
+
   useEffect(() => {
     if (!initialFilters) return;
     setFilters((prev) => ({ ...prev, ...initialFilters }));
@@ -34,7 +41,10 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
     { value: "flat", label: "Apartment", icon: Building2 },
     { value: "villa", label: "Villa", icon: Home },
     { value: "plot", label: "Plot", icon: LandPlot },
-    { value: "commercial", label: "Commercial", icon: Store },
+    { value: "office", label: "Office", icon: Store },
+    { value: "showroom", label: "Showroom", icon: Store },
+    { value: "farm_house", label: "Farm House", icon: Home },
+    { value: "project_land", label: "Project Land", icon: LandPlot },
   ];
 
   const possessionStatuses = [
@@ -67,7 +77,24 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
   }, [filters]);
 
   const handleInputChange = (field, value) => {
-    setFilters((prev) => ({ ...prev, [field]: value }));
+    setFilters((prev) => {
+      if (field === "property_type") {
+        const nextFilters = { ...prev, [field]: value };
+        if (!supportsBedBathFilters(value)) {
+          nextFilters.bedrooms = "Any";
+          nextFilters.bathrooms = "Any";
+        }
+        return nextFilters;
+      }
+
+      return { ...prev, [field]: value };
+    });
+
+    if (field === "property_type" && !supportsBedBathFilters(value)) {
+      if (activeDropdown === "bedrooms" || activeDropdown === "bathrooms") {
+        setActiveDropdown(null);
+      }
+    }
   };
 
   const resetFilters = () => {
@@ -96,8 +123,8 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
   const getActiveFiltersCount = () => {
     let count = 0;
     if (filters.property_type !== "Any") count++;
-    if (filters.bedrooms !== "Any") count++;
-    if (filters.bathrooms !== "Any") count++;
+    if (shouldShowBedBathFilters && filters.bedrooms !== "Any") count++;
+    if (shouldShowBedBathFilters && filters.bathrooms !== "Any") count++;
     if (filters.possession_status !== "Any") count++;
     if (filters.is_price_negotiable !== "Any") count++;
     if (filters.priceRange[0] > 0 || filters.priceRange[1] < 100) count++;
@@ -185,7 +212,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
           </div>
 
           {/* Bedrooms */}
-          <div className="relative">
+          {shouldShowBedBathFilters && <div className="relative">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -234,10 +261,10 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </div>}
 
           {/* Bathrooms */}
-          <div className="relative">
+          {shouldShowBedBathFilters && <div className="relative">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -286,7 +313,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </div>}
 
           {/* Budget */}
           <div className="relative">
@@ -557,7 +584,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                   </div>
 
                   {/* Bedrooms & Bathrooms */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {shouldShowBedBathFilters && <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Bedrooms */}
                     <div>
                       <h3 className="text-sm font-semibold text-[#F5EFE7] mb-4 flex items-center gap-2">
@@ -607,7 +634,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </div>}
 
                   {/* Budget Range */}
                   <div>
