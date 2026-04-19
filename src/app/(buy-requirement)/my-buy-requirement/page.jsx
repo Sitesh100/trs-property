@@ -111,12 +111,12 @@ export default function MyBuyRequirement() {
                         </div>
                         <button
                             onClick={handlePostRequirement}
-                            className="bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] flex items-center gap-2 px-6 py-3 rounded-lg font-semibold"
-                        >
-                            <span className="flex items-center gap-2">
-                                <Plus className="w-5 h-5" />
+                            className="bg-gradient-to-r w-40 from-[#C6A256] via-[#C6A256] to-[#C6A256] flex items-center gap-2 md:px-6 px-4 py-1 md:py-3 rounded-lg font-semibold"
+                        ><Plus className="w-5 h-5" />
+                           
+                                
                                 Post New
-                            </span>
+                            
                         </button>
                     </div>
 

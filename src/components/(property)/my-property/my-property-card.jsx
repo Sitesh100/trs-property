@@ -70,12 +70,7 @@ const MyPropertyCard = () => {
                 <div className="flex justify-between my-8 items-center">
                     <h1 className='md:text-3xl text-lg font-bold'>Your Properties on TRS</h1>
                     <div className='flex items-center gap-2'>
-                        <Link
-                            href={"/my-property"}
-                            className={`w-36 mt-6 bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-12 flex items-center justify-center cursor-pointer`}
-                        >
-                            My Property
-                        </Link>
+                       
                         <Link
                             href={"/my-buy-requirement"}
                             className={`w-36 mt-6 bg-[#212121] hover:bg-[#212121] text-[#F5EFE7] font-medium py-2 rounded transition-colors h-12 flex items-center justify-center cursor-pointer`}

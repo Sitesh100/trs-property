@@ -20,7 +20,7 @@ export default function ProfileDrawer({ onLogout, user }) {
         { name: "Profile", url: '/profile' },
         { name: "Post Property Free", url: '/post-property' },
         { name: "Post Requirement Free", url: '/post-buy-requirement' },
-        { name: "Post Buy Requirement", url: '/post-buy-requirement' },
+        // { name: "Post Buy Requirement", url: '/post-buy-requirement' },
         { name: "My Buy Requirements", url: '/my-buy-requirement' },
         { name: "My Properties", url: '/my-property' },
         { name: "My Matches", url: '/property-matches' },

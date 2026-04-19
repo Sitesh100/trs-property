@@ -138,14 +138,14 @@ function Header() {
               <ProfileDrawer onLogout={handlerLogout} user={user} />
             ) : (
               <>
-                <button
+                {/* <button
                   onClick={() => router.push(requirementRoute)}
                   className="golden-button group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-3 py-2 rounded-md text-xs font-semibold whitespace-nowrap border border-[#C6A256]/60 active:scale-95 transition-all duration-200"
                 >
                   <span className="relative z-10 transition-colors duration-300 group-hover:text-[#F5EFE7]">
                     Post Requirement Free
                   </span>
-                </button>
+                </button> */}
                 <button
                   onClick={() => setOpen(true)}
                   className="golden-button group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-4 rounded-md text-sm sm:text-sm font-semibold whitespace-nowrap border border-[#C6A256]/60 active:scale-95 transition-all duration-200"

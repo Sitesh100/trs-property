@@ -171,13 +171,13 @@ function DetailSearchCard({ property, action = false }) {
                         <button
                             onClick={(e) => handleSendNotification(e, property?.id, property?.title)}
                             disabled={isLoading}
-                            className="group/btn cursor-pointer relative overflow-hidden flex justify-center items-center gap-1.5 md:gap-1.5 min-w-24 md:min-w-24 bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-xs md:text-xs font-semibold px-4 md:px-4 py-2 md:py-2 text-nowrap rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(198,162,86,0.5)]"
+                            className="group/btn cursor-pointer relative overflow-hidden flex justify-center items-center gap-1 md:gap-1.5 min-w-20 md:min-w-24 bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-gray-900 text-[11px] md:text-xs font-semibold px-3 md:px-4 py-1.5 md:py-2 text-nowrap rounded-full transition-all duration-300 hover:shadow-[0_0_15px_rgba(198,162,86,0.5)]"
                         >
                             {isLoading ? (
                                 <Loader size={16} className="animate-spin relative z-10" />
                             ) : (
                                 <>
-                                    <Phone className="w-4 h-4 md:w-4 md:h-4 relative z-10 transition-colors duration-300 group-hover/btn:text-white" />
+                                    <Phone className="w-3.5 h-3.5 md:w-4 md:h-4 relative z-10 transition-colors duration-300 group-hover/btn:text-white" />
                                     <span className="relative z-10 transition-colors duration-300 group-hover/btn:text-white">CALL NOW</span>
                                 </>
                             )}

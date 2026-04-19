@@ -105,6 +105,16 @@ function PropertyPropertyDetail({
     { label: "Owner", value: sourceProperty?.owner },
     { label: "Agent Name", value: sourceProperty?.agent_name },
   ];
+  const normalizedPropertyType = String(sourceProperty?.property_type || "")
+    .toLowerCase()
+    .replace(/[_\s-]+/g, " ")
+    .trim();
+  const shouldShowBedBath = ["flat", "villa"].includes(normalizedPropertyType);
+
+  const visibleDetailStats = shouldShowBedBath
+    ? detailStats
+    : detailStats.filter((item) => item.label !== "Bedrooms" && item.label !== "Bathrooms");
+
   const initialRequiredDetails = requiredDetails.slice(0, 6);
   const additionalRequiredDetails = requiredDetails.slice(6);
   const handleDownload = () => {
@@ -232,7 +242,7 @@ function PropertyPropertyDetail({
           <div className="md:col-span-2">
             <div className="bg-[#F5EFE7] rounded-lg p-3 sm:p-4 mb-6 sm:mb-8">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
-                {detailStats.map((item) => {
+                {visibleDetailStats.map((item) => {
                   const Icon = item.icon;
                   return (
                     <div key={item.label} className="flex flex-col items-center text-center">
@@ -249,12 +259,13 @@ function PropertyPropertyDetail({
 
             <div className="mb-6 sm:mb-8">
               <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">About this home</h2>
-              <p className="mb-4 text-sm sm:text-base leading-7">{formatValue(property?.description || property?.nearby_landmarks)}</p>
+              <p className="mb-4 text-sm sm:text-base leading-5">{formatValue(property?.description || property?.nearby_landmarks)}</p>
             </div>
 
             <div className="bg-[#F5EFE7] rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
               <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-6">
                 {/* Logo */}
+                <div className="flex items-center gap-4 w-full md:w-auto"> 
                 <div className="w-20 h-20 sm:w-28 sm:h-28 flex-shrink-0">
                   <Image
                     src="/assets/logo/logo1.png"
@@ -266,7 +277,7 @@ function PropertyPropertyDetail({
                 </div>
 
                 {/* Company Info */}
-                <div className="flex-grow text-center md:text-left">
+                <div className="flex-grow text-left">
                   <h3 className="font-bold text-lg sm:text-xl text-[#212121]">
                     Total Realty Solutions
                   </h3>
@@ -276,6 +287,7 @@ function PropertyPropertyDetail({
                   <p className="text-xs sm:text-sm text-[#212121]/70">
                     Indore, Madhya Pradesh
                   </p>
+                </div>
                 </div>
 
                 {/* Buttons */}

@@ -455,7 +455,7 @@ export default function PostPropertyMain() {
                 <select
                   id="property_type"
                   name="property_type"
-                  className={`w-full px-3 py-2 bg-[#171C24] border ${formik.touched.property_type && formik.errors.property_type ? "border-[#C6A256]" : "border-[#5B6475]"} rounded text-[#F5EFE7] placeholder:text-[#AAB4C5] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
+                  className={`w-full md:px-3 md:py-2 bg-[#171C24] border ${formik.touched.property_type && formik.errors.property_type ? "border-[#C6A256]" : "border-[#5B6475]"} rounded text-[#F5EFE7] placeholder:text-[#AAB4C5] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
                   {...formik.getFieldProps("property_type")}
                 >
                   <option value="">Select property type</option>
@@ -751,8 +751,8 @@ export default function PostPropertyMain() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {propertyFeatures.map((feature, index) => (
-                  <div key={index} className="flex items-center gap-2 bg-[#171C24] px-3 py-1 rounded-full text-sm">
-                    <span>{feature}</span>
+                  <div key={index} className="flex items-center gap-2 bg-[#171C24] border border-[#5B6475] px-3 py-1 rounded-full text-sm text-[#F5EFE7]">
+                    <span className="text-[#F5EFE7]">{feature}</span>
                     <button type="button" onClick={() => removePropertyFeature(index)} className="text-[#C6A256] hover:text-[#C6A256]"><X className="h-4 w-4" /></button>
                   </div>
                 ))}
@@ -777,8 +777,8 @@ export default function PostPropertyMain() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {facilities.map((facility, index) => (
-                  <div key={index} className="flex items-center gap-2 bg-[#171C24] px-3 py-1 rounded-full text-sm">
-                    <span>{facility}</span>
+                  <div key={index} className="flex items-center gap-2 bg-[#171C24] border border-[#5B6475] px-3 py-1 rounded-full text-sm text-[#F5EFE7]">
+                    <span className="text-[#F5EFE7]">{facility}</span>
                     <button type="button" onClick={() => removeFacility(index)} className="text-[#C6A256] hover:text-[#C6A256]"><X className="h-4 w-4" /></button>
                   </div>
                 ))}
@@ -799,8 +799,8 @@ export default function PostPropertyMain() {
                 ))}
 
                 <label className="w-24 h-24 flex flex-col items-center justify-center bg-[#171C24] rounded-lg border border-dashed border-[#5B6475] cursor-pointer hover:bg-[#171C24]">
-                  <Plus className="h-6 w-6 mb-1" />
-                  <span className="text-xs">Add Image</span>
+                  <Plus className="h-6 w-6 mb-1 text-white" />
+                  <span className="text-xs text-white">Add Image</span>
                   <input type="file" className="hidden" accept="image/*" multiple onChange={handleImageUpload} />
                 </label>
               </div>

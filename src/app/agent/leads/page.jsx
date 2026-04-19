@@ -173,7 +173,7 @@ export default function AgentLeadsPage() {
                   </h1>
                   <p className="mt-1 text-sm text-[#F5EFE7]/80">{agentProfile.name}</p>
                   <p className="text-sm text-[#F5EFE7]/80">{agentProfile.email}</p>
-                  <p className="mt-3 max-w-2xl text-sm leading-7 text-[#F5EFE7]/74">
+                  <p className="mt-3 max-w-2xl text-sm leading-5 text-[#F5EFE7]/74">
                     {agentProfile.description}
                   </p>
                 </div>
@@ -251,7 +251,7 @@ export default function AgentLeadsPage() {
                 <h2 className="text-xl font-semibold">Lead Pipeline</h2>
                 <p className="text-sm text-[#F5EFE7]/60">Track local pipeline status while syncing fresh leads to Sell.Do.</p>
               </div>
-              <span className="rounded-full border border-[#C6A256]/35 bg-[#C6A256]/10 px-3 py-1 text-xs text-[#C6A256]">
+              <span className="rounded-full w-36 border border-[#C6A256]/35 bg-[#C6A256]/10 px-3 py-1 text-xs text-[#C6A256]">
                 {totalLeads} Total Leads
               </span>
             </div>
