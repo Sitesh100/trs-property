@@ -1018,9 +1018,7 @@ export default function ResidentialForm({ property_type }) {
               <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Property Features
               </h2>
-              <p className="text-[#F5EFE7] text-sm mb-4">
-                Add property features like Modular Kitchen, Wooden Flooring, etc.
-              </p>
+              
               <div className="flex gap-2 mb-4">
                 <input
                   type="text"
@@ -1061,9 +1059,7 @@ export default function ResidentialForm({ property_type }) {
               <h2 className="text-xl font-bold mb-4 pb-2 border-b border-[#3A3A3D] mt-6">
                 Facilities
               </h2>
-              <p className="text-[#F5EFE7] text-sm mb-4">
-                Add facilities like Swimming Pool, Gym, 24x7 Security, etc.
-              </p>
+             
               <div className="flex gap-2 mb-4">
                 <input
                   type="text"

@@ -78,9 +78,9 @@ const TrsOfficeSection = () => {
               TRS Office Experience
             </span>
             <h2 className="mt-4 text-3xl font-bold leading-tight text-[#F5EFE7] md:text-4xl lg:text-5xl">
-              Inside{" "}
+              TRS Property Mall{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5EFE7] via-[#C6A256] to-[#C6A256]">
-                Our Office
+                Indore Office
               </span>
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#F5EFE7]/76 md:text-base">

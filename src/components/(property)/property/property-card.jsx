@@ -33,6 +33,7 @@ const PropertyCard = ({ cards }) => {
     const [sidebarFilters, setSidebarFilters] = useState({
         property_type: "Any",
         priceRange: [0, 100],
+        areaRange: "Any",
         bedrooms: "Any",
         bathrooms: "Any",
         possession_status: "Any",
@@ -168,6 +169,7 @@ const PropertyCard = ({ cards }) => {
         const paramActiveTab = searchParams.get('activeTab') || searchParams.get('status') || "";
         const paramPriceMinPct = Number(searchParams.get('priceMinPct'));
         const paramPriceMaxPct = Number(searchParams.get('priceMaxPct'));
+        const paramAreaRange = searchParams.get('super_area') || "Any";
         const paramBedrooms = searchParams.get('bedrooms') || "Any";
         const paramBathrooms = searchParams.get('bathrooms') || "Any";
         const paramPossessionStatus = searchParams.get('possession_status') || "Any";
@@ -179,6 +181,7 @@ const PropertyCard = ({ cards }) => {
             hasPriceRangeParams ||
             (allowBedBathFromParams && paramBedrooms !== "Any") ||
             (allowBedBathFromParams && paramBathrooms !== "Any") ||
+            paramAreaRange !== "Any" ||
             paramPossessionStatus !== "Any" ||
             paramNegotiable !== "Any";
 
@@ -200,6 +203,7 @@ const PropertyCard = ({ cards }) => {
                 ...prev,
                 property_type: paramPropertyType,
                 priceRange: hasPriceRangeParams ? [paramPriceMinPct, paramPriceMaxPct] : prev.priceRange,
+                areaRange: paramAreaRange,
                 bedrooms: allowBedBathFromParams ? paramBedrooms : "Any",
                 bathrooms: allowBedBathFromParams ? paramBathrooms : "Any",
                 possession_status: paramPossessionStatus,
@@ -209,6 +213,7 @@ const PropertyCard = ({ cards }) => {
             setSidebarFilters((prev) => ({
                 ...prev,
                 priceRange: hasPriceRangeParams ? [paramPriceMinPct, paramPriceMaxPct] : prev.priceRange,
+                areaRange: paramAreaRange,
                 bedrooms: "Any",
                 bathrooms: "Any",
                 possession_status: paramPossessionStatus,
@@ -272,6 +277,12 @@ const PropertyCard = ({ cards }) => {
             // Convert Crores to Rupees (1 Cr = 10,000,000)
             apiFilters.min_price = minPriceCr * 10000000;
             apiFilters.max_price = maxPriceCr * 10000000;
+            hasAPIFilters = true;
+        }
+
+        // Area filter -> sent as super_area
+        if (sidebarFilters.areaRange && sidebarFilters.areaRange !== "Any") {
+            apiFilters.super_area = parseInt(sidebarFilters.areaRange, 10);
             hasAPIFilters = true;
         }
 
@@ -404,6 +415,15 @@ const PropertyCard = ({ cards }) => {
         // that are not represented in this card (for example description/structured fields).
         // Re-filtering client-side was hiding valid API results (e.g. "3bhk").
 
+        if (sidebarFilters.areaRange && sidebarFilters.areaRange !== "Any") {
+            const minArea = parseInt(sidebarFilters.areaRange, 10);
+            result = result.filter((property) => {
+                const areaValue = toNumber(property?.super_area);
+                return areaValue >= minArea;
+            });
+            console.log("After area filter:", result.length, "| Min super area:", minArea);
+        }
+
         result = sortProperties(result, sortOrder);
         console.log("After sorting:", result.length, "| Order:", sortOrder);
 
@@ -482,6 +502,7 @@ const PropertyCard = ({ cards }) => {
         if (supportsBedBath && sidebarFilters.bathrooms !== "Any") count++;
         if (sidebarFilters.possession_status !== "Any") count++;
         if (sidebarFilters.is_price_negotiable !== "Any") count++;
+        if (sidebarFilters.areaRange !== "Any") count++;
         if (sidebarFilters.priceRange[0] > 0 || sidebarFilters.priceRange[1] < 100) count++;
         return count;
     };
@@ -494,6 +515,7 @@ const PropertyCard = ({ cards }) => {
         setSidebarFilters({
             property_type: "Any",
             priceRange: [0, 100],
+            areaRange: "Any",
             bedrooms: "Any",
             bathrooms: "Any",
             possession_status: "Any",

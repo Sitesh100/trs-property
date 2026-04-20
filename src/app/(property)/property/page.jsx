@@ -9,9 +9,9 @@ import IPhoneBanner from "@/components/ui/i-phone-banner"
 export default function Property() {
 
     const cards = [
+        { image: '/assets/images/project/resi-land.jpeg', title: 'RESIDENTIAL', filterTypes: ['flat'] },
         { image: '/assets/images/property/square1.jpg', title: 'LUXURY VILLAS', filterTypes: ['villa'] },
         { image: '/assets/images/property/square2.jpg', title: 'COMMERCIAL', filterTypes: ['office', 'showroom'] },
-        { image: '/assets/images/project/resi-land.jpeg', title: 'RESIDENTIAL', filterTypes: ['flat'] },
         { image: '/assets/images/project/agri-land.jpg', title: 'FARM / AGRICULTURAL LAND', filterTypes: ['farm_house'] },
         { image: '/assets/images/project/project-land.webp', title: 'PROJECT LANDS', filterTypes: ['project_land'] },
     ];

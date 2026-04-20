@@ -95,6 +95,9 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
                 if (params?.bathrooms !== undefined && params?.bathrooms !== null) {
                     queryParams.append('bathrooms', params.bathrooms);
                 }
+                if (params?.super_area !== undefined && params?.super_area !== null) {
+                    queryParams.append('super_area', params.super_area);
+                }
                 const possessionStatus = normalizePossessionStatus(params?.possession_status);
                 if (possessionStatus) queryParams.append('possession_status', possessionStatus);
                 const negotiableValue = normalizeBooleanParam(params?.is_price_negotiable);

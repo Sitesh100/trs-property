@@ -24,20 +24,80 @@ const propertyTypeOptions = [
   { label: "Showroom", value: "showroom" },
   { label: "Office", value: "office" },
   { label: "Project Land", value: "project_land" },
+  { label: "Farm Land", value: "farm_land" },
+  { label: "Industrial Land", value: "industrial_land" },
   { label: "Farm House", value: "farm_house" },
+  { label: "Others", value: "others" },
 ];
 
-const normalizePropertyType = (type) => {
-  if (!type) return "";
-  if (type === "apartment") return "flat";
-  if (type === "builder") return "builder_floor";
-  return type;
+const propertyTypeValues = new Set(propertyTypeOptions.map((option) => option.value));
+const landPropertyTypes = new Set(["plot", "farm_land", "project_land", "industrial_land"]);
+const singleAreaPropertyTypes = new Set([
+  "plot",
+  "land",
+  "farm_house",
+  "warehouse",
+  "industrial",
+  "industrial_land",
+  "project_land",
+]);
+
+const normalizePropertyTypeValue = (value) => {
+  const normalized = String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+
+  if (normalized === "farmhouse") return "farm_house";
+  if (normalized === "industrial") return "industrial";
+  if (normalized === "projectland" || normalized === "project_lands") return "project_land";
+  return normalized;
+};
+
+const isSingleAreaPropertyType = (propertyType, customPropertyType = "") => {
+  const normalizedPropertyType = normalizePropertyTypeValue(propertyType);
+  if (normalizedPropertyType === "others") {
+    return singleAreaPropertyTypes.has(normalizePropertyTypeValue(customPropertyType));
+  }
+  return singleAreaPropertyTypes.has(normalizedPropertyType);
+};
+
+const getInitialPropertyTypeValues = (type) => {
+  if (!type) {
+    return {
+      property_type: "",
+      custom_property_type: "",
+    };
+  }
+
+  let normalizedType = type;
+  if (type === "apartment") normalizedType = "flat";
+  if (type === "builder") normalizedType = "builder_floor";
+
+  if (propertyTypeValues.has(normalizedType)) {
+    return {
+      property_type: normalizedType,
+      custom_property_type: "",
+    };
+  }
+
+  return {
+    property_type: "others",
+    custom_property_type: type,
+  };
 };
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Property title is required"),
   city: Yup.string().required("City is required"),
   property_type: Yup.string().required("Property type is required"),
+  custom_property_type: Yup.string().when("property_type", {
+    is: "others",
+    then: (schema) => schema.trim().required("Please enter property type"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
   status: Yup.string().oneOf(["Sell", "Rent"]).required("Status is required"),
   project_name: Yup.string().required("Project/Society name is required"),
   expected_price: Yup.number()
@@ -46,9 +106,22 @@ const validationSchema = Yup.object({
   booking_amount: Yup.number().nullable().transform((value, originalValue) => (originalValue === "" ? null : value)).positive("Amount must be positive"),
   is_price_negotiable: Yup.boolean(),
   carpet_area: Yup.number()
-    .required("Carpet area is required")
-    .positive("Area must be positive"),
+    .nullable()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .when(["property_type", "custom_property_type"], {
+      is: (propertyType, customPropertyType) => !isSingleAreaPropertyType(propertyType, customPropertyType),
+      then: (schema) => schema.required("Carpet area is required").positive("Area must be positive"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
   super_area: Yup.number().nullable().transform((value, originalValue) => (originalValue === "" ? null : value)).positive("Area must be positive"),
+  total_area: Yup.number()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .when(["property_type", "custom_property_type"], {
+      is: (propertyType, customPropertyType) => isSingleAreaPropertyType(propertyType, customPropertyType),
+      then: (schema) => schema.required("Total area is required").positive("Area must be positive"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
   bedrooms: Yup.number()
     .transform((value, originalValue) => (originalValue === "" ? null : value))
     .nullable()
@@ -102,6 +175,12 @@ const validationSchema = Yup.object({
     .min(-180, "Invalid longitude")
     .max(180, "Invalid longitude"),
   map_address: Yup.string(),
+  no_of_open_sides: Yup.number()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .integer("Must be a whole number")
+    .min(1, "Minimum value is 1")
+    .max(4, "Maximum value is 4"),
 });
 
 export default function PostPropertyMain() {
@@ -137,6 +216,7 @@ export default function PostPropertyMain() {
       title: "",
       city: "",
       property_type: "",
+      custom_property_type: "",
       status: "Sell",
       project_name: "",
       expected_price: "",
@@ -144,6 +224,7 @@ export default function PostPropertyMain() {
       is_price_negotiable: false,
       carpet_area: "",
       super_area: "",
+      total_area: "",
       bedrooms: "",
       bathrooms: "",
       balconies: "",
@@ -161,6 +242,7 @@ export default function PostPropertyMain() {
       latitude: "",
       longitude: "",
       map_address: "",
+      no_of_open_sides: "",
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -177,11 +259,14 @@ export default function PostPropertyMain() {
           return;
         }
 
-        const showBhkFields = values.property_type === "flat" || values.property_type === "villa";
+        const effectivePropertyType = values.property_type === "others" ? values.custom_property_type.trim() : values.property_type;
+        const showBhkFields = effectivePropertyType === "flat" || effectivePropertyType === "villa";
+        const isSingleAreaType = isSingleAreaPropertyType(values.property_type, values.custom_property_type);
+        const totalAreaValue = isSingleAreaType ? parseFloat(values.total_area) : null;
 
         const propertyPayload = {
           title: values.title,
-          property_type: values.property_type,
+          property_type: effectivePropertyType,
           status: values.status,
           city: values.city,
           project_name: values.project_name,
@@ -189,8 +274,8 @@ export default function PostPropertyMain() {
           expected_price: parseFloat(values.expected_price),
           booking_amount: values.booking_amount ? parseFloat(values.booking_amount) : 0,
           is_price_negotiable: values.is_price_negotiable,
-          carpet_area: parseFloat(values.carpet_area),
-          super_area: values.super_area ? parseFloat(values.super_area) : null,
+          carpet_area: isSingleAreaType ? totalAreaValue : parseFloat(values.carpet_area),
+          super_area: isSingleAreaType ? totalAreaValue : values.super_area ? parseFloat(values.super_area) : null,
           bedrooms: showBhkFields && values.bedrooms !== "" ? parseInt(values.bedrooms, 10) : null,
           bathrooms: showBhkFields && values.bathrooms !== "" ? parseInt(values.bathrooms, 10) : null,
           balconies: showBhkFields && values.balconies !== "" ? parseInt(values.balconies, 10) : null,
@@ -201,6 +286,7 @@ export default function PostPropertyMain() {
           latitude: values.latitude ? parseFloat(values.latitude) : null,
           longitude: values.longitude ? parseFloat(values.longitude) : null,
           map_address: values.map_address || "",
+          no_of_open_sides: values.no_of_open_sides ? parseInt(values.no_of_open_sides, 10) : null,
           property_features: propertyFeatures,
           facilities: facilities,
           property_age: values.property_age ? parseInt(values.property_age, 10) : null,
@@ -254,11 +340,32 @@ export default function PostPropertyMain() {
   }, [formik.values.property_type]);
 
   useEffect(() => {
+    if (!landPropertyTypes.has(formik.values.property_type)) {
+      formik.setFieldValue("no_of_open_sides", "", false);
+    }
+  }, [formik.values.property_type]);
+
+  useEffect(() => {
+    const isSingleAreaType = isSingleAreaPropertyType(formik.values.property_type, formik.values.custom_property_type);
+
+    if (isSingleAreaType) {
+      formik.setFieldValue("carpet_area", "", false);
+      formik.setFieldValue("super_area", "", false);
+      return;
+    }
+
+    formik.setFieldValue("total_area", "", false);
+  }, [formik.values.property_type, formik.values.custom_property_type]);
+
+  useEffect(() => {
     if (isEditMode && existingProperty) {
+      const initialPropertyType = getInitialPropertyTypeValues(existingProperty.property_type);
+
       formik.setValues({
         title: existingProperty.title || "",
         city: existingProperty.city || "",
-        property_type: normalizePropertyType(existingProperty.property_type) || "",
+        property_type: initialPropertyType.property_type,
+        custom_property_type: initialPropertyType.custom_property_type,
         status: existingProperty.status || existingProperty.property_for || "Sell",
         project_name: existingProperty.project_name || "",
         expected_price: existingProperty.expected_price || existingProperty.price || "",
@@ -266,6 +373,7 @@ export default function PostPropertyMain() {
         is_price_negotiable: existingProperty.is_price_negotiable || false,
         carpet_area: existingProperty.carpet_area || "",
         super_area: existingProperty.super_area || "",
+        total_area: existingProperty.super_area || existingProperty.carpet_area || "",
         bedrooms: existingProperty.bedrooms || "",
         bathrooms: existingProperty.bathrooms || "",
         balconies: existingProperty.balconies || "",
@@ -283,6 +391,7 @@ export default function PostPropertyMain() {
         latitude: existingProperty.latitude || "",
         longitude: existingProperty.longitude || "",
         map_address: existingProperty.map_address || "",
+        no_of_open_sides: existingProperty.no_of_open_sides || existingProperty.open_sides || "",
       });
       if (existingProperty.property_features?.length > 0) setPropertyFeatures(existingProperty.property_features);
       if (existingProperty.facilities?.length > 0) setFacilities(existingProperty.facilities);
@@ -408,8 +517,14 @@ export default function PostPropertyMain() {
     formik.values.longitude !== "" &&
     formik.values.longitude !== null;
 
+  const showTotalAreaField = isSingleAreaPropertyType(formik.values.property_type, formik.values.custom_property_type);
   const showBhkFields = formik.values.property_type === "flat" || formik.values.property_type === "villa";
-  const showFloorDetails = formik.values.property_type !== "plot" && formik.values.property_type !== "project_land";
+  const showOpenSides = landPropertyTypes.has(formik.values.property_type);
+  const showFloorDetails =
+    formik.values.property_type !== "plot" &&
+    formik.values.property_type !== "project_land" &&
+    formik.values.property_type !== "farm_land" &&
+    formik.values.property_type !== "industrial_land";
 
   return (
     <div className="bg-gray-900">
@@ -466,6 +581,23 @@ export default function PostPropertyMain() {
                 {formik.touched.property_type && formik.errors.property_type && <div className="text-[#C6A256] text-xs mt-1">{formik.errors.property_type}</div>}
               </div>
 
+              {formik.values.property_type === "others" && (
+                <div>
+                  <label htmlFor="custom_property_type" className="block text-sm font-medium text-[#F5EFE7] mb-1">Enter Property Type*</label>
+                  <input
+                    type="text"
+                    id="custom_property_type"
+                    name="custom_property_type"
+                    className={`w-full px-3 py-2 bg-[#171C24] border ${formik.touched.custom_property_type && formik.errors.custom_property_type ? "border-[#C6A256]" : "border-[#5B6475]"} rounded text-[#F5EFE7] placeholder:text-[#AAB4C5] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
+                    placeholder="Enter property type"
+                    {...formik.getFieldProps("custom_property_type")}
+                  />
+                  {formik.touched.custom_property_type && formik.errors.custom_property_type && (
+                    <div className="text-[#C6A256] text-xs mt-1">{formik.errors.custom_property_type}</div>
+                  )}
+                </div>
+              )}
+
               <div>
                 <label htmlFor="project_name" className="block text-sm font-medium text-[#F5EFE7] mb-1">Project/Society Name*</label>
                 <input
@@ -504,7 +636,9 @@ export default function PostPropertyMain() {
               >
                 <option value="">Select Status</option>
                 <option value="READY_TO_MOVE">Ready to Move</option>
-                <option value="UNDER_CONSTRUCTION">Under Construction</option>
+                <option value="UNDER_CONSTRUCTION">
+                  {formik.values.property_type === "plot" ? "Under Development" : "Under Construction"}
+                </option>
               </select>
               {formik.touched.possession_status && formik.errors.possession_status && <div className="text-[#C6A256] text-xs mt-1">{formik.errors.possession_status}</div>}
             </div>
@@ -557,29 +691,67 @@ export default function PostPropertyMain() {
               <h2 className="text-xl font-bold text-[#F5EFE7] mb-4 pb-2 border-b border-[#5B6475] mt-6">Area Details</h2>
             </div>
 
-            <div className="md:col-span-6">
-              <label htmlFor="carpet_area" className="block text-sm font-medium text-[#F5EFE7] mb-1">Carpet Area (sq ft)*</label>
-              <input
-                type="number"
-                id="carpet_area"
-                name="carpet_area"
-                className={`w-full px-3 py-2 bg-[#171C24] border ${formik.touched.carpet_area && formik.errors.carpet_area ? "border-[#C6A256]" : "border-[#5B6475]"} rounded text-[#F5EFE7] placeholder:text-[#AAB4C5] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
-                placeholder="Enter carpet area"
-                {...formik.getFieldProps("carpet_area")}
-              />
-            </div>
+            {showTotalAreaField ? (
+              <div className="md:col-span-6">
+                <label htmlFor="total_area" className="block text-sm font-medium text-[#F5EFE7] mb-1">Total Area (sq ft)*</label>
+                <input
+                  type="number"
+                  id="total_area"
+                  name="total_area"
+                  className={`w-full px-3 py-2 bg-[#171C24] border ${formik.touched.total_area && formik.errors.total_area ? "border-[#C6A256]" : "border-[#5B6475]"} rounded text-[#F5EFE7] placeholder:text-[#AAB4C5] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
+                  placeholder="Enter total area"
+                  {...formik.getFieldProps("total_area")}
+                />
+                {formik.touched.total_area && formik.errors.total_area && <div className="text-[#C6A256] text-xs mt-1">{formik.errors.total_area}</div>}
+              </div>
+            ) : (
+              <>
+                <div className="md:col-span-6">
+                  <label htmlFor="carpet_area" className="block text-sm font-medium text-[#F5EFE7] mb-1">Carpet Area (sq ft)*</label>
+                  <input
+                    type="number"
+                    id="carpet_area"
+                    name="carpet_area"
+                    className={`w-full px-3 py-2 bg-[#171C24] border ${formik.touched.carpet_area && formik.errors.carpet_area ? "border-[#C6A256]" : "border-[#5B6475]"} rounded text-[#F5EFE7] placeholder:text-[#AAB4C5] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
+                    placeholder="Enter carpet area"
+                    {...formik.getFieldProps("carpet_area")}
+                  />
+                </div>
 
-            <div className="md:col-span-6">
-              <label htmlFor="super_area" className="block text-sm font-medium text-[#F5EFE7] mb-1">Super Area (sq ft)</label>
-              <input
-                type="number"
-                id="super_area"
-                name="super_area"
-                className={`w-full px-3 py-2 bg-[#171C24] border ${formik.touched.super_area && formik.errors.super_area ? "border-[#C6A256]" : "border-[#5B6475]"} rounded text-[#F5EFE7] placeholder:text-[#AAB4C5] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
-                placeholder="Enter super area"
-                {...formik.getFieldProps("super_area")}
-              />
-            </div>
+                <div className="md:col-span-6">
+                  <label htmlFor="super_area" className="block text-sm font-medium text-[#F5EFE7] mb-1">Super Area (sq ft)</label>
+                  <input
+                    type="number"
+                    id="super_area"
+                    name="super_area"
+                    className={`w-full px-3 py-2 bg-[#171C24] border ${formik.touched.super_area && formik.errors.super_area ? "border-[#C6A256]" : "border-[#5B6475]"} rounded text-[#F5EFE7] placeholder:text-[#AAB4C5] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
+                    placeholder="Enter super area"
+                    {...formik.getFieldProps("super_area")}
+                  />
+                </div>
+              </>
+            )}
+
+            {showOpenSides && (
+              <div className="md:col-span-6">
+                <label htmlFor="no_of_open_sides" className="block text-sm font-medium text-[#F5EFE7] mb-1">No. of open sides</label>
+                <select
+                  id="no_of_open_sides"
+                  name="no_of_open_sides"
+                  className={`w-full px-3 py-2 bg-[#171C24] border ${formik.touched.no_of_open_sides && formik.errors.no_of_open_sides ? "border-[#C6A256]" : "border-[#5B6475]"} rounded text-[#F5EFE7] placeholder:text-[#AAB4C5] focus:outline-none focus:ring-2 focus:ring-[#C6A256]`}
+                  {...formik.getFieldProps("no_of_open_sides")}
+                >
+                  <option value="">Select</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+                {formik.touched.no_of_open_sides && formik.errors.no_of_open_sides && (
+                  <div className="text-[#C6A256] text-xs mt-1">{formik.errors.no_of_open_sides}</div>
+                )}
+              </div>
+            )}
 
             {showBhkFields && (
               <>
@@ -735,7 +907,7 @@ export default function PostPropertyMain() {
 
             <div className="md:col-span-12">
               <h2 className="text-xl font-bold text-[#F5EFE7] mb-4 pb-2 border-b border-[#5B6475] mt-6">Property Features</h2>
-              <p className="text-[#F5EFE7] text-sm mb-4">Add property features like Modular Kitchen, Wooden Flooring, etc.</p>
+            
               <div className="flex gap-2 mb-4">
                 <input
                   type="text"
@@ -761,7 +933,7 @@ export default function PostPropertyMain() {
 
             <div className="md:col-span-12">
               <h2 className="text-xl font-bold text-[#F5EFE7] mb-4 pb-2 border-b border-[#5B6475] mt-6">Facilities</h2>
-              <p className="text-[#F5EFE7] text-sm mb-4">Add facilities like Swimming Pool, Gym, 24x7 Security, etc.</p>
+              {/* <p className="text-[#F5EFE7] text-sm mb-4">Add facilities like Swimming Pool, Gym, 24x7 Security, etc.</p> */}
               <div className="flex gap-2 mb-4">
                 <input
                   type="text"

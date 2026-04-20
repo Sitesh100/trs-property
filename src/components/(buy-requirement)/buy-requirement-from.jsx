@@ -341,7 +341,7 @@ export default function BuyRequirementForm() {
                                         <Loader />
                                     </div>
                                 ) : (
-                                    "Submit Buy Requirement"
+                                    "Submit"
                                 )}
                             </button>
                         </div>

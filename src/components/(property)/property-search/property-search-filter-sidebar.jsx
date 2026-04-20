@@ -6,7 +6,7 @@ import {
   Home, Bed, Bath, IndianRupee, Calendar,
   ChevronDown, X, SlidersHorizontal,
   Building2, LandPlot, Store, Grid3X3, Check,
-  Search, HandCoins, RotateCcw
+  Search, HandCoins, RotateCcw, Ruler
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 
@@ -16,6 +16,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
     property_type: "Any",
     property_purpose: "Any",
     priceRange: [0, 100],
+    areaRange: "Any",
     bedrooms: "Any",
     bathrooms: "Any",
     possession_status: "Any",
@@ -57,6 +58,15 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
     { value: "Any", label: "Any" },
     { value: "Yes", label: "Yes" },
     { value: "No", label: "No" },
+  ];
+
+  const areaOptions = [
+    { value: "Any", label: "Area" },
+    { value: "500", label: "500+ sq ft" },
+    { value: "1000", label: "1000+ sq ft" },
+    { value: "1500", label: "1500+ sq ft" },
+    { value: "2000", label: "2000+ sq ft" },
+    { value: "3000", label: "3000+ sq ft" },
   ];
 
   useEffect(() => {
@@ -102,6 +112,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
       property_type: "Any",
       property_purpose: "Any",
       priceRange: [0, 100],
+      areaRange: "Any",
       bedrooms: "Any",
       bathrooms: "Any",
       possession_status: "Any",
@@ -127,6 +138,7 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
     if (shouldShowBedBathFilters && filters.bathrooms !== "Any") count++;
     if (filters.possession_status !== "Any") count++;
     if (filters.is_price_negotiable !== "Any") count++;
+    if (filters.areaRange !== "Any") count++;
     if (filters.priceRange[0] > 0 || filters.priceRange[1] < 100) count++;
     return count;
   };
@@ -363,6 +375,62 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                     <span className="px-3 py-1.5 bg-[#C6A256]/20 text-[#C6A256] rounded-lg font-semibold text-sm border border-[#C6A256]/50">
                       {formatPrice(filters.priceRange[1])}
                     </span>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Area */}
+          <div className="relative">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => toggleDropdown("area")}
+              className={`flex items-center gap-2 min-w-[130px] px-4 py-3 rounded-full transition-all duration-300 border-2 ${
+                activeDropdown === "area" || isFilterActive("areaRange")
+                  ? "bg-[#C6A256]/20 text-[#F5EFE7] border-[#C6A256] shadow-[0_0_15px_rgba(198, 162, 86, 0.3)]"
+                  : "bg-[#F5EFE7]/5 hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80 border-[#F5EFE7]/10 hover:border-[#C6A256]/50"
+              }`}
+            >
+              <Ruler className="w-4 h-4 flex-shrink-0" />
+              <span className="font-medium text-sm whitespace-nowrap">
+                {filters.areaRange === "Any" ? "Area" : `${filters.areaRange}+ sq ft`}
+              </span>
+              <ChevronDown className={`w-4 h-4 flex-shrink-0 transition-transform duration-300 ${activeDropdown === "area" ? "rotate-180" : ""}`} />
+            </motion.button>
+
+            <AnimatePresence>
+              {activeDropdown === "area" && (
+                <motion.div
+                  variants={dropdownVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  transition={{ duration: 0.2 }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-52 filter-dropdown rounded-2xl p-3 z-50"
+                >
+                  <div className="space-y-1">
+                    {areaOptions.map((option) => (
+                      <motion.button
+                        key={option.value}
+                        whileHover={{ x: 4 }}
+                        onClick={() => {
+                          handleInputChange("areaRange", option.value);
+                          setActiveDropdown(null);
+                        }}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 ${
+                          filters.areaRange === option.value
+                            ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-md"
+                            : "hover:bg-[#F5EFE7]/10 text-[#F5EFE7]/80"
+                        }`}
+                      >
+                        <span className="font-medium text-sm">{option.label}</span>
+                        {filters.areaRange === option.value && (
+                          <Check className="w-4 h-4 ml-auto" />
+                        )}
+                      </motion.button>
+                    ))}
                   </div>
                 </motion.div>
               )}
@@ -662,6 +730,31 @@ function PropertySearchFilterSidebar({ showFilters, setShowFilters, onFilterChan
                           <p className="text-lg font-bold text-[#C6A256]">{formatPrice(filters.priceRange[1])}</p>
                         </div>
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Area */}
+                  <div>
+                    <h3 className="text-sm font-semibold text-[#F5EFE7] mb-4 flex items-center gap-2">
+                      <Ruler className="w-4 h-4 text-[#C6A256]" />
+                      Area (Super)
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {areaOptions.map((option) => (
+                        <motion.button
+                          key={option.value}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => handleInputChange("areaRange", option.value)}
+                          className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                            filters.areaRange === option.value
+                              ? "bg-gradient-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] shadow-lg"
+                              : "bg-[#F5EFE7]/10 text-[#F5EFE7]/80 hover:bg-[#F5EFE7]/20"
+                          }`}
+                        >
+                          {option.label}
+                        </motion.button>
+                      ))}
                     </div>
                   </div>
 

@@ -394,7 +394,7 @@ const AboutPage = () => {
 
         {/* Founder's Desk Section */}
         <section ref={founderRef} className="py-20 md:py-28 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#212121] via-[#212121] to-[#212121]/15" />
+          <div className="absolute inset-0 bg-black" />
           
           <div className="container mx-auto px-4 relative z-10">
             <motion.div
