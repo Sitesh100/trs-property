@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SignupForm from "./signup-form";
 import SendOtpForm from "./send-otp-form";
+import ForgotPasswordForm from "./forgot-password-form";
 // import VerifyOtpForm from "./verify-otp-form"; // OTP functionality commented out
 
 export default function AuthModal({ isOpen, onClose, initialTab = "sendOtp" }) {
@@ -74,6 +75,14 @@ export default function AuthModal({ isOpen, onClose, initialTab = "sendOtp" }) {
               onClose={handleClose}
               sendOtpInfo={sendOtpInfo}
               setSendOtpInfo={setSendOtpInfo}
+            />
+          )}
+
+          {activeTab === "forgotPassword" && (
+            <ForgotPasswordForm
+              onClose={handleClose}
+              setActiveTab={setActiveTab}
+              sendOtpInfo={sendOtpInfo}
             />
           )}
 

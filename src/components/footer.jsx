@@ -88,11 +88,11 @@ function Footer() {
     ]
 
     const exploreProperties = [
-        { name: "Commercial Properties In Bangalore", href: buildPropertySearchHref({ city: "Bangalore", propertyType: "commercial", status: "Sell" }) },
+        // { name: "Commercial Properties In Bangalore", href: buildPropertySearchHref({ city: "Bangalore", propertyType: "commercial", status: "Sell" }) },
         { name: "Luxury Villas In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "villa", status: "Sell" }) },
-        { name: "Residential Properties In Bangalore", href: buildPropertySearchHref({ city: "Bangalore", propertyType: "flat", status: "Sell" }) },
+        // { name: "Residential Properties In Bangalore", href: buildPropertySearchHref({ city: "Bangalore", propertyType: "flat", status: "Sell" }) },
         { name: "Plots In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "plot", status: "Sell" }) },
-        { name: "Rental Properties In Bangalore", href: buildPropertySearchHref({ city: "Bangalore", status: "Rent" }) },
+        // { name: "Rental Properties In Bangalore", href: buildPropertySearchHref({ city: "Bangalore", status: "Rent" }) },
         { name: "Commercial Properties In Indore", href: buildPropertySearchHref({ city: "Indore", propertyType: "commercial" }) },
     ]
 

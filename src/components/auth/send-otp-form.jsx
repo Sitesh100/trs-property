@@ -208,6 +208,22 @@ function SendOtpForm({ onClose, setSendOtpInfo, setActiveTab, sendOtpInfo }) {
                     </span>
                 </button>
 
+                <div className="mt-3 text-right">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setSendOtpInfo((prev) => ({
+                                ...prev,
+                                phone: formik.values.username,
+                            }));
+                            setActiveTab("forgotPassword");
+                        }}
+                        className="text-sm text-[#C6A256] hover:text-[#d9b66b] font-medium cursor-pointer transition-colors"
+                    >
+                        Forgot Password?
+                    </button>
+                </div>
+
                 <div className="mt-4 text-center">
                     <p className="text-[#F5EFE7] text-sm">
                         Don't have an account?{" "}

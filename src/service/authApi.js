@@ -159,6 +159,19 @@ const authApiNew = newRealStateAPI.injectEndpoints({
             },
         }),
 
+        // POST /api/customer/reset-password
+        resetPassword: build.mutation({
+            query: (formValues) => ({
+                url: `/api/customer/reset-password`,
+                method: "POST",
+                body: {
+                    phone: formValues.phone,
+                    otp: formValues.otp,
+                    new_password: formValues.new_password,
+                },
+            }),
+        }),
+
         // 1. Direct Signup (No OTP) - OLD
         // POST /api/auth/signup
         directSignup: build.mutation({
@@ -287,6 +300,7 @@ export const {
     useRegisterAgentMutation,
     useRegisterBuilderMutation,
     useLoginMutation,
+    useResetPasswordMutation,
     useDirectSignupMutation,
     useDirectLoginMutation,
     useGetCurrentUserQuery,

@@ -24,7 +24,7 @@ const propertyTypeOptions = [
   { label: "Showroom", value: "showroom" },
   { label: "Office", value: "office" },
   { label: "Project Land", value: "project_land" },
-  { label: "Farm Land", value: "farm_land" },
+  // { label: "Farm Land", value: "farm_land" },
   { label: "Industrial Land", value: "industrial_land" },
   { label: "Farm House", value: "farm_house" },
   { label: "Others", value: "others" },

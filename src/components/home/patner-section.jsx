@@ -24,6 +24,25 @@ import RaymondReality from "../../../public/assets/images/builderLogo/RAYMOND RE
 import Rustomjee from "../../../public/assets/images/builderLogo/RUSTOMJEE.jpeg";
 import SkyeEarth from "../../../public/assets/images/builderLogo/SKYE EARTH.png";
 import SobhaRealty from "../../../public/assets/images/builderLogo/SOBHA REALTY.png";
+import Img1 from "../../../public/assets/images/builderLogo/img1.jpeg";
+import Img2 from "../../../public/assets/images/builderLogo/img2.jpeg";
+import Img3 from "../../../public/assets/images/builderLogo/img3.jpeg";
+import Img4 from "../../../public/assets/images/builderLogo/img4.jpeg";
+import Img5 from "../../../public/assets/images/builderLogo/img5.jpeg";
+import Img6 from "../../../public/assets/images/builderLogo/img6.jpeg";
+import Img7 from "../../../public/assets/images/builderLogo/img7.jpeg";
+import Img8 from "../../../public/assets/images/builderLogo/img8.jpeg";
+import Img9 from "../../../public/assets/images/builderLogo/img9.jpeg";
+import Img10 from "../../../public/assets/images/builderLogo/img10.jpeg";
+import Img11 from "../../../public/assets/images/builderLogo/img11.jpeg";
+import Img12 from "../../../public/assets/images/builderLogo/img12.jpeg";
+import Img13 from "../../../public/assets/images/builderLogo/img13.jpeg";
+import Img14 from "../../../public/assets/images/builderLogo/img14.jpeg";
+import Img15 from "../../../public/assets/images/builderLogo/img15.jpeg";
+import Img16 from "../../../public/assets/images/builderLogo/img16.jpeg";
+import Img17 from "../../../public/assets/images/builderLogo/img17.jpeg";
+import Img18 from "../../../public/assets/images/builderLogo/img18.jpeg";
+import Img19 from "../../../public/assets/images/builderLogo/img19.jpeg";
 
 const builderLogos = [
     { src: AdaniRealty, name: "Adani Realty" },
@@ -46,6 +65,25 @@ const builderLogos = [
     { src: Rustomjee, name: "Rustomjee" },
     { src: SkyeEarth, name: "Skye Earth" },
     { src: SobhaRealty, name: "Sobha Realty" },
+    { src: Img1, name: "Partner 1" },
+    { src: Img2, name: "Partner 2" },
+    { src: Img3, name: "Partner 3" },
+    { src: Img4, name: "Partner 4" },
+    { src: Img5, name: "Partner 5" },
+    { src: Img6, name: "Partner 6" },
+    { src: Img7, name: "Partner 7" },
+    { src: Img8, name: "Partner 8" },
+    { src: Img9, name: "Partner 9" },
+    { src: Img10, name: "Partner 10" },
+    { src: Img11, name: "Partner 11" },
+    { src: Img12, name: "Partner 12" },
+    { src: Img13, name: "Partner 13" },
+    { src: Img14, name: "Partner 14", bgClass: "bg-[#0B1F3B]" },
+    { src: Img15, name: "Partner 15" },
+    { src: Img16, name: "Partner 16", darkBg: true },
+    { src: Img17, name: "Partner 17", bgClass: "bg-[#0B1F3B]" },
+    { src: Img18, name: "Partner 18" },
+    { src: Img19, name: "Partner 19" },
 ];
 
 function PatnerSection() {
@@ -102,7 +140,7 @@ function PatnerSection() {
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             className="shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-28 h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 p-2 lg:p-3 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className={`relative w-28 h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 p-2 lg:p-3 ${logo.bgClass || (logo.darkBg ? "bg-black" : "bg-white")} border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10`}>
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}
@@ -136,7 +174,7 @@ function PatnerSection() {
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             className="shrink-0 group cursor-pointer"
                         >
-                            <div className="relative w-28 h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 p-2 lg:p-3 bg-white border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10">
+                            <div className={`relative w-28 h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 p-2 lg:p-3 ${logo.bgClass || (logo.darkBg ? "bg-black" : "bg-white")} border border-[#F5EFE7]/10 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:border-[#C6A256]/30 group-hover:shadow-lg group-hover:shadow-[#C6A256]/10`}>
                                 <Image
                                     src={logo.src}
                                     alt={logo.name}
