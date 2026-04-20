@@ -11,6 +11,14 @@ function NewsLetter() {
     const [submittingType, setSubmittingType] = useState(null)
     const [subscribeNewsletter, { isLoading }] = useSubscribeNewsletterMutation()
 
+    const getErrorMessage = (err) => {
+        const detail = err?.data?.detail
+        if (Array.isArray(detail) && detail.length > 0) {
+            return detail[0]?.msg || "Subscription failed. Please try again."
+        }
+        return detail || err?.data?.message || "Subscription failed. Please try again."
+    }
+
     const handleEmailSubscribe = async (e) => {
         e.preventDefault()
         const trimmedEmail = email.trim()
@@ -26,7 +34,7 @@ function NewsLetter() {
             toast.success("Thanks for subscribing to our newsletter")
             setEmail("")
         } catch (err) {
-            toast.error(err?.data?.detail || err?.data?.message || "Subscription failed. Please try again.")
+            toast.error(getErrorMessage(err))
         } finally {
             setSubmittingType(null)
         }
@@ -35,21 +43,36 @@ function NewsLetter() {
     const handleWhatsAppSubscribe = async (e) => {
         e.preventDefault()
 
+        const trimmedEmail = email.trim()
         const trimmedPhone = phoneNumber.trim()
 
+        if (!trimmedEmail && !trimmedPhone) {
+            toast.error("Please enter your email or WhatsApp number")
+            return
+        }
+
+        const isValidEmail = /^\S+@\S+\.\S+$/.test(trimmedEmail)
+        if (trimmedEmail && !isValidEmail) {
+            toast.error("Please enter a valid email address")
+            return
+        }
+
         const isValidPhone = /^\+?[0-9]{10,15}$/.test(trimmedPhone)
-        if (!isValidPhone) {
+        if (trimmedPhone && !isValidPhone) {
             toast.error("Please enter a valid WhatsApp number")
             return
         }
 
         try {
             setSubmittingType("whatsapp")
-            await subscribeNewsletter({ whatsapp: trimmedPhone }).unwrap()
-            toast.success("Thanks for subscribing via WhatsApp")
+            await subscribeNewsletter({
+                ...(trimmedEmail ? { email: trimmedEmail } : {}),
+                ...(trimmedPhone ? { phone: trimmedPhone } : {}),
+            }).unwrap()
+            toast.success("Thanks for subscribing")
             setPhoneNumber("")
         } catch (err) {
-            toast.error(err?.data?.detail || err?.data?.message || "Subscription failed. Please try again.")
+            toast.error(getErrorMessage(err))
         } finally {
             setSubmittingType(null)
         }
@@ -159,7 +182,6 @@ function NewsLetter() {
                                         placeholder="Enter your WhatsApp number"
                                         value={phoneNumber}
                                         onChange={(e) => setPhoneNumber(e.target.value)}
-                                        required
                                         className="w-full bg-transparent text-[#F5EFE7] placeholder-[#F5EFE7]/40 focus:outline-none text-sm sm:text-base"
                                     />
                                 </div>
