@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { Plus, X } from "lucide-react";
+import { useGetMyWorkInfoQuery } from "@/service/profileApi";
+import { useSelector } from "react-redux";
 
 const STORAGE_KEY = "agent-mini-crm-leads";
 const STATUS_OPTIONS = ["Followup", "Postponed", "Closed", "Cancelled"];
@@ -34,19 +36,36 @@ const getStatusTone = (status) => {
 };
 
 export default function AgentLeadsPage() {
+  const { token, user } = useSelector((state) => state.auth);
+  const { data: profileResponse } = useGetMyWorkInfoQuery(undefined, {
+    skip: !token,
+  });
   const [form, setForm] = useState(initialForm);
   const [leads, setLeads] = useState([]);
   const [isAddLeadModalOpen, setIsAddLeadModalOpen] = useState(false);
   const [isSubmittingLead, setIsSubmittingLead] = useState(false);
 
-  const agentProfile = {
-    companyName: "TRS Property Advisor",
-    name: "Rohit Malhotra",
-    email: "rohit.malhotra@trspropertymall.com",
-    description:
-      "Track followups, sync new inquiries to Sell.Do, and manage every customer conversation from one clean workspace.",
-    image: "/assets/images/agent1.png",
-  };
+  const profileData = useMemo(() => {
+    const payload = profileResponse?.data || profileResponse?.result || profileResponse || {};
+    if (payload && typeof payload === "object" && Object.keys(payload).length > 0) {
+      return payload;
+    }
+    return user || {};
+  }, [profileResponse, user]);
+
+  const agentProfile = useMemo(() => {
+    const companyName = profileData?.company_name || "TRS Property Advisor";
+    const name = profileData?.full_name || companyName || "Agent";
+    const city = profileData?.city ? `Based in ${profileData.city}.` : "";
+    return {
+      companyName,
+      name,
+      email: profileData?.email || "",
+      description:
+        `Track followups, sync new inquiries to Sell.Do, and manage every customer conversation from one clean workspace. ${city}`.trim(),
+      image: profileData?.profile_image_url || "/assets/images/agent1.png",
+    };
+  }, [profileData]);
 
   useEffect(() => {
     try {

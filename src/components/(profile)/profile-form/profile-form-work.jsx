@@ -1,73 +1,119 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '@/redux/authSlice';
+import { useGetMyWorkInfoQuery, useUpdateMyWorkInfoMutation } from '@/service/profileApi';
+
+const defaultDealIn = {
+    residential: { primary: false, rebelle: false },
+    commercial: { primary: false, rebelle: false },
+};
+
+const extractPayload = (response) => response?.data || response?.result || response || {};
+
+const parseCommaSeparatedValues = (value = '') =>
+    value
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
 
 const ProfileFormWork = ({ isEditing, setIsEditing, registerSubmit, setIsSubmitting }) => {
+    const dispatch = useDispatch();
+    const { token } = useSelector((state) => state.auth);
+    const { data: workInfoResponse, refetch } = useGetMyWorkInfoQuery(undefined, {
+        skip: !token,
+    });
+    const [updateMyWorkInfo] = useUpdateMyWorkInfoMutation();
+
     const validationSchema = Yup.object().shape({
         locations: Yup.string().required('Locations are required'),
         zoomOptions: Yup.string().required('Zoom options are required'),
-        dealIn: Yup.object().shape({
-            residential: Yup.object().shape({
-                primary: Yup.boolean(),
-                rebelle: Yup.boolean()
-            }),
-            commercial: Yup.object().shape({
-                primary: Yup.boolean(),
-                rebelle: Yup.boolean()
-            })
-        }).test(
+        dealIn: Yup.object().test(
             'at-least-one-category',
             'Select at least one category',
-            (value) => (
-                value.residential.primary ||
-                value.residential.rebelle ||
-                value.commercial.primary ||
-                value.commercial.rebelle
-            )
+            (value) => {
+                if (!value) return false;
+                const residential = value?.residential || {};
+                const commercial = value?.commercial || {};
+                return (
+                    !!residential.primary ||
+                    !!residential.rebelle ||
+                    !!commercial.primary ||
+                    !!commercial.rebelle
+                );
+            }
         ),
         categories: Yup.array().min(1, 'Select at least one category'),
-        officeAddress: Yup.string().required('Office address is required')
+        officeAddress: Yup.string().required('Office address is required'),
     });
 
     const formik = useFormik({
         initialValues: {
             locations: '',
             zoomOptions: '',
-            dealIn: {
-                residential: { primary: false, rebelle: false },
-                commercial: { primary: false, rebelle: false }
-            },
+            dealIn: defaultDealIn,
             categories: [],
-            officeAddress: 'amd'
+            officeAddress: '',
         },
         validationSchema,
         onSubmit: async (values) => {
             try {
                 if (setIsSubmitting) setIsSubmitting(true);
-                console.log('Form submitted:', values);
-                // TODO: call your API mutation here
+
+                const payload = {
+                    focus_locations: parseCommaSeparatedValues(values.locations),
+                    zoom_options: values.zoomOptions,
+                    deal_in: values.dealIn || defaultDealIn,
+                    top_categories: values.categories || [],
+                    office_address: values.officeAddress,
+                };
+
+                const response = await updateMyWorkInfo(payload).unwrap();
+                const updatedUser = extractPayload(response);
+                dispatch(setUser(updatedUser));
+                toast.success('Work info updated successfully!');
+                refetch();
+
                 if (setIsEditing) setIsEditing(false);
             } catch (err) {
-                console.error(err);
+                toast.error(err?.data?.detail || err?.data?.message || 'Failed to update work info');
             } finally {
                 if (setIsSubmitting) setIsSubmitting(false);
             }
-        }
+        },
     });
 
-    // Register this form's submit so the top-level button can trigger it
+    useEffect(() => {
+        const workInfo = extractPayload(workInfoResponse);
+        if (!workInfo || typeof workInfo !== 'object') return;
+
+        formik.setValues({
+            locations: Array.isArray(workInfo.focus_locations)
+                ? workInfo.focus_locations.join(', ')
+                : '',
+            zoomOptions: workInfo.zoom_options || '',
+            dealIn: workInfo.deal_in && typeof workInfo.deal_in === 'object'
+                ? workInfo.deal_in
+                : defaultDealIn,
+            categories: Array.isArray(workInfo.top_categories) ? workInfo.top_categories : [],
+            officeAddress: workInfo.office_address || '',
+        });
+    }, [workInfoResponse]);
+
     useEffect(() => {
         if (registerSubmit) {
             registerSubmit(() => formik.submitForm());
         }
-    }, [registerSubmit]);
+    }, [registerSubmit, formik.submitForm]);
 
     const handleCategoryChange = (e) => {
         if (!isEditing) return;
         const { value, checked } = e.target;
         const newCategories = checked
             ? [...formik.values.categories, value]
-            : formik.values.categories.filter(item => item !== value);
+            : formik.values.categories.filter((item) => item !== value);
         formik.setFieldValue('categories', newCategories);
     };
 
@@ -119,10 +165,10 @@ const ProfileFormWork = ({ isEditing, setIsEditing, registerSubmit, setIsSubmitt
                                         id={`residential-${type}`}
                                         className="h-4 w-4 accent-[#C6A256]"
                                         disabled={!isEditing}
-                                        checked={formik.values.dealIn.residential[type]}
+                                        checked={!!formik.values.dealIn?.residential?.[type]}
                                         onChange={() => isEditing && formik.setFieldValue(
                                             `dealIn.residential.${type}`,
-                                            !formik.values.dealIn.residential[type]
+                                            !formik.values.dealIn?.residential?.[type]
                                         )}
                                     />
                                     <label htmlFor={`residential-${type}`} className={!isEditing ? 'text-[#6b7280]' : ''}>
@@ -142,10 +188,10 @@ const ProfileFormWork = ({ isEditing, setIsEditing, registerSubmit, setIsSubmitt
                                         id={`commercial-${type}`}
                                         className="h-4 w-4 accent-[#C6A256]"
                                         disabled={!isEditing}
-                                        checked={formik.values.dealIn.commercial[type]}
+                                        checked={!!formik.values.dealIn?.commercial?.[type]}
                                         onChange={() => isEditing && formik.setFieldValue(
                                             `dealIn.commercial.${type}`,
-                                            !formik.values.dealIn.commercial[type]
+                                            !formik.values.dealIn?.commercial?.[type]
                                         )}
                                     />
                                     <label htmlFor={`commercial-${type}`} className={!isEditing ? 'text-[#6b7280]' : ''}>

@@ -78,6 +78,50 @@ const profileApiNew = newRealStateAPI.injectEndpoints({
             }),
             invalidatesTags: ['customerProfile'],
         }),
+
+        // GET /api/users/profile - Get agent/builder profile (work + KYC info)
+        getMyWorkInfo: build.query({
+            query: () => `/api/users/profile`,
+            providesTags: ['currentUser'],
+        }),
+
+        // PUT /api/users/me/work-info - Update agent/builder work profile
+        updateMyWorkInfo: build.mutation({
+            query: (formValues) => ({
+                url: `/api/users/me/work-info`,
+                method: "PUT",
+                body: {
+                    focus_locations: formValues.focus_locations || [],
+                    zoom_options: formValues.zoom_options || "",
+                    deal_in: formValues.deal_in || {},
+                    top_categories: formValues.top_categories || [],
+                    office_address: formValues.office_address || "",
+                },
+            }),
+            invalidatesTags: ['currentUser'],
+        }),
+
+        // PUT /api/users/me/kyc-docs - Update agent/builder KYC docs
+        updateMyKycDocs: build.mutation({
+            query: (formValues) => {
+                const formData = new FormData();
+                if (formValues?.govt_id) {
+                    formData.append("govt_id", formValues.govt_id);
+                }
+                if (formValues?.visiting_card) {
+                    formData.append("visiting_card", formValues.visiting_card);
+                }
+                if (formValues?.rera_doc) {
+                    formData.append("rera_doc", formValues.rera_doc);
+                }
+                return {
+                    url: `/api/users/me/kyc-docs`,
+                    method: "POST",
+                    body: formData,
+                };
+            },
+            invalidatesTags: ['currentUser'],
+        }),
     }),
 });
 
@@ -85,5 +129,11 @@ const profileApiNew = newRealStateAPI.injectEndpoints({
 export const { useProfileUpdateMutation, useProfileKYCMutation, useGetProfileKYCQuery } = profileApi;
 
 // Export NEW hooks
-export const { useGetCustomerProfileQuery, useUpdateCustomerProfileMutation } = profileApiNew;
+export const {
+    useGetCustomerProfileQuery,
+    useUpdateCustomerProfileMutation,
+    useGetMyWorkInfoQuery,
+    useUpdateMyWorkInfoMutation,
+    useUpdateMyKycDocsMutation,
+} = profileApiNew;
 

@@ -1,77 +1,96 @@
-import { getImageUrl } from '@/utils/getImageUrl';
-import { useGetProfileKYCQuery, useProfileKYCMutation } from '@/service/profileApi';
-import { Loader } from 'lucide-react';
+import { useGetMyWorkInfoQuery, useUpdateMyKycDocsMutation } from '@/service/profileApi';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '@/redux/authSlice';
+
+const extractPayload = (response) => response?.data || response?.result || response || {};
 
 const ProfileFormKyc = ({ isEditing, setIsEditing, registerSubmit, setIsSubmitting }) => {
-    const { data, isLoading: isLoadingKYC } = useGetProfileKYCQuery();
-    const [profileKYC, { isLoading }] = useProfileKYCMutation();
+    const dispatch = useDispatch();
+    const { token } = useSelector((state) => state.auth);
+    const { data: workInfoResponse, isLoading: isLoadingKYC, refetch } = useGetMyWorkInfoQuery(undefined, {
+        skip: !token,
+    });
+    const [updateMyKycDocs] = useUpdateMyKycDocsMutation();
 
     const [files, setFiles] = useState({
-        govt_id: '',
-        visiting_card: '',
-        rera_certificate: ''
+        govt_id: null,
+        visiting_card: null,
+        rera_doc: null,
     });
 
     const [previews, setPreviews] = useState({
         govt_id: null,
         visiting_card: null,
-        rera_certificate: null,
+        rera_doc: null,
+    });
+
+    const [docStatuses, setDocStatuses] = useState({
+        govt_id: '',
+        visiting_card: '',
+        rera_doc: '',
     });
 
     const handleFileChange = (e, type) => {
         if (!isEditing) return;
-        const file = e.target.files[0];
-        if (file) {
-            setFiles(prev => ({ ...prev, [type]: file }));
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviews(prev => ({ ...prev, [type]: reader.result }));
-            };
-            reader.readAsDataURL(file);
-        }
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setFiles((prev) => ({ ...prev, [type]: file }));
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreviews((prev) => ({ ...prev, [type]: reader.result }));
+        };
+        reader.readAsDataURL(file);
     };
 
     const handleSubmit = async () => {
         try {
             if (setIsSubmitting) setIsSubmitting(true);
-            const response = await profileKYC({ ...files }).unwrap();
-            if (response?.status) {
-                toast.success(response?.message);
-                setFiles({ govt_id: null, visiting_card: null, rera_certificate: null });
-                if (setIsEditing) setIsEditing(false);
-            }
+            const response = await updateMyKycDocs({ ...files }).unwrap();
+            const updatedUser = extractPayload(response);
+            dispatch(setUser(updatedUser));
+            toast.success('KYC documents updated successfully!');
+            setFiles({ govt_id: null, visiting_card: null, rera_doc: null });
+            refetch();
+            if (setIsEditing) setIsEditing(false);
         } catch (err) {
-            toast.error(err?.data?.message || "Something went wrong");
+            toast.error(err?.data?.detail || err?.data?.message || 'Something went wrong');
         } finally {
             if (setIsSubmitting) setIsSubmitting(false);
         }
     };
 
-    // Register this form's submit so the top-level button can trigger it
     useEffect(() => {
         if (registerSubmit) {
             registerSubmit(handleSubmit);
         }
-    }, [registerSubmit, files]); // re-register when files change so submit always has latest files
+    }, [registerSubmit, files]);
 
     useEffect(() => {
-        if (data?.data) {
-            setPreviews({
-                govt_id: data?.data?.govt_id ? getImageUrl(data.data.govt_id) : null,
-                visiting_card: data?.data?.visiting_card ? getImageUrl(data.data.visiting_card) : null,
-                rera_certificate: data?.data?.rera_certificate ? getImageUrl(data.data.rera_certificate) : null,
-            });
-        }
-    }, [data]);
+        const data = extractPayload(workInfoResponse);
+        if (!data || typeof data !== 'object') return;
 
-    if (isLoadingKYC) return <>loading...</>
+        setPreviews({
+            govt_id: data?.govt_id_url || null,
+            visiting_card: data?.visiting_card_url || null,
+            rera_doc: data?.rera_doc_url || null,
+        });
+
+        setDocStatuses({
+            govt_id: data?.govt_id_status || '',
+            visiting_card: data?.visiting_card_status || '',
+            rera_doc: data?.rera_doc_status || '',
+        });
+    }, [workInfoResponse]);
+
+    if (isLoadingKYC) return <>loading...</>;
 
     const docFields = [
         { key: 'govt_id', label: 'Govt. ID', uploadLabel: 'Upload Govt ID', previewAlt: 'Govt ID Preview' },
         { key: 'visiting_card', label: 'Visiting Card', uploadLabel: 'Upload Visiting Card', previewAlt: 'Visiting Card Preview' },
-        { key: 'rera_certificate', label: 'RERA', uploadLabel: 'Upload RERA', previewAlt: 'RERA Preview' },
+        { key: 'rera_doc', label: 'RERA', uploadLabel: 'Upload RERA', previewAlt: 'RERA Preview' },
     ];
 
     return (
@@ -87,7 +106,7 @@ const ProfileFormKyc = ({ isEditing, setIsEditing, registerSubmit, setIsSubmitti
                         <div className="flex items-center justify-between mb-2">
                             <span className="text-[#374151] font-medium">{label}</span>
                             <span className="text-[#C6A256]">
-                                {files[key] ? "Uploaded" : "Pending"}
+                                {files[key] ? 'Uploaded' : (docStatuses[key] || 'Pending')}
                             </span>
                         </div>
                         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">

@@ -13,6 +13,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { useGetMyWorkInfoQuery } from "@/service/profileApi";
 import {
     CartesianGrid,
     Legend,
@@ -38,18 +40,36 @@ const NEW_PROJECT_INITIAL_STATE = {
 };
 
 export default function BuilderAnalyticsDashboard() {
+    const { token, user } = useSelector((state) => state.auth);
+    const { data: profileResponse } = useGetMyWorkInfoQuery(undefined, {
+        skip: !token,
+    });
     const router = useRouter();
     const leads = INITIAL_LEADS;
     const [projects, setProjects] = useState(BUILDER_PROJECTS);
     const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
     const [newProject, setNewProject] = useState(NEW_PROJECT_INITIAL_STATE);
-    const builderProfile = {
-        companyName: "Emerald",
-        name: "Aditya Singh",
-        email: "aditya.singh@trspropertymall.com",
-        description: "Personalised analytics for property views, lead tracking, and closed deals.",
-        image: "/assets/images/builderLogo/emerald.webp",
-    };
+
+    const profileData = useMemo(() => {
+        const payload = profileResponse?.data || profileResponse?.result || profileResponse || {};
+        if (payload && typeof payload === "object" && Object.keys(payload).length > 0) {
+            return payload;
+        }
+        return user || {};
+    }, [profileResponse, user]);
+
+    const builderProfile = useMemo(() => {
+        const companyName = profileData?.company_name || "Builder Dashboard";
+        const name = profileData?.full_name || companyName || "Builder";
+        const city = profileData?.city ? `City: ${profileData.city}.` : "";
+        return {
+            companyName,
+            name,
+            email: profileData?.email || "",
+            description: `Personalised analytics for property views, lead tracking, and closed deals. ${city}`.trim(),
+            image: profileData?.profile_image_url || "/assets/images/builderLogo/emerald.webp",
+        };
+    }, [profileData]);
 
     const statusCounts = useMemo(() => {
         return STATUS_OPTIONS.reduce((acc, status) => {

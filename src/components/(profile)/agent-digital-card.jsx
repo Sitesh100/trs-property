@@ -4,9 +4,11 @@ import { Dialog } from "@headlessui/react";
 import { Fragment, useMemo, useRef, useState } from "react";
 import {
     Copy, ExternalLink, Mail, Phone, Share2, UserRound, X,
-    MapPin, Instagram, Facebook, Linkedin, Building2
+    MapPin
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { useGetMyWorkInfoQuery } from "@/service/profileApi";
 
 // ─── Brand tokens ────────────────────────────────────────────────
 const GOLD       = "#B8972E";
@@ -17,15 +19,18 @@ const CHARCOAL3  = "#0F3460";
 const OFF_WHITE  = "#F8F3E8";
 const MUTED      = "rgba(248,243,232,0.6)";
 
-// ─── Dummy Data (replacing all API related data) ─────────────────
-const DUMMY_PROFILE = {
+// ─── Fallback data ────────────────────────────────────────────────
+const FALLBACK_PROFILE = {
     fullName:  "Rahul Kapoor",
     roleName:  "Senior Property Consultant",
     company:   "PRIME ESTATES REALTY PVT. LTD.",
     address:   "Bandra West, Mumbai, Maharashtra",
+    officeAddress: "",
     phone:     "+91 98765 43210",
     email:     "rahul.kapoor@primeestates.in",
     imageUrl:  "",
+    focusLocations: [],
+    topCategories: [],
     linkedin:  "https://linkedin.com/in/rahul-kapoor",
     instagram: "https://instagram.com/rahul.kapoor",
     facebook:  "https://facebook.com/rahul.kapoor",
@@ -136,9 +141,33 @@ function DigitalCardFace({ profile }) {
 export default function AgentDigitalCard() {
     const [open, setOpen] = useState(false);
     const cardRef = useRef(null);
+    const { token, user } = useSelector((state) => state.auth);
+    const { data: profileResponse } = useGetMyWorkInfoQuery(undefined, {
+        skip: !token,
+    });
 
-    // Using only dummy data - no Redux/API dependencies
-    const profile = DUMMY_PROFILE;
+    const profile = useMemo(() => {
+        const payload = profileResponse?.data || profileResponse?.result || profileResponse || {};
+        const source = payload && typeof payload === "object" && Object.keys(payload).length > 0
+            ? payload
+            : (user || {});
+
+        return {
+            fullName: source?.full_name || source?.name || FALLBACK_PROFILE.fullName,
+            roleName: source?.role ? String(source.role).replace(/_/g, " ").toUpperCase() : FALLBACK_PROFILE.roleName,
+            company: source?.company_name || FALLBACK_PROFILE.company,
+            address: source?.city || FALLBACK_PROFILE.address,
+            officeAddress: source?.office_address || "",
+            phone: source?.phone || source?.mobile_no || FALLBACK_PROFILE.phone,
+            email: source?.email || FALLBACK_PROFILE.email,
+            imageUrl: source?.profile_image_url || FALLBACK_PROFILE.imageUrl,
+            focusLocations: Array.isArray(source?.focus_locations) ? source.focus_locations : [],
+            topCategories: Array.isArray(source?.top_categories) ? source.top_categories : [],
+            linkedin: source?.linkedin || "",
+            instagram: source?.instagram || "",
+            facebook: source?.facebook || "",
+        };
+    }, [profileResponse, user]);
 
     const shareCard = async () => {
         const cardText = [
@@ -147,6 +176,9 @@ export default function AgentDigitalCard() {
             profile.phone ? `📞 ${profile.phone}` : "",
             profile.email ? `✉️  ${profile.email}` : "",
             profile.address ? `📍 ${profile.address}` : "",
+            profile.officeAddress ? `🏢 Office: ${profile.officeAddress}` : "",
+            profile.focusLocations?.length ? `📌 Focus Areas: ${profile.focusLocations.join(", ")}` : "",
+            profile.topCategories?.length ? `🏘️ Categories: ${profile.topCategories.join(", ")}` : "",
             profile.linkedin  ? `🔗 LinkedIn: ${profile.linkedin}` : "",
             profile.instagram ? `📸 Instagram: ${profile.instagram}` : "",
         ].filter(Boolean).join("\n");
@@ -291,6 +323,21 @@ export default function AgentDigitalCard() {
                                 {profile.address && (
                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 8px", borderRadius: 8, color: OFF_WHITE }}>
                                         <span style={{ display: "flex", alignItems: "center", gap: 8 }}><MapPin size={13} color={GOLD} /> {profile.address}</span>
+                                    </div>
+                                )}
+                                {profile.officeAddress && (
+                                    <div style={{ padding: "8px 8px", borderRadius: 8, color: OFF_WHITE }}>
+                                        <span style={{ color: GOLD }}>Office:</span> {profile.officeAddress}
+                                    </div>
+                                )}
+                                {profile.focusLocations?.length > 0 && (
+                                    <div style={{ padding: "8px 8px", borderRadius: 8, color: OFF_WHITE }}>
+                                        <span style={{ color: GOLD }}>Focus Locations:</span> {profile.focusLocations.join(", ")}
+                                    </div>
+                                )}
+                                {profile.topCategories?.length > 0 && (
+                                    <div style={{ padding: "8px 8px", borderRadius: 8, color: OFF_WHITE }}>
+                                        <span style={{ color: GOLD }}>Top Categories:</span> {profile.topCategories.join(", ")}
                                     </div>
                                 )}
                             </div>

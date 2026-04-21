@@ -283,18 +283,7 @@ const authApiNew = newRealStateAPI.injectEndpoints({
     }),
 });
 
-// ========================================
-// 📝 OLD HOOKS (COMMENTED OUT - OTP functionality removed)
-// ========================================
-/*
-export const { 
-    useSendOtpMutation, 
-    useVerifyOtpMutation, 
-    useSignUpMutation 
-} = authApiOld;
-*/
 
-// Export NEW hooks (Role-Based Registration & Login)
 export const {
     useRegisterCustomerMutation,
     useRegisterAgentMutation,
@@ -306,18 +295,5 @@ export const {
     useGetCurrentUserQuery,
     useUploadProfileImageMutation,
 } = authApiNew;
-
-// 📝 OLD OTP-based hooks (COMMENTED OUT)
-/*
-export const {
-    useSignupSendOtpMutation,
-    useSignupVerifyOtpMutation,
-    useLoginSendOtpMutation,
-    useLoginVerifyOtpMutation,
-    useGetCurrentUserQuery,
-} = authApiNew;
-*/
-
-
 
 
