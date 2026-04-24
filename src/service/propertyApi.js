@@ -150,6 +150,20 @@ const propertyApiNew = newRealStateAPI.injectEndpoints({
             },
         }),
 
+        // Featured Properties
+        // GET /api/properties/featured
+        getFeaturedProperties: build.query({
+            query: () => `/api/properties/featured`,
+            providesTags: ['properties'],
+            transformResponse: (response) => {
+                if (Array.isArray(response)) return response;
+                if (Array.isArray(response?.data)) return response.data;
+                if (Array.isArray(response?.results)) return response.results;
+                if (Array.isArray(response?.properties)) return response.properties;
+                return [];
+            },
+        }),
+
         // Get My Properties (Auth Required)
         // GET /my-properties?skip=0&limit=100
         getMyProperties: build.query({
@@ -205,6 +219,7 @@ export const {
     useDownloadPropertyImagesMutation,
     useGetPropertyByIdQuery,
     useGetSimilarPropertiesQuery,
+    useGetFeaturedPropertiesQuery,
     useGetMyPropertiesQuery,
     useUpdatePropertyMutation,
     useDeletePropertyMutation,

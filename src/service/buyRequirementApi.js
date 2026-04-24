@@ -1,11 +1,19 @@
 import { newRealStateAPI } from "@/redux/createAPI";
+import { getRoleBucket } from "@/utils/authCookies";
+
+const getBuyRequirementBasePath = (roleValue) => {
+    const roleBucket = getRoleBucket(roleValue);
+    return roleBucket === "agent" || roleBucket === "builder"
+        ? "/api/users/buy-requirements"
+        : "/api/customer/buy-requirements";
+};
 
 const buyRequirementApi = newRealStateAPI.injectEndpoints({
     endpoints: (build) => ({
-        // POST /api/customer/buy-requirements - Post buy requirement
+        // POST /api/customer/buy-requirements or /api/users/buy-requirements - Post buy requirement
         addBuyRequirement: build.mutation({
-            query: (formValues) => ({
-                url: `/api/customer/buy-requirements`,
+            query: ({ formValues, role } = {}) => ({
+                url: getBuyRequirementBasePath(role),
                 method: "POST",
                 body: {
                     requirement_type: formValues.requirement_type,
@@ -23,9 +31,9 @@ const buyRequirementApi = newRealStateAPI.injectEndpoints({
             invalidatesTags: ['buyRequirements'],
         }),
 
-        // GET /api/customer/buy-requirements - Get all buy requirements (if needed)
+        // GET /api/customer/buy-requirements or /api/users/buy-requirements - Get all buy requirements
         getBuyRequirements: build.query({
-            query: () => `/api/customer/buy-requirements`,
+            query: (role) => getBuyRequirementBasePath(role),
             transformResponse: (response) => {
                 // Handle both raw array and wrapped payloads across environments.
                 if (Array.isArray(response)) return response;

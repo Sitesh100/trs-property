@@ -13,8 +13,9 @@ import { useState, useEffect, useRef, useCallback } from "react";
 
 export default function MyBuyRequirement() {
     const router = useRouter();
-    const { token } = useSelector((state) => state.auth);
-    const { data: buyRequirementsData, isLoading } = useGetBuyRequirementsQuery(undefined, {
+    const { token, user } = useSelector((state) => state.auth);
+    const normalizedRole = String(user?.role || user?.user_role || "").toLowerCase();
+    const { data: buyRequirementsData, isLoading } = useGetBuyRequirementsQuery(normalizedRole, {
         skip: !token, // Skip query if user is not logged in
     });
     const [deleteBuyRequirement] = useDeleteBuyRequirementMutation();

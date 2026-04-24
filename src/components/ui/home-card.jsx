@@ -5,7 +5,7 @@ import { MapPin, IndianRupee, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getImageUrl } from "@/utils/getImageUrl";
 
-function HomeCard({ property, index = 0 }) {
+function HomeCard({ property }) {
     const [isHovered, setIsHovered] = useState(false);
     const [isLiked, setIsLiked] = useState(property?.is_favorited === true || property?.is_favorite === true);
 
@@ -20,6 +20,7 @@ function HomeCard({ property, index = 0 }) {
     const mainImage =
         getImageUrl(firstImage) ||
         "/assets/images/detail/image4.jpg";
+    const propertyArea = property?.area ?? property?.carpet_area ?? property?.super_area ?? "1200";
 
     const formatPrice = (price) => {
         if (price === null || price === undefined || price === "") return "0";
@@ -34,13 +35,14 @@ function HomeCard({ property, index = 0 }) {
     };
 
     return (
-        <div
+        <Link
+            href={property?._id || property?.id ? `/property-detail-dark/${property._id || property.id}` : "#"}
             className="group relative bg-gradient-to-br from-[#F5EFE7]/10 to-[#F5EFE7]/5 backdrop-blur-md border border-[#F5EFE7]/10 rounded-3xl overflow-hidden flex flex-col h-78 md:h-85 transition-all duration-500 hover:border-[#F5EFE7]/30 hover:shadow-2xl"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* Image Container */}
-            <div className="relative h-40 md:h-48 w-full overflow-visible">
+            <div className="relative h-40 md:h-48 w-full overflow-hidden">
                 <Image
                     src={mainImage}
                     alt={property?.title || "Property"}
@@ -59,8 +61,10 @@ function HomeCard({ property, index = 0 }) {
 
                 {/* Like Button */}
                 <button
+                    type="button"
                     onClick={(e) => {
                         e.preventDefault();
+                        e.stopPropagation();
                         setIsLiked(!isLiked);
                     }}
                     className={`absolute top-3.5 right-3.5 md:top-4 md:right-4 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
@@ -86,14 +90,7 @@ function HomeCard({ property, index = 0 }) {
                     </div>
                 </div>
             </div>
-
-            {/* Content */}
-            <Link
-                href={`/property-detail-dark/${
-                    property?._id || property?.id
-                }`}
-                className="p-4 md:p-5 flex-1 flex flex-col justify-between"
-            >
+            <div className="p-4 md:p-5 flex-1 flex flex-col justify-between">
                 <div>
                     <h3 className="text-base md:text-lg font-bold text-[#F5EFE7] mb-1.5 md:mb-2">
                         {property?.title?.length > 20
@@ -104,7 +101,7 @@ function HomeCard({ property, index = 0 }) {
                     <div className="flex items-center gap-1.5 text-[#F5EFE7]/60">
                         <MapPin className="w-3.5 h-3.5 md:w-4 md:h-4" />
                         <span className="text-xs md:text-sm">
-                            {property?.map_location || property?.city || "Location"}
+                            {property?.map_address || property?.map_location || property?.city || "Location"}
                         </span>
                     </div>
                 </div>
@@ -132,31 +129,14 @@ function HomeCard({ property, index = 0 }) {
 
                         <div className="text-center">
                             <p className="text-[#F5EFE7] font-semibold text-xs md:text-sm">
-                                {property?.area || "1200"}
+                                {propertyArea}
                             </p>
                             <p className="text-[#F5EFE7]/50 text-xs">Sq Ft</p>
                         </div>
                     </div>
                 </div>
-            </Link>
-
-            {/* ✅ Circular Builder Logo Overlay */}
-            <div className="absolute right-4 bottom-48 translate-y-1/2 z-30 
-                w-14 h-14 md:w-20 md:h-20 
-                rounded-full bg-[#F5EFE7] 
-                flex items-center justify-center 
-                border-2 border-[#F5EFE7]/30 
-                shadow-xl">
-
-                <Image
-                    src={property?.overlay}
-                    alt="Builder Logo"
-                    width={72}
-                    height={72}
-                    className="object-contain rounded-full p-2"
-                />
             </div>
-        </div>
+        </Link>
     );
 }
 

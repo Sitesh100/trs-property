@@ -1,133 +1,20 @@
 "use client";
 import { motion } from "framer-motion";
 import HomeCard from "../ui/home-card";
-import { Sparkles, Building2, ArrowRight } from "lucide-react";
-import { lufga } from '@/fonts';
+import { Building2 } from "lucide-react";
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
+import { useGetFeaturedPropertiesQuery } from "@/service/propertyApi";
 import WhatsappStrip from "../whatsapp-strip";
 
-// Static property data with Unsplash images
-const staticProperties = [
-    {
-        id: 1,
-        title: "Kalpataru Grandeur",
-        city: "Lantern Square, Indore",
-        expected_price: 4000000,
-        bedrooms: 2,
-        bathrooms: 2,
-        area: 1200,
-        images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/KALPATARU.png"
-    },
-    {
-        id: 2,
-        title: "Skye Luxuria",
-        city: "Nipania, Indore",
-        expected_price: 25000000,
-        bedrooms: 3,
-        bathrooms: 3,
-        area: 1800,
-        images: ["https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/SKYE EARTH.png"
-    },
-    {
-        id: 3,
-        title: "Emerald Kingsvilla",
-        city: "Scheme No 140, Indore",
-        expected_price: 3200000,
-        bedrooms: 2,
-        bathrooms: 2,
-        area: 1200,
-        images: ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/emerald.webp"
-    },
-    {
-        id: 4,
-        title: "Godrej Indore",
-        city: "Ujjain Road, Indore",
-        expected_price: 5000000,
-        bedrooms: 3,
-        bathrooms: 3,
-        area: 1500,
-        images: ["https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/GODREJ PROPERTIES.png"
-    },
-    {
-        id: 5,
-        title: "DAMAC Luxe",
-        city: "Nipania, Indore",
-        expected_price: 7000000,
-        bedrooms: 4,
-        bathrooms: 4,
-        area: 2000,
-        images: ["https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/DAMAC.png"
-    },
-    {
-        id: 6,
-        title: "OBERAI Heights",
-        city: "Vijay Nagar, Indore",
-        expected_price: 8500000,
-        bedrooms: 4,
-        bathrooms: 3,
-        area: 2200,
-        images: ["https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/OBERAI REALITY.jpeg"
-    },
-    {
-        id: 7,
-        title: "Raymond Orchid",
-        city: "AB Road, Indore",
-        expected_price: 6500000,
-        bedrooms: 3,
-        bathrooms: 2,
-        area: 1650,
-        images: ["https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/RAYMOND REALITY.png"
-    },
-    {
-        id: 8,
-        title: "DLF",
-        city: "Palasia, Indore",
-        expected_price: 12000000,
-        bedrooms: 5,
-        bathrooms: 4,
-        area: 3000,
-        images: ["https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/DLF.png"
-    },
-    {
-        id: 9,
-        title: "Green Valley Villas",
-        city: "Rau, Indore",
-        expected_price: 4500000,
-        bedrooms: 3,
-        bathrooms: 2,
-        area: 1400,
-        images: ["https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/L T REALTY.jpeg"
-    },
-    {
-        id: 10,
-        title: "Omaxe Residency",
-        city: "MR 10, Indore",
-        expected_price: 9500000,
-        bedrooms: 4,
-        bathrooms: 3,
-        area: 2500,
-        images: ["https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80"],
-        overlay:"/assets/images/builderLogo/OMAXE.png"
-
-    },
-];
-
 function FeaturedProjects() {
+    const { data: featuredProperties = [], isLoading, isError } = useGetFeaturedPropertiesQuery();
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -184,41 +71,57 @@ function FeaturedProjects() {
                     viewport={{ once: false, amount: 0.1 }}
                     variants={containerVariants}
                 >
-                    <Carousel
-                        opts={{
-                            align: "start",
-                            slidesToScroll: 1,
-                            loop: true,
-                        }}
-                        className="max-w-[95rem] mx-auto px-4"
-                    >
-                        <CarouselContent className="-ml-4 md:-ml-6">
-                            {staticProperties.map((property, index) => (
-                                <CarouselItem 
-                                    key={property.id} 
-                                    className="pl-4 md:pl-6 basis-[88%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
-                                >
-                                    <motion.div
-                                        variants={itemVariants}
-                                        whileHover={{ y: -8 }}
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <HomeCard property={property} index={index} />
-                                    </motion.div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        
-                        {/* Custom Navigation */}
-                        <div className="flex items-center justify-center gap-4 mt-10">
-                            <CarouselPrevious className="relative inset-0 translate-x-0 translate-y-0 h-12 w-12 rounded-full bg-[#F5EFE7]/10 backdrop-blur-sm border border-[#F5EFE7]/20 text-[#F5EFE7] hover:bg-[#F5EFE7] hover:text-[#212121] transition-all duration-300" />
-                            <div className="flex items-center gap-2 px-4">
-                                <Building2 className="w-5 h-5 text-[#F5EFE7]/50" />
-                                <span className="text-[#F5EFE7]/50 text-sm font-medium">Swipe to explore</span>
-                            </div>
-                            <CarouselNext className="relative inset-0 translate-x-0 translate-y-0 h-12 w-12 rounded-full bg-[#F5EFE7]/10 backdrop-blur-sm border border-[#F5EFE7]/20 text-[#F5EFE7] hover:bg-[#F5EFE7] hover:text-[#212121] transition-all duration-300" />
+                    {isLoading && featuredProperties.length === 0 ? (
+                        <div className="max-w-[95rem] mx-auto px-4 text-center text-[#F5EFE7]/70">
+                            Loading featured properties...
                         </div>
-                    </Carousel>
+                    ) : isError ? (
+                        <div className="max-w-[95rem] mx-auto px-4 text-center text-[#F5EFE7]/70">
+                            Unable to load featured properties right now.
+                        </div>
+                    ) : featuredProperties.length === 0 ? (
+                        <div className="max-w-[95rem] mx-auto px-4 text-center text-[#F5EFE7]/70">
+                            No featured properties available right now.
+                        </div>
+                    ) : (
+                        <Carousel
+                            opts={{
+                                align: "start",
+                                slidesToScroll: 1,
+                                loop: true,
+                            }}
+                            className="max-w-[95rem] mx-auto px-4"
+                        >
+                            <CarouselContent className="-ml-4 md:-ml-6">
+                                {(featuredProperties || []).map((property, index) => (
+                                    <CarouselItem
+                                        key={property.id || property._id || `${property.title}-${index}`}
+                                        className="pl-4 md:pl-6 basis-[88%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                                    >
+                                        <motion.div
+                                            variants={itemVariants}
+                                            whileHover={{ y: -8 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <HomeCard property={property} />
+                                        </motion.div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+
+                            {/* Custom Navigation */}
+                            <div className="flex items-center justify-center gap-4 mt-10">
+                                <CarouselPrevious className="relative inset-0 translate-x-0 translate-y-0 h-12 w-12 rounded-full bg-[#F5EFE7]/10 backdrop-blur-sm border border-[#F5EFE7]/20 text-[#F5EFE7] hover:bg-[#F5EFE7] hover:text-[#212121] transition-all duration-300" />
+                                <div className="flex items-center gap-2 px-4">
+                                    <Building2 className="w-5 h-5 text-[#F5EFE7]/50" />
+                                    <span className="text-[#F5EFE7]/50 text-sm font-medium">
+                                        {isLoading ? "Loading featured properties..." : "Swipe to explore"}
+                                    </span>
+                                </div>
+                                <CarouselNext className="relative inset-0 translate-x-0 translate-y-0 h-12 w-12 rounded-full bg-[#F5EFE7]/10 backdrop-blur-sm border border-[#F5EFE7]/20 text-[#F5EFE7] hover:bg-[#F5EFE7] hover:text-[#212121] transition-all duration-300" />
+                            </div>
+                        </Carousel>
+                    )}
                 </motion.div>
 
             </div>

@@ -34,7 +34,7 @@ const validationSchema = Yup.object({
         .positive("Max price must be positive")
         .min(Yup.ref('min_price'), 'Max price must be greater than min price')
         .required("Max price is required"),
-    possession_status: Yup.string().required("Possession status is required"),
+    possession_status: Yup.string().transform((value) => (value === "" ? null : value)).nullable().notRequired(),
     min_carpet_area: Yup.number()
         .typeError("Min carpet area must be a number")
         .positive("Min carpet area must be positive")
@@ -59,6 +59,8 @@ const propertyTypeOptions = [
 export default function BuyRequirementForm() {
     const router = useRouter();
     const token = useSelector((state) => state.auth.token);
+    const user = useSelector((state) => state.auth.user);
+    const normalizedRole = String(user?.role || user?.user_role || "").toLowerCase();
     const isAuthenticated = !!token;
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [pendingSubmit, setPendingSubmit] = useState(false);
@@ -96,10 +98,10 @@ export default function BuyRequirementForm() {
                     max_price: Number(values.max_price),
                     min_carpet_area: Number(values.min_carpet_area),
                     max_carpet_area: Number(values.max_carpet_area),
-                    possession_status: values.possession_status,
+                    possession_status: values.possession_status || null,
                 };
 
-                await addBuyRequirement(payload).unwrap();
+                await addBuyRequirement({ formValues: payload, role: normalizedRole }).unwrap();
                 toast.success("Buy requirement submitted successfully!");
                 formik.resetForm();
                 router.push("/my-buy-requirement");
@@ -126,7 +128,7 @@ export default function BuyRequirementForm() {
 
         window.addEventListener("resume-form-submit", handleResumeSubmit);
         return () => window.removeEventListener("resume-form-submit", handleResumeSubmit);
-    }, [pendingSubmit, isAuthenticated]);
+    }, [pendingSubmit, isAuthenticated, normalizedRole]);
 
     const showBhkField = formik.values.property_type === "flat" || formik.values.property_type === "villa";
 
@@ -309,7 +311,7 @@ export default function BuyRequirementForm() {
 
                         <div className="md:col-span-12">
                             <label htmlFor="possession_status" className="block text-sm font-medium text-[#F5EFE7] mb-1">
-                                Possession Status*
+                                Possession Status
                             </label>
                             <select
                                 id="possession_status"
