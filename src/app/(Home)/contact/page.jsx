@@ -74,7 +74,7 @@ const ContactPage = () => {
   const socialLinks = [
     {
       icon: Facebook,
-      href: "https://www.facebook.com/totalrealtyind/",
+      href: "https://www.facebook.com/trspropertymall/",
       label: "Facebook",
     },
     {

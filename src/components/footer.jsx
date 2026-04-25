@@ -98,7 +98,7 @@ function Footer() {
 
     const socialLinks = [
         { icon: Instagram, href: "https://www.instagram.com/trspropertymall/?hl=en", label: "Instagram", iconClass: "text-[#E1306C]" },
-        { icon: Facebook, href: "https://www.facebook.com/totalrealtyind/", label: "Facebook", iconClass: "text-[#1877F2]" },
+        { icon: Facebook, href: "https://www.facebook.com/trspropertymall/", label: "Facebook", iconClass: "text-[#1877F2]" },
         { icon: Linkedin, href: "https://www.linkedin.com/showcase/trs-property-mall/posts/?feedView=all", label: "LinkedIn", iconClass: "text-[#0A66C2]" },
         { icon: Youtube, href: "https://www.youtube.com/@TRS_PropertyMall", label: "YouTube", iconClass: "text-[#FF0000]" },
         // { icon: Twitter, href: "#", label: "Twitter" },
@@ -190,7 +190,7 @@ function Footer() {
                     <Instagram className="w-5 h-5 text-white" />
                 </motion.a>
                 <motion.a
-                    href="https://www.facebook.com/totalrealtyind/"
+                    href="https://www.facebook.com/trspropertymall/"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook"

@@ -34,7 +34,7 @@ import Img7 from "../../../public/assets/images/builderLogo/img7.jpeg";
 import Img8 from "../../../public/assets/images/builderLogo/img8.jpeg";
 import Img9 from "../../../public/assets/images/builderLogo/img9.jpeg";
 import Img10 from "../../../public/assets/images/builderLogo/img10.jpeg";
-import Img11 from "../../../public/assets/images/builderLogo/img11.jpeg";
+// import Img11 from "../../../public/assets/images/builderLogo/img11.jpeg";
 import Img12 from "../../../public/assets/images/builderLogo/img12.jpeg";
 import Img13 from "../../../public/assets/images/builderLogo/img13.jpeg";
 import Img14 from "../../../public/assets/images/builderLogo/img14.jpeg";
