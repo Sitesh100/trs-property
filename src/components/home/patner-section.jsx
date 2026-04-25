@@ -75,7 +75,7 @@ const builderLogos = [
     { src: Img8, name: "Partner 8" },
     { src: Img9, name: "Partner 9" },
     { src: Img10, name: "Partner 10" },
-    { src: Img11, name: "Partner 11" },
+    // { src: Img11, name: "Partner 11" },
     { src: Img12, name: "Partner 12" },
     { src: Img13, name: "Partner 13" },
     { src: Img14, name: "Partner 14", bgClass: "bg-[#0B1F3B]" },
