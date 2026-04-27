@@ -50,20 +50,7 @@ function Header() {
         <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-2.5 md:py-3 flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-end shrink-0">
-            {/* <Image
-              src="/assets/logo/logo2.avif"
-              alt="Logo"
-              width={70}
-              height={80}
-             
-            />
-            <Image
-              src="/assets/logo/logo1.avif"
-              alt="Logo"
-              width={150}
-              height={150}
-              
-            /> */}
+            
             <div className="relative w-40 h-8 xs:w-44 xs:h-9 sm:w-52 sm:h-10 md:w-60 md:h-11 lg:w-76 lg:h-14">
               <Image
                 src="/assets/logo/logo4.png"
@@ -113,7 +100,7 @@ function Header() {
                 </button>
                 <button
                   onClick={() => router.push("/post-property")}
-                  className=" group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(198, 162, 86, 0.5)] border border-[#C6A256]/50 whitespace-nowrap"
+                  className=" group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-3 lg:px-3.5 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(198, 162, 86, 0.5)] border border-[#C6A256]/50 whitespace-nowrap"
                 >
                   <span className="relative z-10 transition-colors duration-300 group-hover:text-[#F5EFE7]">
                     Post Property Free
@@ -122,7 +109,7 @@ function Header() {
                 </button>
                 <button
                   onClick={() => router.push(requirementRoute)}
-                  className="group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-4 md:px-5 lg:px-6 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(198,162,86,0.5)] border border-[#C6A256]/50 whitespace-nowrap"
+                  className="group relative overflow-hidden bg-linear-to-r from-[#C6A256] via-[#C6A256] to-[#C6A256] text-[#212121] px-3 lg:px-3.5 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-semibold cursor-pointer transition-all duration-300 hover:shadow-[0_0_20px_rgba(198,162,86,0.5)] border border-[#C6A256]/50 whitespace-nowrap"
                 >
                   <span className="relative z-10 transition-colors duration-300 group-hover:text-[#F5EFE7]">
                     Post Requirement Free
