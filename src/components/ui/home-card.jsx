@@ -59,27 +59,7 @@ function HomeCard({ property }) {
                     </span>
                 </div>
 
-                {/* Like Button */}
-                <button
-                    type="button"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setIsLiked(!isLiked);
-                    }}
-                    className={`absolute top-3.5 right-3.5 md:top-4 md:right-4 w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        isLiked
-                            ? "bg-[#212121] text-[#F5EFE7]"
-                            : "bg-[#F5EFE7]/20 backdrop-blur-md text-[#F5EFE7] hover:bg-[#F5EFE7]/40"
-                    }`}
-                >
-                    <Heart
-                        className={`w-4 h-4 ${
-                            isLiked ? "fill-current" : ""
-                        }`}
-                    />
-                </button>
-
+               
                 {/* Price Tag */}
                 <div className="absolute bottom-4 left-4">
                     <div className="flex items-center gap-1 bg-[#F5EFE7]/95 backdrop-blur-sm px-2.5 py-1 md:px-3 md:py-1.5 rounded-full">

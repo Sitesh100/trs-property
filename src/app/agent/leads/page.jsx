@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { Plus, X } from "lucide-react";
 import { useGetMyWorkInfoQuery } from "@/service/profileApi";
 import { useSelector } from "react-redux";
+import MyPropertyCard from "@/components/(property)/my-property/my-property-card";
 
 const STORAGE_KEY = "agent-mini-crm-leads";
 const STATUS_OPTIONS = ["Followup", "Postponed", "Closed", "Cancelled"];
@@ -264,7 +265,7 @@ export default function AgentLeadsPage() {
             </div>
           </section>
 
-          <div className="overflow-x-auto rounded-[24px] border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4 md:p-5">
+          {/* <div className="overflow-x-auto rounded-[24px] border border-[#F5EFE7]/10 bg-[#F5EFE7]/5 p-4 md:p-5">
             <div className="mb-4 flex items-center justify-between gap-3">
               <div>
                 <h2 className="text-xl font-semibold">Lead Pipeline</h2>
@@ -337,7 +338,7 @@ export default function AgentLeadsPage() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </div> */}
         </section>
 
         {isAddLeadModalOpen && (
@@ -434,6 +435,10 @@ export default function AgentLeadsPage() {
             </div>
           </div>
         )}
+
+        <section className="mt-10">
+          <MyPropertyCard showFilters={false} />
+        </section>
       </main>
       <WhatsapBanner />
       <Footer />

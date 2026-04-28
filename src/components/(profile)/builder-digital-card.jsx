@@ -152,13 +152,7 @@ export default function BuilderDigitalCard() {
                                 >
                                     <Copy size={14} /> Copy Phone
                                 </button>
-                                <button
-                                    type="button"
-                                    onClick={shareCard}
-                                    className="inline-flex items-center justify-center gap-2 rounded-md bg-[#F5EFE7] px-3 py-2 text-sm font-semibold text-[#212121] hover:bg-[#F5EFE7]/80"
-                                >
-                                    <Building2 size={14} /> Share Card
-                                </button>
+                                
                             </div>
                         </div>
                     </div>

@@ -6,10 +6,12 @@ import PropertySearchBar from '../../ui/property-search-bar';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 
-const MyPropertyCard = () => {
-    const { token, user } = useSelector((state) => state.auth);
-    const { data, isLoading } = useGetMyPropertiesQuery({}, {
-        skip: !token,
+const MyPropertyCard = ({ showFilters = true }) => {
+    const { token } = useSelector((state) => state.auth);
+    const isAuthRehydrated = useSelector((state) => state?._persist?.rehydrated);
+    const { data, isLoading, isFetching, refetch } = useGetMyPropertiesQuery({}, {
+        skip: !isAuthRehydrated || !token,
+        refetchOnMountOrArgChange: true,
     });
     const [filteredProperties, setFilteredProperties] = useState([]);
 
@@ -18,6 +20,12 @@ const MyPropertyCard = () => {
             setFilteredProperties(data.data.properties);
         }
     }, [data]);
+
+    useEffect(() => {
+        if (isAuthRehydrated && token) {
+            refetch();
+        }
+    }, [isAuthRehydrated, token, refetch]);
 
 
     function handleSearchAndFilter(query = "", propertyType = null, activeTab = "") {
@@ -63,9 +71,11 @@ const MyPropertyCard = () => {
 
     return (
         <>
-            <div className="property-gradient text-[#F5EFE7]">
-                <PropertySearchBar onSearch={handleSearchAndFilter} />
-            </div>
+            {showFilters && (
+                <div className="property-gradient text-[#F5EFE7]">
+                    <PropertySearchBar onSearch={handleSearchAndFilter} />
+                </div>
+            )}
             <div className="container mx-auto md:px-10 px-5">
                 <div className="flex justify-between my-8 items-center">
                     <h1 className='md:text-3xl text-lg font-bold'>Your Properties on TRS</h1>
@@ -80,7 +90,7 @@ const MyPropertyCard = () => {
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {isLoading ? (
+                    {!isAuthRehydrated || isLoading || isFetching ? (
                         Array.from({ length: 4 }).map((_, i) => (
                             <div key={i} className="bg-[#F5EFE7] p-4 rounded-2xl shadow">
                                 <div className="w-full h-48 bg-[#212121] animate-pulse rounded-xl mb-4" />

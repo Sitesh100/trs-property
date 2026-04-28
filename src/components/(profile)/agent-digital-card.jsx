@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog } from "@headlessui/react";
-import { Fragment, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import {
     Copy, ExternalLink, Mail, Phone, Share2, UserRound, X,
     MapPin
@@ -9,6 +9,7 @@ import {
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useGetMyWorkInfoQuery } from "@/service/profileApi";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 // ─── Brand tokens ────────────────────────────────────────────────
 const GOLD       = "#B8972E";
@@ -45,6 +46,11 @@ const getWhatsAppLink = (phone = "") => {
     return d ? `https://wa.me/${d}` : "";
 };
 
+const getProfileImageUrl = (path) => {
+    if (!path) return "";
+    return getImageUrl(path);
+};
+
 // WhatsApp SVG icon
 const WhatsAppIcon = () => (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -65,6 +71,11 @@ const GoldDivider = () => (
 // ─── Card face (updated with address, email, and company) ─────────
 function DigitalCardFace({ profile }) {
     const initials = getInitials(profile.fullName);
+    const [avatarError, setAvatarError] = useState(false);
+
+    useEffect(() => {
+        setAvatarError(false);
+    }, [profile.imageUrl]);
 
     return (
         <div style={{
@@ -104,8 +115,15 @@ function DigitalCardFace({ profile }) {
                     marginBottom: 16,
                     flexShrink: 0,
                 }}>
-                    {profile.imageUrl
-                        ? <img src={profile.imageUrl} alt="Agent" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    {profile.imageUrl && !avatarError
+                        ? (
+                            <img
+                                src={profile.imageUrl}
+                                alt="Agent"
+                                onError={() => setAvatarError(true)}
+                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            />
+                        )
                         : initials}
                 </div>
 
@@ -160,7 +178,7 @@ export default function AgentDigitalCard() {
             officeAddress: source?.office_address || "",
             phone: source?.phone || source?.mobile_no || FALLBACK_PROFILE.phone,
             email: source?.email || FALLBACK_PROFILE.email,
-            imageUrl: source?.profile_image_url || FALLBACK_PROFILE.imageUrl,
+            imageUrl: getProfileImageUrl(source?.profile_image_url) || FALLBACK_PROFILE.imageUrl,
             focusLocations: Array.isArray(source?.focus_locations) ? source.focus_locations : [],
             topCategories: Array.isArray(source?.top_categories) ? source.top_categories : [],
             linkedin: source?.linkedin || "",
@@ -201,14 +219,57 @@ export default function AgentDigitalCard() {
 
     const shareAsImage = async () => {
         try {
+            if (!cardRef.current) {
+                toast.error("Card preview not available");
+                return;
+            }
+
+            const waitForImages = async (rootEl) => {
+                const images = Array.from(rootEl.querySelectorAll("img"));
+                if (!images.length) return;
+
+                await Promise.all(images.map((img) => {
+                    if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+                    return new Promise((resolve) => {
+                        const onDone = () => {
+                            img.removeEventListener("load", onDone);
+                            img.removeEventListener("error", onDone);
+                            resolve();
+                        };
+                        img.addEventListener("load", onDone, { once: true });
+                        img.addEventListener("error", onDone, { once: true });
+                    });
+                }));
+            };
+
+            await waitForImages(cardRef.current);
             const html2canvas = (await import("html2canvas")).default;
-            const canvas = await html2canvas(cardRef.current, { backgroundColor: null, scale: 2 });
+            const canvas = await html2canvas(cardRef.current, {
+                backgroundColor: null,
+                scale: Math.max(2, window.devicePixelRatio || 1),
+                useCORS: true,
+                allowTaint: false,
+                logging: false,
+                imageTimeout: 15000,
+                scrollX: 0,
+                scrollY: -window.scrollY,
+                windowWidth: document.documentElement.clientWidth,
+                windowHeight: document.documentElement.clientHeight,
+            });
             canvas.toBlob(async (blob) => {
                 if (!blob) { toast.error("Could not generate image"); return; }
-                const file = new File([blob], "agent-card.png", { type: "image/png" });
-                if (navigator.canShare?.({ files: [file] })) {
-                    await navigator.share({ files: [file], title: `${profile.fullName} – Digital Card` });
-                } else {
+                try {
+                    const file = new File([blob], "agent-card.png", { type: "image/png" });
+                    if (navigator.canShare?.({ files: [file] })) {
+                        await navigator.share({ files: [file], title: `${profile.fullName} – Digital Card` });
+                    } else {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url; a.download = "agent-card.png"; a.click();
+                        URL.revokeObjectURL(url);
+                        toast.success("Card downloaded as image");
+                    }
+                } catch {
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement("a");
                     a.href = url; a.download = "agent-card.png"; a.click();
@@ -257,14 +318,7 @@ export default function AgentDigitalCard() {
                     }}>
                         <UserRound size={14} /> View Digital Card
                     </button>
-                    <button type="button" onClick={shareCard} style={{
-                        ...btnBase,
-                        background: "transparent",
-                        color: GOLD_LIGHT,
-                        border: `1px solid ${GOLD}66`,
-                    }}>
-                        <Share2 size={14} /> Share Card
-                    </button>
+                   
                 </div>
             </div>
 
@@ -292,18 +346,17 @@ export default function AgentDigitalCard() {
                             </button>
 
                             {/* ── card face (avatar + name + role + email + address + socials + company) ── */}
-                            <div ref={cardRef}>
+                            <div ref={cardRef} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                                 <DigitalCardFace profile={profile} />
-                            </div>
 
-                            {/* ── quick-link rows (all contact details) ── */}
-                            <div style={{
-                                background: `${CHARCOAL2}F0`,
-                                border: `1px solid ${GOLD}33`,
-                                borderRadius: 14, padding: "10px 12px",
-                                display: "flex", flexDirection: "column", gap: 2,
-                                fontFamily: "sans-serif", fontSize: 13,
-                            }}>
+                                {/* ── quick-link rows (all contact details) ── */}
+                                <div style={{
+                                    background: `${CHARCOAL2}F0`,
+                                    border: `1px solid ${GOLD}33`,
+                                    borderRadius: 14, padding: "10px 12px",
+                                    display: "flex", flexDirection: "column", gap: 2,
+                                    fontFamily: "sans-serif", fontSize: 13,
+                                }}>
                                 {profile.phone && (
                                     <a href={`tel:${profile.phone}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 8px", borderRadius: 8, color: OFF_WHITE, textDecoration: "none" }}
                                         onMouseEnter={e => e.currentTarget.style.background = `${GOLD}11`}
@@ -340,6 +393,7 @@ export default function AgentDigitalCard() {
                                         <span style={{ color: GOLD }}>Top Categories:</span> {profile.topCategories.join(", ")}
                                     </div>
                                 )}
+                                </div>
                             </div>
 
                             {/* ── action buttons ── */}
